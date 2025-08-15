@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 export default function MorphingControlsPattern() {
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [searchMode, setSearchMode] = useState<'basic' | 'advanced'>('basic');
   const [buttonMode, setButtonMode] = useState<'default' | 'loading' | 'success'>('default');
   const [inputMode, setInputMode] = useState<'text' | 'email' | 'password'>('text');
