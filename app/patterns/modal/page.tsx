@@ -252,11 +252,38 @@ export default function ModalPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
+            
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setCodeTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  codeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setCodeTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  codeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
             <div className="code-block">
-              <pre className="text-sm leading-relaxed">
+              {codeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
 {`import { useState, useEffect } from 'react';
 
-function ModalExample() {
+export default function ModalPattern() {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '' });
 
@@ -265,7 +292,7 @@ function ModalExample() {
 
   // Close modal on escape key
   useEffect(() => {
-    const handleEscape = (e) => {
+    const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
         closeModal();
       }
@@ -282,61 +309,78 @@ function ModalExample() {
     };
   }, [isOpen]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    alert('Form submitted! Data: ' + JSON.stringify(formData));
     closeModal();
+    setFormData({ name: '', email: '' });
   };
 
   return (
     <div>
-      <button onClick={openModal} className="px-4 py-2 bg-blue-600 text-white rounded">
+      <button onClick={openModal} className="modal-trigger">
         Open Modal
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
+        <div className="modal-overlay">
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50"
+            className="modal-backdrop"
             onClick={closeModal}
           />
           
           {/* Modal Container */}
-          <div className="flex min-h-full items-center justify-center p-4">
-            <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full">
+          <div className="modal-container">
+            <div className="modal-content">
               {/* Close Button */}
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                className="modal-close"
+                aria-label="Close modal"
               >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="close-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
               
               {/* Modal Content */}
-              <div className="p-6">
-                <h3 className="text-lg font-medium mb-4">Modal Title</h3>
-                <form onSubmit={handleSubmit}>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Name"
-                    className="w-full p-2 border rounded mb-4"
-                  />
-                  <div className="flex justify-end space-x-3">
+              <div className="modal-body">
+                <h3 className="modal-title">Contact Form</h3>
+                <form onSubmit={handleSubmit} className="modal-form">
+                  <div className="form-group">
+                    <label className="form-label">Name</label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="form-input"
+                      placeholder="Enter your name"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Email</label>
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="form-input"
+                      placeholder="Enter your email"
+                      required
+                    />
+                  </div>
+                  <div className="modal-actions">
                     <button
                       type="button"
                       onClick={closeModal}
-                      className="px-4 py-2 bg-gray-200 rounded"
+                      className="btn-secondary"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-blue-600 text-white rounded"
+                      className="btn-primary"
                     >
                       Submit
                     </button>
@@ -349,49 +393,305 @@ function ModalExample() {
       )}
     </div>
   );
+}`}
+                </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
 }
 
-// Confirmation Modal
-function ConfirmationModal({ isOpen, onClose, onConfirm, title, message }) {
-  useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
+/* Modal Backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.2s ease;
+}
 
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-    }
+/* Modal Container */
+.modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+  transform: scale(0.95);
+  transition: transform 0.2s ease;
+}
 
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen, onClose]);
+.modal-container.show {
+  transform: scale(1);
+}
 
-  if (!isOpen) return null;
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onClose} />
-      <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-          <h3 className="text-lg font-medium mb-4">{title}</h3>
-          <p className="text-gray-600 mb-6">{message}</p>
-          <div className="flex justify-end space-x-3">
-            <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">
-              Cancel
-            </button>
-            <button onClick={onConfirm} className="px-4 py-2 bg-red-600 text-white rounded">
-              Confirm
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+/* Modal Close Button */
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem;
+  color: #9ca3af;
+  background: transparent;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  color: #6b7280;
+  background-color: #f3f4f6;
+}
+
+.modal-close:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.close-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 1.5rem;
+}
+
+/* Modal Title */
+.modal-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+/* Modal Form */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Buttons */
+.btn-primary {
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn-secondary {
+  padding: 0.5rem 1rem;
+  background-color: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+.btn-secondary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Modal Trigger */
+.modal-trigger {
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-trigger:hover {
+  background-color: #2563eb;
+}
+
+/* Animation Classes */
+.modal-overlay {
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-container {
+  animation: slideIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 0.5rem;
+  }
+  
+  .modal-content {
+    margin: 0;
+    border-radius: 0;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .modal-content {
+    background: #1f2937;
+    color: #f9fafb;
+  }
+  
+  .modal-title {
+    color: #f9fafb;
+  }
+  
+  .form-label {
+    color: #d1d5db;
+  }
+  
+  .form-input {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .form-input:focus {
+    border-color: #60a5fa;
+  }
+  
+  .modal-actions {
+    border-top-color: #374151;
+  }
+  
+  .btn-secondary {
+    background-color: #374151;
+    color: #d1d5db;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #4b5563;
+  }
+  
+  .modal-close:hover {
+    background-color: #374151;
+    color: #d1d5db;
+  }
 }`}
-              </pre>
+                </pre>
+              )}
             </div>
           </div>
         </div>

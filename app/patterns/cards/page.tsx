@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export default function CardsPattern() {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
-  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   const cards = [
     {
@@ -62,31 +62,25 @@ export default function CardsPattern() {
                 <div
                   key={card.id}
                   onClick={() => setSelectedCard(card.id)}
-                  className={`border rounded-lg p-4 cursor-pointer transition-all duration-200 hover:shadow-lg ${
-                    selectedCard === card.id 
-                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-md' 
-                      : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-                  }`}
+                  className={`card ${selectedCard === card.id ? 'card-selected' : ''}`}
                 >
                   <img 
                     src={card.image} 
                     alt={card.title}
-                    className="w-full h-32 object-cover rounded mb-3"
+                    className="card-image"
                   />
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
-                      {card.category}
-                    </span>
-                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                      <span className="text-yellow-500">★</span>
-                      <span className="ml-1">{card.rating}</span>
+                  <div className="card-header">
+                    <span className="card-category">{card.category}</span>
+                    <div className="card-rating">
+                      <span className="rating-star">★</span>
+                      <span className="rating-value">{card.rating}</span>
                     </div>
                   </div>
-                  <h3 className="font-semibold text-lg mb-2 text-gray-800 dark:text-gray-200">{card.title}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{card.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500 dark:text-gray-400">{card.students} students</span>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                  <h3 className="card-title">{card.title}</h3>
+                  <p className="card-description">{card.description}</p>
+                  <div className="card-footer">
+                    <span className="card-students">{card.students} students</span>
+                    <button className="card-button">
                       Enroll Now
                     </button>
                   </div>
@@ -106,9 +100,9 @@ export default function CardsPattern() {
             {/* Tab Navigation */}
             <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
               <button
-                onClick={() => setCodeTab('jsx')}
+                onClick={() => setActiveTab('jsx')}
                 className={`px-4 py-2 font-medium transition-colors ${
-                  codeTab === 'jsx'
+                  activeTab === 'jsx'
                     ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                 }`}
@@ -116,9 +110,9 @@ export default function CardsPattern() {
                 JSX
               </button>
               <button
-                onClick={() => setCodeTab('css')}
+                onClick={() => setActiveTab('css')}
                 className={`px-4 py-2 font-medium transition-colors ${
-                  codeTab === 'css'
+                  activeTab === 'css'
                     ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                 }`}
@@ -129,7 +123,7 @@ export default function CardsPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {codeTab === 'jsx' ? (
+              {activeTab === 'jsx' ? (
                 <pre className="text-sm leading-relaxed">
 {`import { useState } from 'react';
 
@@ -140,7 +134,7 @@ export default function CardsPattern() {
     {
       id: 1,
       title: 'Product Design',
-      description: 'Learn the fundamentals of creating beautiful and functional user interfaces with modern design principles.',
+      description: 'Learn the fundamentals of creating beautiful and functional user interfaces.',
       image: 'https://via.placeholder.com/150',
       category: 'Design',
       rating: 4.8,
@@ -149,7 +143,7 @@ export default function CardsPattern() {
     {
       id: 2,
       title: 'React Development',
-      description: 'Master React.js with hands-on projects and real-world applications. Build scalable web applications.',
+      description: 'Master React.js with hands-on projects and real-world applications.',
       image: 'https://via.placeholder.com/150',
       category: 'Development',
       rating: 4.9,
@@ -158,7 +152,7 @@ export default function CardsPattern() {
     {
       id: 3,
       title: 'Data Science',
-      description: 'Explore data analysis, machine learning, and statistical modeling with Python and modern tools.',
+      description: 'Explore data analysis, machine learning, and statistical modeling.',
       image: 'https://via.placeholder.com/150',
       category: 'Analytics',
       rating: 4.7,
@@ -167,94 +161,114 @@ export default function CardsPattern() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {cards.map((card) => (
-        <div
-          key={card.id}
-          onClick={() => setSelectedCard(card.id)}
-          className={\`border rounded-lg p-4 cursor-pointer transition-all duration-200 hover:shadow-lg \${
-            selectedCard === card.id 
-              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-md' 
-              : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-          }\`}
-        >
-          <img 
-            src={card.image} 
-            alt={card.title}
-            className="w-full h-32 object-cover rounded mb-3"
-          />
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
-              {card.category}
-            </span>
-            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-              <span className="text-yellow-500">★</span>
-              <span className="ml-1">{card.rating}</span>
+    <div className="cards-container">
+      <div className="cards-grid">
+        {cards.map((card) => (
+          <div
+            key={card.id}
+            onClick={() => setSelectedCard(card.id)}
+            className={\`card \${selectedCard === card.id ? 'card-selected' : ''}\`}
+          >
+            <img 
+              src={card.image} 
+              alt={card.title}
+              className="card-image"
+            />
+            <div className="card-header">
+              <span className="card-category">{card.category}</span>
+              <div className="card-rating">
+                <span className="rating-star">★</span>
+                <span className="rating-value">{card.rating}</span>
+              </div>
+            </div>
+            <h3 className="card-title">{card.title}</h3>
+            <p className="card-description">{card.description}</p>
+            <div className="card-footer">
+              <span className="card-students">{card.students} students</span>
+              <button className="card-button">
+                Enroll Now
+              </button>
             </div>
           </div>
-          <h3 className="font-semibold text-lg mb-2 text-gray-800 dark:text-gray-200">{card.title}</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{card.description}</p>
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-500 dark:text-gray-400">{card.students} students</span>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors">
-              Enroll Now
-            </button>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }`}
                 </pre>
               ) : (
                 <pre className="text-sm leading-relaxed">
-{`/* Cards Grid Container */
+{`/* Cards Container */
+.cards-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Cards Grid */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
-  padding: 1rem;
+  margin-top: 2rem;
 }
 
-/* Individual Card */
+/* Card Base */
 .card {
+  background: white;
   border: 1px solid #e5e7eb;
   border-radius: 0.75rem;
   padding: 1.5rem;
-  background: white;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   border-color: #d1d5db;
 }
 
-/* Card Selection States */
-.card-default {
-  border-color: #e5e7eb;
+.card:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.card-selected {
+/* Selected Card State */
+.card.card-selected {
   border-color: #3b82f6;
   background-color: #eff6ff;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.card.card-selected:hover {
+  background-color: #dbeafe;
 }
 
 /* Card Image */
 .card-image {
   width: 100%;
-  height: 200px;
+  height: 8rem;
   object-fit: cover;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
+  transition: transform 0.3s ease;
 }
 
-/* Card Category Badge */
+.card:hover .card-image {
+  transform: scale(1.05);
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
 .card-category {
   background-color: #dbeafe;
   color: #1e40af;
@@ -266,26 +280,28 @@ export default function CardsPattern() {
   letter-spacing: 0.05em;
 }
 
-/* Card Rating */
 .card-rating {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
   font-size: 0.875rem;
   color: #6b7280;
 }
 
-.star {
+.rating-star {
   color: #f59e0b;
-  font-size: 1rem;
+  margin-right: 0.25rem;
+}
+
+.rating-value {
+  font-weight: 500;
 }
 
 /* Card Title */
 .card-title {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #111827;
-  margin: 0.75rem 0 0.5rem 0;
+  margin-bottom: 0.5rem;
   line-height: 1.4;
 }
 
@@ -304,8 +320,8 @@ export default function CardsPattern() {
 /* Card Footer */
 .card-footer {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-top: auto;
 }
 
@@ -314,7 +330,6 @@ export default function CardsPattern() {
   color: #9ca3af;
 }
 
-/* Card Button */
 .card-button {
   background-color: #3b82f6;
   color: white;
@@ -324,16 +339,17 @@ export default function CardsPattern() {
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .card-button:hover {
   background-color: #2563eb;
+  transform: translateY(-1px);
 }
 
 .card-button:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
 /* Card Loading State */
@@ -349,16 +365,11 @@ export default function CardsPattern() {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  animation: shimmer 1.5s infinite;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: loading 1.5s infinite;
 }
 
-@keyframes shimmer {
+@keyframes loading {
   0% { left: -100%; }
   100% { left: 100%; }
 }
@@ -368,7 +379,6 @@ export default function CardsPattern() {
   .cards-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
-    padding: 0.5rem;
   }
   
   .card {
@@ -376,40 +386,60 @@ export default function CardsPattern() {
   }
   
   .card-image {
-    height: 150px;
+    height: 6rem;
+  }
+  
+  .card-title {
+    font-size: 1.125rem;
+  }
+  
+  .card-description {
+    font-size: 0.8125rem;
   }
 }
 
-@media (min-width: 1024px) {
-  .cards-grid {
-    grid-template-columns: repeat(3, 1fr);
+@media (max-width: 480px) {
+  .cards-container {
+    padding: 1rem;
+  }
+  
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .card-footer {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+  
+  .card-button {
+    width: 100%;
   }
 }
 
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   .card {
-    background: #1f2937;
+    background-color: #1f2937;
     border-color: #374151;
     color: #f9fafb;
   }
   
   .card:hover {
     border-color: #4b5563;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    background-color: #374151;
   }
   
-  .card-selected {
-    background-color: #1e3a8a;
+  .card.card-selected {
     border-color: #60a5fa;
+    background-color: #1e3a8a;
   }
   
-  .card-title {
-    color: #f9fafb;
-  }
-  
-  .card-description {
-    color: #d1d5db;
+  .card.card-selected:hover {
+    background-color: #1e40af;
   }
   
   .card-category {
@@ -417,22 +447,26 @@ export default function CardsPattern() {
     color: #93c5fd;
   }
   
-  .card-students {
+  .card-title {
+    color: #f9fafb;
+  }
+  
+  .card-description {
     color: #9ca3af;
   }
   
-  .card-button {
-    background-color: #3b82f6;
+  .card-students {
+    color: #6b7280;
   }
   
-  .card-button:hover {
-    background-color: #2563eb;
+  .card-rating {
+    color: #9ca3af;
   }
 }
 
-/* Card Animations */
+/* Animation */
 .card {
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.6s ease;
 }
 
 @keyframes fadeInUp {
@@ -446,28 +480,66 @@ export default function CardsPattern() {
   }
 }
 
-/* Card Hover Effects */
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, transparent 0%, rgba(59, 130, 246, 0.05) 100%);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
+/* Focus Management */
+.card:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }
 
-.card:hover::before {
-  opacity: 1;
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .card {
+    border-width: 2px;
+  }
+  
+  .card.card-selected {
+    border-width: 3px;
+  }
+  
+  .card-button {
+    border: 2px solid transparent;
+  }
 }
 
-/* Card Focus States */
-.card:focus-within {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);}`}
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card-image,
+  .card-button {
+    transition: none;
+  }
+  
+  .card:hover {
+    transform: none;
+  }
+  
+  .card:hover .card-image {
+    transform: none;
+  }
+  
+  .card-button:hover {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .card {
+    break-inside: avoid;
+    border: 1px solid #000;
+    background: white;
+    color: #000;
+  }
+  
+  .card-button {
+    display: none;
+  }
+  
+  .card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}`}
                 </pre>
               )}
             </div>
@@ -485,7 +557,7 @@ export default function CardsPattern() {
             <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
             <div>
               <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Hierarchy</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear content organization with titles, descriptions, and actions</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Clear information structure with images, titles, and descriptions</p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
@@ -498,15 +570,15 @@ export default function CardsPattern() {
           <div className="flex items-start space-x-3">
             <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Rich Content</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Support for images, metadata, and action buttons</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Responsive Grid</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Adapts to different screen sizes automatically</p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
             <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Responsive Design</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Adapts to different screen sizes and orientations</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Rich Content</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Supports images, categories, ratings, and action buttons</p>
             </div>
           </div>
         </div>
@@ -519,19 +591,19 @@ export default function CardsPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
+            <div className="text-2xl mb-2">🛒</div>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">E-commerce</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Product catalogs and item displays</p>
+          </div>
+          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📚</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Course Catalogs</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Display educational content with ratings and enrollment info</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">Learning Platforms</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Course listings and educational content</p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">🛍️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Product Grids</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Showcase products with images, prices, and actions</p>
-          </div>
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">👥</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">User Profiles</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Present user information and social connections</p>
+            <div className="text-2xl mb-2">📰</div>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Feeds</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Blog posts, articles, and news items</p>
           </div>
         </div>
       </div>

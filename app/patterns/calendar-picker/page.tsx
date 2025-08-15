@@ -7,6 +7,7 @@ export default function CalendarPickerPattern() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedTime, setSelectedTime] = useState('12:00');
+  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -250,19 +251,44 @@ export default function CalendarPickerPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            <div className="code-block">
-              <pre className="text-sm leading-relaxed">
-{`'use client';
+            
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setCodeTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  codeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setCodeTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  codeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
 
-import { useState } from 'react';
+            {/* Tab Content */}
+            <div className="code-block">
+              {codeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
+{`import { useState } from 'react';
 
 export default function CalendarPickerPattern() {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedTime, setSelectedTime] = useState('12:00');
 
-  const getDaysInMonth = (date) => {
+  const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const firstDay = new Date(year, month, 1);
@@ -273,7 +299,7 @@ export default function CalendarPickerPattern() {
     return { daysInMonth, startingDayOfWeek };
   };
 
-  const handleDateSelect = (day) => {
+  const handleDateSelect = (day: number) => {
     const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
     setSelectedDate(newDate);
     setShowCalendar(false);
@@ -287,6 +313,12 @@ export default function CalendarPickerPattern() {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
+  const goToToday = () => {
+    const today = new Date();
+    setCurrentMonth(today);
+    setSelectedDate(today);
+  };
+
   const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentMonth);
 
   const renderCalendar = () => {
@@ -296,7 +328,7 @@ export default function CalendarPickerPattern() {
     // Add day headers
     dayNames.forEach(day => {
       days.push(
-        <div key={day} className="text-center text-sm font-medium py-2">
+        <div key={day} className="calendar-day-header">
           {day}
         </div>
       );
@@ -304,16 +336,23 @@ export default function CalendarPickerPattern() {
 
     // Add empty cells
     for (let i = 0; i < startingDayOfWeek; i++) {
-      days.push(<div key={\`empty-\${i}\`} className="h-10" />);
+      days.push(<div key={\`empty-\${i}\`} className="calendar-day-empty" />);
     }
 
     // Add days of the month
     for (let day = 1; day <= daysInMonth; day++) {
+      const isTodayDate = isToday(day);
+      const isSelectedDate = isSelected(day);
+      
       days.push(
         <button
           key={day}
           onClick={() => handleDateSelect(day)}
-          className="h-10 w-10 rounded-full text-sm font-medium hover:bg-blue-100"
+          className={\`calendar-day \${
+            isTodayDate ? 'calendar-day-today' : ''
+          } \${
+            isSelectedDate ? 'calendar-day-selected' : ''
+          }\`}
         >
           {day}
         </button>
@@ -324,47 +363,396 @@ export default function CalendarPickerPattern() {
   };
 
   return (
-    <div className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium mb-2">Select Date & Time</label>
-        <div className="relative">
+    <div className="calendar-picker">
+      <div className="calendar-input-container">
+        <label className="calendar-label">Select Date & Time</label>
+        <div className="calendar-input-wrapper">
           <input
             type="text"
-            value={selectedDate ? selectedDate.toLocaleDateString() : 'Click to select'}
+            value={selectedDate ? formatSelectedDate() : 'Click to select'}
             onClick={() => setShowCalendar(!showCalendar)}
             readOnly
-            className="input-field cursor-pointer"
+            className="calendar-input"
           />
         </div>
       </div>
 
       {showCalendar && (
-        <div className="absolute bg-white border border-gray-200 rounded-lg shadow-lg p-4">
-          <div className="flex items-center justify-between mb-4">
-            <button onClick={goToPreviousMonth}>←</button>
-            <h3>{currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</h3>
-            <button onClick={goToNextMonth}>→</button>
+        <div className="calendar-dropdown">
+          <div className="calendar-header">
+            <button onClick={goToPreviousMonth} className="calendar-nav-button">
+              ←
+            </button>
+            <h3 className="calendar-month-title">
+              {getMonthName(currentMonth)}
+            </h3>
+            <button onClick={goToNextMonth} className="calendar-nav-button">
+              →
+            </button>
           </div>
 
-          <div className="grid grid-cols-7 gap-1">
+          <div className="calendar-grid">
             {renderCalendar()}
           </div>
 
-          <div className="mt-4">
-            <label className="block text-sm font-medium mb-2">Time</label>
+          <div className="calendar-time-section">
+            <label className="calendar-time-label">Time</label>
             <input
               type="time"
               value={selectedTime}
               onChange={(e) => setSelectedTime(e.target.value)}
-              className="input-field"
+              className="calendar-time-input"
             />
+          </div>
+
+          <div className="calendar-actions">
+            <button onClick={goToToday} className="calendar-today-button">
+              Today
+            </button>
           </div>
         </div>
       )}
     </div>
   );
 }`}
-              </pre>
+                </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`/* Calendar Picker Container */
+.calendar-picker {
+  position: relative;
+  max-width: 400px;
+}
+
+/* Calendar Input */
+.calendar-input-container {
+  margin-bottom: 1rem;
+}
+
+.calendar-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-input-wrapper {
+  position: relative;
+}
+
+.calendar-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendar-input:hover {
+  border-color: #9ca3af;
+}
+
+.calendar-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Calendar Dropdown */
+.calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 1.5rem;
+  z-index: 50;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Calendar Header */
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-nav-button {
+  padding: 0.5rem;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 1.25rem;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.calendar-nav-button:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.calendar-nav-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.calendar-month-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+/* Calendar Grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-day-header {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  padding: 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.calendar-day-empty {
+  height: 2.5rem;
+}
+
+.calendar-day {
+  height: 2.5rem;
+  width: 2.5rem;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-day:hover {
+  background: #f3f4f6;
+}
+
+.calendar-day:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.calendar-day-today {
+  background: #dbeafe;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.calendar-day-selected {
+  background: #3b82f6;
+  color: white;
+  font-weight: 600;
+}
+
+.calendar-day-selected:hover {
+  background: #2563eb;
+}
+
+/* Calendar Time Section */
+.calendar-time-section {
+  margin-bottom: 1rem;
+}
+
+.calendar-time-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-time-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.calendar-time-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Calendar Actions */
+.calendar-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.calendar-today-button {
+  padding: 0.5rem 1rem;
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendar-today-button:hover {
+  background: #e5e7eb;
+}
+
+.calendar-today-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .calendar-dropdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 400px;
+    margin: 0;
+  }
+  
+  .calendar-grid {
+    gap: 0.125rem;
+  }
+  
+  .calendar-day {
+    height: 2.25rem;
+    width: 2.25rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .calendar-input {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .calendar-dropdown {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .calendar-month-title {
+    color: #f9fafb;
+  }
+  
+  .calendar-day {
+    color: #d1d5db;
+  }
+  
+  .calendar-day:hover {
+    background: #374151;
+  }
+  
+  .calendar-day-today {
+    background: #1e3a8a;
+    color: #93c5fd;
+  }
+  
+  .calendar-day-selected {
+    background: #3b82f6;
+    color: white;
+  }
+  
+  .calendar-time-input {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .calendar-today-button {
+    background: #374151;
+    color: #d1d5db;
+  }
+  
+  .calendar-today-button:hover {
+    background: #4b5563;
+  }
+  
+  .calendar-nav-button:hover {
+    background: #374151;
+    color: #d1d5db;
+  }
+}
+
+/* Accessibility */
+.calendar-day[aria-selected="true"] {
+  background: #3b82f6;
+  color: white;
+}
+
+.calendar-day[aria-current="date"] {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* Focus Management */
+.calendar-picker:focus-within {
+  outline: none;
+}
+
+/* Animation Enhancements */
+.calendar-day {
+  animation: fadeIn 0.1s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>

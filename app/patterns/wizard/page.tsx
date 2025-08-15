@@ -4,94 +4,91 @@ import { useState } from 'react';
 
 export default function WizardPattern() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    role: '',
-    preferences: '',
-    notifications: true,
-    newsletter: false
-  });
-
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   const steps = [
     {
       id: 0,
-      title: 'Personal Information',
-      description: 'Tell us about yourself',
+      title: 'Account Setup',
+      description: 'Create your account details',
       icon: '👤',
       content: (
         <div className="space-y-4">
-          <div>
-            <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-              Full Name *
-            </label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
-              className={`input-field ${errors.name ? 'border-red-500 focus:ring-red-500' : ''}`}
-              placeholder="Enter your full name"
-            />
-            {errors.name && (
-              <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.name}</p>
-            )}
-          </div>
-          <div>
-            <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-              Email Address *
-            </label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
-              className={`input-field ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`}
-              placeholder="Enter your email address"
-            />
-            {errors.email && (
-              <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.email}</p>
-            )}
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Account Information</h3>
+          <div className="space-y-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Full Name
+              </label>
+              <input
+                type="text"
+                className="input-field w-full"
+                placeholder="Enter your full name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Email Address
+              </label>
+              <input
+                type="email"
+                className="input-field w-full"
+                placeholder="Enter your email"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                className="input-field w-full"
+                placeholder="Create a password"
+              />
+            </div>
           </div>
         </div>
       )
     },
     {
       id: 1,
-      title: 'Company Details',
-      description: 'Information about your organization',
-      icon: '🏢',
+      title: 'Profile Details',
+      description: 'Tell us about yourself',
+      icon: '📋',
       content: (
         <div className="space-y-4">
-          <div>
-            <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-              Company Name
-            </label>
-            <input
-              type="text"
-              value={formData.company}
-              onChange={(e) => setFormData({...formData, company: e.target.value})}
-              className="input-field"
-              placeholder="Enter your company name"
-            />
-          </div>
-          <div>
-            <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-              Your Role
-            </label>
-            <select
-              value={formData.role}
-              onChange={(e) => setFormData({...formData, role: e.target.value})}
-              className="input-field"
-            >
-              <option value="">Select your role</option>
-              <option value="developer">Developer</option>
-              <option value="designer">Designer</option>
-              <option value="manager">Manager</option>
-              <option value="executive">Executive</option>
-              <option value="other">Other</option>
-            </select>
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Profile Information</h3>
+          <div className="space-y-3">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Bio
+              </label>
+              <textarea
+                className="input-field w-full resize-none"
+                rows={3}
+                placeholder="Tell us about yourself..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Location
+              </label>
+              <input
+                type="text"
+                className="input-field w-full"
+                placeholder="Where are you located?"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Website
+              </label>
+              <input
+                type="url"
+                className="input-field w-full"
+                placeholder="https://yourwebsite.com"
+              />
+            </div>
           </div>
         </div>
       )
@@ -99,52 +96,40 @@ export default function WizardPattern() {
     {
       id: 2,
       title: 'Preferences',
-      description: 'Customize your experience',
+      description: 'Set your preferences',
       icon: '⚙️',
       content: (
         <div className="space-y-4">
-          <div>
-            <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-              Additional Preferences
-            </label>
-            <textarea
-              value={formData.preferences}
-              onChange={(e) => setFormData({...formData, preferences: e.target.value})}
-              rows={4}
-              className="input-field"
-              placeholder="Tell us about your preferences, requirements, or any additional information..."
-            />
-          </div>
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Account Preferences</h3>
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <label className="font-medium text-gray-700 dark:text-gray-300">Email Notifications</label>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Receive important updates via email</p>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={formData.notifications}
-                  onChange={(e) => setFormData({...formData, notifications: e.target.checked})}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Notification Settings
               </label>
+              <div className="space-y-2">
+                <label className="flex items-center">
+                  <input type="checkbox" className="mr-2" defaultChecked />
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Email notifications</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="mr-2" />
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Push notifications</span>
+                </label>
+                <label className="flex items-center">
+                  <input type="checkbox" className="mr-2" defaultChecked />
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Weekly newsletter</span>
+                </label>
+              </div>
             </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <label className="font-medium text-gray-700 dark:text-gray-300">Newsletter</label>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Subscribe to our monthly newsletter</p>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={formData.newsletter}
-                  onChange={(e) => setFormData({...formData, newsletter: e.target.checked})}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Privacy Level
               </label>
+              <select className="input-field w-full">
+                <option>Public Profile</option>
+                <option>Friends Only</option>
+                <option>Private</option>
+              </select>
             </div>
           </div>
         </div>
@@ -152,71 +137,38 @@ export default function WizardPattern() {
     },
     {
       id: 3,
-      title: 'Review & Submit',
+      title: 'Review & Complete',
       description: 'Review your information',
       icon: '✅',
       content: (
         <div className="space-y-4">
-          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Review Your Information</h3>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Name:</span>
-                <span className="font-medium text-gray-800 dark:text-gray-200">{formData.name || 'Not provided'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Email:</span>
-                <span className="font-medium text-gray-800 dark:text-gray-200">{formData.email || 'Not provided'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Company:</span>
-                <span className="font-medium text-gray-800 dark:text-gray-200">{formData.company || 'Not provided'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Role:</span>
-                <span className="font-medium text-gray-800 dark:text-gray-200">{formData.role || 'Not provided'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Notifications:</span>
-                <span className="font-medium text-gray-800 dark:text-gray-200">{formData.notifications ? 'Enabled' : 'Disabled'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Newsletter:</span>
-                <span className="font-medium text-gray-800 dark:text-gray-200">{formData.newsletter ? 'Subscribed' : 'Not subscribed'}</span>
-              </div>
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Review Your Information</h3>
+          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg space-y-3">
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600 dark:text-gray-400">Account Type:</span>
+              <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Standard Account</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600 dark:text-gray-400">Email Notifications:</span>
+              <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Enabled</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600 dark:text-gray-400">Privacy Level:</span>
+              <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Public Profile</span>
             </div>
           </div>
-          {formData.preferences && (
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Additional Preferences:</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 p-3 rounded">{formData.preferences}</p>
-            </div>
-          )}
+          <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+            <p className="text-sm text-blue-800 dark:text-blue-200">
+              Your account will be created with these settings. You can modify them later in your account settings.
+            </p>
+          </div>
         </div>
       )
     }
   ];
 
-  const validateStep = (stepIndex: number) => {
-    const newErrors: {[key: string]: string} = {};
-    
-    if (stepIndex === 0) {
-      if (!formData.name.trim()) {
-        newErrors.name = 'Name is required';
-      }
-      if (!formData.email.trim()) {
-        newErrors.email = 'Email is required';
-      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        newErrors.email = 'Please enter a valid email';
-      }
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const nextStep = () => {
-    if (validateStep(currentStep) && currentStep < steps.length - 1) {
+    if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -228,15 +180,15 @@ export default function WizardPattern() {
   };
 
   const goToStep = (stepIndex: number) => {
-    if (stepIndex <= currentStep) {
-      setCurrentStep(stepIndex);
-    }
+    setCurrentStep(stepIndex);
   };
 
-  const handleSubmit = () => {
-    if (validateStep(currentStep)) {
-      alert('Wizard completed successfully! Data: ' + JSON.stringify(formData, null, 2));
-    }
+  const isStepComplete = (stepIndex: number) => {
+    return stepIndex < currentStep;
+  };
+
+  const isStepActive = (stepIndex: number) => {
+    return stepIndex === currentStep;
   };
 
   return (
@@ -246,7 +198,7 @@ export default function WizardPattern() {
           🧙‍♂️ Wizard Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Guide users through complex processes by breaking them into simple, sequential steps with clear progress indication.
+          Guide users through complex multi-step processes with clear progress indicators and intuitive navigation.
         </p>
       </div>
 
@@ -257,76 +209,91 @@ export default function WizardPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Complete the multi-step form below. Each step validates input before allowing progression to the next step.
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+              Complete the account setup wizard by navigating through each step. Click on step indicators to jump to any step.
             </p>
             
-            {/* Progress indicator */}
-            <div className="mb-6">
+            {/* Progress Indicator */}
+            <div className="mb-8">
               <div className="flex items-center justify-between">
                 {steps.map((step, index) => (
-                  <div key={step.id} className="flex items-center flex-1">
+                  <div key={step.id} className="flex items-center">
                     <button
                       onClick={() => goToStep(index)}
-                      disabled={index > currentStep}
-                      className={`flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium transition-all duration-200 ${
-                        index < currentStep 
-                          ? 'bg-green-600 text-white' 
-                          : index === currentStep 
-                            ? 'bg-blue-600 text-white ring-4 ring-blue-200 dark:ring-blue-800' 
-                            : 'bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-400'
-                      } ${index <= currentStep ? 'cursor-pointer hover:scale-105' : 'cursor-not-allowed'}`}
+                      className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-200 ${
+                        isStepActive(index)
+                          ? 'border-blue-600 bg-blue-600 text-white'
+                          : isStepComplete(index)
+                          ? 'border-green-500 bg-green-500 text-white'
+                          : 'border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-gray-400 dark:hover:border-gray-500'
+                      }`}
                     >
-                      {index < currentStep ? '✓' : step.icon}
+                      {isStepComplete(index) ? (
+                        <span className="text-sm">✓</span>
+                      ) : (
+                        <span className="text-lg">{step.icon}</span>
+                      )}
                     </button>
                     {index < steps.length - 1 && (
-                      <div className={`flex-1 h-1 mx-2 rounded ${
-                        index < currentStep ? 'bg-green-600' : 'bg-gray-300 dark:bg-gray-600'
+                      <div className={`w-16 h-0.5 mx-2 ${
+                        isStepComplete(index + 1)
+                          ? 'bg-green-500'
+                          : 'bg-gray-300 dark:bg-gray-600'
                       }`} />
                     )}
                   </div>
                 ))}
               </div>
-              <div className="text-center mt-3">
-                <h3 className="font-semibold text-gray-800 dark:text-gray-200">{steps[currentStep].title}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">{steps[currentStep].description}</p>
+              
+              {/* Step Labels */}
+              <div className="flex justify-between mt-4">
+                {steps.map((step, index) => (
+                  <div
+                    key={step.id}
+                    className={`text-center flex-1 ${index < steps.length - 1 ? 'mr-4' : ''}`}
+                  >
+                    <div className={`text-sm font-medium ${
+                      isStepActive(index)
+                        ? 'text-blue-600 dark:text-blue-400'
+                        : isStepComplete(index)
+                        ? 'text-green-600 dark:text-green-400'
+                        : 'text-gray-500 dark:text-gray-400'
+                    }`}>
+                      {step.title}
+                    </div>
+                    <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                      {step.description}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Step content */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
+            {/* Step Content */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 min-h-[300px]">
               {steps[currentStep].content}
             </div>
 
-            {/* Navigation buttons */}
-            <div className="flex justify-between">
+            {/* Navigation */}
+            <div className="flex justify-between mt-6">
               <button
                 onClick={prevStep}
                 disabled={currentStep === 0}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                ← Previous
+                Previous
               </button>
               
-              {currentStep === steps.length - 1 ? (
-                <button
-                  onClick={handleSubmit}
-                  className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
-                >
-                  Complete Setup
-                </button>
-              ) : (
-                <button
-                  onClick={nextStep}
-                  className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
-                >
-                  Next →
-                </button>
-              )}
-            </div>
-
-            <div className="text-center mt-4 text-sm text-gray-500 dark:text-gray-400">
-              Step {currentStep + 1} of {steps.length}
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                Step {currentStep + 1} of {steps.length}
+              </div>
+              
+              <button
+                onClick={nextStep}
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors"
+              >
+                {currentStep === steps.length - 1 ? 'Complete Setup' : 'Next'}
+              </button>
             </div>
           </div>
         </div>
@@ -337,122 +304,78 @@ export default function WizardPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
+            
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
             <div className="code-block">
-              <pre className="text-sm leading-relaxed">
+              {activeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
 {`import { useState } from 'react';
 
-function WizardExample() {
+export default function WizardPattern() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    role: ''
-  });
-  const [errors, setErrors] = useState({});
 
   const steps = [
     {
       id: 0,
-      title: 'Personal Information',
-      description: 'Tell us about yourself',
+      title: 'Account Setup',
+      description: 'Create your account details',
       icon: '👤',
       content: (
         <div className="space-y-4">
-          <div>
-            <label className="block mb-2 font-medium">
-              Full Name *
-            </label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
-              className={\`input-field \${errors.name ? 'border-red-500' : ''}\`}
-              placeholder="Enter your full name"
-            />
-            {errors.name && (
-              <p className="text-red-600 text-sm mt-1">{errors.name}</p>
-            )}
-          </div>
-          <div>
-            <label className="block mb-2 font-medium">
-              Email Address *
-            </label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
-              className={\`input-field \${errors.email ? 'border-red-500' : ''}\`}
-              placeholder="Enter your email address"
-            />
-            {errors.email && (
-              <p className="text-red-600 text-sm mt-1">{errors.email}</p>
-            )}
+          <h3 className="text-lg font-semibold">Account Information</h3>
+          <div className="space-y-3">
+            <div>
+              <label className="block text-sm font-medium mb-1">Full Name</label>
+              <input type="text" className="input-field w-full" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Email</label>
+              <input type="email" className="input-field w-full" />
+            </div>
           </div>
         </div>
       )
     },
     {
       id: 1,
-      title: 'Company Details',
-      description: 'Information about your organization',
-      icon: '🏢',
+      title: 'Profile Details',
+      description: 'Tell us about yourself',
+      icon: '📋',
       content: (
         <div className="space-y-4">
-          <div>
-            <label className="block mb-2 font-medium">
-              Company Name
-            </label>
-            <input
-              type="text"
-              value={formData.company}
-              onChange={(e) => setFormData({...formData, company: e.target.value})}
-              className="input-field"
-              placeholder="Enter your company name"
-            />
-          </div>
-          <div>
-            <label className="block mb-2 font-medium">
-              Your Role
-            </label>
-            <select
-              value={formData.role}
-              onChange={(e) => setFormData({...formData, role: e.target.value})}
-              className="input-field"
-            >
-              <option value="">Select your role</option>
-              <option value="developer">Developer</option>
-              <option value="designer">Designer</option>
-              <option value="manager">Manager</option>
-            </select>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 2,
-      title: 'Review & Submit',
-      description: 'Review your information',
-      icon: '✅',
-      content: (
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="font-semibold mb-3">Review Your Information</h3>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-gray-600">Name:</span>
-              <span className="font-medium">{formData.name || 'Not provided'}</span>
+          <h3 className="text-lg font-semibold">Profile Information</h3>
+          <div className="space-y-3">
+            <div>
+              <label className="block text-sm font-medium mb-1">Bio</label>
+              <textarea className="input-field w-full" rows={3} />
             </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Email:</span>
-              <span className="font-medium">{formData.email || 'Not provided'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Company:</span>
-              <span className="font-medium">{formData.company || 'Not provided'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Role:</span>
-              <span className="font-medium">{formData.role || 'Not provided'}</span>
+            <div>
+              <label className="block text-sm font-medium mb-1">Location</label>
+              <input type="text" className="input-field w-full" />
             </div>
           </div>
         </div>
@@ -460,26 +383,8 @@ function WizardExample() {
     }
   ];
 
-  const validateStep = (stepIndex) => {
-    const newErrors = {};
-    
-    if (stepIndex === 0) {
-      if (!formData.name.trim()) {
-        newErrors.name = 'Name is required';
-      }
-      if (!formData.email.trim()) {
-        newErrors.email = 'Email is required';
-      } else if (!/\\S+@\\S+\\.\\S+/.test(formData.email)) {
-        newErrors.email = 'Please enter a valid email';
-      }
-    }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const nextStep = () => {
-    if (validateStep(currentStep) && currentStep < steps.length - 1) {
+    if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -490,88 +395,458 @@ function WizardExample() {
     }
   };
 
-  const goToStep = (stepIndex) => {
-    if (stepIndex <= currentStep) {
-      setCurrentStep(stepIndex);
-    }
+  const goToStep = (stepIndex: number) => {
+    setCurrentStep(stepIndex);
   };
 
-  const handleSubmit = () => {
-    if (validateStep(currentStep)) {
-      console.log('Wizard completed:', formData);
-      alert('Wizard completed successfully!');
-    }
+  const isStepComplete = (stepIndex: number) => {
+    return stepIndex < currentStep;
+  };
+
+  const isStepActive = (stepIndex: number) => {
+    return stepIndex === currentStep;
   };
 
   return (
-    <div>
-      {/* Progress indicator */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between">
+    <div className="wizard-container">
+      {/* Progress Indicator */}
+      <div className="progress-indicator">
+        <div className="steps-container">
           {steps.map((step, index) => (
-            <div key={step.id} className="flex items-center flex-1">
+            <div key={step.id} className="step-item">
               <button
                 onClick={() => goToStep(index)}
-                disabled={index > currentStep}
-                className={\`flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium \${
-                  index < currentStep 
-                    ? 'bg-green-600 text-white' 
-                    : index === currentStep 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-gray-300 text-gray-600'
-                } \${index <= currentStep ? 'cursor-pointer' : 'cursor-not-allowed'}\`}
+                className={\`step-button \${
+                  isStepActive(index)
+                    ? 'step-active'
+                    : isStepComplete(index)
+                    ? 'step-complete'
+                    : 'step-inactive'
+                }\`}
               >
-                {index < currentStep ? '✓' : step.icon}
+                {isStepComplete(index) ? (
+                  <span className="step-check">✓</span>
+                ) : (
+                  <span className="step-icon">{step.icon}</span>
+                )}
               </button>
               {index < steps.length - 1 && (
-                <div className={\`flex-1 h-1 mx-2 rounded \${
-                  index < currentStep ? 'bg-green-600' : 'bg-gray-300'
+                <div className={\`step-connector \${
+                  isStepComplete(index + 1) ? 'connector-complete' : 'connector-inactive'
                 }\`} />
               )}
             </div>
           ))}
         </div>
-        <div className="text-center mt-3">
-          <h3 className="font-semibold">{steps[currentStep].title}</h3>
-          <p className="text-sm text-gray-600">{steps[currentStep].description}</p>
+        
+        {/* Step Labels */}
+        <div className="step-labels">
+          {steps.map((step, index) => (
+            <div key={step.id} className={\`step-label \${
+              isStepActive(index) ? 'label-active' : isStepComplete(index) ? 'label-complete' : 'label-inactive'
+            }\`}>
+              <div className="label-title">{step.title}</div>
+              <div className="label-description">{step.description}</div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Step content */}
-      <div className="bg-white p-6 rounded-lg border mb-6">
+      {/* Step Content */}
+      <div className="step-content">
         {steps[currentStep].content}
       </div>
 
-      {/* Navigation buttons */}
-      <div className="flex justify-between">
+      {/* Navigation */}
+      <div className="wizard-navigation">
         <button
           onClick={prevStep}
           disabled={currentStep === 0}
-          className="px-4 py-2 border rounded-lg disabled:opacity-50"
+          className="nav-button nav-prev"
         >
-          ← Previous
+          Previous
         </button>
         
-        {currentStep === steps.length - 1 ? (
-          <button
-            onClick={handleSubmit}
-            className="px-6 py-2 bg-green-600 text-white rounded-lg"
-          >
-            Complete Setup
-          </button>
-        ) : (
-          <button
-            onClick={nextStep}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg"
-          >
-            Next →
-          </button>
-        )}
+        <div className="step-counter">
+          Step {currentStep + 1} of {steps.length}
+        </div>
+        
+        <button
+          onClick={nextStep}
+          className="nav-button nav-next"
+        >
+          {currentStep === steps.length - 1 ? 'Complete' : 'Next'}
+        </button>
       </div>
     </div>
   );
 }`}
-              </pre>
+                </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`/* Wizard Container */
+.wizard-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Progress Indicator */
+.progress-indicator {
+  margin-bottom: 2rem;
+}
+
+.steps-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+/* Step Button */
+.step-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 2px solid;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 1.125rem;
+}
+
+.step-button.step-active {
+  border-color: #3b82f6;
+  background-color: #3b82f6;
+  color: white;
+  transform: scale(1.1);
+}
+
+.step-button.step-complete {
+  border-color: #10b981;
+  background-color: #10b981;
+  color: white;
+}
+
+.step-button.step-inactive {
+  border-color: #d1d5db;
+  color: #6b7280;
+}
+
+.step-button.step-inactive:hover {
+  border-color: #9ca3af;
+  color: #374151;
+}
+
+/* Step Icons */
+.step-icon {
+  font-size: 1.25rem;
+}
+
+.step-check {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Step Connector */
+.step-connector {
+  flex: 1;
+  height: 2px;
+  margin: 0 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.connector-complete {
+  background-color: #10b981;
+}
+
+.connector-inactive {
+  background-color: #d1d5db;
+}
+
+/* Step Labels */
+.step-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.step-label {
+  text-align: center;
+  flex: 1;
+  padding: 0 0.5rem;
+}
+
+.label-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.label-description {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.label-active .label-title {
+  color: #3b82f6;
+}
+
+.label-complete .label-title {
+  color: #10b981;
+}
+
+.label-inactive .label-title {
+  color: #6b7280;
+}
+
+/* Step Content */
+.step-content {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  min-height: 300px;
+  margin-bottom: 1.5rem;
+}
+
+/* Wizard Navigation */
+.wizard-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.nav-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-prev {
+  background-color: white;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+.nav-prev:hover:not(:disabled) {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.nav-next {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.nav-next:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.step-counter {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .wizard-container {
+    padding: 1rem;
+  }
+  
+  .steps-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .step-item {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .step-connector {
+    width: 2px;
+    height: 2rem;
+    margin: 0;
+  }
+  
+  .step-labels {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .wizard-navigation {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .nav-button {
+    width: 100%;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .wizard-container {
+    background-color: #1f2937;
+    color: #f9fafb;
+  }
+  
+  .step-button.step-inactive {
+    border-color: #4b5563;
+    color: #9ca3af;
+  }
+  
+  .step-button.step-inactive:hover {
+    border-color: #6b7280;
+    color: #d1d5db;
+  }
+  
+  .connector-inactive {
+    background-color: #4b5563;
+  }
+  
+  .step-content {
+    background-color: #374151;
+    border-color: #4b5563;
+  }
+  
+  .wizard-navigation {
+    border-top-color: #4b5563;
+  }
+  
+  .nav-prev {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #d1d5db;
+  }
+  
+  .nav-prev:hover:not(:disabled) {
+    background-color: #4b5563;
+    border-color: #6b7280;
+  }
+  
+  .label-description {
+    color: #9ca3af;
+  }
+  
+  .label-inactive .label-title {
+    color: #9ca3af;
+  }
+  
+  .step-counter {
+    color: #9ca3af;
+  }
+}
+
+/* Animation */
+.step-button {
+  animation: fadeInScale 0.3s ease;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.step-content {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Focus States */
+.step-button:focus-visible,
+.nav-button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .step-button {
+    border-width: 3px;
+  }
+  
+  .step-connector {
+    height: 3px;
+  }
+  
+  .wizard-container {
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .step-button,
+  .step-connector,
+  .step-content {
+    transition: none;
+    animation: none;
+  }
+  
+  .step-button.step-active {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .wizard-navigation {
+    display: none;
+  }
+  
+  .step-button {
+    border: 1px solid #000;
+  }
+  
+  .step-content {
+    border: 1px solid #000;
+    background: white;
+  }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>
@@ -586,13 +861,6 @@ function WizardExample() {
           <div className="flex items-start space-x-3">
             <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Step Validation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Validate each step before allowing progression</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
               <h4 className="font-medium text-gray-800 dark:text-gray-200">Progress Indicator</h4>
               <p className="text-sm text-gray-600 dark:text-gray-400">Visual progress bar with step completion status</p>
             </div>
@@ -600,15 +868,22 @@ function WizardExample() {
           <div className="flex items-start space-x-3">
             <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Navigation Control</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Previous/next buttons with step jumping capability</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Step Navigation</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Click on any step to jump directly to it</p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
             <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Persistence</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Maintain form data across step transitions</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Validation Support</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Prevent progression until current step is valid</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-3">
+            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <div>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Responsive Design</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Adapts to different screen sizes</p>
             </div>
           </div>
         </div>
@@ -622,18 +897,18 @@ function WizardExample() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">👤</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">User Onboarding</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Guide new users through account setup and preferences</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">Account Setup</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Multi-step user registration and onboarding</p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛒</div>
             <h4 className="font-medium text-gray-800 dark:text-gray-200">Checkout Process</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Multi-step checkout with shipping and payment information</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">E-commerce checkout with multiple steps</p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">⚙️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Configuration Wizards</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Setup complex systems with guided configuration steps</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">Configuration</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Complex setup and configuration flows</p>
           </div>
         </div>
       </div>

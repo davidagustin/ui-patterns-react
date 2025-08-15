@@ -7,6 +7,7 @@ export default function CaptchaPattern() {
   const [isVerified, setIsVerified] = useState(false);
   const [userAnswer, setUserAnswer] = useState('');
   const [mathProblem, setMathProblem] = useState({ num1: 7, num2: 3, operator: '+' });
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [imageCaptcha, setImageCaptcha] = useState('ABCD123');
 
   const generateMathProblem = () => {

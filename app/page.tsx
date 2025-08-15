@@ -72,6 +72,13 @@ const uiPatterns = [
   // Gestures
   { category: "Gestures", patterns: [
     { name: "Pull to Refresh", path: "/patterns/pull-refresh", description: "Refresh content with gestures" },
+    { name: "Swipe Actions", path: "/patterns/swipe-actions", description: "Reveal actions with swipe gestures" },
+    { name: "Pinch to Zoom", path: "/patterns/pinch-zoom", description: "Zoom content with pinch gestures" },
+    { name: "Long Press", path: "/patterns/long-press", description: "Trigger actions with long press" },
+    { name: "Double Tap", path: "/patterns/double-tap", description: "Quick actions with double tap" },
+    { name: "Swipe Navigation", path: "/patterns/swipe-navigation", description: "Navigate between pages with swipes" },
+    { name: "Drag to Reorder", path: "/patterns/drag-reorder", description: "Reorder items with drag gestures" },
+    { name: "Tap to Expand", path: "/patterns/tap-expand", description: "Expand content with tap gestures" },
   ]},
   // Dealing with data
   { category: "Dealing with Data", patterns: [

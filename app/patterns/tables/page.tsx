@@ -3,76 +3,40 @@
 import { useState } from 'react';
 
 export default function TablesPattern() {
-  const [sortField, setSortField] = useState<string>('name');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
 
-  const data = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', age: 30, department: 'Engineering', status: 'Active' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', age: 25, department: 'Design', status: 'Active' },
-    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', age: 35, department: 'Marketing', status: 'Inactive' },
-    { id: 4, name: 'Alice Brown', email: 'alice@example.com', age: 28, department: 'Engineering', status: 'Active' },
-    { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', age: 32, department: 'Sales', status: 'Active' },
-    { id: 6, name: 'Diana Davis', email: 'diana@example.com', age: 29, department: 'Design', status: 'Inactive' },
+  const sampleData = [
+    { id: 1, name: 'John Smith', email: 'john@email.com', role: 'Developer', status: 'Active' },
+    { id: 2, name: 'Sarah Johnson', email: 'sarah@email.com', role: 'Designer', status: 'Active' },
+    { id: 3, name: 'Mike Wilson', email: 'mike@email.com', role: 'Manager', status: 'Inactive' },
+    { id: 4, name: 'Emily Davis', email: 'emily@email.com', role: 'Developer', status: 'Active' }
   ];
 
-  const handleSort = (field: string) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+  const handleRowSelect = (id: number) => {
+    const newSelected = new Set(selectedRows);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
     } else {
-      setSortField(field);
-      setSortDirection('asc');
+      newSelected.add(id);
     }
+    setSelectedRows(newSelected);
   };
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedRows(filteredData.map(row => row.id));
-    } else {
-      setSelectedRows([]);
-    }
-  };
-
-  const handleSelectRow = (id: number, checked: boolean) => {
-    if (checked) {
-      setSelectedRows([...selectedRows, id]);
-    } else {
-      setSelectedRows(selectedRows.filter(rowId => rowId !== id));
-    }
-  };
-
-  const filteredData = data.filter(row =>
-    Object.values(row).some(value =>
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
-
-  const sortedData = [...filteredData].sort((a, b) => {
-    const aValue = a[sortField as keyof typeof a];
-    const bValue = b[sortField as keyof typeof b];
-    
-    if (sortDirection === 'asc') {
-      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-    } else {
-      return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
-    }
-  });
 
   const getStatusColor = (status: string) => {
     return status === 'Active' 
-      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+      ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+      : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
   };
 
   return (
     <div className="space-y-8">
       <div className="text-center">
         <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          📊 Tables Pattern
+          📊 Tables
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Organize data in rows and columns with sorting, filtering, and interactive features for efficient data management.
+          Organize and display data in structured rows and columns with interactive features.
         </p>
       </div>
 
@@ -83,149 +47,86 @@ export default function TablesPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Try sorting columns, searching, and selecting rows. The table supports multiple interactive features.
-            </p>
             
             <div className="space-y-4">
-              {/* Search and Actions */}
               <div className="flex items-center justify-between">
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search all columns..."
-                    className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
-                </div>
-                {selectedRows.length > 0 && (
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    {selectedRows.length} row(s) selected
-                  </div>
-                )}
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  {selectedRows.size} of {sampleData.length} selected
+                </span>
+                <button className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800">
+                  Export Data
+                </button>
               </div>
 
-              {/* Table */}
               <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
-                  <thead>
-                    <tr className="bg-gray-50 dark:bg-gray-700">
-                      <th className="border border-gray-300 dark:border-gray-600 p-3">
+                <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                  <thead className="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                      <th className="px-4 py-3 text-left">
                         <input
                           type="checkbox"
-                          checked={selectedRows.length === filteredData.length && filteredData.length > 0}
-                          onChange={(e) => handleSelectAll(e.target.checked)}
+                          checked={selectedRows.size === sampleData.length}
+                          onChange={() => setSelectedRows(new Set(sampleData.map(row => row.id)))}
                           className="rounded"
                         />
                       </th>
-                      <th 
-                        className="border border-gray-300 dark:border-gray-600 p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                        onClick={() => handleSort('name')}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span>Name</span>
-                          {sortField === 'name' && (
-                            <span className="text-blue-600 dark:text-blue-400">
-                              {sortDirection === 'asc' ? '↑' : '↓'}
-                            </span>
-                          )}
-                        </div>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Name
                       </th>
-                      <th 
-                        className="border border-gray-300 dark:border-gray-600 p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                        onClick={() => handleSort('email')}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span>Email</span>
-                          {sortField === 'email' && (
-                            <span className="text-blue-600 dark:text-blue-400">
-                              {sortDirection === 'asc' ? '↑' : '↓'}
-                            </span>
-                          )}
-                        </div>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Role
                       </th>
-                      <th 
-                        className="border border-gray-300 dark:border-gray-600 p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                        onClick={() => handleSort('age')}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span>Age</span>
-                          {sortField === 'age' && (
-                            <span className="text-blue-600 dark:text-blue-400">
-                              {sortDirection === 'asc' ? '↑' : '↓'}
-                            </span>
-                          )}
-                        </div>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Status
                       </th>
-                      <th 
-                        className="border border-gray-300 dark:border-gray-600 p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                        onClick={() => handleSort('department')}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span>Department</span>
-                          {sortField === 'department' && (
-                            <span className="text-blue-600 dark:text-blue-400">
-                              {sortDirection === 'asc' ? '↑' : '↓'}
-                            </span>
-                          )}
-                        </div>
-                      </th>
-                      <th 
-                        className="border border-gray-300 dark:border-gray-600 p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                        onClick={() => handleSort('status')}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span>Status</span>
-                          {sortField === 'status' && (
-                            <span className="text-blue-600 dark:text-blue-400">
-                              {sortDirection === 'asc' ? '↑' : '↓'}
-                            </span>
-                          )}
-                        </div>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                        Actions
                       </th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {sortedData.map((row, index) => (
+                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {sampleData.map((row) => (
                       <tr 
-                        key={row.id} 
-                        className={`${index % 2 === 0 ? 'bg-white dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-700'} hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors`}
+                        key={row.id}
+                        className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                          selectedRows.has(row.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                        }`}
                       >
-                        <td className="border border-gray-300 dark:border-gray-600 p-3">
+                        <td className="px-4 py-3">
                           <input
                             type="checkbox"
-                            checked={selectedRows.includes(row.id)}
-                            onChange={(e) => handleSelectRow(row.id, e.target.checked)}
+                            checked={selectedRows.has(row.id)}
+                            onChange={() => handleRowSelect(row.id)}
                             className="rounded"
                           />
                         </td>
-                        <td className="border border-gray-300 dark:border-gray-600 p-3 font-medium text-gray-900 dark:text-gray-100">
-                          {row.name}
+                        <td className="px-4 py-3">
+                          <div>
+                            <div className="font-medium text-gray-900 dark:text-gray-100">
+                              {row.name}
+                            </div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                              {row.email}
+                            </div>
+                          </div>
                         </td>
-                        <td className="border border-gray-300 dark:border-gray-600 p-3 text-gray-700 dark:text-gray-300">
-                          {row.email}
+                        <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
+                          {row.role}
                         </td>
-                        <td className="border border-gray-300 dark:border-gray-600 p-3 text-gray-700 dark:text-gray-300">
-                          {row.age}
-                        </td>
-                        <td className="border border-gray-300 dark:border-gray-600 p-3 text-gray-700 dark:text-gray-300">
-                          {row.department}
-                        </td>
-                        <td className="border border-gray-300 dark:border-gray-600 p-3">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(row.status)}`}>
+                        <td className="px-4 py-3">
+                          <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(row.status)}`}>
                             {row.status}
                           </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <button className="text-blue-600 dark:text-blue-400 hover:text-blue-800 text-sm">
+                            Edit
+                          </button>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-              </div>
-
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                Showing {sortedData.length} of {data.length} records
               </div>
             </div>
           </div>
@@ -237,177 +138,93 @@ export default function TablesPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
+            
             <div className="code-block">
               <pre className="text-sm leading-relaxed">
-{`import { useState } from 'react';
+{`'use client';
 
-function TableExample() {
-  const [sortField, setSortField] = useState('name');
-  const [sortDirection, setSortDirection] = useState('asc');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRows, setSelectedRows] = useState([]);
+import { useState } from 'react';
+
+export default function DataTable() {
+  const [selectedRows, setSelectedRows] = useState(new Set());
 
   const data = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', age: 30, department: 'Engineering', status: 'Active' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', age: 25, department: 'Design', status: 'Active' },
-    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', age: 35, department: 'Marketing', status: 'Inactive' }
+    { id: 1, name: 'John Smith', email: 'john@email.com', role: 'Developer', status: 'Active' }
   ];
 
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+  const handleRowSelect = (id) => {
+    const newSelected = new Set(selectedRows);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
     } else {
-      setSortField(field);
-      setSortDirection('asc');
+      newSelected.add(id);
     }
-  };
-
-  const handleSelectAll = (checked) => {
-    if (checked) {
-      setSelectedRows(filteredData.map(row => row.id));
-    } else {
-      setSelectedRows([]);
-    }
-  };
-
-  const handleSelectRow = (id, checked) => {
-    if (checked) {
-      setSelectedRows([...selectedRows, id]);
-    } else {
-      setSelectedRows(selectedRows.filter(rowId => rowId !== id));
-    }
-  };
-
-  const filteredData = data.filter(row =>
-    Object.values(row).some(value =>
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
-
-  const sortedData = [...filteredData].sort((a, b) => {
-    const aValue = a[sortField];
-    const bValue = b[sortField];
-    
-    if (sortDirection === 'asc') {
-      return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-    } else {
-      return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
-    }
-  });
-
-  const getStatusColor = (status) => {
-    return status === 'Active' 
-      ? 'bg-green-100 text-green-800' 
-      : 'bg-red-100 text-red-800';
+    setSelectedRows(newSelected);
   };
 
   return (
-    <div>
-      {/* Search */}
-      <div className="mb-4">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search all columns..."
-          className="px-4 py-2 border rounded-lg"
-        />
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <span className="text-sm text-gray-600">
+          {selectedRows.size} of {data.length} selected
+        </span>
+        <button className="text-sm text-blue-600 hover:text-blue-800">
+          Export Data
+        </button>
       </div>
 
-      {/* Table */}
-      <table className="w-full border-collapse border">
-        <thead>
-          <tr className="bg-gray-50">
-            <th className="border p-3">
-              <input
-                type="checkbox"
-                checked={selectedRows.length === filteredData.length}
-                onChange={(e) => handleSelectAll(e.target.checked)}
-              />
-            </th>
-            <th 
-              className="border p-3 cursor-pointer hover:bg-gray-100"
-              onClick={() => handleSort('name')}
-            >
-              <div className="flex items-center justify-between">
-                <span>Name</span>
-                {sortField === 'name' && (
-                  <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                )}
-              </div>
-            </th>
-            <th 
-              className="border p-3 cursor-pointer hover:bg-gray-100"
-              onClick={() => handleSort('email')}
-            >
-              <div className="flex items-center justify-between">
-                <span>Email</span>
-                {sortField === 'email' && (
-                  <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                )}
-              </div>
-            </th>
-            <th 
-              className="border p-3 cursor-pointer hover:bg-gray-100"
-              onClick={() => handleSort('age')}
-            >
-              <div className="flex items-center justify-between">
-                <span>Age</span>
-                {sortField === 'age' && (
-                  <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                )}
-              </div>
-            </th>
-            <th 
-              className="border p-3 cursor-pointer hover:bg-gray-100"
-              onClick={() => handleSort('department')}
-            >
-              <div className="flex items-center justify-between">
-                <span>Department</span>
-                {sortField === 'department' && (
-                  <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                )}
-              </div>
-            </th>
-            <th 
-              className="border p-3 cursor-pointer hover:bg-gray-100"
-              onClick={() => handleSort('status')}
-            >
-              <div className="flex items-center justify-between">
-                <span>Status</span>
-                {sortField === 'status' && (
-                  <span>{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                )}
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData.map((row, index) => (
-            <tr key={row.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-              <td className="border p-3">
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse bg-white rounded-lg shadow-sm">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-4 py-3 text-left">
                 <input
                   type="checkbox"
-                  checked={selectedRows.includes(row.id)}
-                  onChange={(e) => handleSelectRow(row.id, e.target.checked)}
+                  checked={selectedRows.size === data.length}
+                  onChange={() => setSelectedRows(new Set(data.map(row => row.id)))}
+                  className="rounded"
                 />
-              </td>
-              <td className="border p-3 font-medium">{row.name}</td>
-              <td className="border p-3">{row.email}</td>
-              <td className="border p-3">{row.age}</td>
-              <td className="border p-3">{row.department}</td>
-              <td className="border p-3">
-                <span className={\`px-2 py-1 rounded-full text-xs font-medium \${getStatusColor(row.status)}\`}>
-                  {row.status}
-                </span>
-              </td>
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                Name
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                Role
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                Status
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div className="text-sm text-gray-600 mt-2">
-        Showing {sortedData.length} of {data.length} records
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {data.map((row) => (
+              <tr key={row.id} className="hover:bg-gray-50">
+                <td className="px-4 py-3">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.has(row.id)}
+                    onChange={() => handleRowSelect(row.id)}
+                    className="rounded"
+                  />
+                </td>
+                <td className="px-4 py-3">
+                  <div>
+                    <div className="font-medium">{row.name}</div>
+                    <div className="text-sm text-gray-500">{row.email}</div>
+                  </div>
+                </td>
+                <td className="px-4 py-3 text-sm">{row.role}</td>
+                <td className="px-4 py-3">
+                  <span className={\`inline-flex px-2 py-1 text-xs font-medium rounded-full \${
+                    row.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                  }\`}>
+                    {row.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
@@ -427,29 +244,29 @@ function TableExample() {
           <div className="flex items-start space-x-3">
             <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Sortable Columns</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Click column headers to sort data ascending/descending</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Global Search</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Search across all columns with real-time filtering</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
               <h4 className="font-medium text-gray-800 dark:text-gray-200">Row Selection</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Select individual rows or all rows with checkboxes</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Select individual or all rows with checkboxes</p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
             <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Indicators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Status badges, hover effects, and alternating row colors</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Status Indicators</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Color-coded status badges for quick identification</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-3">
+            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <div>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Hover Effects</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Visual feedback when hovering over rows</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-3">
+            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <div>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Bulk Actions</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Perform actions on multiple selected rows</p>
             </div>
           </div>
         </div>
@@ -464,17 +281,17 @@ function TableExample() {
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">👥</div>
             <h4 className="font-medium text-gray-800 dark:text-gray-200">User Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Display and manage user accounts with sorting and filtering</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Display user lists with actions and details</p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Analytics</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Present large datasets with interactive exploration features</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Reports</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Show structured data with filtering and sorting</p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛒</div>
             <h4 className="font-medium text-gray-800 dark:text-gray-200">Product Catalogs</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Showcase products with searchable and sortable attributes</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">List products with details and management actions</p>
           </div>
         </div>
       </div>
