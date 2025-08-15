@@ -682,18 +682,7 @@ export default function InputPrompt() {
 /* Animation */
 .help-tooltip,
 .suggestions-dropdown {
-  animation: fadeInUp 0.2s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* No animation for instant appearance */
 }
 
 /* Loading State */

@@ -77,9 +77,9 @@ export default function HorizontalDropdownPattern() {
               Hover over or click the navigation items to see horizontal dropdown menus. Each menu shows organized content with icons and descriptions.
             </p>
             
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-visible" ref={dropdownRef}>
+            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-visible horizontal-dropdown-container" ref={dropdownRef}>
               {/* Main Navigation Bar */}
-              <div className="flex flex-col lg:flex-row bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 relative">
+              <div className="horizontal-dropdown-nav">
                 {/* Header Row */}
                 <div className="flex items-center justify-between w-full lg:w-auto">
                   {/* Logo */}
@@ -88,18 +88,18 @@ export default function HorizontalDropdownPattern() {
                   </div>
 
                   {/* Actions - Mobile */}
-                  <div className="flex items-center space-x-4 px-4 lg:hidden">
-                    <button className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
+                  <div className="nav-actions-mobile">
+                    <button className="nav-login-btn">
                       Login
                     </button>
-                    <button className="px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                    <button className="nav-cta-btn">
                       Get Started
                     </button>
                   </div>
                 </div>
 
                 {/* Navigation Items */}
-                <div className="flex flex-col lg:flex-row lg:flex-1">
+                <div className="flex flex-col lg:flex-row lg:flex-1 relative">
                   {menuItems.map((item) => (
                     <div key={item.id} className="relative">
                       <button
@@ -129,7 +129,7 @@ export default function HorizontalDropdownPattern() {
 
                       {/* Dropdown Menu */}
                       {activeDropdown === item.id && (
-                        <div className="absolute lg:static top-full left-0 mt-1 lg:mt-0 w-80 max-w-[calc(100vw-2rem)] lg:w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg lg:rounded-none lg:border-l-0 lg:border-r-0 lg:border-t-0 shadow-lg lg:shadow-none z-50 overflow-hidden">
+                        <div className="absolute top-full left-0 mt-1 w-80 max-w-[calc(100vw-2rem)] lg:max-w-none lg:w-96 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 overflow-hidden">
                           <div className="p-4">
                             <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">
                               {item.label}
@@ -172,11 +172,11 @@ export default function HorizontalDropdownPattern() {
                 </div>
 
                 {/* Actions - Desktop */}
-                <div className="hidden lg:flex items-center space-x-4 px-6">
-                  <button className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
+                <div className="nav-actions-desktop">
+                  <button className="nav-login-btn">
                     Login
                   </button>
-                  <button className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                  <button className="nav-cta-btn">
                     Get Started
                   </button>
                 </div>

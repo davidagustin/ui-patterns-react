@@ -529,7 +529,6 @@ export default function Button({ children }) {
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
 }
 
 .copy-tooltip.show::after {

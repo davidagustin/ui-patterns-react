@@ -57,11 +57,11 @@ export default function TablesPattern() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setViewMode(viewMode === 'table' ? 'cards' : 'table')}
-                    className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm min-h-[44px] flex items-center"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-all text-sm min-h-[44px] flex items-center shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                   >
                     {viewMode === 'table' ? '📱 Cards' : '📊 Table'}
                   </button>
-                  <button className="px-3 py-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 border border-blue-600 rounded-lg min-h-[44px] flex items-center">
+                  <button className="px-4 py-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 border-2 border-blue-600 dark:border-blue-400 rounded-lg min-h-[44px] flex items-center hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                     Export Data
                   </button>
                 </div>
@@ -72,14 +72,14 @@ export default function TablesPattern() {
                   <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow-sm">
                     <thead className="bg-gray-50 dark:bg-gray-700">
                       <tr>
-                        <th className="px-4 py-3 text-left">
-                          <input
-                            type="checkbox"
-                            checked={selectedRows.size === sampleData.length}
-                            onChange={() => setSelectedRows(new Set(sampleData.map(row => row.id)))}
-                            className="w-4 h-4 rounded"
-                          />
-                        </th>
+                                                  <th className="px-4 py-3 text-left">
+                            <input
+                              type="checkbox"
+                              checked={selectedRows.size === sampleData.length}
+                              onChange={() => setSelectedRows(new Set(sampleData.map(row => row.id)))}
+                              className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 cursor-pointer transition-all hover:border-blue-400 dark:hover:border-blue-500"
+                            />
+                          </th>
                         <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                           Name
                         </th>
@@ -107,7 +107,7 @@ export default function TablesPattern() {
                               type="checkbox"
                               checked={selectedRows.has(row.id)}
                               onChange={() => handleRowSelect(row.id)}
-                              className="w-4 h-4 rounded"
+                              className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 cursor-pointer transition-all hover:border-blue-400 dark:hover:border-blue-500"
                             />
                           </td>
                           <td className="px-4 py-3">
@@ -129,7 +129,7 @@ export default function TablesPattern() {
                             </span>
                           </td>
                           <td className="px-4 py-3">
-                            <button className="text-blue-600 dark:text-blue-400 hover:text-blue-800 text-sm min-h-[44px] px-3 py-2 rounded">
+                            <button className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm min-h-[44px] px-3 py-2 rounded hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                               Edit
                             </button>
                           </td>
@@ -147,7 +147,7 @@ export default function TablesPattern() {
                         type="checkbox"
                         checked={selectedRows.size === sampleData.length}
                         onChange={() => setSelectedRows(new Set(sampleData.map(row => row.id)))}
-                        className="w-5 h-5 rounded"
+                        className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 cursor-pointer transition-all hover:border-blue-400 dark:hover:border-blue-500"
                       />
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                         Select All ({sampleData.length})
@@ -169,7 +169,7 @@ export default function TablesPattern() {
                             type="checkbox"
                             checked={selectedRows.has(row.id)}
                             onChange={() => handleRowSelect(row.id)}
-                            className="w-5 h-5 mt-1 rounded"
+                            className="w-5 h-5 mt-1 rounded border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 cursor-pointer transition-all hover:border-blue-400 dark:hover:border-blue-500"
                           />
                           <div>
                             <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
@@ -192,7 +192,7 @@ export default function TablesPattern() {
                           <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</span>
                           <div className="mt-1 text-sm text-gray-900 dark:text-gray-100">{row.role}</div>
                         </div>
-                        <button className="px-4 py-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 text-sm min-h-[44px] border border-blue-600 rounded-lg">
+                        <button className="px-4 py-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm min-h-[44px] border-2 border-blue-600 dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                           Edit
                         </button>
                       </div>
@@ -215,20 +215,20 @@ export default function TablesPattern() {
             <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
               <button
                 onClick={() => setCodeTab('jsx')}
-                className={`px-4 py-2 font-medium transition-colors ${
+                className={`px-4 py-2 font-medium transition-all ${
                   codeTab === 'jsx'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
               >
                 JSX
               </button>
               <button
                 onClick={() => setCodeTab('css')}
-                className={`px-4 py-2 font-medium transition-colors ${
+                className={`px-4 py-2 font-medium transition-all ${
                   codeTab === 'css'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700'
                 }`}
               >
                 CSS

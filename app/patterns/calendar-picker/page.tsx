@@ -294,6 +294,7 @@ export default function CalendarPickerPattern() {
               {codeTab === 'jsx' ? (
                 <pre className="text-sm leading-relaxed">
 {`import { useState } from 'react';
+import Tooltip from '../../../components/Tooltip';
 
 export default function CalendarPickerPattern() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -310,6 +311,38 @@ export default function CalendarPickerPattern() {
     const startingDayOfWeek = firstDay.getDay();
 
     return { daysInMonth, startingDayOfWeek };
+  };
+
+  const getMonthName = (date: Date) => {
+    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  };
+
+  const isToday = (day: number) => {
+    const today = new Date();
+    return (
+      today.getDate() === day &&
+      today.getMonth() === currentMonth.getMonth() &&
+      today.getFullYear() === currentMonth.getFullYear()
+    );
+  };
+
+  const isSelected = (day: number) => {
+    if (!selectedDate) return false;
+    return (
+      selectedDate.getDate() === day &&
+      selectedDate.getMonth() === currentMonth.getMonth() &&
+      selectedDate.getFullYear() === currentMonth.getFullYear()
+    );
+  };
+
+  const formatSelectedDate = () => {
+    if (!selectedDate) return 'Select a date';
+    return selectedDate.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   };
 
   const handleDateSelect = (day: number) => {
@@ -382,25 +415,52 @@ export default function CalendarPickerPattern() {
         <div className="calendar-input-wrapper">
           <input
             type="text"
-            value={selectedDate ? formatSelectedDate() : 'Click to select'}
+            value={selectedDate ? \`\${formatSelectedDate()} at \${selectedTime}\` : 'Click to select date and time'}
             onClick={() => setShowCalendar(!showCalendar)}
             readOnly
             className="calendar-input"
+            placeholder="Select date and time"
           />
+          <Tooltip content="Open calendar">
+            <div className="calendar-input-icon">
+              📅
+            </div>
+          </Tooltip>
         </div>
       </div>
 
       {showCalendar && (
         <div className="calendar-dropdown">
           <div className="calendar-header">
-            <button onClick={goToPreviousMonth} className="calendar-nav-button">
-              ←
-            </button>
+            <Tooltip content="Previous month">
+              <button
+                onClick={goToPreviousMonth}
+                className="calendar-nav-button"
+                aria-label="Previous month"
+              >
+                ←
+              </button>
+            </Tooltip>
             <h3 className="calendar-month-title">
               {getMonthName(currentMonth)}
             </h3>
-            <button onClick={goToNextMonth} className="calendar-nav-button">
-              →
+            <Tooltip content="Next month">
+              <button
+                onClick={goToNextMonth}
+                className="calendar-nav-button"
+                aria-label="Next month"
+              >
+                →
+              </button>
+            </Tooltip>
+          </div>
+
+          <div className="calendar-today-section">
+            <button
+              onClick={goToToday}
+              className="calendar-today-link"
+            >
+              Go to Today
             </button>
           </div>
 
@@ -419,9 +479,38 @@ export default function CalendarPickerPattern() {
           </div>
 
           <div className="calendar-actions">
-            <button onClick={goToToday} className="calendar-today-button">
-              Today
+            <button
+              onClick={() => setShowCalendar(false)}
+              className="calendar-cancel-button"
+            >
+              Cancel
             </button>
+            <button
+              onClick={() => setShowCalendar(false)}
+              className="calendar-ok-button"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+
+      {selectedDate && (
+        <div className="calendar-selected-display">
+          <div className="calendar-selected-content">
+            <Tooltip content="Date selected">
+              <span className="calendar-selected-icon">
+                ✅
+              </span>
+            </Tooltip>
+            <div>
+              <p className="calendar-selected-date">
+                Selected: {formatSelectedDate()}
+              </p>
+              <p className="calendar-selected-time">
+                Time: {selectedTime}
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -452,6 +541,15 @@ export default function CalendarPickerPattern() {
 
 .calendar-input-wrapper {
   position: relative;
+}
+
+.calendar-input-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
 }
 
 .calendar-input {
@@ -629,31 +727,99 @@ export default function CalendarPickerPattern() {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+/* Calendar Today Section */
+.calendar-today-section {
+  margin-bottom: 1rem;
+}
+
+.calendar-today-link {
+  font-size: 0.875rem;
+  color: #3b82f6;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.calendar-today-link:hover {
+  color: #1d4ed8;
+}
+
 /* Calendar Actions */
 .calendar-actions {
   display: flex;
-  justify-content: center;
+  gap: 0.5rem;
 }
 
-.calendar-today-button {
+.calendar-cancel-button {
+  flex: 1;
   padding: 0.5rem 1rem;
   background: #f3f4f6;
   color: #374151;
   border: none;
-  border-radius: 0.375rem;
+  border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.calendar-today-button:hover {
+.calendar-cancel-button:hover {
   background: #e5e7eb;
 }
 
-.calendar-today-button:focus {
+.calendar-ok-button {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendar-ok-button:hover {
+  background: #2563eb;
+}
+
+.calendar-cancel-button:focus,
+.calendar-ok-button:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Calendar Selected Display */
+.calendar-selected-display {
+  margin-top: 1rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.calendar-selected-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calendar-selected-icon {
+  color: #16a34a;
+}
+
+.calendar-selected-date {
+  font-weight: 500;
+  color: #166534;
+  margin: 0;
+}
+
+.calendar-selected-time {
+  font-size: 0.875rem;
+  color: #16a34a;
+  margin: 0;
 }
 
 /* Responsive Design */
@@ -732,6 +898,40 @@ export default function CalendarPickerPattern() {
   .calendar-nav-button:hover {
     background: #374151;
     color: #d1d5db;
+  }
+  
+  .calendar-today-link {
+    color: #60a5fa;
+  }
+  
+  .calendar-today-link:hover {
+    color: #93c5fd;
+  }
+  
+  .calendar-cancel-button {
+    background: #374151;
+    color: #d1d5db;
+  }
+  
+  .calendar-cancel-button:hover {
+    background: #4b5563;
+  }
+  
+  .calendar-selected-display {
+    background: #064e3b;
+    border-color: #16a34a;
+  }
+  
+  .calendar-selected-date {
+    color: #34d399;
+  }
+  
+  .calendar-selected-time {
+    color: #6ee7b7;
+  }
+  
+  .calendar-selected-icon {
+    color: #34d399;
   }
 }
 

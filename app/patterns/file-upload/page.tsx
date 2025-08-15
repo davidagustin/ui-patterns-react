@@ -381,6 +381,7 @@ export default function FileUploadPattern() {
           {activeTab === 'jsx' ? (
             <pre className="text-sm leading-relaxed">
 {`import { useState, useRef, useCallback } from 'react';
+import Tooltip from '../../../components/Tooltip';
 
 interface FileWithProgress {
   id: string;
@@ -396,17 +397,42 @@ export default function FileUploadComponent() {
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef(null);
 
-  const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf', 'text/plain'];
   const maxFileSize = 5 * 1024 * 1024; // 5MB
+  const maxFiles = 5;
 
   const validateFile = (file) => {
     if (!allowedTypes.includes(file.type)) {
-      return 'File type not allowed.';
+      return 'File type not allowed. Please upload JPEG, PNG, GIF, PDF, or TXT files.';
     }
     if (file.size > maxFileSize) {
-      return 'File size too large.';
+      return 'File size too large. Maximum size is 5MB.';
     }
     return null;
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  const getFileIcon = (type) => {
+    if (type.startsWith('image/')) return '🖼️';
+    if (type === 'application/pdf') return '📄';
+    if (type === 'text/plain') return '📝';
+    return '📁';
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'uploading': return '⏳';
+      case 'completed': return '✅';
+      case 'error': return '❌';
+      default: return '📁';
+    }
   };
 
   const addFiles = useCallback((newFiles) => {
@@ -420,6 +446,11 @@ export default function FileUploadComponent() {
         return;
       }
 
+      if (files.length >= maxFiles) {
+        alert(\`Maximum \${maxFiles} files allowed.\`);
+        return;
+      }
+
       validFiles.push({
         id: Date.now().toString() + Math.random(),
         file,
@@ -429,7 +460,7 @@ export default function FileUploadComponent() {
     });
 
     setFiles(prev => [...prev, ...validFiles]);
-  }, []);
+  }, [files.length]);
 
   const handleFileSelect = (event) => {
     if (event.target.files) {
@@ -492,18 +523,27 @@ export default function FileUploadComponent() {
     <div className="space-y-4">
       {/* Upload Zone */}
       <div
-        className={\`border-2 border-dashed rounded-lg p-8 text-center \${
-          isDragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+        className={\`border-2 border-dashed rounded-lg p-8 text-center transition-colors \${
+          isDragOver
+            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+            : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
         }\`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        <div className="text-4xl mb-4">📁</div>
-        <h3 className="text-lg font-medium mb-2">Drop files here or click to browse</h3>
+        <Tooltip content="Upload files">
+          <div className="text-4xl mb-4">📁</div>
+        </Tooltip>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+          Drop files here or click to browse
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          Supports JPEG, PNG, GIF, PDF, and TXT files up to 5MB
+        </p>
         <button
           onClick={() => fileInputRef.current?.click()}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           Choose Files
         </button>
@@ -511,6 +551,7 @@ export default function FileUploadComponent() {
           ref={fileInputRef}
           type="file"
           multiple
+          accept=".jpg,.jpeg,.png,.gif,.pdf,.txt"
           onChange={handleFileSelect}
           className="hidden"
         />
@@ -529,32 +570,79 @@ export default function FileUploadComponent() {
 
       {/* File List */}
       <div className="space-y-3">
-        {files.map((fileWithProgress) => (
-          <div key={fileWithProgress.id} className="bg-white p-4 rounded-lg border">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-medium">{fileWithProgress.file.name}</h3>
-              <button
-                onClick={() => removeFile(fileWithProgress.id)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ✕
-              </button>
-            </div>
-            
-            {fileWithProgress.status === 'uploading' && (
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-blue-600 h-2 rounded-full"
-                  style={{ width: \`\${fileWithProgress.progress}%\` }}
-                />
-              </div>
-            )}
-            
-            {fileWithProgress.status === 'completed' && (
-              <div className="text-green-600 text-sm">Upload completed</div>
-            )}
+        {files.length === 0 ? (
+          <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+            <div className="text-4xl mb-2">📁</div>
+            <p>No files selected</p>
+            <p className="text-sm">Drag and drop files or click browse</p>
           </div>
-        ))}
+        ) : (
+          files.map((fileWithProgress) => (
+            <div key={fileWithProgress.id} className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div className="flex items-start space-x-3">
+                <Tooltip content={\`\${fileWithProgress.file.type || 'File'} type\`}>
+                  <div className="text-2xl">
+                    {getFileIcon(fileWithProgress.file.type)}
+                  </div>
+                </Tooltip>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-medium text-gray-900 dark:text-gray-100 truncate">
+                      {fileWithProgress.file.name}
+                    </h3>
+                    <div className="flex items-center space-x-2">
+                      <Tooltip content={\`File \${fileWithProgress.status}\`}>
+                        <span className="text-sm">
+                          {getStatusIcon(fileWithProgress.status)}
+                        </span>
+                      </Tooltip>
+                      <Tooltip content="Remove file">
+                        <button
+                          onClick={() => removeFile(fileWithProgress.id)}
+                          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                          aria-label="Remove file"
+                        >
+                          ✕
+                        </button>
+                      </Tooltip>
+                    </div>
+                  </div>
+                  
+                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    {formatFileSize(fileWithProgress.file.size)}
+                  </div>
+
+                  {fileWithProgress.status === 'uploading' && (
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
+                      <div
+                        className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                        style={{ width: \`\${fileWithProgress.progress}%\` }}
+                      />
+                    </div>
+                  )}
+
+                  {fileWithProgress.status === 'uploading' && (
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {fileWithProgress.progress}% uploaded
+                    </div>
+                  )}
+
+                  {fileWithProgress.status === 'error' && fileWithProgress.error && (
+                    <div className="text-xs text-red-600 dark:text-red-400">
+                      {fileWithProgress.error}
+                    </div>
+                  )}
+
+                  {fileWithProgress.status === 'completed' && (
+                    <div className="text-xs text-green-600 dark:text-green-400">
+                      Upload completed successfully
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

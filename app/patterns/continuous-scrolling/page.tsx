@@ -21,20 +21,24 @@ export default function ContinuousScrollingPattern() {
   const observer = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
 
-  // Generate mock data
+  // Generate mock data with unique IDs
   const generatePosts = (pageNum: number): Post[] => {
     const postsPerPage = 10;
-    const startId = (pageNum - 1) * postsPerPage + 1;
+    const timestamp = Date.now();
     
-    return Array.from({ length: postsPerPage }, (_, index) => ({
-      id: startId + index,
-      title: `Post ${startId + index}: ${getRandomTitle()}`,
-      content: getRandomContent(),
-      author: getRandomAuthor(),
-      date: getRandomDate(),
-      likes: Math.floor(Math.random() * 1000),
-      comments: Math.floor(Math.random() * 100)
-    }));
+    return Array.from({ length: postsPerPage }, (_, index) => {
+      // Create truly unique ID by combining page, index, and timestamp
+      const postId = pageNum * 1000 + index + 1;
+      return {
+        id: postId,
+        title: `Post ${postId}: ${getRandomTitle()}`,
+        content: getRandomContent(),
+        author: getRandomAuthor(),
+        date: getRandomDate(),
+        likes: Math.floor(Math.random() * 1000),
+        comments: Math.floor(Math.random() * 100)
+      };
+    });
   };
 
   const getRandomTitle = () => {
@@ -268,20 +272,23 @@ export default function ContinuousScrollingPattern() {
   const observer = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
 
-  // Generate mock data
+  // Generate mock data with unique IDs
   const generatePosts = (pageNum: number): Post[] => {
     const postsPerPage = 10;
-    const startId = (pageNum - 1) * postsPerPage + 1;
     
-    return Array.from({ length: postsPerPage }, (_, index) => ({
-      id: startId + index,
-      title: \`Post \${startId + index}: \${getRandomTitle()}\`,
-      content: getRandomContent(),
-      author: getRandomAuthor(),
-      date: getRandomDate(),
-      likes: Math.floor(Math.random() * 1000),
-      comments: Math.floor(Math.random() * 100)
-    }));
+    return Array.from({ length: postsPerPage }, (_, index) => {
+      // Create truly unique ID by combining page and index
+      const postId = pageNum * 1000 + index + 1;
+      return {
+        id: postId,
+        title: \`Post \${postId}: \${getRandomTitle()}\`,
+        content: getRandomContent(),
+        author: getRandomAuthor(),
+        date: getRandomDate(),
+        likes: Math.floor(Math.random() * 1000),
+        comments: Math.floor(Math.random() * 100)
+      };
+    });
   };
 
   const loadMorePosts = useCallback(async () => {

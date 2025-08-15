@@ -340,12 +340,18 @@ export default function InputFeedbackPattern() {
 {`'use client';
 
 import { useState, useEffect } from 'react';
+import Tooltip from '../../../components/Tooltip';
 
 export default function InputFeedbackExample() {
   const [email, setEmail] = useState('');
-  const [emailStatus, setEmailStatus] = useState('idle');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [phone, setPhone] = useState('');
+
+  const [emailStatus, setEmailStatus] = useState('idle');
   const [passwordStrength, setPasswordStrength] = useState('weak');
+  const [usernameStatus, setUsernameStatus] = useState('idle');
+  const [phoneStatus, setPhoneStatus] = useState('idle');
 
   // Email validation
   useEffect(() => {
@@ -382,21 +388,68 @@ export default function InputFeedbackExample() {
     else setPasswordStrength('strong');
   }, [password]);
 
+  // Username availability check (simulated)
+  useEffect(() => {
+    if (!username) {
+      setUsernameStatus('idle');
+      return;
+    }
+
+    if (username.length < 3) {
+      setUsernameStatus('idle');
+      return;
+    }
+
+    setUsernameStatus('checking');
+    const timer = setTimeout(() => {
+      // Simulate API call - usernames 'admin', 'user', 'test' are taken
+      const takenUsernames = ['admin', 'user', 'test', 'demo'];
+      setUsernameStatus(takenUsernames.includes(username.toLowerCase()) ? 'taken' : 'available');
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [username]);
+
+  // Phone validation
+  useEffect(() => {
+    if (!phone) {
+      setPhoneStatus('idle');
+      return;
+    }
+
+    const phoneRegex = /^[\\+]?[1-9][\\d]{0,15}$/;
+    setPhoneStatus(phoneRegex.test(phone.replace(/\\s/g, '')) ? 'valid' : 'invalid');
+  }, [phone]);
+
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'valid': return '✓';
-      case 'invalid': return '✗';
-      case 'validating': return '⏳';
-      default: return '';
+      case 'valid':
+      case 'available':
+        return '✓';
+      case 'invalid':
+      case 'taken':
+        return '✗';
+      case 'validating':
+      case 'checking':
+        return '⏳';
+      default:
+        return '';
     }
   };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'valid': return 'text-green-600';
-      case 'invalid': return 'text-red-600';
-      case 'validating': return 'text-yellow-600';
-      default: return 'text-gray-400';
+      case 'valid':
+      case 'available':
+        return 'text-green-600 dark:text-green-400';
+      case 'invalid':
+      case 'taken':
+        return 'text-red-600 dark:text-red-400';
+      case 'validating':
+      case 'checking':
+        return 'text-yellow-600 dark:text-yellow-400';
+      default:
+        return 'text-gray-400';
     }
   };
 
@@ -418,9 +471,11 @@ export default function InputFeedbackExample() {
             placeholder="Enter your email"
           />
           {emailStatus !== 'idle' && (
-            <span className={\`absolute right-3 top-1/2 transform -translate-y-1/2 \${getStatusColor(emailStatus)}\`}>
-              {getStatusIcon(emailStatus)}
-            </span>
+            <Tooltip content={\`Email validation: \${emailStatus}\`}>
+              <span className={\`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium \${getStatusColor(emailStatus)}\`}>
+                {getStatusIcon(emailStatus)}
+              </span>
+            </Tooltip>
           )}
         </div>
         {emailStatus === 'validating' && (
@@ -436,41 +491,109 @@ export default function InputFeedbackExample() {
 
       {/* Password Input */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium">Password</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="input-field"
-          placeholder="Enter password"
+          placeholder="Enter your password"
         />
         {password && (
           <div className="space-y-2">
             <div className="flex space-x-1">
-              <div className={\`h-2 flex-1 rounded-full \${
+              <div className={\`h-2 flex-1 rounded-full transition-all duration-300 \${
                 passwordStrength === 'weak' ? 'bg-red-500' :
                 passwordStrength === 'medium' ? 'bg-yellow-500' :
                 'bg-green-500'
               }\`}></div>
-              <div className={\`h-2 flex-1 rounded-full \${
+              <div className={\`h-2 flex-1 rounded-full transition-all duration-300 \${
                 passwordStrength === 'weak' ? 'bg-gray-300' :
                 passwordStrength === 'medium' ? 'bg-yellow-500' :
                 'bg-green-500'
               }\`}></div>
-              <div className={\`h-2 flex-1 rounded-full \${
+              <div className={\`h-2 flex-1 rounded-full transition-all duration-300 \${
                 passwordStrength === 'weak' ? 'bg-gray-300' :
                 passwordStrength === 'medium' ? 'bg-gray-300' :
                 'bg-green-500'
               }\`}></div>
             </div>
-            <p className={\`text-sm \${
-              passwordStrength === 'weak' ? 'text-red-600' :
-              passwordStrength === 'medium' ? 'text-yellow-600' :
-              'text-green-600'
+            <p className={\`text-sm font-medium \${
+              passwordStrength === 'weak' ? 'text-red-600 dark:text-red-400' :
+              passwordStrength === 'medium' ? 'text-yellow-600 dark:text-yellow-400' :
+              'text-green-600 dark:text-green-400'
             }\`}>
-              Strength: {passwordStrength}
+              Password strength: {passwordStrength.charAt(0).toUpperCase() + passwordStrength.slice(1)}
             </p>
           </div>
+        )}
+      </div>
+
+      {/* Username Input */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
+        <div className="relative">
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className={\`input-field pr-10 \${
+              usernameStatus === 'available' ? 'border-green-500 focus:ring-green-500' :
+              usernameStatus === 'taken' ? 'border-red-500 focus:ring-red-500' :
+              'border-gray-300 focus:ring-blue-500'
+            }\`}
+            placeholder="Choose a username"
+          />
+          {usernameStatus !== 'idle' && (
+            <Tooltip content={\`Username availability: \${usernameStatus}\`}>
+              <span className={\`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium \${getStatusColor(usernameStatus)}\`}>
+                {getStatusIcon(usernameStatus)}
+              </span>
+            </Tooltip>
+          )}
+        </div>
+        {usernameStatus === 'checking' && (
+          <p className="text-sm text-yellow-600 dark:text-yellow-400">Checking availability...</p>
+        )}
+        {usernameStatus === 'available' && (
+          <p className="text-sm text-green-600 dark:text-green-400">✓ Username is available</p>
+        )}
+        {usernameStatus === 'taken' && (
+          <p className="text-sm text-red-600 dark:text-red-400">✗ Username is already taken</p>
+        )}
+        {username && username.length < 3 && (
+          <p className="text-sm text-gray-600 dark:text-gray-400">Username must be at least 3 characters</p>
+        )}
+      </div>
+
+      {/* Phone Input */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone Number</label>
+        <div className="relative">
+          <input
+            type="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className={\`input-field pr-10 \${
+              phoneStatus === 'valid' ? 'border-green-500 focus:ring-green-500' :
+              phoneStatus === 'invalid' ? 'border-red-500 focus:ring-red-500' :
+              'border-gray-300 focus:ring-blue-500'
+            }\`}
+            placeholder="Enter phone number"
+          />
+          {phoneStatus !== 'idle' && (
+            <Tooltip content={\`Phone validation: \${phoneStatus}\`}>
+              <span className={\`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium \${getStatusColor(phoneStatus)}\`}>
+                {getStatusIcon(phoneStatus)}
+              </span>
+            </Tooltip>
+          )}
+        </div>
+        {phoneStatus === 'valid' && (
+          <p className="text-sm text-green-600 dark:text-green-400">✓ Valid phone number</p>
+        )}
+        {phoneStatus === 'invalid' && phone && (
+          <p className="text-sm text-red-600 dark:text-red-400">✗ Please enter a valid phone number</p>
         )}
       </div>
     </div>

@@ -334,7 +334,8 @@ export default function NotificationsPattern() {
         <div className="code-block">
           {activeTab === 'jsx' ? (
             <pre className="text-sm leading-relaxed">
-{`import { useState } from 'react';
+{`import { useState, useEffect } from 'react';
+import Tooltip from '../../../components/Tooltip';
 
 interface Notification {
   id: string;
@@ -353,11 +354,13 @@ export default function NotificationsComponent() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('success');
+  const [notificationCount, setNotificationCount] = useState(0);
 
   const addNotification = (notification) => {
     const id = Date.now().toString();
     const newNotification = { ...notification, id };
     setNotifications(prev => [newNotification, ...prev]);
+    setNotificationCount(prev => prev + 1);
 
     // Auto-remove notification after duration
     if (notification.duration !== 0) {
@@ -369,6 +372,7 @@ export default function NotificationsComponent() {
 
   const removeNotification = (id) => {
     setNotifications(prev => prev.filter(n => n.id !== id));
+    setNotificationCount(prev => Math.max(0, prev - 1));
   };
 
   const showToastMessage = (message, type = 'success') => {
@@ -445,26 +449,31 @@ export default function NotificationsComponent() {
           >
             <div className="flex items-start justify-between">
               <div className="flex items-start space-x-3">
-                <span className="text-xl">{getNotificationIcon(notification.type)}</span>
+                <Tooltip content={\`\${notification.type.charAt(0).toUpperCase() + notification.type.slice(1)} notification\`}>
+                  <span className="text-xl">{getNotificationIcon(notification.type)}</span>
+                </Tooltip>
                 <div>
                   <h3 className="font-medium">{notification.title}</h3>
                   <p className="text-sm mt-1">{notification.message}</p>
                   {notification.action && (
                     <button
                       onClick={notification.action.onClick}
-                      className="mt-2 px-3 py-1 text-xs bg-white rounded border"
+                      className="mt-2 px-3 py-1 text-xs bg-white dark:bg-gray-800 rounded border hover:bg-gray-50 dark:hover:bg-gray-700"
                     >
                       {notification.action.label}
                     </button>
                   )}
                 </div>
               </div>
-              <button
-                onClick={() => removeNotification(notification.id)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ✕
-              </button>
+              <Tooltip content="Remove notification">
+                <button
+                  onClick={() => removeNotification(notification.id)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  aria-label="Remove notification"
+                >
+                  ✕
+                </button>
+              </Tooltip>
             </div>
           </div>
         ))}
@@ -474,14 +483,19 @@ export default function NotificationsComponent() {
       {showToast && (
         <div className="fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white">
           <div className="flex items-center space-x-2">
-            <span>{getNotificationIcon(toastType)}</span>
+            <Tooltip content={\`\${toastType.charAt(0).toUpperCase() + toastType.slice(1)} toast\`}>
+              <span>{getNotificationIcon(toastType)}</span>
+            </Tooltip>
             <span>{toastMessage}</span>
-            <button
-              onClick={() => setShowToast(false)}
-              className="ml-2 text-white hover:text-gray-200"
-            >
-              ✕
-            </button>
+            <Tooltip content="Close toast">
+              <button
+                onClick={() => setShowToast(false)}
+                className="ml-2 text-white hover:text-gray-200"
+                aria-label="Close toast"
+              >
+                ✕
+              </button>
+            </Tooltip>
           </div>
         </div>
       )}

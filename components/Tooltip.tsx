@@ -28,10 +28,15 @@ export default function Tooltip({
       clearTimeout(timeoutRef.current);
     }
     
-    timeoutRef.current = setTimeout(() => {
+    if (delay === 0) {
       setIsVisible(true);
       updatePosition();
-    }, delay);
+    } else {
+      timeoutRef.current = setTimeout(() => {
+        setIsVisible(true);
+        updatePosition();
+      }, delay);
+    }
   };
 
   const handleMouseLeave = () => {
@@ -138,7 +143,7 @@ export default function Tooltip({
       {isVisible && (
         <div
           ref={tooltipRef}
-          className="fixed z-[9999] px-2 py-1 text-xs text-white bg-gray-800 dark:bg-gray-200 dark:text-gray-800 rounded shadow-lg pointer-events-none transition-opacity duration-150"
+          className="fixed z-[9999] px-2 py-1 text-xs text-white bg-gray-800 dark:bg-gray-200 dark:text-gray-800 rounded shadow-lg pointer-events-none"
           style={{
             top: tooltipPosition.top,
             left: tooltipPosition.left,

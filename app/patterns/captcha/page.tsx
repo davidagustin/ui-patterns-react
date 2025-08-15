@@ -191,7 +191,7 @@ export default function CaptchaPattern() {
                             className="w-5 h-5 text-blue-600 rounded"
                           />
                           <label htmlFor="captcha-checkbox" className="text-sm text-gray-700 dark:text-gray-300">
-                            I'm not a robot
+                            I&apos;m not a robot
                           </label>
                         </div>
                         <p className="text-xs text-gray-500">

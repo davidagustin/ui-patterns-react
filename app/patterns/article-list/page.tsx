@@ -91,7 +91,7 @@ export default function ArticleListPattern() {
   const categories = ['all', 'React', 'CSS', 'TypeScript', 'Trends', 'Accessibility', 'Performance'];
 
   const getSortedArticles = () => {
-    let filtered = selectedCategory === 'all' 
+    const filtered = selectedCategory === 'all' 
       ? articles 
       : articles.filter(article => article.category === selectedCategory);
     
@@ -146,7 +146,7 @@ export default function ArticleListPattern() {
                 <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Sort by:</label>
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
+                  onChange={(e) => setSortBy(e.target.value as 'newest' | 'oldest' | 'popular')}
                   className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800"
                 >
                   <option value="newest">Newest First</option>
@@ -291,7 +291,7 @@ export default function ArticleListPattern() {
   const categories = ['all', 'React', 'CSS', 'TypeScript', 'Trends'];
 
   const getSortedArticles = () => {
-    let filtered = selectedCategory === 'all' 
+    const filtered = selectedCategory === 'all' 
       ? articles 
       : articles.filter(article => article.category === selectedCategory);
     

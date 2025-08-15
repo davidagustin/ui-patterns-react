@@ -86,7 +86,7 @@ export default function ThumbnailPattern() {
                   alt={images[selectedImage].title}
                   className="w-full h-80 object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100">
                   <div className="absolute bottom-4 left-4 text-white">
                     <h3 className="text-lg font-semibold">{images[selectedImage].title}</h3>
                     <p className="text-sm opacity-90">{images[selectedImage].description}</p>
@@ -151,7 +151,7 @@ export default function ThumbnailPattern() {
                     
                     {/* Tooltip */}
                     {showTooltips && (
-                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+                      <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-10">
                         {image.title}
                         <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-black"></div>
                       </div>
@@ -214,7 +214,7 @@ export default function ThumbnailGallery() {
           />
           
           {/* Image Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100">
             <div className="absolute bottom-4 left-4 text-white">
               <h3 className="text-lg font-semibold">
                 {images[selectedImage].title}

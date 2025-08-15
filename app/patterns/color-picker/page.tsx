@@ -26,7 +26,8 @@ export default function ColorPickerPattern() {
 
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
-    let h = 0, s = 0, l = (max + min) / 2;
+    let h = 0, s = 0;
+    const l = (max + min) / 2;
 
     if (max !== min) {
       const d = max - min;
@@ -401,7 +402,8 @@ export default function ColorPickerPattern() {
 
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
-    let h = 0, s = 0, l = (max + min) / 2;
+    let h = 0, s = 0;
+    const l = (max + min) / 2;
 
     if (max !== min) {
       const d = max - min;
@@ -450,7 +452,7 @@ export default function ColorPickerPattern() {
     g = Math.round((g + m) * 255);
     b = Math.round((b + m) * 255);
 
-    return \`#\${r.toString(16).padStart(2, '0')}\${g.toString(16).padStart(2, '0')}\${b.toString(16).padStart(2, '0')}\`;
+    return \`#\$\{r.toString(16).padStart(2, '0')\}\$\{g.toString(16).padStart(2, '0')\}\$\{b.toString(16).padStart(2, '0')\}\`;
   };
 
   // Handle click outside to close picker
@@ -477,24 +479,50 @@ export default function ColorPickerPattern() {
     }
   };
 
-  const ColorPreview = ({ color, onClick }) => (
-    <button
-      onClick={onClick}
-      className="w-8 h-8 rounded-lg border-2 border-gray-300 hover:border-gray-400 transition-colors shadow-sm"
-      style={{ backgroundColor: color }}
-      title={color}
-    />
-  );
+  const getContrastColor = (color) => {
+    const hex = color.replace('#', '');
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 2), 16);
+    const b = parseInt(hex.substr(4, 2), 16);
+    const brightness = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return brightness > 128 ? '#000000' : '#ffffff';
+  };
+
+  const ColorPreview = ({ color, size = 'md', onClick }) => {
+    const sizeClasses = {
+      sm: 'w-6 h-6',
+      md: 'w-8 h-8',
+      lg: 'w-12 h-12'
+    };
+
+    return (
+      <Tooltip content={"Select color: " + color}>
+        <button
+          onClick={onClick}
+          className={sizeClasses[size] + " rounded-lg border-2 border-gray-300 hover:border-gray-400 transition-colors shadow-sm"}
+          style={{ backgroundColor: color }}
+          aria-label={"Select color " + color}
+        />
+      </Tooltip>
+    );
+  };
+
+  // Update color when hex changes
+  useEffect(() => {
+    setHsl(hexToHsl(selectedColor));
+  }, [selectedColor]);
 
   return (
     <div className="space-y-6">
       {/* Color Preview & Trigger */}
       <div className="flex items-center space-x-4">
-        <div 
-          className="w-16 h-16 rounded-xl border-2 border-gray-300 shadow-md cursor-pointer hover:scale-105 transition-transform"
-          style={{ backgroundColor: selectedColor }}
-          onClick={() => setIsPickerOpen(!isPickerOpen)}
-        />
+        <Tooltip content="Click to open color picker">
+          <div 
+            className="w-16 h-16 rounded-xl border-2 border-gray-300 shadow-md cursor-pointer hover:scale-105 transition-transform"
+            style={{ backgroundColor: selectedColor }}
+            onClick={() => setIsPickerOpen(!isPickerOpen)}
+          />
+        </Tooltip>
         <div className="flex-1">
           <div className="text-lg font-semibold" style={{ color: selectedColor }}>
             Current Color
@@ -542,7 +570,7 @@ export default function ColorPickerPattern() {
                 max="360"
                 value={hsl.h}
                 onChange={(e) => handleHslChange({ h: parseInt(e.target.value) })}
-                className="w-full h-4 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-cyan-500 via-blue-500 via-purple-500 to-red-500 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-4 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-cyan-500 via-blue-500 via-purple-500 to-red-500 rounded-lg appearance-none cursor-pointer slider-hue"
               />
             </div>
 
@@ -556,9 +584,9 @@ export default function ColorPickerPattern() {
                 max="100"
                 value={hsl.s}
                 onChange={(e) => handleHslChange({ s: parseInt(e.target.value) })}
-                className="w-full h-4 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-4 rounded-lg appearance-none cursor-pointer slider-saturation"
                 style={{
-                  background: \`linear-gradient(to right, hsl(\${hsl.h}, 0%, \${hsl.l}%), hsl(\${hsl.h}, 100%, \${hsl.l}%))\`
+                  background: \`linear-gradient(to right, hsl(\$\{hsl.h\}, 0%, \$\{hsl.l\}%), hsl(\$\{hsl.h\}, 100%, \$\{hsl.l\}%))\`
                 }}
               />
             </div>
@@ -573,9 +601,9 @@ export default function ColorPickerPattern() {
                 max="100"
                 value={hsl.l}
                 onChange={(e) => handleHslChange({ l: parseInt(e.target.value) })}
-                className="w-full h-4 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-4 rounded-lg appearance-none cursor-pointer slider-lightness"
                 style={{
-                  background: \`linear-gradient(to right, hsl(\${hsl.h}, \${hsl.s}%, 0%), hsl(\${hsl.h}, \${hsl.s}%, 50%), hsl(\${hsl.h}, \${hsl.s}%, 100%))\`
+                  background: \`linear-gradient(to right, hsl(\$\{hsl.h\}, \$\{hsl.s\}%, 0%), hsl(\$\{hsl.h\}, \$\{hsl.s\}%, 50%), hsl(\$\{hsl.h\}, \$\{hsl.s\}%, 100%))\`
                 }}
               />
             </div>
@@ -598,6 +626,7 @@ export default function ColorPickerPattern() {
             <ColorPreview
               key={color}
               color={color}
+              size="md"
               onClick={() => setSelectedColor(color)}
             />
           ))}
@@ -609,24 +638,60 @@ export default function ColorPickerPattern() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-medium">Custom Colors</h3>
-            <button
-              onClick={() => setCustomColors([])}
-              className="text-xs text-gray-500 hover:text-gray-700"
-            >
-              Clear All
-            </button>
+            <Tooltip content="Clear all custom colors">
+              <button
+                onClick={() => setCustomColors([])}
+                className="text-xs text-gray-500 hover:text-gray-700"
+              >
+                Clear All
+              </button>
+            </Tooltip>
           </div>
           <div className="grid grid-cols-10 gap-2">
             {customColors.map((color, index) => (
               <ColorPreview
-                key={\`\${color}-\${index}\`}
+                key={\`\$\{color\}-\$\{index\}\`}
                 color={color}
+                size="md"
                 onClick={() => setSelectedColor(color)}
               />
             ))}
           </div>
         </div>
       )}
+
+      {/* Color Information */}
+      <div className="p-4 bg-gray-50 rounded-lg space-y-2">
+        <h3 className="text-sm font-medium">Color Information</h3>
+        <div className="grid grid-cols-2 gap-4 text-xs">
+          <div>
+            <div className="text-gray-500">HEX</div>
+            <div className="font-mono">{selectedColor.toUpperCase()}</div>
+          </div>
+          <div>
+            <div className="text-gray-500">RGB</div>
+            <div className="font-mono">
+              {parseInt(selectedColor.slice(1, 3), 16)}, {parseInt(selectedColor.slice(3, 5), 16)}, {parseInt(selectedColor.slice(5, 7), 16)}
+            </div>
+          </div>
+          <div>
+            <div className="text-gray-500">HSL</div>
+            <div className="font-mono">{hsl.h}°, {hsl.s}%, {hsl.l}%</div>
+          </div>
+          <div>
+            <div className="text-gray-500">Contrast</div>
+            <div 
+              className="px-2 py-1 rounded text-xs font-medium"
+              style={{ 
+                backgroundColor: selectedColor,
+                color: getContrastColor(selectedColor)
+              }}
+            >
+              Sample Text
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }`}
