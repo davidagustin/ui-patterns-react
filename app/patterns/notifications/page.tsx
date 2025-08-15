@@ -20,6 +20,7 @@ export default function NotificationsPattern() {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error' | 'warning' | 'info'>('success');
   const [notificationCount, setNotificationCount] = useState(0);
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   const addNotification = (notification: Omit<Notification, 'id'>) => {
     const id = Date.now().toString();

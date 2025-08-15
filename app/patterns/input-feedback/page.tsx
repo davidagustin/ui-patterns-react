@@ -302,8 +302,33 @@ export default function InputFeedbackPattern() {
               💻 Code Example
             </h2>
             
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
             <div className="code-block">
-              <pre className="text-sm leading-relaxed">
+              {activeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
 {`'use client';
 
 import { useState, useEffect } from 'react';
@@ -443,7 +468,314 @@ export default function InputFeedbackExample() {
     </div>
   );
 }`}
-              </pre>
+                </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`/* Input Feedback CSS */
+
+/* Container */
+.input-feedback-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Input Field with Feedback */
+.feedback-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.feedback-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.feedback-input {
+  width: 100%;
+  padding: 0.75rem;
+  padding-right: 2.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: white;
+  position: relative;
+}
+
+.feedback-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Input States */
+.feedback-input.valid {
+  border-color: #10b981;
+  background-color: #f0fdfa;
+}
+
+.feedback-input.valid:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.feedback-input.invalid {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.feedback-input.invalid:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.feedback-input.validating {
+  border-color: #f59e0b;
+  background-color: #fffbeb;
+}
+
+.feedback-input.validating:focus {
+  border-color: #d97706;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+/* Status Icon */
+.status-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  font-weight: 500;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.status-icon.valid {
+  color: #10b981;
+  animation: checkmark 0.3s ease;
+}
+
+.status-icon.invalid {
+  color: #ef4444;
+  animation: shake 0.5s ease;
+}
+
+.status-icon.validating {
+  color: #f59e0b;
+  animation: spin 1s linear infinite;
+}
+
+/* Status Messages */
+.feedback-message {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+.feedback-message.valid {
+  color: #059669;
+}
+
+.feedback-message.invalid {
+  color: #dc2626;
+}
+
+.feedback-message.validating {
+  color: #d97706;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  margin-top: 0.5rem;
+}
+
+.strength-bars {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.strength-bar {
+  height: 0.5rem;
+  flex: 1;
+  border-radius: 0.25rem;
+  background-color: #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.strength-bar.weak {
+  background-color: #ef4444;
+}
+
+.strength-bar.medium {
+  background-color: #f59e0b;
+}
+
+.strength-bar.strong {
+  background-color: #10b981;
+}
+
+.strength-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.strength-label.weak {
+  color: #dc2626;
+}
+
+.strength-label.medium {
+  color: #d97706;
+}
+
+.strength-label.strong {
+  color: #059669;
+}
+
+/* Input Container */
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Animations */
+@keyframes checkmark {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  25% { transform: translateY(-50%) translateX(-3px); }
+  75% { transform: translateY(-50%) translateX(3px); }
+}
+
+@keyframes spin {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Input Focus Animation */
+.feedback-input:focus {
+  animation: focusPulse 0.3s ease;
+}
+
+@keyframes focusPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .input-feedback-container {
+    padding: 1rem;
+  }
+  
+  .feedback-input {
+    padding: 0.625rem;
+    padding-right: 2.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .feedback-label {
+    color: #f9fafb;
+  }
+  
+  .feedback-input {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .feedback-input:focus {
+    border-color: #60a5fa;
+  }
+  
+  .feedback-input.valid {
+    background-color: #064e3b;
+    border-color: #10b981;
+  }
+  
+  .feedback-input.valid:focus {
+    border-color: #34d399;
+  }
+  
+  .feedback-input.invalid {
+    background-color: #450a0a;
+    border-color: #ef4444;
+  }
+  
+  .feedback-input.invalid:focus {
+    border-color: #f87171;
+  }
+  
+  .feedback-input.validating {
+    background-color: #451a03;
+    border-color: #f59e0b;
+  }
+  
+  .feedback-input.validating:focus {
+    border-color: #fbbf24;
+  }
+  
+  .strength-bar {
+    background-color: #374151;
+  }
+}
+
+/* Accessibility */
+.feedback-input:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Loading State */
+.feedback-input.loading {
+  background-image: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Enhanced Hover States */
+.feedback-input:hover {
+  border-color: #9ca3af;
+}
+
+.feedback-input.valid:hover {
+  border-color: #059669;
+}
+
+.feedback-input.invalid:hover {
+  border-color: #dc2626;
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>

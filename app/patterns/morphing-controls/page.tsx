@@ -175,16 +175,41 @@ export default function MorphingControlsPattern() {
               💻 Code Example
             </h2>
             
-            <div className="code-block">
-              <pre className="text-sm leading-relaxed">
-{`'use client';
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
 
-import { useState } from 'react';
+            {/* Tab Content */}
+            <div className="code-block">
+              {activeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
+{`import { useState } from 'react';
 
 export default function MorphingControls() {
   const [searchMode, setSearchMode] = useState('basic');
   const [buttonMode, setButtonMode] = useState('default');
   const [inputMode, setInputMode] = useState('text');
+  const [toggleState, setToggleState] = useState(false);
 
   const handleButtonClick = () => {
     setButtonMode('loading');
@@ -194,52 +219,411 @@ export default function MorphingControls() {
     }, 2000);
   };
 
+  const handleInputModeChange = () => {
+    const modes = ['text', 'email', 'password'];
+    const currentIndex = modes.indexOf(inputMode);
+    const nextIndex = (currentIndex + 1) % modes.length;
+    setInputMode(modes[nextIndex]);
+  };
+
   return (
     <div className="space-y-6">
       {/* Morphing Search Bar */}
       <div className="relative">
         <input
           type="text"
-          placeholder={searchMode === 'basic' ? 'Search...' : 'Advanced search...'}
-          className={\`w-full px-4 py-2 border rounded-lg transition-all duration-300 \${searchMode === 'advanced' ? 'pr-20' : 'pr-10'}\`}
+          placeholder={searchMode === 'basic' ? 'Search...' : 'Enter keywords, filters, advanced queries...'}
+          className={\`morphing-search-input \${searchMode === 'advanced' ? 'advanced' : 'basic'}\`}
         />
         <button
           onClick={() => setSearchMode(searchMode === 'basic' ? 'advanced' : 'basic')}
-          className={\`absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded \${searchMode === 'basic' ? 'text-gray-500' : 'text-blue-600 bg-blue-100'}\`}
+          className={\`morphing-search-toggle \${searchMode === 'basic' ? 'basic' : 'advanced'}\`}
+          title={searchMode === 'basic' ? 'Switch to Advanced' : 'Switch to Basic'}
         >
           {searchMode === 'basic' ? '⚙️' : '🔍'}
         </button>
+        {searchMode === 'advanced' && (
+          <button className="morphing-search-action">
+            🔎
+          </button>
+        )}
       </div>
 
       {/* Morphing Button */}
       <button
         onClick={handleButtonClick}
         disabled={buttonMode === 'loading'}
-        className={\`px-6 py-3 rounded-lg font-medium transition-all duration-300 \${buttonMode === 'default' ? 'bg-blue-600 hover:bg-blue-700' : buttonMode === 'loading' ? 'bg-yellow-500' : 'bg-green-500'}\`}
+        className={\`morphing-button \${buttonMode}\`}
       >
         {buttonMode === 'default' && 'Click Me'}
-        {buttonMode === 'loading' && 'Processing...'}
+        {buttonMode === 'loading' && (
+          <span className="morphing-button-loading">
+            <svg className="morphing-spinner" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" opacity="0.25"/>
+              <path fill="currentColor" opacity="0.75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+            </svg>
+            Processing...
+          </span>
+        )}
         {buttonMode === 'success' && '✓ Success!'}
       </button>
 
       {/* Morphing Input */}
-      <div className="relative">
+      <div className="morphing-input-container">
         <input
           type={inputMode}
-          placeholder={\`Enter your \${inputMode}...\`}
-          className="w-full px-4 py-2 border rounded-lg pr-12"
+          placeholder={\`Enter your \${inputMode === 'text' ? 'name' : inputMode}...\`}
+          className="morphing-input"
         />
         <button
-          onClick={() => setInputMode(inputMode === 'text' ? 'email' : inputMode === 'email' ? 'password' : 'text')}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1"
+          onClick={handleInputModeChange}
+          className="morphing-input-toggle"
+          title={\`Switch to \${inputMode === 'text' ? 'email' : inputMode === 'email' ? 'password' : 'text'} input\`}
         >
           {inputMode === 'text' ? '📧' : inputMode === 'email' ? '🔒' : '📝'}
         </button>
       </div>
+
+      {/* Morphing Toggle */}
+      <button
+        onClick={() => setToggleState(!toggleState)}
+        className={\`morphing-toggle \${toggleState ? 'active' : 'inactive'}\`}
+      >
+        <span className="morphing-toggle-slider" />
+        {toggleState && (
+          <span className="morphing-toggle-label">ON</span>
+        )}
+      </button>
     </div>
   );
 }`}
-              </pre>
+                </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`/* Morphing Controls CSS */
+
+/* Morphing Search Bar */
+.morphing-search-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: white;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.morphing-search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.morphing-search-input.basic {
+  width: 16rem;
+  padding-right: 2.5rem;
+}
+
+.morphing-search-input.advanced {
+  width: 100%;
+  padding-right: 5rem;
+}
+
+.morphing-search-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.morphing-search-toggle.basic {
+  color: #6b7280;
+}
+
+.morphing-search-toggle.basic:hover {
+  color: #374151;
+}
+
+.morphing-search-toggle.advanced {
+  color: #3b82f6;
+  background-color: #dbeafe;
+}
+
+.morphing-search-action {
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.25rem;
+  border: none;
+  background: none;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.morphing-search-action:hover {
+  color: #374151;
+}
+
+/* Morphing Button */
+.morphing-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: scale(1);
+  position: relative;
+  overflow: hidden;
+}
+
+.morphing-button.default {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.morphing-button.default:hover {
+  background-color: #2563eb;
+  transform: scale(1.05);
+}
+
+.morphing-button.loading {
+  background-color: #eab308;
+  color: white;
+  cursor: not-allowed;
+  transform: scale(1);
+}
+
+.morphing-button.success {
+  background-color: #10b981;
+  color: white;
+  transform: scale(1.1);
+}
+
+.morphing-button-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.morphing-spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Morphing Input */
+.morphing-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.morphing-input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  padding-right: 3rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: white;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.morphing-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.morphing-input-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.25rem;
+  border: none;
+  background: none;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 0.25rem;
+}
+
+.morphing-input-toggle:hover {
+  color: #374151;
+  background-color: #f3f4f6;
+}
+
+/* Morphing Toggle */
+.morphing-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 1.5rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.morphing-toggle.inactive {
+  width: 1.5rem;
+  background-color: #d1d5db;
+}
+
+.morphing-toggle.active {
+  width: 3rem;
+  background-color: #3b82f6;
+}
+
+.morphing-toggle-slider {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  background-color: white;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  transform: translateX(0.25rem);
+}
+
+.morphing-toggle.active .morphing-toggle-slider {
+  transform: translateX(1.5rem);
+}
+
+.morphing-toggle-label {
+  position: absolute;
+  left: 0.25rem;
+  font-size: 0.75rem;
+  color: white;
+  font-weight: 500;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .morphing-search-input,
+  .morphing-input {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .morphing-search-input:focus,
+  .morphing-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .morphing-search-toggle.advanced {
+    background-color: #1e3a8a;
+  }
+  
+  .morphing-input-toggle:hover {
+    background-color: #374151;
+  }
+  
+  .morphing-toggle.inactive {
+    background-color: #4b5563;
+  }
+}
+
+/* Accessibility */
+.morphing-button:focus,
+.morphing-search-toggle:focus,
+.morphing-input-toggle:focus,
+.morphing-toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .morphing-search-input,
+  .morphing-button,
+  .morphing-input,
+  .morphing-toggle,
+  .morphing-toggle-slider {
+    transition: none;
+  }
+  
+  .morphing-spinner {
+    animation: none;
+  }
+  
+  .morphing-toggle-label {
+    animation: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .morphing-button,
+  .morphing-search-input,
+  .morphing-input,
+  .morphing-toggle {
+    border: 2px solid;
+  }
+}
+
+/* Enhanced Interactions */
+.morphing-button:active {
+  transform: scale(0.98);
+}
+
+.morphing-toggle:active .morphing-toggle-slider {
+  transform: scale(0.9) translateX(0.25rem);
+}
+
+.morphing-toggle.active:active .morphing-toggle-slider {
+  transform: scale(0.9) translateX(1.5rem);
+}
+
+/* Loading State Enhancements */
+.morphing-button.loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Success State Animation */
+.morphing-button.success {
+  animation: successPulse 0.5s ease-out;
+}
+
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1.1); }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>

@@ -7,6 +7,7 @@ export default function ForgivingFormatPattern() {
   const [creditCard, setCreditCard] = useState('');
   const [date, setDate] = useState('');
   const [email, setEmail] = useState('');
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   const normalizePhoneNumber = (input: string) => {
     // Remove all non-digit characters
@@ -235,8 +236,35 @@ export default function ForgivingFormatPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
+            
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
             <div className="code-block">
-              <pre className="text-sm leading-relaxed">
+              {activeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
 {`'use client';
 
 import { useState } from 'react';
@@ -339,7 +367,311 @@ export default function ForgivingFormatPattern() {
     </div>
   );
 }`}
-              </pre>
+                </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`/* Forgiving Format CSS */
+
+/* Container */
+.forgiving-format-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Field Container */
+.field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Field Label */
+.field-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+/* Input Field */
+.format-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: white;
+  position: relative;
+}
+
+.format-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Input States */
+.format-input.valid {
+  border-color: #10b981;
+  background-color: #f0fdfa;
+}
+
+.format-input.valid:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.format-input.invalid {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.format-input.invalid:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Status Icons */
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.status-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.125rem;
+  pointer-events: none;
+}
+
+.status-icon.valid {
+  color: #10b981;
+}
+
+.status-icon.invalid {
+  color: #ef4444;
+}
+
+/* Examples Text */
+.examples-text {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.examples-label {
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Status Messages */
+.status-message {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.status-message.valid {
+  color: #059669;
+}
+
+.status-message.invalid {
+  color: #dc2626;
+}
+
+/* Phone Number Formatting */
+.phone-input {
+  font-family: monospace;
+  letter-spacing: 0.025em;
+}
+
+/* Credit Card Formatting */
+.credit-card-input {
+  font-family: monospace;
+  letter-spacing: 0.1em;
+}
+
+/* Date Formatting */
+.date-input {
+  font-family: monospace;
+}
+
+/* Email Formatting */
+.email-input {
+  font-family: inherit;
+  text-transform: lowercase;
+}
+
+/* Auto-format Animation */
+.format-input.formatting {
+  animation: formatPulse 0.3s ease;
+}
+
+@keyframes formatPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* Validation Animations */
+.format-input.valid {
+  animation: validPulse 0.5s ease;
+}
+
+@keyframes validPulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.format-input.invalid {
+  animation: invalidShake 0.5s ease;
+}
+
+@keyframes invalidShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .forgiving-format-container {
+    padding: 1rem;
+  }
+  
+  .format-input {
+    padding: 0.625rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .field-label {
+    color: #f9fafb;
+  }
+  
+  .format-input {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .format-input:focus {
+    border-color: #60a5fa;
+  }
+  
+  .format-input.valid {
+    background-color: #064e3b;
+    border-color: #10b981;
+  }
+  
+  .format-input.valid:focus {
+    border-color: #34d399;
+  }
+  
+  .format-input.invalid {
+    background-color: #450a0a;
+    border-color: #ef4444;
+  }
+  
+  .format-input.invalid:focus {
+    border-color: #f87171;
+  }
+  
+  .examples-text {
+    color: #9ca3af;
+  }
+  
+  .examples-label {
+    color: #f9fafb;
+  }
+}
+
+/* Accessibility */
+.format-input:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Placeholder Styling */
+.format-input::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Loading State */
+.format-input.loading {
+  background-image: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Enhanced Focus States */
+.format-input:hover {
+  border-color: #9ca3af;
+}
+
+/* Format Hint Tooltip */
+.format-hint {
+  position: relative;
+  cursor: help;
+}
+
+.format-hint::after {
+  content: attr(data-hint);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.format-hint:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Success and Error Icons Animation */
+.status-icon {
+  animation: iconFadeIn 0.3s ease;
+}
+
+@keyframes iconFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>
@@ -402,6 +734,47 @@ export default function ForgivingFormatPattern() {
             <div className="text-2xl mb-2">📅</div>
             <h4 className="font-medium text-gray-800 dark:text-gray-200">Date Input</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400">Accept dates in multiple formats</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Best Practices */}
+      <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-yellow-200 dark:border-yellow-800">
+        <h3 className="text-lg font-semibold mb-4 text-yellow-800 dark:text-yellow-200">
+          💡 Best Practices
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-3">
+            <div className="flex items-start space-x-2">
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">1.</span>
+              <div>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">Show Examples</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Provide clear examples of accepted formats</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-2">
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">2.</span>
+              <div>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">Real-time Feedback</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Show formatting and validation status as users type</p>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-start space-x-2">
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">3.</span>
+              <div>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">Preserve Intent</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Keep user input structure when possible</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-2">
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">4.</span>
+              <div>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">Graceful Degradation</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Handle edge cases without breaking the experience</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

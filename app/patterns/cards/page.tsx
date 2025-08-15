@@ -11,7 +11,7 @@ export default function CardsPattern() {
       id: 1,
       title: 'Product Design',
       description: 'Learn the fundamentals of creating beautiful and functional user interfaces with modern design principles.',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjM0I4MkY2Ii8+CjxyZWN0IHg9IjQwIiB5PSI0MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiByeD0iOCIgZmlsbD0id2hpdGUiLz4KPHN2Zz4K',
+      image: '/next.svg',
       category: 'Design',
       rating: 4.8,
       students: 1247
@@ -20,7 +20,7 @@ export default function CardsPattern() {
       id: 2,
       title: 'React Development',
       description: 'Master React.js with hands-on projects and real-world applications. Build scalable web applications.',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjMTA5OTgxIi8+CjxyZWN0IHg9IjQwIiB5PSI0MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiByeD0iOCIgZmlsbD0id2hpdGUiLz4KPHN2Zz4K',
+      image: '/vercel.svg',
       category: 'Development',
       rating: 4.9,
       students: 2156
@@ -29,7 +29,7 @@ export default function CardsPattern() {
       id: 3,
       title: 'Data Science',
       description: 'Explore data analysis, machine learning, and statistical modeling with Python and modern tools.',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjU5RTBCIi8+CjxyZWN0IHg9IjQwIiB5PSI0MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjcwIiByeD0iOCIgZmlsbD0id2hpdGUiLz4KPHN2Zz4K',
+      image: '/file.svg',
       category: 'Analytics',
       rating: 4.7,
       students: 892
@@ -135,7 +135,7 @@ export default function CardsPattern() {
       id: 1,
       title: 'Product Design',
       description: 'Learn the fundamentals of creating beautiful and functional user interfaces.',
-      image: '/api/placeholder/150/150',
+      image: '/next.svg',
       category: 'Design',
       rating: 4.8,
       students: 1247
@@ -144,7 +144,7 @@ export default function CardsPattern() {
       id: 2,
       title: 'React Development',
       description: 'Master React.js with hands-on projects and real-world applications.',
-      image: '/api/placeholder/150/150',
+      image: '/vercel.svg',
       category: 'Development',
       rating: 4.9,
       students: 2156
@@ -153,7 +153,7 @@ export default function CardsPattern() {
       id: 3,
       title: 'Data Science',
       description: 'Explore data analysis, machine learning, and statistical modeling.',
-      image: '/api/placeholder/150/150',
+      image: '/file.svg',
       category: 'Analytics',
       rating: 4.7,
       students: 892
