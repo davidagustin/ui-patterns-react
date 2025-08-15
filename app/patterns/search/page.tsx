@@ -271,7 +271,7 @@ export default function SearchPattern() {
                             {highlightText(item.content, query)}
                           </p>
                           <div className="flex flex-wrap gap-1">
-                            {item.tags.map((tag, index) => (
+                            {item.tags.map((tag: string, index: number) => (
                               <span
                                 key={index}
                                 className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded"

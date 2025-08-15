@@ -15,14 +15,14 @@ export default function CategorizationPattern() {
   ];
 
   const items = [
-    { id: 1, name: 'Wireless Headphones', category: 'electronics', price: '$199.99', image: 'https://via.placeholder.com/150' },
-    { id: 2, name: 'Cotton T-Shirt', category: 'clothing', price: '$29.99', image: 'https://via.placeholder.com/150' },
-    { id: 3, name: 'JavaScript Guide', category: 'books', price: '$39.99', image: 'https://via.placeholder.com/150' },
-    { id: 4, name: 'Bluetooth Speaker', category: 'electronics', price: '$89.99', image: 'https://via.placeholder.com/150' },
-    { id: 5, name: 'Garden Tools Set', category: 'home', price: '$79.99', image: 'https://via.placeholder.com/150' },
-    { id: 6, name: 'Denim Jeans', category: 'clothing', price: '$69.99', image: 'https://via.placeholder.com/150' },
-    { id: 7, name: 'React Cookbook', category: 'books', price: '$45.99', image: 'https://via.placeholder.com/150' },
-    { id: 8, name: 'Smart Watch', category: 'electronics', price: '$299.99', image: 'https://via.placeholder.com/150' }
+    { id: 1, name: 'Wireless Headphones', category: 'electronics', price: '$199.99', image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRTVFN0VCIi8+CjxyZWN0IHg9IjUwIiB5PSI1MCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iNCIgZmlsbD0iIzZCNzI4MCIvPgo8L3N2Zz4K' },
+    { id: 2, name: 'Cotton T-Shirt', category: 'clothing', price: '$29.99', image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRTVFN0VCIi8+CjxyZWN0IHg9IjUwIiB5PSI1MCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iNCIgZmlsbD0iIzZCNzI4MCIvPgo8L3N2Zz4K' },
+    { id: 3, name: 'JavaScript Guide', category: 'books', price: '$39.99', image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRTVFN0VCIi8+CjxyZWN0IHg9IjUwIiB5PSI1MCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iNCIgZmlsbD0iIzZCNzI4MCIvPgo8L3N2Zz4K' },
+    { id: 4, name: 'Bluetooth Speaker', category: 'electronics', price: '$89.99', image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRTVFN0VCIi8+CjxyZWN0IHg9IjUwIiB5PSI1MCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iNCIgZmlsbD0iIzZCNzI4MCIvPgo8L3N2Zz4K' },
+    { id: 5, name: 'Garden Tools Set', category: 'home', price: '$79.99', image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRTVFN0VCIi8+CjxyZWN0IHg9IjUwIiB5PSI1MCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iNCIgZmlsbD0iIzZCNzI4MCIvPgo8L3N2Zz4K' },
+    { id: 6, name: 'Denim Jeans', category: 'clothing', price: '$69.99', image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRTVFN0VCIi8+CjxyZWN0IHg9IjUwIiB5PSI1MCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iNCIgZmlsbD0iIzZCNzI4MCIvPgo8L3N2Zz4K' },
+    { id: 7, name: 'React Cookbook', category: 'books', price: '$45.99', image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRTVFN0VCIi8+CjxyZWN0IHg9IjUwIiB5PSI1MCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iNCIgZmlsbD0iIzZCNzI4MCIvPgo8L3N2Zz4K' },
+    { id: 8, name: 'Smart Watch', category: 'electronics', price: '$299.99', image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRTVFN0VCIi8+CjxyZWN0IHg9IjUwIiB5PSI1MCIgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiByeD0iNCIgZmlsbD0iIzZCNzI4MCIvPgo8L3N2Zz4K' }
   ];
 
   const filteredItems = selectedCategory === 'all' 

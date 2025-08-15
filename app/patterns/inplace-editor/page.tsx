@@ -40,7 +40,7 @@ export default function InplaceEditorPattern() {
     }
   };
 
-  const renderEditableField = (field: string, label: string, type: 'text' | 'textarea' = 'text') => {
+  const renderEditableField = (field: keyof typeof userData, label: string, type: 'text' | 'textarea' = 'text') => {
     const isEditing = editingField === field;
     const value = isEditing ? tempValues[field] : userData[field];
 

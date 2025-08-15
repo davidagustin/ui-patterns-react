@@ -1,0 +1,515 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function NavigationTabsPattern() {
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
+
+  const navigationTabs = [
+    { id: 'dashboard', label: 'Dashboard', icon: '📊', href: '/dashboard', badge: null },
+    { id: 'projects', label: 'Projects', icon: '📁', href: '/projects', badge: 5 },
+    { id: 'team', label: 'Team', icon: '👥', href: '/team', badge: null },
+    { id: 'analytics', label: 'Analytics', icon: '📈', href: '/analytics', badge: 'New' },
+    { id: 'settings', label: 'Settings', icon: '⚙️', href: '/settings', badge: null },
+    { id: 'help', label: 'Help', icon: '❓', href: '/help', badge: null },
+  ];
+
+  const handleTabClick = (tabId: string) => {
+    setActiveTab(tabId);
+    // In a real application, this would handle navigation
+    console.log(`Navigating to: ${tabId}`);
+  };
+
+  return (
+    <div className="space-y-8">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          🧭 Navigation Tabs Pattern
+        </h1>
+        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          Primary navigation tabs provide the main structure of your application, allowing users to switch between top-level sections.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Interactive Example */}
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+            <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
+              🎯 Interactive Example
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+              Click on different navigation tabs to see how they work as primary navigation. Notice the active states and badges.
+            </p>
+            
+            {/* Navigation Tabs */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <nav className="flex bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                {navigationTabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => handleTabClick(tab.id)}
+                    className={`flex items-center space-x-2 px-4 py-3 font-medium text-sm relative transition-all duration-200 border-b-2 ${
+                      activeTab === tab.id
+                        ? 'text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-800 border-blue-600 dark:border-blue-400'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 border-transparent'
+                    }`}
+                  >
+                    <span className="text-base">{tab.icon}</span>
+                    <span>{tab.label}</span>
+                    {tab.badge && (
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                        typeof tab.badge === 'number'
+                          ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                          : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                      }`}>
+                        {tab.badge}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </nav>
+
+              {/* Tab Content Area */}
+              <div className="p-6">
+                <div className="text-center py-8">
+                  <div className="text-6xl mb-4">
+                    {navigationTabs.find(tab => tab.id === activeTab)?.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                    {navigationTabs.find(tab => tab.id === activeTab)?.label} Section
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    This would be the main content area for the {navigationTabs.find(tab => tab.id === activeTab)?.label.toLowerCase()} section of your application.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile Navigation Example */}
+            <div className="mt-6">
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Mobile Navigation</h3>
+              <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 max-w-sm">
+                <div className="grid grid-cols-3 gap-2">
+                  {navigationTabs.slice(0, 6).map((tab) => (
+                    <button
+                      key={`mobile-${tab.id}`}
+                      onClick={() => handleTabClick(tab.id)}
+                      className={`flex flex-col items-center p-3 rounded-lg text-xs transition-colors ${
+                        activeTab === tab.id
+                          ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                      }`}
+                    >
+                      <span className="text-lg mb-1">{tab.icon}</span>
+                      <span className="font-medium">{tab.label}</span>
+                      {tab.badge && (
+                        <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
+                          {typeof tab.badge === 'number' ? tab.badge : '!'}
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Code Example */}
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+            
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setCodeTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  codeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setCodeTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  codeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {codeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
+{`import { useState } from 'react';
+import Link from 'next/link';
+
+export default function NavigationTabs() {
+  const [activeTab, setActiveTab] = useState('dashboard');
+
+  const navigationTabs = [
+    { id: 'dashboard', label: 'Dashboard', icon: '📊', href: '/dashboard', badge: null },
+    { id: 'projects', label: 'Projects', icon: '📁', href: '/projects', badge: 5 },
+    { id: 'team', label: 'Team', icon: '👥', href: '/team', badge: null },
+    { id: 'analytics', label: 'Analytics', icon: '📈', href: '/analytics', badge: 'New' },
+    { id: 'settings', label: 'Settings', icon: '⚙️', href: '/settings', badge: null },
+  ];
+
+  const handleTabClick = (tabId: string) => {
+    setActiveTab(tabId);
+    // Handle navigation logic here
+  };
+
+  return (
+    <div className="navigation-container">
+      <nav className="navigation-tabs">
+        {navigationTabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => handleTabClick(tab.id)}
+            className={\`nav-tab \${activeTab === tab.id ? 'nav-tab-active' : ''}\`}
+          >
+            <span className="nav-tab-icon">{tab.icon}</span>
+            <span className="nav-tab-label">{tab.label}</span>
+            {tab.badge && (
+              <span className={\`nav-badge \${typeof tab.badge === 'number' ? 'nav-badge-count' : 'nav-badge-new'}\`}>
+                {tab.badge}
+              </span>
+            )}
+          </button>
+        ))}
+      </nav>
+
+      <main className="nav-content">
+        {/* Main application content */}
+        <div className="content-area">
+          <h1>{navigationTabs.find(tab => tab.id === activeTab)?.label}</h1>
+          <p>Content for the {activeTab} section...</p>
+        </div>
+      </main>
+    </div>
+  );
+}`}
+                </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`/* Navigation Container */
+.navigation-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Navigation Tabs */
+.navigation-tabs {
+  display: flex;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Individual Tab */
+.nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  color: #6b7280;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  position: relative;
+}
+
+.nav-tab:hover {
+  color: #374151;
+  background-color: #f3f4f6;
+}
+
+/* Active Tab */
+.nav-tab-active {
+  color: #3b82f6;
+  background-color: white;
+  border-bottom-color: #3b82f6;
+}
+
+/* Tab Icon */
+.nav-tab-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Tab Label */
+.nav-tab-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Badge Styles */
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.nav-badge-count {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.nav-badge-new {
+  background-color: #f0fdf4;
+  color: #16a34a;
+}
+
+/* Content Area */
+.nav-content {
+  flex: 1;
+  background-color: white;
+}
+
+.content-area {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navigation-tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .navigation-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .nav-tab-label {
+    font-size: 0.75rem;
+  }
+}
+
+/* Mobile Grid Layout */
+@media (max-width: 640px) {
+  .navigation-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.25rem;
+    padding: 0.5rem;
+    background-color: white;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .nav-tab {
+    flex-direction: column;
+    padding: 0.5rem 0.25rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    border-bottom: none;
+  }
+  
+  .nav-tab-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .nav-tab-label {
+    font-size: 0.625rem;
+  }
+  
+  .nav-content {
+    padding-bottom: 80px; /* Space for mobile nav */
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .navigation-tabs {
+    background-color: #1f2937;
+    border-bottom-color: #374151;
+  }
+  
+  .nav-tab {
+    color: #9ca3af;
+  }
+  
+  .nav-tab:hover {
+    color: #d1d5db;
+    background-color: #374151;
+  }
+  
+  .nav-tab-active {
+    color: #60a5fa;
+    background-color: #111827;
+  }
+  
+  .nav-badge-count {
+    background-color: #7f1d1d;
+    color: #fca5a5;
+  }
+  
+  .nav-badge-new {
+    background-color: #14532d;
+    color: #86efac;
+  }
+  
+  .nav-content {
+    background-color: #111827;
+  }
+}
+
+/* Focus States */
+.nav-tab:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Accessibility */
+.nav-tab[aria-current="page"] {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+}
+
+/* Animation */
+.nav-tab {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-tab:hover {
+  transform: translateY(-1px);
+}
+
+/* Badge Animation */
+.nav-badge {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .nav-tab {
+    border: 1px solid transparent;
+  }
+  
+  .nav-tab:hover,
+  .nav-tab-active {
+    border-color: currentColor;
+  }
+}`}
+                </pre>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Key Features */}
+      <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+        <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
+          ✨ Key Features
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="flex items-start space-x-3">
+            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <div>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Primary Navigation</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Main application sections and top-level navigation</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-3">
+            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <div>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Badge Support</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Show notifications, counts, or status indicators</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-3">
+            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <div>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Responsive Design</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Adapts to mobile with grid layout</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-3">
+            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <div>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">Active State</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indication of current section</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Use Cases */}
+      <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
+        <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">
+          🎯 Common Use Cases
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
+            <div className="text-2xl mb-2">🏢</div>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">Admin Dashboards</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Main navigation for admin panels and dashboards</p>
+          </div>
+          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
+            <div className="text-2xl mb-2">📱</div>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">Mobile Apps</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Primary navigation for mobile applications</p>
+          </div>
+          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
+            <div className="text-2xl mb-2">🌐</div>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">Web Applications</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Main sections for web apps and portals</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

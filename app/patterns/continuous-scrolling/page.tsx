@@ -18,7 +18,7 @@ export default function ContinuousScrollingPattern() {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const observer = useRef<IntersectionObserver>();
+  const observer = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
 
   // Generate mock data
@@ -265,7 +265,7 @@ export default function ContinuousScrollingPattern() {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-  const observer = useRef<IntersectionObserver>();
+  const observer = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
 
   // Generate mock data

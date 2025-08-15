@@ -29,7 +29,7 @@ export default function SettingsPattern() {
     setSettings(prev => ({
       ...prev,
       [category]: {
-        ...prev[category as keyof typeof prev],
+        ...(prev[category as keyof typeof prev] as any),
         [key]: value
       }
     }));

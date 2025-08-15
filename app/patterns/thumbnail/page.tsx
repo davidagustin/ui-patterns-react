@@ -289,6 +289,473 @@ export default function ThumbnailGallery() {
         </div>
       </div>
 
+      {/* Code Example */}
+      <div className="space-y-6">
+        <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+            💻 Code Example
+          </h2>
+          
+          {/* Tab Navigation */}
+          <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+            <button
+              onClick={() => setActiveTab('jsx')}
+              className={`px-4 py-2 font-medium transition-colors ${
+                activeTab === 'jsx'
+                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+              }`}
+            >
+              JSX
+            </button>
+            <button
+              onClick={() => setActiveTab('css')}
+              className={`px-4 py-2 font-medium transition-colors ${
+                activeTab === 'css'
+                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+              }`}
+            >
+              CSS
+            </button>
+          </div>
+
+          {/* Tab Content */}
+          <div className="code-block">
+            {activeTab === 'jsx' ? (
+              <pre className="text-sm leading-relaxed">
+{`import { useState } from 'react';
+
+export default function ThumbnailGallery() {
+  const [selectedImage, setSelectedImage] = useState(0);
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  const images = [
+    { id: 1, title: 'Mountain Landscape', src: '/images/mountain.jpg' },
+    { id: 2, title: 'Ocean View', src: '/images/ocean.jpg' },
+    { id: 3, title: 'Forest Path', src: '/images/forest.jpg' }
+  ];
+
+  return (
+    <div className="thumbnail-gallery">
+      {/* Main Image Display */}
+      <div className="main-image-container">
+        <div 
+          className={\`main-image \${isZoomed ? 'zoomed' : ''}\`}
+          onClick={() => setIsZoomed(!isZoomed)}
+        >
+          <img
+            src={images[selectedImage].src}
+            alt={images[selectedImage].title}
+            className="main-image-img"
+          />
+          
+          {/* Image Overlay */}
+          <div className="image-overlay">
+            <div className="image-info">
+              <h3 className="image-title">
+                {images[selectedImage].title}
+              </h3>
+            </div>
+          </div>
+        </div>
+        
+        {/* Navigation Arrows */}
+        <button
+          onClick={() => setSelectedImage(prev => 
+            prev > 0 ? prev - 1 : images.length - 1
+          )}
+          className="nav-button nav-prev"
+        >
+          ←
+        </button>
+        <button
+          onClick={() => setSelectedImage(prev => 
+            prev < images.length - 1 ? prev + 1 : 0
+          )}
+          className="nav-button nav-next"
+        >
+          →
+        </button>
+      </div>
+
+      {/* Thumbnail Grid */}
+      <div className="thumbnail-grid">
+        {images.map((image, index) => (
+          <button
+            key={image.id}
+            onClick={() => setSelectedImage(index)}
+            className={\`thumbnail-item \${selectedImage === index ? 'selected' : ''}\`}
+          >
+            <img
+              src={image.src}
+              alt={image.title}
+              className="thumbnail-img"
+            />
+            {selectedImage === index && (
+              <div className="thumbnail-selected">
+                <div className="selected-indicator">✓</div>
+              </div>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Image Info */}
+      <div className="image-info-panel">
+        <h4 className="info-title">
+          {images[selectedImage].title}
+        </h4>
+        <div className="info-meta">
+          <span>Image {selectedImage + 1} of {images.length}</span>
+        </div>
+      </div>
+    </div>
+  );
+}`}
+              </pre>
+            ) : (
+              <pre className="text-sm leading-relaxed">
+{`/* Thumbnail Gallery Container */
+.thumbnail-gallery {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Main Image Container */
+.main-image-container {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.main-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  cursor: zoom-in;
+  transition: transform 0.3s ease;
+}
+
+.main-image.zoomed {
+  transform: scale(1.1);
+  cursor: zoom-out;
+}
+
+.main-image-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* Image Overlay */
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.main-image:hover .image-overlay {
+  opacity: 1;
+}
+
+.image-info {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  color: white;
+}
+
+.image-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Navigation Buttons */
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 1.25rem;
+}
+
+.nav-button:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.nav-prev {
+  left: 1rem;
+}
+
+.nav-next {
+  right: 1rem;
+}
+
+/* Thumbnail Grid */
+.thumbnail-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.thumbnail-item {
+  position: relative;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: none;
+}
+
+.thumbnail-item:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail-item.selected {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.thumbnail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-selected {
+  position: absolute;
+  inset: 0;
+  background: rgba(59, 130, 246, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected-indicator {
+  background: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Image Info Panel */
+.image-info-panel {
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.info-title {
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+}
+
+.info-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Controls */
+.thumbnail-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.control-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.control-select {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background: white;
+}
+
+.control-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.control-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.control-checkbox input {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .thumbnail-gallery {
+    padding: 0.5rem;
+  }
+  
+  .main-image-img {
+    height: 300px;
+  }
+  
+  .nav-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+  
+  .thumbnail-item {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .thumbnail-grid {
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-image-img {
+    height: 250px;
+  }
+  
+  .nav-button {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.875rem;
+  }
+  
+  .nav-prev {
+    left: 0.5rem;
+  }
+  
+  .nav-next {
+    right: 0.5rem;
+  }
+  
+  .thumbnail-item {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .thumbnail-controls {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .thumbnail-item {
+    border-color: #374151;
+  }
+  
+  .thumbnail-item:hover {
+    border-color: #60a5fa;
+  }
+  
+  .thumbnail-item.selected {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+  }
+  
+  .thumbnail-selected {
+    background: rgba(96, 165, 250, 0.2);
+  }
+  
+  .selected-indicator {
+    background: #60a5fa;
+  }
+  
+  .image-info-panel {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .info-title {
+    color: #f9fafb;
+  }
+  
+  .info-meta {
+    color: #9ca3af;
+  }
+  
+  .thumbnail-controls {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .control-label {
+    color: #d1d5db;
+  }
+  
+  .control-select {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .control-select:focus {
+    border-color: #60a5fa;
+  }
+}`}
+              </pre>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">

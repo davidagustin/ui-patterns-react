@@ -7,6 +7,7 @@ export default function BottomNavigationPattern() {
   const [activeNavItem, setActiveNavItem] = useState('home');
   const [activeBadgeItem, setActiveBadgeItem] = useState('home');
   const [activeFloatingItem, setActiveFloatingItem] = useState('home');
+  const [activeGestureItem, setActiveGestureItem] = useState('home');
 
   const basicNavItems = [
     { id: 'home', label: 'Home', icon: '🏠' },
@@ -199,6 +200,87 @@ export default function BottomNavigationPattern() {
                   </div>
                 </div>
               </div>
+
+              {/* Gesture-Enhanced Bottom Navigation */}
+              <div className="space-y-3">
+                <h3 className="font-medium text-gray-800 dark:text-gray-200">4. With Gesture Support</h3>
+                <div className="relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                  {/* Mock Content Area with Swipe Indicator */}
+                  <div className="h-40 p-6 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-700">
+                    <div className="text-center">
+                      <div className="text-4xl mb-2">
+                        {basicNavItems.find(item => item.id === activeGestureItem)?.icon}
+                      </div>
+                      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                        {basicNavItems.find(item => item.id === activeGestureItem)?.label} Screen
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                        Swipe left/right or tap tabs to navigate
+                      </p>
+                    </div>
+                    
+                    {/* Swipe Indicator */}
+                    <div className="flex items-center mt-4 space-x-2">
+                      <span className="text-xs text-gray-500">← Swipe</span>
+                      <div className="flex space-x-1">
+                        {basicNavItems.map((item, index) => (
+                          <div
+                            key={item.id}
+                            className={`w-2 h-2 rounded-full transition-colors ${
+                              activeGestureItem === item.id
+                                ? 'bg-blue-600'
+                                : 'bg-gray-300 dark:bg-gray-600'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-xs text-gray-500">Swipe →</span>
+                    </div>
+                  </div>
+
+                  {/* Bottom Navigation with Enhanced Interactions */}
+                  <div className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+                    <nav className="flex relative">
+                      {/* Active Indicator */}
+                      <div 
+                        className="absolute top-0 h-1 bg-blue-600 transition-all duration-300 ease-out"
+                        style={{
+                          width: `${100 / basicNavItems.length}%`,
+                          transform: `translateX(${basicNavItems.findIndex(item => item.id === activeGestureItem) * 100}%)`
+                        }}
+                      />
+                      
+                      {basicNavItems.map((item, index) => (
+                        <button
+                          key={item.id}
+                          onClick={() => setActiveGestureItem(item.id)}
+                          onMouseEnter={() => {
+                            // Add haptic feedback simulation
+                            if (navigator.vibrate) navigator.vibrate(10);
+                          }}
+                          className={`flex-1 flex flex-col items-center py-3 px-2 transition-all duration-200 transform hover:scale-105 ${
+                            activeGestureItem === item.id
+                              ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                              : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400'
+                          }`}
+                        >
+                          <span className={`text-xl mb-1 transition-transform duration-200 ${
+                            activeGestureItem === item.id ? 'scale-110' : ''
+                          }`}>
+                            {item.icon}
+                          </span>
+                          <span className="text-xs font-medium">{item.label}</span>
+                          
+                          {/* Ripple Effect Container */}
+                          <div className="absolute inset-0 overflow-hidden rounded-lg">
+                            <div className="absolute inset-0 bg-blue-600 opacity-0 scale-0 rounded-full transition-all duration-300 hover:opacity-10 hover:scale-150" />
+                          </div>
+                        </button>
+                      ))}
+                    </nav>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="mt-6 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -207,7 +289,9 @@ export default function BottomNavigationPattern() {
                 <div>• Active state indicators with color changes</div>
                 <div>• Notification badges with count display</div>
                 <div>• Floating action button with shadow effects</div>
+                <div>• Gesture support with haptic feedback</div>
                 <div>• Smooth hover and transition animations</div>
+                <div>• Ripple effects and scale transformations</div>
                 <div>• Responsive design for different screen sizes</div>
               </div>
             </div>

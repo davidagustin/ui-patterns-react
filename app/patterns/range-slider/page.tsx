@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 
 export default function RangeSliderPattern() {
   const [singleValue, setSingleValue] = useState(50);
-  const [rangeValue, setRangeValue] = useState([20, 80]);
-  const [priceRange, setPriceRange] = useState([100, 500]);
+  const [rangeValue, setRangeValue] = useState<[number, number]>([20, 80]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([100, 500]);
   const [volume, setVolume] = useState(75);
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
@@ -374,7 +374,7 @@ export default function RangeSliderPattern() {
                 <pre className="text-sm leading-relaxed">
 {`'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 
 const RangeSlider = ({ 
   min = 0, 
@@ -511,7 +511,7 @@ const SingleSlider = ({
 };
 
 export default function RangeSliderPattern() {
-  const [rangeValue, setRangeValue] = useState([20, 80]);
+  const [rangeValue, setRangeValue] = useState<[number, number]>([20, 80]);
   const [singleValue, setSingleValue] = useState(50);
 
   return (

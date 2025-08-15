@@ -7,6 +7,8 @@ export default function NavbarPattern() {
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const navigationItems = [
     { name: 'Home', href: '#', current: true },
@@ -21,6 +23,18 @@ export default function NavbarPattern() {
     { id: 2, title: 'Payment processed', time: '1 hour ago', unread: true },
     { id: 3, title: 'Shipment delivered', time: '3 hours ago', unread: false },
   ];
+
+  const searchSuggestions = [
+    { id: 1, title: 'Dashboard Analytics', type: 'page', icon: '📊' },
+    { id: 2, title: 'User Management', type: 'page', icon: '👥' },
+    { id: 3, title: 'Product Settings', type: 'setting', icon: '⚙️' },
+    { id: 4, title: 'Order Reports', type: 'report', icon: '📋' },
+    { id: 5, title: 'Email Templates', type: 'template', icon: '✉️' },
+  ];
+
+  const filteredSuggestions = searchSuggestions.filter(suggestion =>
+    suggestion.title.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <div className="space-y-8">
@@ -78,19 +92,87 @@ export default function NavbarPattern() {
 
                   {/* Right Side Items */}
                   <div className="flex items-center space-x-4">
-                    {/* Search */}
+                    {/* Enhanced Search with Dropdown */}
                     <div className="hidden lg:block">
                       <div className="relative">
                         <input
                           type="text"
-                          placeholder="Search..."
-                          className="w-64 px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Search pages, settings, reports..."
+                          value={searchValue}
+                          onChange={(e) => setSearchValue(e.target.value)}
+                          onFocus={() => setIsSearchFocused(true)}
+                          onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+                          className="w-64 px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         />
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                           <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
                         </div>
+                        
+                        {/* Search Dropdown */}
+                        {isSearchFocused && (searchValue || true) && (
+                          <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+                            {searchValue ? (
+                              filteredSuggestions.length > 0 ? (
+                                <div className="py-1">
+                                  {filteredSuggestions.map((suggestion) => (
+                                    <button
+                                      key={suggestion.id}
+                                      onClick={() => {
+                                        setSearchValue(suggestion.title);
+                                        setIsSearchFocused(false);
+                                        console.log(`Navigating to: ${suggestion.title}`);
+                                      }}
+                                      className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                    >
+                                      <span className="text-lg">{suggestion.icon}</span>
+                                      <div className="flex-1 text-left">
+                                        <div className="font-medium">{suggestion.title}</div>
+                                        <div className="text-xs text-gray-500 dark:text-gray-400 capitalize">{suggestion.type}</div>
+                                      </div>
+                                      <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                      </svg>
+                                    </button>
+                                  ))}
+                                </div>
+                              ) : (
+                                <div className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
+                                  No results found for "{searchValue}"
+                                </div>
+                              )
+                            ) : (
+                              <div className="py-1">
+                                <div className="px-4 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                  Recent Searches
+                                </div>
+                                {searchSuggestions.slice(0, 3).map((suggestion) => (
+                                  <button
+                                    key={suggestion.id}
+                                    onClick={() => {
+                                      setSearchValue(suggestion.title);
+                                      setIsSearchFocused(false);
+                                      console.log(`Navigating to: ${suggestion.title}`);
+                                    }}
+                                    className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                  >
+                                    <span className="text-lg">{suggestion.icon}</span>
+                                    <div className="flex-1 text-left">
+                                      <div className="font-medium">{suggestion.title}</div>
+                                      <div className="text-xs text-gray-500 dark:text-gray-400 capitalize">{suggestion.type}</div>
+                                    </div>
+                                  </button>
+                                ))}
+                                <div className="border-t border-gray-200 dark:border-gray-700 mt-1 pt-1">
+                                  <div className="px-4 py-2 text-xs text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer">
+                                    View all search options
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
 

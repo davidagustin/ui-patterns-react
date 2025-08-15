@@ -30,7 +30,7 @@ export default function SortColumnPattern() {
       let bValue = b[sortField as keyof typeof b];
 
       // Handle different data types
-      if (typeof aValue === 'string') {
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
         aValue = aValue.toLowerCase();
         bValue = bValue.toLowerCase();
       }

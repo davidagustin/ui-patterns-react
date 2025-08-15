@@ -8,6 +8,8 @@ export default function DropdownMenuPattern() {
   const [isMultiLevelOpen, setIsMultiLevelOpen] = useState(false);
   const [isContextOpen, setIsContextOpen] = useState(false);
   const [contextPosition, setContextPosition] = useState({ x: 0, y: 0 });
+  const [isKeyboardMenuOpen, setIsKeyboardMenuOpen] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
   
   const basicRef = useRef<HTMLDivElement>(null);
   const multiLevelRef = useRef<HTMLDivElement>(null);
@@ -262,6 +264,85 @@ export default function DropdownMenuPattern() {
                   )}
                 </div>
               </div>
+
+              {/* Keyboard Navigation Dropdown */}
+              <div className="space-y-2">
+                <h3 className="font-medium text-gray-800 dark:text-gray-200">Keyboard Navigation Menu</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">Use Tab to focus, Enter to open, Arrow keys to navigate, Esc to close</p>
+                <div className="relative inline-block">
+                  <button
+                    onClick={() => {
+                      setIsKeyboardMenuOpen(!isKeyboardMenuOpen);
+                      setFocusedIndex(-1);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setIsKeyboardMenuOpen(!isKeyboardMenuOpen);
+                        setFocusedIndex(0);
+                      } else if (e.key === 'ArrowDown' && isKeyboardMenuOpen) {
+                        e.preventDefault();
+                        setFocusedIndex(prev => prev < menuItems.length - 1 ? prev + 1 : 0);
+                      } else if (e.key === 'ArrowUp' && isKeyboardMenuOpen) {
+                        e.preventDefault();
+                        setFocusedIndex(prev => prev > 0 ? prev - 1 : menuItems.length - 1);
+                      } else if (e.key === 'Escape') {
+                        setIsKeyboardMenuOpen(false);
+                        setFocusedIndex(-1);
+                      }
+                    }}
+                    className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                  >
+                    <span className="text-gray-700 dark:text-gray-300">Keyboard Menu</span>
+                    <svg 
+                      className={`w-4 h-4 text-gray-500 transition-transform ${isKeyboardMenuOpen ? 'rotate-180' : ''}`} 
+                      fill="none" 
+                      viewBox="0 0 24 24" 
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  
+                  {isKeyboardMenuOpen && (
+                    <div className="absolute top-full left-0 mt-1 w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-10">
+                      <div className="py-1">
+                        {menuItems.map((item, index) => (
+                          <button
+                            key={item.id}
+                            onClick={() => {
+                              console.log(`Clicked: ${item.label}`);
+                              setIsKeyboardMenuOpen(false);
+                              setFocusedIndex(-1);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                                console.log(`Selected: ${item.label}`);
+                                setIsKeyboardMenuOpen(false);
+                                setFocusedIndex(-1);
+                              }
+                            }}
+                            className={`w-full flex items-center justify-between px-4 py-2 text-sm transition-colors ${
+                              focusedIndex === index
+                                ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                                : item.danger
+                                ? 'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20'
+                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                            }`}
+                          >
+                            <div className="flex items-center space-x-3">
+                              <span>{item.icon}</span>
+                              <span>{item.label}</span>
+                            </div>
+                            <span className="text-xs text-gray-400 dark:text-gray-500">{item.shortcut}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="mt-6 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
@@ -270,7 +351,9 @@ export default function DropdownMenuPattern() {
                 <div>• Basic dropdown with icons and keyboard shortcuts</div>
                 <div>• Multi-level menu with hover-triggered submenus</div>
                 <div>• Context menu activated by right-click</div>
+                <div>• Full keyboard navigation with arrow keys</div>
                 <div>• Click outside to close all menus</div>
+                <div>• Focus management and accessibility support</div>
                 <div>• Smooth animations and hover effects</div>
               </div>
             </div>
