@@ -8,10 +8,12 @@ export default function ExpandableInputPattern() {
   const [notes, setNotes] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState('');
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const notesRef = useRef<HTMLTextAreaElement>(null);
+  const tagInputRef = useRef<HTMLInputElement>(null);
 
   // Auto-resize textarea
   const adjustHeight = (element: HTMLTextAreaElement | null) => {
@@ -177,8 +179,34 @@ export default function ExpandableInputPattern() {
               💻 Code Example
             </h2>
             
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
             <div className="code-block">
-              <pre className="text-sm leading-relaxed">
+              {activeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
 {`'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -273,6 +301,199 @@ export default function ExpandableInputExample() {
   );
 }`}
               </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`.expandable-input-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.expandable-textarea {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: none;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+}
+
+.expandable-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.expandable-textarea::placeholder {
+  color: #9ca3af;
+}
+
+.content-metrics {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.character-count {
+  font-weight: 500;
+}
+
+.word-count {
+  font-weight: 500;
+}
+
+.tag-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  min-height: 2.75rem;
+  background: white;
+}
+
+.tag-input-container:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: #dbeafe;
+  color: #1e40af;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.tag-remove {
+  background: none;
+  border: none;
+  color: #1e40af;
+  cursor: pointer;
+  padding: 0.125rem;
+  border-radius: 0.125rem;
+  font-size: 0.75rem;
+  line-height: 1;
+  transition: background-color 0.3s ease;
+}
+
+.tag-remove:hover {
+  background: rgba(30, 64, 175, 0.1);
+}
+
+.tag-input {
+  flex: 1;
+  min-width: 100px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.tag-input::placeholder {
+  color: #9ca3af;
+}
+
+.dynamic-width-input {
+  width: 1px;
+  min-width: 1px;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  transition: border-color 0.3s ease;
+}
+
+.dynamic-width-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dynamic-width-input::placeholder {
+  color: #9ca3af;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .input-label {
+    color: #d1d5db;
+  }
+  
+  .expandable-textarea {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .expandable-textarea::placeholder {
+    color: #6b7280;
+  }
+  
+  .tag-input-container {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .tag {
+    background: #1e3a8a;
+    color: #93c5fd;
+  }
+  
+  .tag-remove {
+    color: #93c5fd;
+  }
+  
+  .tag-remove:hover {
+    background: rgba(147, 197, 253, 0.1);
+  }
+  
+  .tag-input {
+    color: #d1d5db;
+  }
+  
+  .tag-input::placeholder {
+    color: #6b7280;
+  }
+  
+  .dynamic-width-input {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .dynamic-width-input::placeholder {
+    color: #6b7280;
+  }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>

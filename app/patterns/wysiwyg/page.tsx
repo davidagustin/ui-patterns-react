@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export default function WysiwygPattern() {
-  const [content, setContent] = useState('<p>Start typing to see the WYSIWYG editor in action. You can format your text using the toolbar above.</p>');
+  const [content, setContent] = useState('<p>Start typing your content here...</p>');
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const editorRef = useRef<HTMLDivElement>(null);
   const [showSource, setShowSource] = useState(false);
 
   const formatText = (command: string, value?: string) => {
@@ -206,7 +208,34 @@ export default function WysiwygPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
+            
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
             <div className="code-block">
+              {activeTab === 'jsx' ? (
               <pre className="text-sm leading-relaxed">
 {`'use client';
 
@@ -305,6 +334,274 @@ export default function WysiwygPattern() {
   );
 }`}
               </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`.wysiwyg-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.toolbar-group {
+  display: flex;
+  gap: 0.25rem;
+  padding-right: 0.75rem;
+  border-right: 1px solid #e5e7eb;
+}
+
+.toolbar-group:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.toolbar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+}
+
+.toolbar-button:hover {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+.toolbar-button.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.toolbar-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toolbar-separator {
+  width: 1px;
+  background: #e5e7eb;
+  margin: 0 0.25rem;
+}
+
+.toolbar-select {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  background: white;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.toolbar-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.editor-container {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0 0 0.5rem 0.5rem;
+  min-height: 200px;
+}
+
+.editor-content {
+  padding: 1rem;
+  min-height: 200px;
+  outline: none;
+  line-height: 1.6;
+  color: #111827;
+}
+
+.editor-content:focus {
+  outline: none;
+}
+
+.editor-content p {
+  margin: 0 0 1rem 0;
+}
+
+.editor-content h1,
+.editor-content h2,
+.editor-content h3,
+.editor-content h4,
+.editor-content h5,
+.editor-content h6 {
+  margin: 1.5rem 0 1rem 0;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.editor-content h1 {
+  font-size: 2rem;
+}
+
+.editor-content h2 {
+  font-size: 1.5rem;
+}
+
+.editor-content h3 {
+  font-size: 1.25rem;
+}
+
+.editor-content ul,
+.editor-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.editor-content li {
+  margin: 0.25rem 0;
+}
+
+.editor-content blockquote {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 4px solid #3b82f6;
+  background: #f8fafc;
+  font-style: italic;
+}
+
+.editor-content a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.editor-content a:hover {
+  color: #2563eb;
+}
+
+.editor-content strong {
+  font-weight: 600;
+}
+
+.editor-content em {
+  font-style: italic;
+}
+
+.editor-content u {
+  text-decoration: underline;
+}
+
+.editor-content code {
+  background: #f1f5f9;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875em;
+}
+
+.source-toggle {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  color: #3b82f6;
+  cursor: pointer;
+  font-size: 0.875rem;
+  text-decoration: underline;
+}
+
+.source-toggle:hover {
+  color: #2563eb;
+}
+
+.source-view {
+  margin-top: 1rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.source-code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: #6b7280;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .toolbar {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .toolbar-button {
+    color: #d1d5db;
+  }
+  
+  .toolbar-button:hover {
+    background: #374151;
+    border-color: #4b5563;
+  }
+  
+  .toolbar-button.active {
+    background: #3b82f6;
+    color: white;
+  }
+  
+  .toolbar-separator {
+    background: #374151;
+  }
+  
+  .toolbar-select {
+    background: #1f2937;
+    border-color: #374151;
+    color: #d1d5db;
+  }
+  
+  .editor-container {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .editor-content {
+    color: #f9fafb;
+  }
+  
+  .editor-content blockquote {
+    background: #111827;
+    border-left-color: #3b82f6;
+  }
+  
+  .editor-content code {
+    background: #374151;
+  }
+  
+  .source-view {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .source-code {
+    color: #9ca3af;
+  }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>

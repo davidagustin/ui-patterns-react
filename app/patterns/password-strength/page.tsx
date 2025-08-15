@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function PasswordStrengthPattern() {
   const [password, setPassword] = useState('');
+  const [strength, setStrength] = useState<'weak' | 'medium' | 'strong' | 'very-strong'>('weak');
   const [showPassword, setShowPassword] = useState(false);
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   const calculateStrength = (password: string) => {
     let score = 0;
@@ -175,7 +177,34 @@ export default function PasswordStrengthPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
+            
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
             <div className="code-block">
+              {activeTab === 'jsx' ? (
               <pre className="text-sm leading-relaxed">
 {`'use client';
 
@@ -299,6 +328,258 @@ export default function PasswordStrengthPattern() {
   );
 }`}
               </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`.password-strength-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.password-input-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.password-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  padding-right: 3rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.toggle-password-button {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.toggle-password-button:hover {
+  color: #374151;
+}
+
+.strength-meter {
+  margin-bottom: 1.5rem;
+}
+
+.strength-bar {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.strength-fill {
+  height: 100%;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.strength-fill.weak {
+  width: 25%;
+  background: #ef4444;
+}
+
+.strength-fill.medium {
+  width: 50%;
+  background: #f59e0b;
+}
+
+.strength-fill.strong {
+  width: 75%;
+  background: #10b981;
+}
+
+.strength-fill.very-strong {
+  width: 100%;
+  background: #059669;
+}
+
+.strength-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.strength-text.weak {
+  color: #ef4444;
+}
+
+.strength-text.medium {
+  color: #f59e0b;
+}
+
+.strength-text.strong {
+  color: #10b981;
+}
+
+.strength-text.very-strong {
+  color: #059669;
+}
+
+.strength-description {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.requirements-list {
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.requirements-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.requirement-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.requirement-icon {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  flex-shrink: 0;
+}
+
+.requirement-icon.met {
+  background: #10b981;
+  color: white;
+}
+
+.requirement-icon.unmet {
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+.requirement-text {
+  color: #374151;
+}
+
+.requirement-text.met {
+  color: #059669;
+}
+
+.requirement-text.unmet {
+  color: #6b7280;
+}
+
+.suggestions {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.suggestions-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 0.5rem;
+}
+
+.suggestions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestions-list li {
+  font-size: 0.875rem;
+  color: #1e40af;
+  margin-bottom: 0.25rem;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.suggestions-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #3b82f6;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .password-input {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .password-input:focus {
+    border-color: #3b82f6;
+  }
+  
+  .requirements-list {
+    background: #1f2937;
+  }
+  
+  .requirements-title {
+    color: #d1d5db;
+  }
+  
+  .requirement-text {
+    color: #d1d5db;
+  }
+  
+  .requirement-text.unmet {
+    color: #9ca3af;
+  }
+  
+  .requirement-icon.unmet {
+    background: #374151;
+    color: #9ca3af;
+  }
+  
+  .suggestions {
+    background: #1e3a8a;
+    border-color: #3b82f6;
+  }
+  
+  .suggestions-title {
+    color: #93c5fd;
+  }
+  
+  .suggestions-list li {
+    color: #93c5fd;
+  }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>

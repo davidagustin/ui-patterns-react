@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function DataVisualizationPattern() {
   const [selectedChart, setSelectedChart] = useState<'bar' | 'line' | 'pie' | 'area'>('bar');
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
   const [selectedMetric, setSelectedMetric] = useState<'sales' | 'users' | 'revenue'>('sales');
 
@@ -494,8 +495,35 @@ export default function DataVisualizationPattern() {
         <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
           💻 Code Example
         </h2>
+        
+        {/* Tab Navigation */}
+        <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+          <button
+            onClick={() => setActiveTab('jsx')}
+            className={`px-4 py-2 font-medium transition-colors ${
+              activeTab === 'jsx'
+                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            }`}
+          >
+            JSX
+          </button>
+          <button
+            onClick={() => setActiveTab('css')}
+            className={`px-4 py-2 font-medium transition-colors ${
+              activeTab === 'css'
+                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            }`}
+          >
+            CSS
+          </button>
+        </div>
+
+        {/* Tab Content */}
         <div className="code-block">
-          <pre className="text-sm leading-relaxed">
+          {activeTab === 'jsx' ? (
+            <pre className="text-sm leading-relaxed">
 {`import { useState } from 'react';
 
 export default function DataVisualization() {
@@ -659,6 +687,235 @@ export default function DataVisualization() {
   );
 }`}
           </pre>
+          ) : (
+            <pre className="text-sm leading-relaxed">
+{`.data-viz-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.chart-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.chart-type-selector {
+  display: flex;
+  background: #f3f4f6;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+.chart-type-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+}
+
+.chart-type-button.active {
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.metric-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.metric-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+}
+
+.metric-button.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.time-range-selector {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.time-range-button {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.time-range-button.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.chart-container {
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.chart-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.chart-subtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.metric-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.metric-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.chart-area {
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-placeholder {
+  text-align: center;
+  color: #6b7280;
+}
+
+.chart-placeholder-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.pie-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-color {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+}
+
+.legend-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .data-viz-container {
+    background: #111827;
+  }
+  
+  .chart-type-selector {
+    background: #374151;
+  }
+  
+  .chart-type-button.active {
+    background: #1f2937;
+  }
+  
+  .metric-button,
+  .time-range-button {
+    background: #1f2937;
+    border-color: #4b5563;
+    color: #d1d5db;
+  }
+  
+  .metric-button.active,
+  .time-range-button.active {
+    background: #3b82f6;
+    color: white;
+  }
+  
+  .chart-container,
+  .metric-card,
+  .chart-area {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .chart-title {
+    color: #f9fafb;
+  }
+  
+  .chart-subtitle,
+  .metric-label,
+  .legend-label {
+    color: #9ca3af;
+  }
+  
+  .metric-value {
+    color: #f9fafb;
+  }
+}`}
+            </pre>
+          )}
         </div>
       </div>
 

@@ -21,7 +21,7 @@ export default function InplaceEditorPattern() {
   const saveEdit = (field: string) => {
     setUserData({
       ...userData,
-      [field]: tempValues[field]
+      [field]: (tempValues as any)[field]
     });
     setEditingField(null);
   };

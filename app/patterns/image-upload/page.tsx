@@ -3,14 +3,9 @@
 import { useState, useRef } from 'react';
 
 export default function ImageUploadPattern() {
-  const [uploadedImages, setUploadedImages] = useState<Array<{
-    id: string;
-    file: File;
-    preview: string;
-    progress: number;
-    status: 'uploading' | 'success' | 'error';
-  }>>([]);
+  const [uploadedImages, setUploadedImages] = useState<any[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = (files: FileList | null) => {
@@ -248,7 +243,34 @@ export default function ImageUploadPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
+            
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
             <div className="code-block">
+              {activeTab === 'jsx' ? (
               <pre className="text-sm leading-relaxed">
 {`'use client';
 
@@ -406,6 +428,186 @@ export default function ImageUploadPattern() {
   );
 }`}
               </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`.image-upload-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.upload-area {
+  border: 2px dashed #d1d5db;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: #f9fafb;
+}
+
+.upload-area.drag-over {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.upload-area:hover {
+  border-color: #9ca3af;
+}
+
+.upload-icon {
+  font-size: 3rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.upload-text {
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.upload-hint {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-button {
+  background: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.upload-button:hover {
+  background: #2563eb;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.image-item {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.image-preview {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-item:hover .image-overlay {
+  opacity: 1;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #10b981;
+  transition: width 0.3s ease;
+}
+
+.status-indicator {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.status-uploading {
+  background: #fbbf24;
+  color: white;
+}
+
+.status-success {
+  background: #10b981;
+  color: white;
+}
+
+.status-error {
+  background: #ef4444;
+  color: white;
+}
+
+.remove-button {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.remove-button:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .upload-area {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .upload-area.drag-over {
+    background: #1e3a8a;
+    border-color: #3b82f6;
+  }
+  
+  .upload-text {
+    color: #d1d5db;
+  }
+  
+  .upload-hint {
+    color: #9ca3af;
+  }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>

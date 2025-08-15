@@ -16,6 +16,7 @@ export default function DataGridPattern() {
   const [sortField, setSortField] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [searchTerm, setSearchTerm] = useState('');
+  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
   const [columnWidths, setColumnWidths] = useState({
     name: 150,
     email: 200,
@@ -329,14 +330,43 @@ export default function DataGridPattern() {
           </div>
         </div>
       </div>
+      </div>
+      </div>
 
       {/* Code Example */}
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
         <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
           💻 Code Example
         </h2>
+        
+        {/* Tab Navigation */}
+        <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+          <button
+            onClick={() => setCodeTab('jsx')}
+            className={`px-4 py-2 font-medium transition-colors ${
+              codeTab === 'jsx'
+                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            }`}
+          >
+            JSX
+          </button>
+          <button
+            onClick={() => setCodeTab('css')}
+            className={`px-4 py-2 font-medium transition-colors ${
+              codeTab === 'css'
+                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            }`}
+          >
+            CSS
+          </button>
+        </div>
+
+        {/* Tab Content */}
         <div className="code-block">
-          <pre className="text-sm leading-relaxed">
+          {codeTab === 'jsx' ? (
+            <pre className="text-sm leading-relaxed">
 {`import { useState } from 'react';
 
 export default function DataGrid() {
@@ -543,6 +573,7 @@ export default function DataGrid() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
