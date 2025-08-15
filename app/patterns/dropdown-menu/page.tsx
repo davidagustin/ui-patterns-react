@@ -72,6 +72,7 @@ export default function DropdownMenuPattern() {
   ];
 
   const [hoveredMultiItem, setHoveredMultiItem] = useState<number | null>(null);
+  const [expandedMultiItem, setExpandedMultiItem] = useState<number | null>(null);
 
   return (
     <div className="space-y-8">
@@ -102,7 +103,7 @@ export default function DropdownMenuPattern() {
                 <div ref={basicRef} className="relative inline-block">
                   <button
                     onClick={() => setIsBasicOpen(!isBasicOpen)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    className="flex items-center space-x-2 px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors min-h-[44px] text-base"
                   >
                     <span className="text-gray-700 dark:text-gray-300">Account</span>
                     <svg 
@@ -116,7 +117,7 @@ export default function DropdownMenuPattern() {
                   </button>
 
                   {isBasicOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+                    <div className="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
                       <div className="py-2">
                         {menuItems.map((item) => (
                           <button
@@ -125,7 +126,7 @@ export default function DropdownMenuPattern() {
                               console.log(`Clicked: ${item.label}`);
                               setIsBasicOpen(false);
                             }}
-                            className={`w-full flex items-center justify-between px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
+                            className={`w-full flex items-center justify-between px-4 py-3 text-base hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors min-h-[44px] ${
                               item.danger 
                                 ? 'text-red-600 dark:text-red-400' 
                                 : 'text-gray-700 dark:text-gray-300'
@@ -150,7 +151,7 @@ export default function DropdownMenuPattern() {
                 <div ref={multiLevelRef} className="relative inline-block">
                   <button
                     onClick={() => setIsMultiLevelOpen(!isMultiLevelOpen)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="flex items-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors min-h-[44px] text-base"
                   >
                     <span>Menu</span>
                     <svg 
@@ -164,32 +165,43 @@ export default function DropdownMenuPattern() {
                   </button>
 
                   {isMultiLevelOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+                    <div className="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
                       <div className="py-2">
                         {multiLevelItems.map((item) => (
-                          <div
-                            key={item.id}
-                            className="relative"
-                            onMouseEnter={() => setHoveredMultiItem(item.id)}
-                            onMouseLeave={() => setHoveredMultiItem(null)}
-                          >
+                          <div key={item.id} className="relative">
                             <button
-                              className="w-full flex items-center justify-between px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                              onClick={() => {
+                                if (item.subItems) {
+                                  setExpandedMultiItem(expandedMultiItem === item.id ? null : item.id);
+                                } else {
+                                  console.log(`Clicked: ${item.label}`);
+                                  setIsMultiLevelOpen(false);
+                                  setExpandedMultiItem(null);
+                                }
+                              }}
+                              onMouseEnter={() => setHoveredMultiItem(item.id)}
+                              onMouseLeave={() => setHoveredMultiItem(null)}
+                              className="w-full flex items-center justify-between px-4 py-3 text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
                             >
                               <div className="flex items-center space-x-3">
                                 <span>{item.icon}</span>
                                 <span>{item.label}</span>
                               </div>
                               {item.subItems && (
-                                <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg 
+                                  className={`w-4 h-4 text-gray-400 transition-transform ${expandedMultiItem === item.id ? 'rotate-90' : ''}`} 
+                                  fill="none" 
+                                  viewBox="0 0 24 24" 
+                                  stroke="currentColor"
+                                >
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                 </svg>
                               )}
                             </button>
 
-                            {/* Submenu */}
-                            {item.subItems && hoveredMultiItem === item.id && (
-                              <div className="absolute left-full top-0 ml-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+                            {/* Submenu - Mobile: Accordion style, Desktop: Hover flyout */}
+                            {item.subItems && (expandedMultiItem === item.id || hoveredMultiItem === item.id) && (
+                              <div className="md:absolute md:left-full md:top-0 md:ml-2 w-full md:w-56 bg-gray-50 md:bg-white dark:bg-gray-700 md:dark:bg-gray-800 md:rounded-lg md:shadow-lg md:border md:border-gray-200 md:dark:border-gray-700">
                                 <div className="py-2">
                                   {item.subItems.map((subItem) => (
                                     <button
@@ -197,9 +209,10 @@ export default function DropdownMenuPattern() {
                                       onClick={() => {
                                         console.log(`Clicked: ${subItem.label}`);
                                         setIsMultiLevelOpen(false);
+                                        setExpandedMultiItem(null);
                                         setHoveredMultiItem(null);
                                       }}
-                                      className="w-full flex items-center justify-between px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                      className="w-full flex items-center justify-between px-4 py-3 text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
                                     >
                                       <div className="flex items-center space-x-3">
                                         <span>{subItem.icon}</span>

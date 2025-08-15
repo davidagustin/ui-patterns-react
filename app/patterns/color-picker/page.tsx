@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Tooltip from '../../../components/Tooltip';
 
 export default function ColorPickerPattern() {
   const [selectedColor, setSelectedColor] = useState('#3b82f6');
@@ -127,7 +128,8 @@ export default function ColorPickerPattern() {
         onClick={onClick}
         className={`${sizeClasses[size]} rounded-lg border-2 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-colors shadow-sm`}
         style={{ backgroundColor: color }}
-        title={color}
+        title={`Select color: ${color}`}
+        aria-label={`Select color ${color}`}
       />
     );
   };
@@ -155,11 +157,13 @@ export default function ColorPickerPattern() {
               {/* Color Preview & Trigger */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
-                  <div 
-                    className="w-16 h-16 rounded-xl border-2 border-gray-300 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform"
-                    style={{ backgroundColor: selectedColor }}
-                    onClick={() => setIsPickerOpen(!isPickerOpen)}
-                  />
+                  <Tooltip content="Click to open color picker">
+                    <div 
+                      className="w-16 h-16 rounded-xl border-2 border-gray-300 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform"
+                      style={{ backgroundColor: selectedColor }}
+                      onClick={() => setIsPickerOpen(!isPickerOpen)}
+                    />
+                  </Tooltip>
                   <div className="flex-1">
                     <div className="text-lg font-semibold" style={{ color: selectedColor }}>
                       Current Color
@@ -278,12 +282,14 @@ export default function ColorPickerPattern() {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Custom Colors</h3>
-                    <button
-                      onClick={() => setCustomColors([])}
-                      className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-                    >
-                      Clear All
-                    </button>
+                    <Tooltip content="Clear all custom colors">
+                      <button
+                        onClick={() => setCustomColors([])}
+                        className="text-xs text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                      >
+                        Clear All
+                      </button>
+                    </Tooltip>
                   </div>
                   <div className="grid grid-cols-10 gap-2">
                     {customColors.map((color, index) => (
@@ -372,6 +378,7 @@ export default function ColorPickerPattern() {
 {`'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Tooltip from '../../../components/Tooltip';
 
 export default function ColorPickerPattern() {
   const [selectedColor, setSelectedColor] = useState('#3b82f6');

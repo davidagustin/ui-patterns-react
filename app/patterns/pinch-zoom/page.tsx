@@ -140,7 +140,7 @@ export default function PinchZoomPattern() {
             >
               <img
                 ref={imageRef}
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center"
+                src="/next.svg"
                 alt="Mountain landscape"
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-200"
                 style={{
@@ -316,7 +316,7 @@ export default function PinchZoom() {
       onWheel={handleWheel}
     >
       <img
-        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjN0M0REZGIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0Ij5aSU9PIEFORCBEUKFHPC90ZXh0Pgo8L3N2Zz4K"
+                        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center"
         alt="Zoomable content"
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-200"
         style={{

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Tooltip from '../../../components/Tooltip';
 
 export default function TaggingPattern() {
   const [tags, setTags] = useState<string[]>(['React', 'JavaScript', 'Web Development']);
@@ -64,12 +65,15 @@ export default function TaggingPattern() {
                     className="inline-flex items-center gap-1 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full"
                   >
                     {tag}
-                    <button
-                      onClick={() => removeTag(tag)}
-                      className="ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors"
-                    >
-                      ×
-                    </button>
+                    <Tooltip content={`Remove tag: ${tag}`}>
+                      <button
+                        onClick={() => removeTag(tag)}
+                        className="ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors"
+                        aria-label={`Remove tag ${tag}`}
+                      >
+                        ×
+                      </button>
+                    </Tooltip>
                   </span>
                 ))}
                 <input

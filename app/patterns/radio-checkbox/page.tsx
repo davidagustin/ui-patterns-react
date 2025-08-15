@@ -76,7 +76,7 @@ export default function RadioCheckboxPattern() {
                 </h3>
                 <div className="space-y-3">
                   {paymentOptions.map((option) => (
-                    <div key={option.id} className="flex items-start space-x-3">
+                    <div key={option.id} className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer">
                       <input
                         type="radio"
                         id={option.id}
@@ -84,10 +84,10 @@ export default function RadioCheckboxPattern() {
                         value={option.id}
                         checked={selectedOption === option.id}
                         onChange={(e) => setSelectedOption(e.target.value)}
-                        className="mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                        className="mt-1 w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                       />
                       <div className="flex-1">
-                        <label htmlFor={option.id} className="block text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">
+                        <label htmlFor={option.id} className="block text-base font-medium text-gray-700 dark:text-gray-300 cursor-pointer min-h-[44px] flex items-center">
                           {option.label}
                         </label>
                         <p className="text-xs text-gray-500 dark:text-gray-400">{option.description}</p>
@@ -111,15 +111,15 @@ export default function RadioCheckboxPattern() {
                 </h3>
                 <div className="space-y-3">
                   {services.map((service) => (
-                    <div key={service.id} className="flex items-center space-x-3">
+                    <div key={service.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer">
                       <input
                         type="checkbox"
                         id={service.id}
                         checked={selectedServices.includes(service.id)}
                         onChange={(e) => handleServiceChange(service.id, e.target.checked)}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                        className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                       />
-                      <label htmlFor={service.id} className="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">
+                      <label htmlFor={service.id} className="text-base font-medium text-gray-700 dark:text-gray-300 cursor-pointer min-h-[44px] flex items-center">
                         {service.label}
                       </label>
                     </div>
@@ -153,7 +153,7 @@ export default function RadioCheckboxPattern() {
                       />
                       <label
                         htmlFor={theme.id}
-                        className="flex items-center p-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20 transition-all"
+                        className="flex items-center p-4 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 peer-checked:border-blue-500 peer-checked:bg-blue-50 dark:peer-checked:bg-blue-900/20 transition-all min-h-[60px]"
                       >
                         <span className="text-2xl mr-3">{theme.icon}</span>
                         <div>
@@ -222,7 +222,7 @@ export default function RadioCheckboxPattern() {
             <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
               <button
                 onClick={() => setActiveTab('jsx')}
-                className={`px-4 py-2 font-medium transition-colors ${
+                className={`px-4 py-3 font-medium transition-colors min-h-[44px] flex items-center ${
                   activeTab === 'jsx'
                     ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'

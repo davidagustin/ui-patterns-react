@@ -46,12 +46,12 @@ export default function NavigationTabsPattern() {
             
             {/* Navigation Tabs */}
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-              <nav className="flex bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+              <nav className="flex bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 overflow-x-auto scrollbar-hide">
                 {navigationTabs.map((tab) => (
                   <button
                     key={tab.id}
                     onClick={() => handleTabClick(tab.id)}
-                    className={`flex items-center space-x-2 px-4 py-3 font-medium text-sm relative transition-all duration-200 border-b-2 ${
+                    className={`flex items-center space-x-2 px-4 py-3 font-medium text-sm relative transition-all duration-200 border-b-2 min-h-[44px] whitespace-nowrap ${
                       activeTab === tab.id
                         ? 'text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-800 border-blue-600 dark:border-blue-400'
                         : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 border-transparent'
@@ -97,7 +97,7 @@ export default function NavigationTabsPattern() {
                     <button
                       key={`mobile-${tab.id}`}
                       onClick={() => handleTabClick(tab.id)}
-                      className={`flex flex-col items-center p-3 rounded-lg text-xs transition-colors ${
+                      className={`flex flex-col items-center p-3 rounded-lg text-xs transition-colors min-h-[60px] relative ${
                         activeTab === tab.id
                           ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
                           : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
@@ -129,7 +129,7 @@ export default function NavigationTabsPattern() {
             <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
               <button
                 onClick={() => setCodeTab('jsx')}
-                className={`px-4 py-2 font-medium transition-colors ${
+                className={`px-4 py-3 font-medium transition-colors min-h-[44px] flex items-center ${
                   codeTab === 'jsx'
                     ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'

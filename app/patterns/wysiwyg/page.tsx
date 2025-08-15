@@ -3,25 +3,78 @@
 import { useState, useRef } from 'react';
 
 export default function WysiwygPattern() {
-  const [content, setContent] = useState('<p>Start typing your content here...</p>');
+  const [content, setContent] = useState('Welcome to the WYSIWYG editor! This is a rich text editor where you can format your content using the toolbar above.\n\nTry italicizing text, creating underlined text, or even making lists. Click the buttons in the toolbar to format your text!');
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const editorRef = useRef<HTMLDivElement>(null);
   const [showSource, setShowSource] = useState(false);
+  const [htmlContent, setHtmlContent] = useState('<p>Welcome to the WYSIWYG editor! This is a <strong>rich text editor</strong> where you can format your content using the toolbar above.</p><p>Try <em>italicizing</em> text, creating <u>underlined</u> text, or even making lists:</p><ul><li>First item</li><li>Second item</li></ul><p>Click the buttons in the toolbar to format your text!</p>');
 
   const formatText = (command: string, value?: string) => {
-    document.execCommand(command, false, value);
-    updateContent();
+    try {
+      // Focus the editor first
+      const editor = document.getElementById('wysiwyg-editor') as HTMLDivElement;
+      if (editor) {
+        editor.focus();
+        
+        // Use modern execCommand with fallbacks
+        if (document.queryCommandSupported && document.queryCommandSupported(command)) {
+          document.execCommand(command, false, value);
+        } else {
+          // Modern browser fallback for some commands
+          if (command === 'bold') {
+            document.execCommand('bold', false);
+          } else if (command === 'italic') {
+            document.execCommand('italic', false);
+          } else if (command === 'underline') {
+            document.execCommand('underline', false);
+          }
+        }
+        updateContent();
+      }
+    } catch (error) {
+      console.warn('Format command not supported:', command, error);
+    }
   };
 
   const updateContent = () => {
     const editor = document.getElementById('wysiwyg-editor') as HTMLDivElement;
     if (editor) {
-      setContent(editor.innerHTML);
+      setHtmlContent(editor.innerHTML);
+      // Convert HTML back to plain text for the text area
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = editor.innerHTML;
+      setContent(tempDiv.textContent || tempDiv.innerText || '');
     }
   };
 
-  const handleEditorInput = () => {
-    updateContent();
+  const handleEditorInput = (e: React.FormEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    setHtmlContent(target.innerHTML);
+    // Convert HTML back to plain text for the text area
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = target.innerHTML;
+    setContent(tempDiv.textContent || tempDiv.innerText || '');
+  };
+
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newContent = e.target.value;
+    setContent(newContent);
+    
+    // Convert plain text to HTML with basic formatting
+    const htmlContent = newContent
+      .split('\n\n')
+      .map(paragraph => paragraph.trim())
+      .filter(paragraph => paragraph.length > 0)
+      .map(paragraph => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
+      .join('');
+    
+    setHtmlContent(htmlContent || '<p><br></p>');
+    
+    // Update the contentEditable div
+    const editor = document.getElementById('wysiwyg-editor') as HTMLDivElement;
+    if (editor) {
+      editor.innerHTML = htmlContent || '<p><br></p>';
+    }
   };
 
   const insertLink = () => {
@@ -40,6 +93,19 @@ export default function WysiwygPattern() {
 
   const clearFormatting = () => {
     formatText('removeFormat');
+  };
+
+  const resetContent = () => {
+    const defaultHtmlContent = '<p>Welcome to the WYSIWYG editor! This is a <strong>rich text editor</strong> where you can format your content using the toolbar above.</p><p>Try <em>italicizing</em> text, creating <u>underlined</u> text, or even making lists:</p><ul><li>First item</li><li>Second item</li></ul><p>Click the buttons in the toolbar to format your text!</p>';
+    const defaultTextContent = 'Welcome to the WYSIWYG editor! This is a rich text editor where you can format your content using the toolbar above.\n\nTry italicizing text, creating underlined text, or even making lists. Click the buttons in the toolbar to format your text!';
+    
+    setHtmlContent(defaultHtmlContent);
+    setContent(defaultTextContent);
+    
+    const editor = document.getElementById('wysiwyg-editor') as HTMLDivElement;
+    if (editor) {
+      editor.innerHTML = defaultHtmlContent;
+    }
   };
 
   return (
@@ -65,6 +131,33 @@ export default function WysiwygPattern() {
             </p>
             
             <div className="space-y-4">
+              {/* Mode Toggle */}
+              <div className="flex items-center gap-4 mb-4">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Editor Mode:</span>
+                <div className="flex bg-gray-200 dark:bg-gray-700 rounded-lg p-1">
+                  <button
+                    onClick={() => setShowSource(false)}
+                    className={`px-3 py-1 text-sm rounded transition-colors ${
+                      !showSource
+                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow'
+                        : 'text-gray-600 dark:text-gray-400'
+                    }`}
+                  >
+                    📝 Visual
+                  </button>
+                  <button
+                    onClick={() => setShowSource(true)}
+                    className={`px-3 py-1 text-sm rounded transition-colors ${
+                      showSource
+                        ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 shadow'
+                        : 'text-gray-600 dark:text-gray-400'
+                    }`}
+                  >
+                    🧑‍💻 Text
+                  </button>
+                </div>
+              </div>
+
               {/* Toolbar */}
               <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3">
                 <div className="flex flex-wrap items-center gap-2">
@@ -72,21 +165,21 @@ export default function WysiwygPattern() {
                   <div className="flex items-center space-x-1 border-r border-gray-300 dark:border-gray-600 pr-2">
                     <button
                       onClick={() => formatText('bold')}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm font-bold"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm font-bold transition-colors"
                       title="Bold"
                     >
                       B
                     </button>
                     <button
                       onClick={() => formatText('italic')}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm italic"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm italic transition-colors"
                       title="Italic"
                     >
                       I
                     </button>
                     <button
                       onClick={() => formatText('underline')}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm underline"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm underline transition-colors"
                       title="Underline"
                     >
                       U
@@ -97,21 +190,21 @@ export default function WysiwygPattern() {
                   <div className="flex items-center space-x-1 border-r border-gray-300 dark:border-gray-600 pr-2">
                     <button
                       onClick={() => formatText('justifyLeft')}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
                       title="Align Left"
                     >
                       ⬅️
                     </button>
                     <button
                       onClick={() => formatText('justifyCenter')}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
                       title="Align Center"
                     >
                       ↔️
                     </button>
                     <button
                       onClick={() => formatText('justifyRight')}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
                       title="Align Right"
                     >
                       ➡️
@@ -122,14 +215,14 @@ export default function WysiwygPattern() {
                   <div className="flex items-center space-x-1 border-r border-gray-300 dark:border-gray-600 pr-2">
                     <button
                       onClick={() => formatText('insertUnorderedList')}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
                       title="Bullet List"
                     >
                       •
                     </button>
                     <button
                       onClick={() => formatText('insertOrderedList')}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
                       title="Numbered List"
                     >
                       1.
@@ -140,14 +233,14 @@ export default function WysiwygPattern() {
                   <div className="flex items-center space-x-1 border-r border-gray-300 dark:border-gray-600 pr-2">
                     <button
                       onClick={insertLink}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
                       title="Insert Link"
                     >
                       🔗
                     </button>
                     <button
                       onClick={insertImage}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
                       title="Insert Image"
                     >
                       🖼️
@@ -155,49 +248,80 @@ export default function WysiwygPattern() {
                   </div>
 
                   {/* Clear Formatting */}
-                  <button
-                    onClick={clearFormatting}
-                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm"
-                    title="Clear Formatting"
-                  >
-                    🧹
-                  </button>
+                  <div className="flex items-center space-x-1">
+                    <button
+                      onClick={clearFormatting}
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm transition-colors"
+                      title="Clear Formatting"
+                    >
+                      🧹
+                    </button>
+                    <button
+                      onClick={resetContent}
+                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded text-sm transition-colors"
+                      title="Reset Content"
+                    >
+                      ↺
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              {/* Editor */}
-              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg min-h-[200px]">
-                <div
-                  id="wysiwyg-editor"
-                  contentEditable
-                  onInput={handleEditorInput}
-                  className="p-4 min-h-[200px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
-                  dangerouslySetInnerHTML={{ __html: content }}
-                />
+              {/* Editor - Choose between textarea and contentEditable */}
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg min-h-[300px]">
+                {showSource ? (
+                  /* Text Mode - Simple textarea for easy typing */
+                  <textarea
+                    value={content}
+                    onChange={handleTextAreaChange}
+                    placeholder="Start typing here... Use the toolbar buttons to format your text!"
+                    className="w-full h-full min-h-[300px] p-4 bg-transparent border-none outline-none resize-none text-gray-900 dark:text-gray-100 leading-relaxed focus:ring-2 focus:ring-blue-500 focus:ring-inset rounded-lg"
+                    style={{
+                      fontFamily: 'inherit',
+                      lineHeight: '1.6'
+                    }}
+                  />
+                ) : (
+                  /* Visual Mode - Rich text editor */
+                  <div
+                    id="wysiwyg-editor"
+                    ref={editorRef}
+                    contentEditable
+                    onInput={handleEditorInput}
+                    onBlur={updateContent}
+                    suppressContentEditableWarning={true}
+                    className="p-4 min-h-[300px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset text-gray-900 dark:text-gray-100 leading-relaxed"
+                    style={{
+                      WebkitUserSelect: 'text',
+                      userSelect: 'text',
+                      whiteSpace: 'pre-wrap',
+                      lineHeight: '1.6'
+                    }}
+                    dangerouslySetInnerHTML={{ __html: htmlContent }}
+                  />
+                )}
               </div>
 
-              {/* Toggle Source */}
-              <div className="flex items-center justify-between">
+              {/* Editor Info */}
+              <div className="flex items-center justify-between text-sm">
+                <div className="text-gray-500 dark:text-gray-400">
+                  {showSource ? '📝 Text Editor' : '🎨 Visual Editor'} - {content.length} characters
+                </div>
                 <button
                   onClick={() => setShowSource(!showSource)}
-                  className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
                 >
-                  {showSource ? 'Hide' : 'Show'} HTML Source
+                  Switch to {showSource ? 'Visual' : 'Text'} Mode
                 </button>
-                <div className="text-xs text-gray-500 dark:text-gray-400">
-                  {content.length} characters
-                </div>
               </div>
 
-              {/* HTML Source */}
-              {showSource && (
-                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">HTML Source:</h4>
-                  <pre className="text-xs text-gray-600 dark:text-gray-400 whitespace-pre-wrap overflow-x-auto">
-                    {content}
-                  </pre>
-                </div>
-              )}
+              {/* Preview of HTML Output */}
+              <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">HTML Output Preview:</h4>
+                <pre className="text-xs text-gray-600 dark:text-gray-400 whitespace-pre-wrap overflow-x-auto bg-white dark:bg-gray-800 p-3 rounded border">
+                  {htmlContent}
+                </pre>
+              </div>
             </div>
           </div>
         </div>
@@ -246,8 +370,18 @@ export default function WysiwygPattern() {
   const [showSource, setShowSource] = useState(false);
 
   const formatText = (command, value) => {
-    document.execCommand(command, false, value);
-    updateContent();
+    try {
+      const editor = document.getElementById('wysiwyg-editor');
+      if (editor) {
+        editor.focus();
+        if (document.queryCommandSupported && document.queryCommandSupported(command)) {
+          document.execCommand(command, false, value);
+        }
+        updateContent();
+      }
+    } catch (error) {
+      console.warn('Format command not supported:', command, error);
+    }
   };
 
   const updateContent = () => {

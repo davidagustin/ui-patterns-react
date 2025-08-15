@@ -78,7 +78,8 @@ export default function FormsPattern() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`input-field ${errors.name ? 'border-red-500 focus:ring-red-500' : ''}`}
+                  className={`w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base ${errors.name ? 'border-red-500 focus:ring-red-500' : ''}`}
+                  style={{ fontSize: '16px' }}
                   placeholder="Enter your name"
                 />
                 {errors.name && (
@@ -96,7 +97,8 @@ export default function FormsPattern() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`input-field ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`}
+                  className={`w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`}
+                  style={{ fontSize: '16px' }}
                   placeholder="Enter your email"
                 />
                 {errors.email && (
@@ -114,12 +116,13 @@ export default function FormsPattern() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
-                  className="input-field"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base"
+                  style={{ fontSize: '16px' }}
                   placeholder="Enter your message..."
                 />
               </div>
               
-              <button type="submit" className="btn-primary w-full">
+              <button type="submit" className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium transition-colors min-h-[44px] flex items-center justify-center text-base">
                 Submit Form
               </button>
             </form>
@@ -137,7 +140,7 @@ export default function FormsPattern() {
             <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
               <button
                 onClick={() => setActiveTab('jsx')}
-                className={`px-4 py-2 font-medium transition-colors ${
+                className={`px-4 py-3 font-medium transition-colors min-h-[44px] flex items-center ${
                   activeTab === 'jsx'
                     ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'

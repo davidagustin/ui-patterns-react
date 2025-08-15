@@ -55,7 +55,8 @@ export default function ModalPattern() {
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base"
+                style={{ fontSize: '16px' }}
                 placeholder="Enter your name"
                 required
               />
@@ -68,7 +69,8 @@ export default function ModalPattern() {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base"
+                style={{ fontSize: '16px' }}
                 placeholder="Enter your email"
                 required
               />
@@ -77,13 +79,13 @@ export default function ModalPattern() {
               <button
                 type="button"
                 onClick={closeModal}
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                className="px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors min-h-[44px] flex items-center justify-center"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                className="px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors min-h-[44px] flex items-center justify-center"
               >
                 Submit
               </button>
@@ -110,13 +112,13 @@ export default function ModalPattern() {
             <div className="flex justify-end space-x-3 pt-4">
               <button
                 onClick={closeModal}
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                className="px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors min-h-[44px] flex items-center justify-center"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirm}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                className="px-4 py-3 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors min-h-[44px] flex items-center justify-center"
               >
                 Delete
               </button>
@@ -136,7 +138,7 @@ export default function ModalPattern() {
             <div className="flex justify-end pt-4">
               <button
                 onClick={closeModal}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                className="px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors min-h-[44px] flex items-center justify-center"
               >
                 Close
               </button>
@@ -173,7 +175,7 @@ export default function ModalPattern() {
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => setModalType('simple')}
-                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                  className={`px-4 py-3 rounded text-sm font-medium transition-colors min-h-[44px] flex items-center ${
                     modalType === 'simple'
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -183,7 +185,7 @@ export default function ModalPattern() {
                 </button>
                 <button
                   onClick={() => setModalType('form')}
-                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                  className={`px-4 py-3 rounded text-sm font-medium transition-colors min-h-[44px] flex items-center ${
                     modalType === 'form'
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -193,7 +195,7 @@ export default function ModalPattern() {
                 </button>
                 <button
                   onClick={() => setModalType('confirmation')}
-                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                  className={`px-4 py-3 rounded text-sm font-medium transition-colors min-h-[44px] flex items-center ${
                     modalType === 'confirmation'
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
@@ -206,7 +208,7 @@ export default function ModalPattern() {
               {/* Open Modal Button */}
               <button
                 onClick={openModal}
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium min-h-[44px] flex items-center justify-center text-base"
               >
                 Open {modalType.charAt(0).toUpperCase() + modalType.slice(1)} Modal
               </button>
@@ -221,12 +223,12 @@ export default function ModalPattern() {
                   />
                   
                   {/* Modal Container */}
-                  <div className="flex min-h-full items-center justify-center p-4">
-                    <div className="relative bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-md w-full mx-auto transform transition-all">
+                  <div className="flex min-h-full items-end sm:items-center justify-center p-4">
+                    <div className="relative bg-white dark:bg-gray-900 rounded-t-lg sm:rounded-lg shadow-xl max-w-md w-full mx-auto transform transition-all">
                       {/* Close Button */}
                       <button
                         onClick={closeModal}
-                        className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                        className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 min-h-[44px] min-w-[44px] flex items-center justify-center"
                         aria-label="Close modal"
                       >
                         <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

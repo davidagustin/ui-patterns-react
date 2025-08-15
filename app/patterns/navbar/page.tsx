@@ -9,6 +9,7 @@ export default function NavbarPattern() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigationItems = [
     { name: 'Home', href: '#', current: true },
@@ -78,7 +79,7 @@ export default function NavbarPattern() {
                       {navigationItems.map((item) => (
                         <button
                           key={item.name}
-                          className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                          className={`px-3 py-3 rounded-md text-sm font-medium transition-colors min-h-[44px] flex items-center ${
                             item.current
                               ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                               : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
@@ -102,7 +103,8 @@ export default function NavbarPattern() {
                           onChange={(e) => setSearchValue(e.target.value)}
                           onFocus={() => setIsSearchFocused(true)}
                           onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
-                          className="w-64 px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                          className="w-64 px-4 py-3 pl-10 pr-4 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                          style={{ fontSize: '16px' }}
                         />
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                           <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -124,7 +126,7 @@ export default function NavbarPattern() {
                                         setIsSearchFocused(false);
                                         console.log(`Navigating to: ${suggestion.title}`);
                                       }}
-                                      className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                      className="w-full flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
                                     >
                                       <span className="text-lg">{suggestion.icon}</span>
                                       <div className="flex-1 text-left">
@@ -155,7 +157,7 @@ export default function NavbarPattern() {
                                       setIsSearchFocused(false);
                                       console.log(`Navigating to: ${suggestion.title}`);
                                     }}
-                                    className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                                    className="w-full flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors min-h-[44px]"
                                   >
                                     <span className="text-lg">{suggestion.icon}</span>
                                     <div className="flex-1 text-left">
@@ -180,7 +182,7 @@ export default function NavbarPattern() {
                     <div className="relative">
                       <button
                         onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-                        className="relative p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                        className="relative p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                       >
                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM15 17H9a6 6 0 01-6-6V9a6 6 0 016-6h6a6 6 0 016 6v2" />
@@ -240,17 +242,17 @@ export default function NavbarPattern() {
                             <p className="text-xs text-gray-500 dark:text-gray-400">john@example.com</p>
                           </div>
                           <div className="py-2">
-                            <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <button className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 min-h-[44px]">
                               Profile
                             </button>
-                            <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <button className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 min-h-[44px]">
                               Settings
                             </button>
-                            <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <button className="block w-full text-left px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 min-h-[44px]">
                               Help
                             </button>
                             <hr className="my-2 border-gray-200 dark:border-gray-700" />
-                            <button className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <button className="block w-full text-left px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 min-h-[44px]">
                               Sign out
                             </button>
                           </div>
@@ -259,14 +261,72 @@ export default function NavbarPattern() {
                     </div>
 
                     {/* Mobile menu button */}
-                    <button className="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <button 
+                      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                      className="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                    >
                       <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
                       </svg>
                     </button>
                   </div>
                 </div>
               </div>
+
+              {/* Mobile Menu */}
+              {isMobileMenuOpen && (
+                <div className="md:hidden border-t border-gray-200 dark:border-gray-700">
+                  <div className="px-2 pt-2 pb-3 space-y-1">
+                    {navigationItems.map((item) => (
+                      <button
+                        key={item.name}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`block w-full text-left px-3 py-3 rounded-md text-base font-medium transition-colors min-h-[44px] ${
+                          item.current
+                            ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                            : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
+                        }`}
+                      >
+                        {item.name}
+                      </button>
+                    ))}
+                  </div>
+                  
+                  {/* Mobile Search */}
+                  <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700">
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      className="w-full px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      style={{ fontSize: '16px' }}
+                    />
+                  </div>
+
+                  {/* Mobile Profile Section */}
+                  <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center">
+                        <span className="text-white font-medium text-sm">JD</span>
+                      </div>
+                      <div>
+                        <div className="text-base font-medium text-gray-900 dark:text-gray-100">John Doe</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">john@example.com</div>
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <button className="block w-full text-left px-3 py-3 text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg min-h-[44px]">
+                        Profile Settings
+                      </button>
+                      <button className="block w-full text-left px-3 py-3 text-base text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg min-h-[44px]">
+                        Billing
+                      </button>
+                      <button className="block w-full text-left px-3 py-3 text-base text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg min-h-[44px]">
+                        Sign out
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </nav>
 
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Tooltip from '../../../components/Tooltip';
 
 export default function InputFeedbackPattern() {
   const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ export default function InputFeedbackPattern() {
   const [passwordStrength, setPasswordStrength] = useState<'weak' | 'medium' | 'strong'>('weak');
   const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'available' | 'taken'>('idle');
   const [phoneStatus, setPhoneStatus] = useState<'idle' | 'valid' | 'invalid'>('idle');
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   // Email validation
   useEffect(() => {
@@ -164,9 +166,11 @@ export default function InputFeedbackPattern() {
                     placeholder="Enter your email address"
                   />
                   {emailStatus !== 'idle' && (
-                    <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(emailStatus)}`}>
-                      {getStatusIcon(emailStatus)}
-                    </span>
+                    <Tooltip content={`Email validation: ${emailStatus}`}>
+                      <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(emailStatus)}`}>
+                        {getStatusIcon(emailStatus)}
+                      </span>
+                    </Tooltip>
                   )}
                 </div>
                 {emailStatus === 'validating' && (
@@ -242,9 +246,11 @@ export default function InputFeedbackPattern() {
                     placeholder="Choose a username"
                   />
                   {usernameStatus !== 'idle' && (
-                    <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(usernameStatus)}`}>
-                      {getStatusIcon(usernameStatus)}
-                    </span>
+                    <Tooltip content={`Username availability: ${usernameStatus}`}>
+                      <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(usernameStatus)}`}>
+                        {getStatusIcon(usernameStatus)}
+                      </span>
+                    </Tooltip>
                   )}
                 </div>
                 {usernameStatus === 'checking' && (
@@ -279,9 +285,11 @@ export default function InputFeedbackPattern() {
                     placeholder="Enter phone number"
                   />
                   {phoneStatus !== 'idle' && (
-                    <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(phoneStatus)}`}>
-                      {getStatusIcon(phoneStatus)}
-                    </span>
+                    <Tooltip content={`Phone validation: ${phoneStatus}`}>
+                      <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(phoneStatus)}`}>
+                        {getStatusIcon(phoneStatus)}
+                      </span>
+                    </Tooltip>
                   )}
                 </div>
                 {phoneStatus === 'valid' && (

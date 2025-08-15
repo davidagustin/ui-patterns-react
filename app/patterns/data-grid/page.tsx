@@ -17,6 +17,7 @@ export default function DataGridPattern() {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [searchTerm, setSearchTerm] = useState('');
   const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
+  const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
   const [columnWidths, setColumnWidths] = useState({
     name: 150,
     email: 200,
@@ -216,93 +217,182 @@ export default function DataGridPattern() {
                 placeholder="Search all fields..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100"
+                className="w-full md:w-auto px-4 py-3 text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100"
+                style={{ fontSize: '16px' }}
               />
               <span className="text-sm text-gray-600 dark:text-gray-400">
                 {filteredData.length} of {data.length} records
               </span>
             </div>
             
-            <div className="flex items-center space-x-2">
-              {selectedRows.length > 0 && (
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <div className="flex items-center space-x-2">
                 <button
-                  onClick={handleDeleteSelected}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  onClick={() => setViewMode(viewMode === 'table' ? 'cards' : 'table')}
+                  className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors min-h-[44px] flex items-center justify-center"
                 >
-                  Delete ({selectedRows.length})
+                  {viewMode === 'table' ? '📱 Cards' : '📋 Table'}
                 </button>
-              )}
-              <button
-                onClick={handleExport}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              >
-                Export CSV
-              </button>
+              </div>
+              <div className="flex items-center space-x-2">
+                {selectedRows.length > 0 && (
+                  <button
+                    onClick={handleDeleteSelected}
+                    className="px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors min-h-[44px] flex-1 sm:flex-none"
+                  >
+                    Delete ({selectedRows.length})
+                  </button>
+                )}
+                <button
+                  onClick={handleExport}
+                  className="px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors min-h-[44px] flex-1 sm:flex-none"
+                >
+                  Export CSV
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Data Grid */}
         <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-gray-700">
-                <tr>
-                  <th className="px-4 py-3 text-left">
-                    <input
-                      type="checkbox"
-                      checked={selectedRows.length === filteredData.length && filteredData.length > 0}
-                      onChange={handleSelectAll}
-                      className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
-                    />
-                  </th>
-                  {columns.map((column) => (
-                    <th
-                      key={column.key}
-                      className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
-                      onClick={() => handleSort(column.key)}
-                      style={{ width: columnWidths[column.key as keyof typeof columnWidths] }}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span>{column.label}</span>
-                        <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
-                      </div>
+          {viewMode === 'table' ? (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-700">
+                  <tr>
+                    <th className="px-4 py-3 text-left">
+                      <input
+                        type="checkbox"
+                        checked={selectedRows.length === filteredData.length && filteredData.length > 0}
+                        onChange={handleSelectAll}
+                        className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                      />
                     </th>
+                    {columns.map((column) => (
+                      <th
+                        key={column.key}
+                        className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 min-h-[44px]"
+                        onClick={() => handleSort(column.key)}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span>{column.label}</span>
+                          <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                  {sortedData.map((row, index) => (
+                    <tr
+                      key={row.id}
+                      className={`hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
+                        selectedRows.includes(row.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                      }`}
+                    >
+                      <td className="px-4 py-3">
+                        <input
+                          type="checkbox"
+                          checked={selectedRows.includes(row.id)}
+                          onChange={() => handleSelectRow(row.id)}
+                          className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                        />
+                      </td>
+                      {columns.map((column) => (
+                        <td
+                          key={column.key}
+                          className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100"
+                        >
+                          {renderCell(row, column)}
+                        </td>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              </thead>
-              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                {sortedData.map((row, index) => (
-                  <tr
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
+              {/* Select All Header for Cards */}
+              <div className="p-4 bg-gray-50 dark:bg-gray-700 flex items-center justify-between">
+                <label className="flex items-center space-x-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.length === filteredData.length && filteredData.length > 0}
+                    onChange={handleSelectAll}
+                    className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                  />
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Select All ({filteredData.length})
+                  </span>
+                </label>
+                <button
+                  onClick={() => handleSort(sortField)}
+                  className="text-sm text-blue-600 dark:text-blue-400 font-medium"
+                >
+                  Sort by {columns.find(c => c.key === sortField)?.label} {sortDirection === 'asc' ? '↑' : '↓'}
+                </button>
+              </div>
+
+              {/* Card Layout */}
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {sortedData.map((row) => (
+                  <div
                     key={row.id}
-                    className={`hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
+                    className={`p-4 space-y-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
                       selectedRows.includes(row.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
                     }`}
                   >
-                    <td className="px-4 py-3">
-                      <input
-                        type="checkbox"
-                        checked={selectedRows.includes(row.id)}
-                        onChange={() => handleSelectRow(row.id)}
-                        className="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
-                      />
-                    </td>
-                    {columns.map((column) => (
-                      <td
-                        key={column.key}
-                        className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100"
-                        style={{ width: columnWidths[column.key as keyof typeof columnWidths] }}
-                      >
-                        {renderCell(row, column)}
-                      </td>
-                    ))}
-                  </tr>
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center space-x-3">
+                        <input
+                          type="checkbox"
+                          checked={selectedRows.includes(row.id)}
+                          onChange={() => handleSelectRow(row.id)}
+                          className="w-5 h-5 mt-1 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+                        />
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                            {renderCell(row, columns.find(c => c.key === 'name'))}
+                          </h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            {renderCell(row, columns.find(c => c.key === 'email'))}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        {renderCell(row, columns.find(c => c.key === 'status'))}
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100 dark:border-gray-600">
+                      <div>
+                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</span>
+                        <div className="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                          {renderCell(row, columns.find(c => c.key === 'role'))}
+                        </div>
+                      </div>
+                      <div>
+                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Department</span>
+                        <div className="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                          {renderCell(row, columns.find(c => c.key === 'department'))}
+                        </div>
+                      </div>
+                      <div>
+                        <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Salary</span>
+                        <div className="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100">
+                          {renderCell(row, columns.find(c => c.key === 'salary'))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Instructions */}

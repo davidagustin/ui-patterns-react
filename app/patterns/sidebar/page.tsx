@@ -5,6 +5,7 @@ import { useState } from 'react';
 export default function SidebarPattern() {
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
 
   const menuItems = [
@@ -59,10 +60,32 @@ export default function SidebarPattern() {
             </p>
             
             {/* Sidebar Demo Container */}
-            <div className="flex bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden" style={{ height: '400px' }}>
+            <div className="relative flex bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden" style={{ height: '400px' }}>
+              {/* Mobile Menu Button */}
+              <div className="absolute top-4 left-4 z-20 lg:hidden">
+                <button
+                  onClick={() => setIsMobileOpen(!isMobileOpen)}
+                  className="p-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Mobile Backdrop */}
+              {isMobileOpen && (
+                <div 
+                  className="fixed inset-0 bg-black bg-opacity-50 z-10 lg:hidden"
+                  onClick={() => setIsMobileOpen(false)}
+                />
+              )}
+
               {/* Sidebar */}
-              <aside className={`bg-gray-900 text-white transition-all duration-300 flex flex-col ${
+              <aside className={`bg-gray-900 text-white transition-all duration-300 flex flex-col z-20 ${
                 isCollapsed ? 'w-16' : 'w-64'
+              } lg:relative fixed left-0 top-0 h-full lg:h-auto ${
+                isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
               }`}>
                 {/* Sidebar Header */}
                 <div className="p-4 border-b border-gray-700">
@@ -77,7 +100,7 @@ export default function SidebarPattern() {
                     )}
                     <button
                       onClick={() => setIsCollapsed(!isCollapsed)}
-                      className="p-1.5 rounded-lg hover:bg-gray-700 transition-colors"
+                      className="p-2 rounded-lg hover:bg-gray-700 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                     >
                       <svg 
                         className={`w-5 h-5 transition-transform ${isCollapsed ? 'rotate-180' : ''}`} 
@@ -102,7 +125,7 @@ export default function SidebarPattern() {
                             toggleExpanded(item.id);
                           }
                         }}
-                        className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
+                        className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 min-h-[44px] ${
                           activeMenuItem === item.id
                             ? 'bg-blue-600 text-white'
                             : 'text-gray-300 hover:bg-gray-700 hover:text-white'

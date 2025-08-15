@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Tooltip from '../../../components/Tooltip';
 
 export default function CalendarPickerPattern() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -151,9 +152,11 @@ export default function CalendarPickerPattern() {
                     className="input-field cursor-pointer"
                     placeholder="Select date and time"
                   />
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                    📅
-                  </div>
+                  <Tooltip content="Open calendar">
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                      📅
+                    </div>
+                  </Tooltip>
                 </div>
               </div>
 
@@ -162,21 +165,27 @@ export default function CalendarPickerPattern() {
                 <div className="absolute z-10 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 min-w-[320px]">
                   {/* Calendar Header */}
                   <div className="flex items-center justify-between mb-4">
-                    <button
-                      onClick={goToPreviousMonth}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                    >
-                      ←
-                    </button>
+                    <Tooltip content="Previous month">
+                      <button
+                        onClick={goToPreviousMonth}
+                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                        aria-label="Previous month"
+                      >
+                        ←
+                      </button>
+                    </Tooltip>
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
                       {getMonthName(currentMonth)}
                     </h3>
-                    <button
-                      onClick={goToNextMonth}
-                      className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-                    >
-                      →
-                    </button>
+                    <Tooltip content="Next month">
+                      <button
+                        onClick={goToNextMonth}
+                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                        aria-label="Next month"
+                      >
+                        →
+                      </button>
+                    </Tooltip>
                   </div>
 
                   {/* Today Button */}
@@ -229,7 +238,11 @@ export default function CalendarPickerPattern() {
               {selectedDate && (
                 <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
                   <div className="flex items-center space-x-2">
-                    <span className="text-green-600 dark:text-green-400">✅</span>
+                    <Tooltip content="Date selected">
+                      <span className="text-green-600 dark:text-green-400">
+                        ✅
+                      </span>
+                    </Tooltip>
                     <div>
                       <p className="font-medium text-green-800 dark:text-green-200">
                         Selected: {formatSelectedDate()}

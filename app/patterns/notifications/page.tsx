@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Tooltip from '../../../components/Tooltip';
 
 interface Notification {
   id: string;
@@ -241,7 +242,11 @@ export default function NotificationsPattern() {
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-start space-x-3">
-                        <span className="text-xl">{getNotificationIcon(notification.type)}</span>
+                        <Tooltip content={`${notification.type.charAt(0).toUpperCase() + notification.type.slice(1)} notification`}>
+                          <span className="text-xl">
+                            {getNotificationIcon(notification.type)}
+                          </span>
+                        </Tooltip>
                         <div className="flex-1">
                           <h3 className="font-medium">{notification.title}</h3>
                           <p className="text-sm mt-1">{notification.message}</p>
@@ -255,12 +260,15 @@ export default function NotificationsPattern() {
                           )}
                         </div>
                       </div>
-                      <button
-                        onClick={() => removeNotification(notification.id)}
-                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 ml-2"
-                      >
-                        ✕
-                      </button>
+                      <Tooltip content="Remove notification">
+                        <button
+                          onClick={() => removeNotification(notification.id)}
+                          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 ml-2"
+                          aria-label="Remove notification"
+                        >
+                          ✕
+                        </button>
+                      </Tooltip>
                     </div>
                   </div>
                 ))
@@ -274,14 +282,21 @@ export default function NotificationsPattern() {
       {showToast && (
         <div className={getToastClasses(toastType)}>
           <div className="flex items-center space-x-2">
-            <span>{getNotificationIcon(toastType)}</span>
+            <Tooltip content={`${toastType.charAt(0).toUpperCase() + toastType.slice(1)} toast`}>
+              <span>
+                {getNotificationIcon(toastType)}
+              </span>
+            </Tooltip>
             <span>{toastMessage}</span>
-            <button
-              onClick={() => setShowToast(false)}
-              className="ml-2 text-white hover:text-gray-200"
-            >
-              ✕
-            </button>
+            <Tooltip content="Close toast">
+              <button
+                onClick={() => setShowToast(false)}
+                className="ml-2 text-white hover:text-gray-200"
+                aria-label="Close toast"
+              >
+                ✕
+              </button>
+            </Tooltip>
           </div>
         </div>
       )}
@@ -291,8 +306,34 @@ export default function NotificationsPattern() {
         <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
           💻 Code Example
         </h2>
+        
+        {/* Tab Navigation */}
+        <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+          <button
+            onClick={() => setActiveTab('jsx')}
+            className={`px-4 py-2 font-medium transition-colors ${
+              activeTab === 'jsx'
+                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            }`}
+          >
+            JSX
+          </button>
+          <button
+            onClick={() => setActiveTab('css')}
+            className={`px-4 py-2 font-medium transition-colors ${
+              activeTab === 'css'
+                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+            }`}
+          >
+            CSS
+          </button>
+        </div>
+
         <div className="code-block">
-          <pre className="text-sm leading-relaxed">
+          {activeTab === 'jsx' ? (
+            <pre className="text-sm leading-relaxed">
 {`import { useState } from 'react';
 
 interface Notification {
@@ -447,7 +488,427 @@ export default function NotificationsComponent() {
     </div>
   );
 }`}
-          </pre>
+            </pre>
+          ) : (
+            <pre className="text-sm leading-relaxed">
+{`/* Notifications CSS */
+
+/* Notifications Container */
+.notifications-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  max-width: 400px;
+  width: 100%;
+  pointer-events: none;
+}
+
+/* Notification Item */
+.notification {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  pointer-events: auto;
+  animation: slideIn 0.3s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.notification::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+/* Notification Types */
+.notification.success::before {
+  background-color: #10b981;
+}
+
+.notification.error::before {
+  background-color: #ef4444;
+}
+
+.notification.warning::before {
+  background-color: #f59e0b;
+}
+
+.notification.info::before {
+  background-color: #3b82f6;
+}
+
+/* Notification Content */
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.notification-icon {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}
+
+.notification.success .notification-icon {
+  background-color: #10b981;
+}
+
+.notification.error .notification-icon {
+  background-color: #ef4444;
+}
+
+.notification.warning .notification-icon {
+  background-color: #f59e0b;
+}
+
+.notification.info .notification-icon {
+  background-color: #3b82f6;
+}
+
+.notification-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-title {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.notification-message {
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+/* Close Button */
+.notification-close {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  background: none;
+  color: #9ca3af;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.notification-close:hover {
+  color: #6b7280;
+  background-color: #f3f4f6;
+}
+
+/* Action Button */
+.notification-action {
+  margin-top: 0.75rem;
+}
+
+.notification-action-button {
+  padding: 0.375rem 0.75rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.notification.success .notification-action-button {
+  background-color: #10b981;
+  color: white;
+}
+
+.notification.success .notification-action-button:hover {
+  background-color: #059669;
+}
+
+.notification.error .notification-action-button {
+  background-color: #ef4444;
+  color: white;
+}
+
+.notification.error .notification-action-button:hover {
+  background-color: #dc2626;
+}
+
+.notification.warning .notification-action-button {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.notification.warning .notification-action-button:hover {
+  background-color: #d97706;
+}
+
+.notification.info .notification-action-button {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.notification.info .notification-action-button:hover {
+  background-color: #2563eb;
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.toast {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem 1rem;
+  pointer-events: auto;
+  animation: toastSlideUp 0.3s ease-out;
+  min-width: 300px;
+  text-align: center;
+}
+
+.toast.success {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+  color: #065f46;
+}
+
+.toast.error {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+  color: #991b1b;
+}
+
+.toast.warning {
+  border-color: #f59e0b;
+  background-color: #fffbeb;
+  color: #92400e;
+}
+
+.toast.info {
+  border-color: #3b82f6;
+  background-color: #eff6ff;
+  color: #1e40af;
+}
+
+/* Badge Counter */
+.notification-badge {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-counter {
+  position: absolute;
+  top: -0.375rem;
+  right: -0.375rem;
+  background-color: #ef4444;
+  color: white;
+  border-radius: 50%;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  animation: bounce 0.3s ease;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes toastSlideUp {
+  from {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+/* Progress Bar (for timed notifications) */
+.notification-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background-color: currentColor;
+  opacity: 0.3;
+  animation: progress linear;
+}
+
+@keyframes progress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .notifications-container {
+    top: 0.5rem;
+    right: 0.5rem;
+    left: 0.5rem;
+    max-width: none;
+  }
+  
+  .toast-container {
+    left: 0.5rem;
+    right: 0.5rem;
+    transform: none;
+  }
+  
+  .toast {
+    min-width: auto;
+    width: 100%;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .notification {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .notification-title {
+    color: #f9fafb;
+  }
+  
+  .notification-message {
+    color: #d1d5db;
+  }
+  
+  .notification-close {
+    color: #9ca3af;
+  }
+  
+  .notification-close:hover {
+    color: #d1d5db;
+    background-color: #374151;
+  }
+  
+  .toast {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .toast.success {
+    background-color: #064e3b;
+    color: #34d399;
+  }
+  
+  .toast.error {
+    background-color: #450a0a;
+    color: #f87171;
+  }
+  
+  .toast.warning {
+    background-color: #451a03;
+    color: #fbbf24;
+  }
+  
+  .toast.info {
+    background-color: #1e3a8a;
+    color: #60a5fa;
+  }
+}
+
+/* Accessibility */
+.notification:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.notification-close:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Enhanced hover effects */
+.notification:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Stack effect for multiple notifications */
+.notification:nth-child(2) {
+  transform: scale(0.98) translateY(-4px);
+  opacity: 0.9;
+}
+
+.notification:nth-child(3) {
+  transform: scale(0.96) translateY(-8px);
+  opacity: 0.8;
+}
+
+.notification:nth-child(n+4) {
+  display: none;
+}`}
+            </pre>
+          )}
         </div>
       </div>
 

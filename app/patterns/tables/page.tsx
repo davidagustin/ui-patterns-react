@@ -5,6 +5,7 @@ import { useState } from 'react';
 export default function TablesPattern() {
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
+  const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
 
   const sampleData = [
     { id: 1, name: 'John Smith', email: 'john@email.com', role: 'Developer', status: 'Active' },
@@ -49,85 +50,156 @@ export default function TablesPattern() {
             </h2>
             
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <span className="text-sm text-gray-600 dark:text-gray-400">
                   {selectedRows.size} of {sampleData.length} selected
                 </span>
-                <button className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800">
-                  Export Data
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setViewMode(viewMode === 'table' ? 'cards' : 'table')}
+                    className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm min-h-[44px] flex items-center"
+                  >
+                    {viewMode === 'table' ? '📱 Cards' : '📊 Table'}
+                  </button>
+                  <button className="px-3 py-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 border border-blue-600 rounded-lg min-h-[44px] flex items-center">
+                    Export Data
+                  </button>
+                </div>
               </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-                  <thead className="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                      <th className="px-4 py-3 text-left">
-                        <input
-                          type="checkbox"
-                          checked={selectedRows.size === sampleData.length}
-                          onChange={() => setSelectedRows(new Set(sampleData.map(row => row.id)))}
-                          className="rounded"
-                        />
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                        Name
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                        Role
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                        Status
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {sampleData.map((row) => (
-                      <tr 
-                        key={row.id}
-                        className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${
-                          selectedRows.has(row.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
-                        }`}
-                      >
-                        <td className="px-4 py-3">
+              {viewMode === 'table' ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                    <thead className="bg-gray-50 dark:bg-gray-700">
+                      <tr>
+                        <th className="px-4 py-3 text-left">
+                          <input
+                            type="checkbox"
+                            checked={selectedRows.size === sampleData.length}
+                            onChange={() => setSelectedRows(new Set(sampleData.map(row => row.id)))}
+                            className="w-4 h-4 rounded"
+                          />
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                          Name
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                          Role
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                          Status
+                        </th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                      {sampleData.map((row) => (
+                        <tr 
+                          key={row.id}
+                          className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                            selectedRows.has(row.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                          }`}
+                        >
+                          <td className="px-4 py-3">
+                            <input
+                              type="checkbox"
+                              checked={selectedRows.has(row.id)}
+                              onChange={() => handleRowSelect(row.id)}
+                              className="w-4 h-4 rounded"
+                            />
+                          </td>
+                          <td className="px-4 py-3">
+                            <div>
+                              <div className="font-medium text-gray-900 dark:text-gray-100">
+                                {row.name}
+                              </div>
+                              <div className="text-sm text-gray-500 dark:text-gray-400">
+                                {row.email}
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
+                            {row.role}
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(row.status)}`}>
+                              {row.status}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <button className="text-blue-600 dark:text-blue-400 hover:text-blue-800 text-sm min-h-[44px] px-3 py-2 rounded">
+                              Edit
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm divide-y divide-gray-200 dark:divide-gray-700">
+                  {/* Select All for Cards */}
+                  <div className="p-4 bg-gray-50 dark:bg-gray-700 flex items-center justify-between">
+                    <label className="flex items-center space-x-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectedRows.size === sampleData.length}
+                        onChange={() => setSelectedRows(new Set(sampleData.map(row => row.id)))}
+                        className="w-5 h-5 rounded"
+                      />
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Select All ({sampleData.length})
+                      </span>
+                    </label>
+                  </div>
+
+                  {/* Card Layout */}
+                  {sampleData.map((row) => (
+                    <div
+                      key={row.id}
+                      className={`p-4 space-y-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
+                        selectedRows.has(row.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                      }`}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center space-x-3">
                           <input
                             type="checkbox"
                             checked={selectedRows.has(row.id)}
                             onChange={() => handleRowSelect(row.id)}
-                            className="rounded"
+                            className="w-5 h-5 mt-1 rounded"
                           />
-                        </td>
-                        <td className="px-4 py-3">
                           <div>
-                            <div className="font-medium text-gray-900 dark:text-gray-100">
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
                               {row.name}
-                            </div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                            </h3>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
                               {row.email}
-                            </div>
+                            </p>
                           </div>
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
-                          {row.role}
-                        </td>
-                        <td className="px-4 py-3">
+                        </div>
+                        <div className="flex items-center space-x-3">
                           <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(row.status)}`}>
                             {row.status}
                           </span>
-                        </td>
-                        <td className="px-4 py-3">
-                          <button className="text-blue-600 dark:text-blue-400 hover:text-blue-800 text-sm">
-                            Edit
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-600">
+                        <div>
+                          <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</span>
+                          <div className="mt-1 text-sm text-gray-900 dark:text-gray-100">{row.role}</div>
+                        </div>
+                        <button className="px-4 py-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 text-sm min-h-[44px] border border-blue-600 rounded-lg">
+                          Edit
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
