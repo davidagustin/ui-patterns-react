@@ -197,9 +197,17 @@ export default function DataGridPattern() {
         </p>
       </div>
 
-      <div className="space-y-6">
-        {/* Controls */}
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Interactive Example */}
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+            <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
+              🎯 Interactive Example
+            </h2>
+            
+            <div className="space-y-6">
+              {/* Controls */}
+              <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="flex items-center space-x-4">
               <input
