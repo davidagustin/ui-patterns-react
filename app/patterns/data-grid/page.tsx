@@ -509,7 +509,315 @@ export default function DataGrid() {
     </div>
   );
 }`}
-          </pre>
+            </pre>
+          ) : (
+            <pre className="text-sm leading-relaxed">
+{`/* Data Grid Container */
+.data-grid-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Search Input */
+.data-grid-search {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.data-grid-search:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.data-grid-search::placeholder {
+  color: #9ca3af;
+}
+
+/* Grid Table */
+.data-grid-table {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Header */
+.data-grid-header {
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.data-grid-header-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.data-grid-header-cell {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+}
+
+/* Table Body */
+.data-grid-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.data-grid-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.data-grid-row:hover {
+  background-color: #f9fafb;
+}
+
+.data-grid-row:last-child {
+  border-bottom: none;
+}
+
+.data-grid-cell {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+/* Checkbox Styles */
+.data-grid-checkbox {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.data-grid-checkbox:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.data-grid-checkbox:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Editable Cell */
+.editable-cell {
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s ease;
+}
+
+.editable-cell:hover {
+  background-color: #f3f4f6;
+}
+
+.editable-cell.editing {
+  padding: 0;
+}
+
+/* Edit Input */
+.edit-input {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #3b82f6;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  background: white;
+}
+
+.edit-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Edit Select */
+.edit-select {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #3b82f6;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  background: white;
+  cursor: pointer;
+}
+
+.edit-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-badge.active {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.inactive {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+/* Bulk Actions */
+.bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.bulk-action-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background: white;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bulk-action-button:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.bulk-action-button.danger {
+  background-color: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+.bulk-action-button.danger:hover {
+  background-color: #dc2626;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .data-grid-header-row,
+  .data-grid-row {
+    grid-template-columns: 50px 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  .data-grid-header-cell:nth-child(n+4),
+  .data-grid-cell:nth-child(n+4) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .data-grid-header-row,
+  .data-grid-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  
+  .data-grid-header-cell:first-child,
+  .data-grid-cell:first-child {
+    display: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .data-grid-search {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .data-grid-search::placeholder {
+    color: #6b7280;
+  }
+  
+  .data-grid-table {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .data-grid-header {
+    background-color: #111827;
+    border-color: #374151;
+  }
+  
+  .data-grid-row {
+    border-color: #374151;
+  }
+  
+  .data-grid-row:hover {
+    background-color: #374151;
+  }
+  
+  .data-grid-cell {
+    color: #f9fafb;
+  }
+  
+  .editable-cell:hover {
+    background-color: #374151;
+  }
+  
+  .edit-input,
+  .edit-select {
+    background: #374151;
+    border-color: #60a5fa;
+    color: #f9fafb;
+  }
+  
+  .bulk-actions {
+    background-color: #111827;
+    border-color: #374151;
+  }
+  
+  .bulk-action-button {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .bulk-action-button:hover {
+    background-color: #4b5563;
+  }
+}`}
+            </pre>
+          )}
         </div>
       </div>
 

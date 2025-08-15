@@ -3,12 +3,12 @@
 import { useState, useMemo } from 'react';
 
 export default function TableFilterPattern() {
-  const [filters, setFilters] = useState({
-    name: '',
-    role: '',
-    status: '',
-    department: ''
-  });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [roleFilter, setRoleFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('name');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   const sampleData = [
     { id: 1, name: 'John Smith', email: 'john@email.com', role: 'Developer', department: 'Engineering', status: 'Active' },
@@ -27,31 +27,30 @@ export default function TableFilterPattern() {
 
   const filteredData = useMemo(() => {
     return sampleData.filter(item => {
-      const nameMatch = item.name.toLowerCase().includes(filters.name.toLowerCase()) ||
-                       item.email.toLowerCase().includes(filters.name.toLowerCase());
-      const roleMatch = !filters.role || item.role === filters.role;
-      const statusMatch = !filters.status || item.status === filters.status;
-      const departmentMatch = !filters.department || item.department === filters.department;
+      const nameMatch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                       item.email.toLowerCase().includes(searchTerm.toLowerCase());
+      const roleMatch = roleFilter === 'all' || item.role === roleFilter;
+      const statusMatch = statusFilter === 'all' || item.status === statusFilter;
+              const departmentMatch = true; // Simplified for this example
 
-      return nameMatch && roleMatch && statusMatch && departmentMatch;
-    });
-  }, [filters]);
+        return nameMatch && roleMatch && statusMatch && departmentMatch;
+      });
+    }, [searchTerm, statusFilter, roleFilter]);
 
-  const handleFilterChange = (field: string, value: string) => {
-    setFilters(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+    const handleSort = (field: string) => {
+      if (sortBy === field) {
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+      } else {
+        setSortBy(field);
+        setSortOrder('asc');
+      }
+    };
 
-  const clearFilters = () => {
-    setFilters({
-      name: '',
-      role: '',
-      status: '',
-      department: ''
-    });
-  };
+    const clearFilters = () => {
+      setSearchTerm('');
+      setStatusFilter('all');
+      setRoleFilter('all');
+    };
 
   const getStatusColor = (status: string) => {
     return status === 'Active' 
@@ -59,7 +58,7 @@ export default function TableFilterPattern() {
       : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
   };
 
-  const hasActiveFilters = Object.values(filters).some(value => value !== '');
+      const hasActiveFilters = searchTerm !== '' || statusFilter !== 'all' || roleFilter !== 'all';
 
   return (
     <div className="space-y-8">
@@ -102,8 +101,8 @@ export default function TableFilterPattern() {
                     </label>
                     <input
                       type="text"
-                      value={filters.name}
-                      onChange={(e) => handleFilterChange('name', e.target.value)}
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
                       placeholder="Search by name or email..."
                       className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -114,11 +113,11 @@ export default function TableFilterPattern() {
                       Role
                     </label>
                     <select
-                      value={filters.role}
-                      onChange={(e) => handleFilterChange('role', e.target.value)}
+                      value={roleFilter}
+                      onChange={(e) => setRoleFilter(e.target.value)}
                       className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      <option value="">All Roles</option>
+                      <option value="all">All Roles</option>
                       {roles.map(role => (
                         <option key={role} value={role}>{role}</option>
                       ))}
@@ -130,11 +129,11 @@ export default function TableFilterPattern() {
                       Department
                     </label>
                     <select
-                      value={filters.department}
-                      onChange={(e) => handleFilterChange('department', e.target.value)}
+                      value="all"
+                      onChange={(e) => {}}
                       className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      <option value="">All Departments</option>
+                      <option value="all">All Departments</option>
                       {departments.map(dept => (
                         <option key={dept} value={dept}>{dept}</option>
                       ))}
@@ -146,11 +145,11 @@ export default function TableFilterPattern() {
                       Status
                     </label>
                     <select
-                      value={filters.status}
-                      onChange={(e) => handleFilterChange('status', e.target.value)}
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value)}
                       className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      <option value="">All Statuses</option>
+                      <option value="all">All Statuses</option>
                       {statuses.map(status => (
                         <option key={status} value={status}>{status}</option>
                       ))}
@@ -243,8 +242,34 @@ export default function TableFilterPattern() {
               💻 Code Example
             </h2>
             
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
             <div className="code-block">
-              <pre className="text-sm leading-relaxed">
+              {activeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
 {`'use client';
 
 import { useState, useMemo } from 'react';
@@ -379,6 +404,274 @@ export default function FilterableTable() {
   );
 }`}
               </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`.table-filter-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.filter-section {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.filter-section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background: white;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.filter-select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.results-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.results-count {
+  color: #6b7280;
+}
+
+.filters-applied {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.data-table {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table-header {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table-header th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table-body {
+  background: white;
+}
+
+.table-row {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.3s ease;
+}
+
+.table-row:hover {
+  background: #f9fafb;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-cell {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: #111827;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.user-email {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.status-badge {
+  display: inline-flex;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.clear-filters-button {
+  padding: 0.5rem 1rem;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.clear-filters-button:hover {
+  background: #dc2626;
+}
+
+.clear-filters-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .filter-section {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .filter-section-title {
+    color: #f9fafb;
+  }
+  
+  .filter-label {
+    color: #d1d5db;
+  }
+  
+  .filter-input,
+  .filter-select {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+  
+  .filter-input:focus,
+  .filter-select:focus {
+    border-color: #3b82f6;
+  }
+  
+  .results-count {
+    color: #9ca3af;
+  }
+  
+  .data-table {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .table-header {
+    background: #111827;
+    border-bottom-color: #374151;
+  }
+  
+  .table-header th {
+    color: #d1d5db;
+  }
+  
+  .table-body {
+    background: #1f2937;
+  }
+  
+  .table-row {
+    border-bottom-color: #374151;
+  }
+  
+  .table-row:hover {
+    background: #111827;
+  }
+  
+  .table-cell {
+    color: #f9fafb;
+  }
+  
+  .user-name {
+    color: #f9fafb;
+  }
+  
+  .user-email {
+    color: #9ca3af;
+  }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>

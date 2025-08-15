@@ -139,7 +139,33 @@ export default function TablesPattern() {
               💻 Code Example
             </h2>
             
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setCodeTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  codeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setCodeTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  codeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
             <div className="code-block">
+              {codeTab === 'jsx' ? (
               <pre className="text-sm leading-relaxed">
 {`'use client';
 
@@ -230,6 +256,249 @@ export default function DataTable() {
   );
 }`}
               </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`/* Table Container */
+.table-container {
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Header */
+.table-header {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table-header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.selection-counter {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.export-button {
+  font-size: 0.875rem;
+  color: #3b82f6;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.export-button:hover {
+  color: #1d4ed8;
+}
+
+/* Table Structure */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-head {
+  background: #f9fafb;
+}
+
+.table-head-row {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table-head-cell {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Table Body */
+.table-body {
+  background: white;
+}
+
+.table-body-row {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.table-body-row:hover {
+  background: #f9fafb;
+}
+
+.table-body-row.selected {
+  background: #eff6ff;
+}
+
+.table-body-cell {
+  padding: 0.75rem 1rem;
+  vertical-align: top;
+}
+
+/* Checkbox Styles */
+.table-checkbox {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.table-checkbox:checked {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+.table-checkbox:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* User Info Cell */
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.user-email {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Role Cell */
+.user-role {
+  font-size: 0.875rem;
+  color: #111827;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-badge.active {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.inactive {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+/* Action Button */
+.action-button {
+  color: #3b82f6;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.action-button:hover {
+  color: #1d4ed8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .table-header-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  .table-head-cell,
+  .table-body-cell {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .table-head-cell:nth-child(n+4),
+  .table-body-cell:nth-child(n+4) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-head-cell:nth-child(n+3),
+  .table-body-cell:nth-child(n+3) {
+    display: none;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .table-container,
+  .table-body {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .table-header,
+  .table-head {
+    background: #111827;
+    border-color: #374151;
+  }
+  
+  .table-body-row {
+    border-color: #374151;
+  }
+  
+  .table-body-row:hover {
+    background: #374151;
+  }
+  
+  .table-body-row.selected {
+    background: #1e3a8a;
+  }
+  
+  .user-name {
+    color: #f9fafb;
+  }
+  
+  .user-email {
+    color: #9ca3af;
+  }
+  
+  .user-role {
+    color: #f9fafb;
+  }
+  
+  .status-badge.active {
+    background-color: #064e3b;
+    color: #6ee7b7;
+  }
+  
+  .status-badge.inactive {
+    background-color: #7f1d1d;
+    color: #fca5a5;
+  }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>

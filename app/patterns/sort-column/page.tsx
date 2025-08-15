@@ -5,6 +5,7 @@ import { useState } from 'react';
 export default function SortColumnPattern() {
   const [sortField, setSortField] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
 
   const sampleData = [
     { id: 1, name: 'John Smith', email: 'john@email.com', role: 'Developer', salary: 75000, joinDate: '2023-01-15' },
@@ -182,7 +183,33 @@ export default function SortColumnPattern() {
               💻 Code Example
             </h2>
             
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setCodeTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  codeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setCodeTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  codeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
             <div className="code-block">
+              {codeTab === 'jsx' ? (
               <pre className="text-sm leading-relaxed">
 {`'use client';
 
@@ -291,6 +318,319 @@ export default function SortableTable() {
   );
 }`}
               </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`/* Sortable Table Container */
+.sortable-table-container {
+  background: white;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Sort Controls */
+.sort-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sort-info {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.sort-indicator {
+  font-size: 0.875rem;
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+/* Sortable Table */
+.sortable-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table Header */
+.sortable-header {
+  background: #f9fafb;
+}
+
+.sortable-header-cell {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sortable-header-cell:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.sortable-header-cell.active {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+/* Sort Icon Container */
+.sort-icon-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sort-icon {
+  font-size: 0.875rem;
+  transition: transform 0.2s ease;
+}
+
+.sort-icon.asc {
+  transform: rotate(0deg);
+}
+
+.sort-icon.desc {
+  transform: rotate(180deg);
+}
+
+.sort-icon.neutral {
+  opacity: 0.4;
+}
+
+/* Table Body */
+.sortable-body {
+  background: white;
+}
+
+.sortable-row {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s ease;
+}
+
+.sortable-row:hover {
+  background: #f9fafb;
+}
+
+.sortable-row:last-child {
+  border-bottom: none;
+}
+
+.sortable-cell {
+  padding: 0.75rem 1rem;
+  vertical-align: top;
+}
+
+/* User Info Cell */
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.user-email {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Role Cell */
+.user-role {
+  font-size: 0.875rem;
+  color: #111827;
+}
+
+/* Salary Cell */
+.salary-amount {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #059669;
+}
+
+/* Date Cell */
+.join-date {
+  font-size: 0.875rem;
+  color: #111827;
+}
+
+/* Results Counter */
+.results-counter {
+  padding: 0.75rem 1rem;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* Sort Animation */
+.sortable-row {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sort-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  .sortable-header-cell,
+  .sortable-cell {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .sortable-header-cell:nth-child(n+4),
+  .sortable-cell:nth-child(n+4) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .sortable-header-cell:nth-child(n+3),
+  .sortable-cell:nth-child(n+3) {
+    display: none;
+  }
+  
+  .user-info {
+    gap: 0.125rem;
+  }
+  
+  .user-name,
+  .user-email {
+    font-size: 0.875rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .sortable-table-container,
+  .sortable-body {
+    background: #1f2937;
+    border-color: #374151;
+  }
+  
+  .sort-controls,
+  .sortable-header,
+  .results-counter {
+    background: #111827;
+    border-color: #374151;
+  }
+  
+  .sortable-row {
+    border-color: #374151;
+  }
+  
+  .sortable-row:hover {
+    background: #374151;
+  }
+  
+  .sortable-header-cell {
+    color: #9ca3af;
+  }
+  
+  .sortable-header-cell:hover {
+    background: #374151;
+    color: #d1d5db;
+  }
+  
+  .sortable-header-cell.active {
+    background: #1e3a8a;
+    color: #60a5fa;
+  }
+  
+  .user-name {
+    color: #f9fafb;
+  }
+  
+  .user-email {
+    color: #9ca3af;
+  }
+  
+  .user-role,
+  .join-date {
+    color: #f9fafb;
+  }
+  
+  .salary-amount {
+    color: #34d399;
+  }
+  
+  .sort-info,
+  .results-counter {
+    color: #9ca3af;
+  }
+  
+  .sort-indicator {
+    color: #60a5fa;
+  }
+}
+
+/* Accessibility */
+.sortable-header-cell:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.sortable-header-cell[aria-sort="ascending"] .sort-icon {
+  transform: rotate(0deg);
+}
+
+.sortable-header-cell[aria-sort="descending"] .sort-icon {
+  transform: rotate(180deg);
+}
+
+.sortable-header-cell[aria-sort="none"] .sort-icon {
+  opacity: 0.4;
+}
+
+/* Loading State */
+.sortable-table.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.sortable-table.loading .sortable-row {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}`}
+                </pre>
+              )}
             </div>
           </div>
         </div>
