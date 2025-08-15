@@ -84,7 +84,7 @@ export default function BreadcrumbsPattern() {
             <div className="mt-6 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
               <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Current Page</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                You are currently viewing: <strong>MacBook Pro</strong> in the Electronics > Laptops category.
+                You are currently viewing: <strong>MacBook Pro</strong> in the Electronics &gt; Laptops category.
               </p>
             </div>
           </div>
