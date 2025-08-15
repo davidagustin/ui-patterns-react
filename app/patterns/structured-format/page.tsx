@@ -61,7 +61,7 @@ export default function StructuredFormatPattern() {
             </p>
             <div className="space-y-4">
               <div className="format-field">
-                <label className="format-label">
+                <label className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
                   Phone Number
                 </label>
                 <input
@@ -69,14 +69,14 @@ export default function StructuredFormatPattern() {
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(formatPhoneNumber(e.target.value))}
                   placeholder="(555) 123-4567"
-                  className="format-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all"
                   maxLength={12}
                 />
-                <p className="format-hint">Format: XXX-XXX-XXXX</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 font-medium">Format: XXX-XXX-XXXX</p>
               </div>
 
               <div className="format-field">
-                <label className="format-label">
+                <label className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
                   Credit Card
                 </label>
                 <input
@@ -84,14 +84,14 @@ export default function StructuredFormatPattern() {
                   value={creditCard}
                   onChange={(e) => setCreditCard(formatCreditCard(e.target.value))}
                   placeholder="1234 5678 9012 3456"
-                  className="format-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all"
                   maxLength={19}
                 />
-                <p className="format-hint">Format: XXXX XXXX XXXX XXXX</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 font-medium">Format: XXXX XXXX XXXX XXXX</p>
               </div>
 
               <div className="format-field">
-                <label className="format-label">
+                <label className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
                   Date
                 </label>
                 <input
@@ -99,10 +99,10 @@ export default function StructuredFormatPattern() {
                   value={date}
                   onChange={(e) => setDate(formatDate(e.target.value))}
                   placeholder="MM/DD/YYYY"
-                  className="format-input"
+                  className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all"
                   maxLength={10}
                 />
-                <p className="format-hint">Format: MM/DD/YYYY</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 font-medium">Format: MM/DD/YYYY</p>
               </div>
             </div>
 
