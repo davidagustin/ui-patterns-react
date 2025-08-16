@@ -85,17 +85,21 @@ export default function RuleBuilderPattern() {
               <div className="space-y-3">
                 <h3 className="font-medium text-gray-800 dark:text-gray-200">Current Rules</h3>
                 {rules.map((rule) => (
-                  <div key={rule.id} className={`rule-item ${rule.enabled ? 'rule-enabled' : 'rule-disabled'}`}>
+                  <div key={rule.id} className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 ${
+                    rule.enabled 
+                      ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700' 
+                      : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 opacity-60'
+                  }`}>
                     <input
                       type="checkbox"
                       checked={rule.enabled}
                       onChange={() => toggleRule(rule.id)}
-                      className="rule-toggle"
+                      className="w-5 h-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600"
                     />
                     <select
                       value={rule.field}
                       onChange={(e) => updateRule(rule.id, 'field', e.target.value)}
-                      className="rule-field"
+                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[120px]"
                     >
                       {fields.map(field => (
                         <option key={field.value} value={field.value}>{field.label}</option>
@@ -104,7 +108,7 @@ export default function RuleBuilderPattern() {
                     <select
                       value={rule.operator}
                       onChange={(e) => updateRule(rule.id, 'operator', e.target.value)}
-                      className="rule-operator"
+                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[120px]"
                     >
                       {operators.map(op => (
                         <option key={op.value} value={op.value}>{op.label}</option>
@@ -115,11 +119,11 @@ export default function RuleBuilderPattern() {
                       value={rule.value}
                       onChange={(e) => updateRule(rule.id, 'value', e.target.value)}
                       placeholder="Value"
-                      className="rule-value"
+                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[150px] placeholder-gray-500 dark:placeholder-gray-400"
                     />
                     <button
                       onClick={() => removeRule(rule.id)}
-                      className="rule-remove"
+                      className="w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center text-lg font-bold transition-colors duration-200 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                       aria-label="Remove rule"
                     >
                       ×
@@ -129,13 +133,13 @@ export default function RuleBuilderPattern() {
               </div>
 
               {/* Add New Rule */}
-              <div className="rule-builder">
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
                 <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-3">Add New Rule</h3>
-                <div className="rule-form">
+                <div className="flex items-center gap-3 flex-wrap">
                   <select
                     value={newRule.field}
                     onChange={(e) => setNewRule({...newRule, field: e.target.value})}
-                    className="rule-field"
+                    className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[120px]"
                   >
                     {fields.map(field => (
                       <option key={field.value} value={field.value}>{field.label}</option>
@@ -144,7 +148,7 @@ export default function RuleBuilderPattern() {
                   <select
                     value={newRule.operator}
                     onChange={(e) => setNewRule({...newRule, operator: e.target.value})}
-                    className="rule-operator"
+                    className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[120px]"
                   >
                     {operators.map(op => (
                       <option key={op.value} value={op.value}>{op.label}</option>
@@ -155,12 +159,12 @@ export default function RuleBuilderPattern() {
                     value={newRule.value}
                     onChange={(e) => setNewRule({...newRule, value: e.target.value})}
                     placeholder="Enter value"
-                    className="rule-value"
+                    className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[150px] placeholder-gray-500 dark:placeholder-gray-400"
                   />
                   <button
                     onClick={addRule}
                     disabled={!newRule.value.trim()}
-                    className="rule-add"
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-md text-sm font-medium transition-colors duration-200 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                   >
                     Add Rule
                   </button>
@@ -168,7 +172,7 @@ export default function RuleBuilderPattern() {
               </div>
 
               {/* Rule Summary */}
-              <div className="rule-summary">
+              <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                 <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Active Rules Summary</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {rules.filter(r => r.enabled).length} of {rules.length} rules are active

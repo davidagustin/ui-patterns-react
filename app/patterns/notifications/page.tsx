@@ -117,10 +117,64 @@ export default function NotificationsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+              Click the buttons below to see different types of notifications. The notifications will appear in the panel above.
+            </p>
             
-            <div className="space-y-4">
-              {/* Notification Controls */}
-              <div className="grid grid-cols-2 gap-3">
+            {/* Notifications Display */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4">
+              <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
+                📋 Notifications Panel
+              </h3>
+              
+              <div className="space-y-3 max-h-64 overflow-y-auto">
+                {notifications.length === 0 ? (
+                  <div className="text-center py-6 text-gray-500 dark:text-gray-400">
+                    <div className="text-3xl mb-2">🔔</div>
+                    <p className="text-sm">No notifications yet</p>
+                    <p className="text-xs">Click the buttons below to add notifications</p>
+                  </div>
+                ) : (
+                  notifications.map((notification) => (
+                    <div
+                      key={notification.id}
+                      className={getNotificationClasses(notification.type)}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start space-x-3">
+                          <span className="text-lg">
+                            {getNotificationIcon(notification.type)}
+                          </span>
+                          <div className="flex-1">
+                            <h3 className="font-medium text-sm">{notification.title}</h3>
+                            <p className="text-xs mt-1">{notification.message}</p>
+                            {notification.action && (
+                              <button
+                                onClick={notification.action.onClick}
+                                className="mt-2 px-2 py-1 text-xs bg-white dark:bg-gray-800 rounded border hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                              >
+                                {notification.action.label}
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => removeNotification(notification.id)}
+                          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 ml-2 text-sm"
+                          aria-label="Remove notification"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Notification Controls */}
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() => addNotification({
                     type: 'success',
@@ -128,9 +182,9 @@ export default function NotificationsPattern() {
                     message: 'Your action was completed successfully.',
                     duration: 5000
                   })}
-                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                  className="px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm"
                 >
-                  Success Notification
+                  Success
                 </button>
                 
                 <button
@@ -140,9 +194,9 @@ export default function NotificationsPattern() {
                     message: 'Something went wrong. Please try again.',
                     duration: 0
                   })}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                  className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
                 >
-                  Error Notification
+                  Error
                 </button>
                 
                 <button
@@ -152,9 +206,9 @@ export default function NotificationsPattern() {
                     message: 'Please review your input before proceeding.',
                     duration: 8000
                   })}
-                  className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                  className="px-3 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors text-sm"
                 >
-                  Warning Notification
+                  Warning
                 </button>
                 
                 <button
@@ -164,30 +218,28 @@ export default function NotificationsPattern() {
                     message: 'Here is some helpful information for you.',
                     duration: 6000
                   })}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                  className="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm"
                 >
-                  Info Notification
+                  Info
                 </button>
               </div>
 
-              {/* Toast Controls */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() => showToastMessage('Operation completed successfully!', 'success')}
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
                 >
                   Success Toast
                 </button>
                 
                 <button
                   onClick={() => showToastMessage('An error occurred!', 'error')}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
                 >
                   Error Toast
                 </button>
               </div>
 
-              {/* Notification with Action */}
               <button
                 onClick={() => addNotification({
                   type: 'info',
@@ -202,140 +254,57 @@ export default function NotificationsPattern() {
                     }
                   }
                 })}
-                className="w-full px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+                className="w-full px-3 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors text-sm"
               >
-                Notification with Action
+                With Action
               </button>
 
-              {/* Clear All */}
               {notifications.length > 0 && (
                 <button
                   onClick={clearAllNotifications}
-                  className="w-full px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                  className="w-full px-3 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
                 >
-                  Clear All Notifications ({notificationCount})
+                  Clear All ({notificationCount})
                 </button>
               )}
             </div>
           </div>
         </div>
 
-        {/* Notifications Display */}
+        {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
-              📋 Notifications Panel
+              💻 Code Example
             </h2>
             
-            <div className="space-y-3 max-h-96 overflow-y-auto">
-              {notifications.length === 0 ? (
-                <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                  <div className="text-4xl mb-2">🔔</div>
-                  <p>No notifications yet</p>
-                  <p className="text-sm">Click the buttons to add notifications</p>
-                </div>
-              ) : (
-                notifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className={getNotificationClasses(notification.type)}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-start space-x-3">
-                        <Tooltip content={`${notification.type.charAt(0).toUpperCase() + notification.type.slice(1)} notification`}>
-                          <span className="text-xl">
-                            {getNotificationIcon(notification.type)}
-                          </span>
-                        </Tooltip>
-                        <div className="flex-1">
-                          <h3 className="font-medium">{notification.title}</h3>
-                          <p className="text-sm mt-1">{notification.message}</p>
-                          {notification.action && (
-                            <button
-                              onClick={notification.action.onClick}
-                              className="mt-2 px-3 py-1 text-xs bg-white dark:bg-gray-800 rounded border hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                            >
-                              {notification.action.label}
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      <Tooltip content="Remove notification">
-                        <button
-                          onClick={() => removeNotification(notification.id)}
-                          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 ml-2"
-                          aria-label="Remove notification"
-                        >
-                          ✕
-                        </button>
-                      </Tooltip>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Toast Message */}
-      {showToast && (
-        <div className={getToastClasses(toastType)}>
-          <div className="flex items-center space-x-2">
-            <Tooltip content={`${toastType.charAt(0).toUpperCase() + toastType.slice(1)} toast`}>
-              <span>
-                {getNotificationIcon(toastType)}
-              </span>
-            </Tooltip>
-            <span>{toastMessage}</span>
-            <Tooltip content="Close toast">
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
               <button
-                onClick={() => setShowToast(false)}
-                className="ml-2 text-white hover:text-gray-200"
-                aria-label="Close toast"
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
               >
-                ✕
+                JSX
               </button>
-            </Tooltip>
-          </div>
-        </div>
-      )}
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
 
-      {/* Code Example */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
-          💻 Code Example
-        </h2>
-        
-        {/* Tab Navigation */}
-        <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-          <button
-            onClick={() => setActiveTab('jsx')}
-            className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === 'jsx'
-                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-            }`}
-          >
-            JSX
-          </button>
-          <button
-            onClick={() => setActiveTab('css')}
-            className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === 'css'
-                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-            }`}
-          >
-            CSS
-          </button>
-        </div>
-
-        <div className="code-block">
-          {activeTab === 'jsx' ? (
-            <pre className="text-sm leading-relaxed">
+            <div className="code-block">
+              {activeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
 {`import { useState, useEffect } from 'react';
-import Tooltip from '../../../components/Tooltip';
 
 interface Notification {
   id: string;
@@ -354,13 +323,11 @@ export default function NotificationsComponent() {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('success');
-  const [notificationCount, setNotificationCount] = useState(0);
 
   const addNotification = (notification) => {
     const id = Date.now().toString();
     const newNotification = { ...notification, id };
     setNotifications(prev => [newNotification, ...prev]);
-    setNotificationCount(prev => prev + 1);
 
     // Auto-remove notification after duration
     if (notification.duration !== 0) {
@@ -372,7 +339,6 @@ export default function NotificationsComponent() {
 
   const removeNotification = (id) => {
     setNotifications(prev => prev.filter(n => n.id !== id));
-    setNotificationCount(prev => Math.max(0, prev - 1));
   };
 
   const showToastMessage = (message, type = 'success') => {
@@ -383,6 +349,16 @@ export default function NotificationsComponent() {
     setTimeout(() => {
       setShowToast(false);
     }, 3000);
+  };
+
+  const getNotificationIcon = (type) => {
+    switch (type) {
+      case 'success': return '✅';
+      case 'error': return '❌';
+      case 'warning': return '⚠️';
+      case 'info': return 'ℹ️';
+      default: return '📢';
+    }
   };
 
   const getNotificationClasses = (type) => {
@@ -401,164 +377,102 @@ export default function NotificationsComponent() {
     }
   };
 
-  const getNotificationIcon = (type) => {
-    switch (type) {
-      case 'success': return '✅';
-      case 'error': return '❌';
-      case 'warning': return '⚠️';
-      case 'info': return 'ℹ️';
-      default: return '📢';
-    }
-  };
-
   return (
-    <div className="space-y-4">
-      {/* Notification Controls */}
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          onClick={() => addNotification({
-            type: 'success',
-            title: 'Success!',
-            message: 'Your action was completed successfully.',
-            duration: 5000
-          })}
-          className="px-4 py-2 bg-green-500 text-white rounded-lg"
-        >
-          Success Notification
-        </button>
-        
-        <button
-          onClick={() => addNotification({
-            type: 'error',
-            title: 'Error!',
-            message: 'Something went wrong.',
-            duration: 0
-          })}
-          className="px-4 py-2 bg-red-500 text-white rounded-lg"
-        >
-          Error Notification
-        </button>
-      </div>
-
+    <div className="notifications-container">
       {/* Notifications Display */}
-      <div className="space-y-3">
-        {notifications.map((notification) => (
-          <div
-            key={notification.id}
-            className={getNotificationClasses(notification.type)}
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex items-start space-x-3">
-                <Tooltip content={\`\${notification.type.charAt(0).toUpperCase() + notification.type.slice(1)} notification\`}>
-                  <span className="text-xl">{getNotificationIcon(notification.type)}</span>
-                </Tooltip>
-                <div>
-                  <h3 className="font-medium">{notification.title}</h3>
-                  <p className="text-sm mt-1">{notification.message}</p>
-                  {notification.action && (
-                    <button
-                      onClick={notification.action.onClick}
-                      className="mt-2 px-3 py-1 text-xs bg-white dark:bg-gray-800 rounded border hover:bg-gray-50 dark:hover:bg-gray-700"
-                    >
-                      {notification.action.label}
-                    </button>
-                  )}
+      <div className="notifications-panel">
+        <h3>📋 Notifications</h3>
+        <div className="notifications-list">
+          {notifications.length === 0 ? (
+            <div className="empty-state">
+              <div>🔔</div>
+              <p>No notifications yet</p>
+            </div>
+          ) : (
+            notifications.map((notification) => (
+              <div
+                key={notification.id}
+                className={getNotificationClasses(notification.type)}
+              >
+                <div className="notification-content">
+                  <span className="notification-icon">
+                    {getNotificationIcon(notification.type)}
+                  </span>
+                  <div className="notification-text">
+                    <h4>{notification.title}</h4>
+                    <p>{notification.message}</p>
+                    {notification.action && (
+                      <button onClick={notification.action.onClick}>
+                        {notification.action.label}
+                      </button>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => removeNotification(notification.id)}
+                    className="close-btn"
+                  >
+                    ✕
+                  </button>
                 </div>
               </div>
-              <Tooltip content="Remove notification">
-                <button
-                  onClick={() => removeNotification(notification.id)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                  aria-label="Remove notification"
-                >
-                  ✕
-                </button>
-              </Tooltip>
-            </div>
-          </div>
-        ))}
+            ))
+          )}
+        </div>
       </div>
 
       {/* Toast Message */}
       {showToast && (
-        <div className="fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg bg-green-500 text-white">
-          <div className="flex items-center space-x-2">
-            <Tooltip content={\`\${toastType.charAt(0).toUpperCase() + toastType.slice(1)} toast\`}>
-              <span>{getNotificationIcon(toastType)}</span>
-            </Tooltip>
-            <span>{toastMessage}</span>
-            <Tooltip content="Close toast">
-              <button
-                onClick={() => setShowToast(false)}
-                className="ml-2 text-white hover:text-gray-200"
-                aria-label="Close toast"
-              >
-                ✕
-              </button>
-            </Tooltip>
-          </div>
+        <div className={\`toast-message \${toastType}\`}>
+          <span>{getNotificationIcon(toastType)}</span>
+          <span>{toastMessage}</span>
+          <button onClick={() => setShowToast(false)}>✕</button>
         </div>
       )}
     </div>
   );
 }`}
-            </pre>
-          ) : (
-            <pre className="text-sm leading-relaxed">
-{`/* Notifications CSS */
-
-/* Notifications Container */
+                </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
+{`/* Notifications Styles */
 .notifications-container {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1000;
-  max-width: 400px;
-  width: 100%;
-  pointer-events: none;
-}
-
-/* Notification Item */
-.notification {
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
-  margin-bottom: 0.75rem;
-  padding: 1rem;
-  pointer-events: auto;
-  animation: slideIn 0.3s ease-out;
   position: relative;
-  overflow: hidden;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.notification::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
+.notifications-panel {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-/* Notification Types */
-.notification.success::before {
-  background-color: #10b981;
+.notifications-panel h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #374151;
 }
 
-.notification.error::before {
-  background-color: #ef4444;
+.notifications-list {
+  max-height: 300px;
+  overflow-y: auto;
+  space-y: 0.75rem;
 }
 
-.notification.warning::before {
-  background-color: #f59e0b;
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
 }
 
-.notification.info::before {
-  background-color: #3b82f6;
+.empty-state div {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
-/* Notification Content */
 .notification-content {
   display: flex;
   align-items: flex-start;
@@ -566,195 +480,89 @@ export default function NotificationsComponent() {
 }
 
 .notification-icon {
+  font-size: 1.25rem;
   flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: white;
 }
 
-.notification.success .notification-icon {
-  background-color: #10b981;
-}
-
-.notification.error .notification-icon {
-  background-color: #ef4444;
-}
-
-.notification.warning .notification-icon {
-  background-color: #f59e0b;
-}
-
-.notification.info .notification-icon {
-  background-color: #3b82f6;
-}
-
-.notification-body {
+.notification-text {
   flex: 1;
-  min-width: 0;
 }
 
-.notification-title {
-  font-weight: 600;
-  color: #111827;
+.notification-text h4 {
+  font-weight: 500;
   margin-bottom: 0.25rem;
   font-size: 0.875rem;
 }
 
-.notification-message {
+.notification-text p {
+  font-size: 0.75rem;
   color: #6b7280;
-  font-size: 0.875rem;
-  line-height: 1.4;
+  margin-bottom: 0.5rem;
 }
 
-/* Close Button */
-.notification-close {
-  flex-shrink: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: none;
-  background: none;
-  color: #9ca3af;
-  cursor: pointer;
+.notification-text button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  background: white;
+  border: 1px solid #d1d5db;
   border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.notification-text button:hover {
+  background-color: #f9fafb;
+}
+
+.close-btn {
+  color: #9ca3af;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #6b7280;
+}
+
+/* Toast Message */
+.toast-message {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 50;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  transition: all 0.2s ease;
+  gap: 0.5rem;
+  animation: slideIn 0.3s ease-out;
 }
 
-.notification-close:hover {
-  color: #6b7280;
-  background-color: #f3f4f6;
-}
-
-/* Action Button */
-.notification-action {
-  margin-top: 0.75rem;
-}
-
-.notification-action-button {
-  padding: 0.375rem 0.75rem;
-  border: none;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.notification.success .notification-action-button {
+.toast-message.success {
   background-color: #10b981;
   color: white;
 }
 
-.notification.success .notification-action-button:hover {
-  background-color: #059669;
-}
-
-.notification.error .notification-action-button {
+.toast-message.error {
   background-color: #ef4444;
   color: white;
 }
 
-.notification.error .notification-action-button:hover {
-  background-color: #dc2626;
-}
-
-.notification.warning .notification-action-button {
+.toast-message.warning {
   background-color: #f59e0b;
   color: white;
 }
 
-.notification.warning .notification-action-button:hover {
-  background-color: #d97706;
-}
-
-.notification.info .notification-action-button {
+.toast-message.info {
   background-color: #3b82f6;
   color: white;
 }
 
-.notification.info .notification-action-button:hover {
-  background-color: #2563eb;
-}
-
-/* Toast Notifications */
-.toast-container {
-  position: fixed;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  pointer-events: none;
-}
-
-.toast {
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
-  padding: 0.75rem 1rem;
-  pointer-events: auto;
-  animation: toastSlideUp 0.3s ease-out;
-  min-width: 300px;
-  text-align: center;
-}
-
-.toast.success {
-  border-color: #10b981;
-  background-color: #f0fdf4;
-  color: #065f46;
-}
-
-.toast.error {
-  border-color: #ef4444;
-  background-color: #fef2f2;
-  color: #991b1b;
-}
-
-.toast.warning {
-  border-color: #f59e0b;
-  background-color: #fffbeb;
-  color: #92400e;
-}
-
-.toast.info {
-  border-color: #3b82f6;
-  background-color: #eff6ff;
-  color: #1e40af;
-}
-
-/* Badge Counter */
-.notification-badge {
-  position: relative;
-  display: inline-block;
-}
-
-.notification-counter {
-  position: absolute;
-  top: -0.375rem;
-  right: -0.375rem;
-  background-color: #ef4444;
-  color: white;
-  border-radius: 50%;
-  width: 1.25rem;
-  height: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  font-weight: 600;
-  animation: bounce 0.3s ease;
-}
-
-/* Animations */
 @keyframes slideIn {
   from {
     transform: translateX(100%);
@@ -764,228 +572,32 @@ export default function NotificationsComponent() {
     transform: translateX(0);
     opacity: 1;
   }
-}
-
-@keyframes slideOut {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-@keyframes toastSlideUp {
-  from {
-    transform: translateX(-50%) translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes bounce {
-  0%, 20%, 53%, 80%, 100% {
-    transform: translate3d(0, 0, 0);
-  }
-  40%, 43% {
-    transform: translate3d(0, -8px, 0);
-  }
-  70% {
-    transform: translate3d(0, -4px, 0);
-  }
-  90% {
-    transform: translate3d(0, -2px, 0);
-  }
-}
-
-/* Progress Bar (for timed notifications) */
-.notification-progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  background-color: currentColor;
-  opacity: 0.3;
-  animation: progress linear;
-}
-
-@keyframes progress {
-  from { width: 100%; }
-  to { width: 0%; }
-}
-
-/* Responsive Design */
-@media (max-width: 640px) {
-  .notifications-container {
-    top: 0.5rem;
-    right: 0.5rem;
-    left: 0.5rem;
-    max-width: none;
-  }
-  
-  .toast-container {
-    left: 0.5rem;
-    right: 0.5rem;
-    transform: none;
-  }
-  
-  .toast {
-    min-width: auto;
-    width: 100%;
-  }
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  .notification {
-    background: #1f2937;
-    border-color: #374151;
-  }
-  
-  .notification-title {
-    color: #f9fafb;
-  }
-  
-  .notification-message {
-    color: #d1d5db;
-  }
-  
-  .notification-close {
-    color: #9ca3af;
-  }
-  
-  .notification-close:hover {
-    color: #d1d5db;
-    background-color: #374151;
-  }
-  
-  .toast {
-    background: #1f2937;
-    border-color: #374151;
-  }
-  
-  .toast.success {
-    background-color: #064e3b;
-    color: #34d399;
-  }
-  
-  .toast.error {
-    background-color: #450a0a;
-    color: #f87171;
-  }
-  
-  .toast.warning {
-    background-color: #451a03;
-    color: #fbbf24;
-  }
-  
-  .toast.info {
-    background-color: #1e3a8a;
-    color: #60a5fa;
-  }
-}
-
-/* Accessibility */
-.notification:focus-within {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-.notification-close:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Enhanced hover effects */
-.notification:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* Stack effect for multiple notifications */
-.notification:nth-child(2) {
-  transform: scale(0.98) translateY(-4px);
-  opacity: 0.9;
-}
-
-.notification:nth-child(3) {
-  transform: scale(0.96) translateY(-8px);
-  opacity: 0.8;
-}
-
-.notification:nth-child(n+4) {
-  display: none;
 }`}
-            </pre>
-          )}
-        </div>
-      </div>
-
-      {/* Key Features */}
-      <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
-        <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
-          ✨ Key Features
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Types</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Success, error, warning, and info notifications</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Auto-dismiss</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Configurable auto-removal with custom durations</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Action Buttons</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Interactive notifications with custom actions</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Toast Messages</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Temporary toast notifications for quick feedback</p>
+                </pre>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Use Cases */}
-      <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
-        <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">
-          🎯 Common Use Cases
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">✅</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Form Submissions</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Success/error feedback for user actions</p>
-          </div>
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">🔄</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">System Updates</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Real-time system status and updates</p>
-          </div>
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">📱</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Mobile Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Push notifications and alerts</p>
+      {/* Toast Message */}
+      {showToast && (
+        <div className={getToastClasses(toastType)}>
+          <div className="flex items-center space-x-2">
+            <span>
+              {getNotificationIcon(toastType)}
+            </span>
+            <span>{toastMessage}</span>
+            <button
+              onClick={() => setShowToast(false)}
+              className="ml-2 text-white hover:text-gray-200"
+              aria-label="Close toast"
+            >
+              ✕
+            </button>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

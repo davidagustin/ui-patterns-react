@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function CaptchaPattern() {
   const [captchaType, setCaptchaType] = useState<'image' | 'checkbox' | 'math'>('image');
@@ -9,6 +9,7 @@ export default function CaptchaPattern() {
   const [mathProblem, setMathProblem] = useState({ num1: 7, num2: 3, operator: '+' });
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [imageCaptcha, setImageCaptcha] = useState('ABCD123');
+  const [captchaStyles, setCaptchaStyles] = useState<Array<{transform: string, color: string}>>([]);
 
   const generateMathProblem = () => {
     const num1 = Math.floor(Math.random() * 10) + 1;
@@ -25,6 +26,13 @@ export default function CaptchaPattern() {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     setImageCaptcha(result);
+    
+    // Generate styles for each character
+    const styles = result.split('').map(() => ({
+      transform: `rotate(${Math.random() * 20 - 10}deg)`,
+      color: `hsl(${Math.random() * 360}, 70%, 40%)`
+    }));
+    setCaptchaStyles(styles);
   };
 
   const verifyCaptcha = () => {
@@ -62,6 +70,13 @@ export default function CaptchaPattern() {
     if (captchaType === 'math') generateMathProblem();
     if (captchaType === 'image') generateImageCaptcha();
   };
+
+  // Initialize captcha styles on mount and when captcha type changes
+  useEffect(() => {
+    if (captchaType === 'image') {
+      generateImageCaptcha();
+    }
+  }, [captchaType]);
 
   return (
     <div className="space-y-8">
@@ -152,10 +167,7 @@ export default function CaptchaPattern() {
                               <span
                                 key={index}
                                 className="inline-block mx-1"
-                                style={{
-                                  transform: `rotate(${Math.random() * 20 - 10}deg)`,
-                                  color: `hsl(${Math.random() * 360}, 70%, 40%)`
-                                }}
+                                style={captchaStyles[index] || {}}
                               >
                                 {char}
                               </span>

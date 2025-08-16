@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import CodeTabs from '../../../components/shared/CodeTabs';
 
-export default function FillBlanksPattern() {
+// Separate component for the interactive example
+function FillBlanksExample() {
   const [answers, setAnswers] = useState<{[key: string]: string}>({});
   const [showResults, setShowResults] = useState(false);
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   const template = {
     title: "Complete the Story",
@@ -49,202 +50,130 @@ export default function FillBlanksPattern() {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          📝 Fill in the Blanks
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Interactive form completion that guides users through filling in missing information with helpful prompts and real-time feedback.
+    <div className="space-y-6">
+      {/* Progress Indicator */}
+      <div className="space-y-2">
+        <div className="flex justify-between items-center">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Completion Progress
+          </span>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            {getCompletionPercentage()}% Complete
+          </span>
+        </div>
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+          <div 
+            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+            style={{ width: `${getCompletionPercentage()}%` }}
+          ></div>
+        </div>
+      </div>
+
+      {/* Template Preview */}
+      <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+        <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+          {template.title}
+        </h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          {template.text.split(/\{([^}]+)\}/).map((part, index) => {
+            if (index % 2 === 1) {
+              const key = part;
+              const answer = answers[key];
+              return answer ? (
+                <span key={index} className="bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-200 px-1 rounded font-medium">
+                  {answer}
+                </span>
+              ) : (
+                <span key={index} className="bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-200 px-1 rounded font-medium">
+                  [Fill this in]
+                </span>
+              );
+            }
+            return part;
+          })}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Interactive Example */}
-        <div className="space-y-6">
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
-            <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
-              🎯 Interactive Example
-            </h2>
-            
-            <div className="space-y-6">
-              {/* Progress Indicator */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Completion Progress
-                  </span>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
-                    {getCompletionPercentage()}% Complete
-                  </span>
+      {/* Input Fields */}
+      <div className="space-y-4">
+        <h3 className="font-medium text-gray-800 dark:text-gray-200">
+          Fill in the blanks:
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {template.blanks.map((blank) => (
+            <div key={blank.key} className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {blank.label}
+              </label>
+              <input
+                type="text"
+                value={answers[blank.key] || ''}
+                onChange={(e) => handleAnswerChange(blank.key, e.target.value)}
+                placeholder={blank.hint}
+                className={`input-field transition-all duration-200 ${
+                  answers[blank.key] && answers[blank.key].trim() !== ''
+                    ? 'border-green-500 focus:ring-green-500'
+                    : 'border-gray-300 focus:ring-blue-500'
+                }`}
+              />
+              {answers[blank.key] && answers[blank.key].trim() !== '' && (
+                <div className="flex items-center text-green-600 dark:text-green-400 text-xs">
+                  <span className="mr-1">✓</span>
+                  Filled
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div 
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${getCompletionPercentage()}%` }}
-                  ></div>
-                </div>
-              </div>
-
-              {/* Template Preview */}
-              <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
-                  {template.title}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                  {template.text.split(/\{([^}]+)\}/).map((part, index) => {
-                    if (index % 2 === 1) {
-                      const key = part;
-                      const answer = answers[key];
-                      return answer ? (
-                        <span key={index} className="bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-200 px-1 rounded font-medium">
-                          {answer}
-                        </span>
-                      ) : (
-                        <span key={index} className="bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-200 px-1 rounded font-medium">
-                          [Fill this in]
-                        </span>
-                      );
-                    }
-                    return part;
-                  })}
-                </p>
-              </div>
-
-              {/* Input Fields */}
-              <div className="space-y-4">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200">
-                  Fill in the blanks:
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {template.blanks.map((blank) => (
-                    <div key={blank.key} className="space-y-1">
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        {blank.label}
-                      </label>
-                      <input
-                        type="text"
-                        value={answers[blank.key] || ''}
-                        onChange={(e) => handleAnswerChange(blank.key, e.target.value)}
-                        placeholder={blank.hint}
-                        className={`input-field transition-all duration-200 ${
-                          answers[blank.key] && answers[blank.key].trim() !== ''
-                            ? 'border-green-500 focus:ring-green-500'
-                            : 'border-gray-300 focus:ring-blue-500'
-                        }`}
-                      />
-                      {answers[blank.key] && answers[blank.key].trim() !== '' && (
-                        <div className="flex items-center text-green-600 dark:text-green-400 text-xs">
-                          <span className="mr-1">✓</span>
-                          Filled
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => setShowResults(true)}
-                  disabled={!isComplete()}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                    isComplete()
-                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                      : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                  }`}
-                >
-                  Generate Story
-                </button>
-                <button
-                  onClick={() => {
-                    setAnswers({});
-                    setShowResults(false);
-                  }}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                >
-                  Reset
-                </button>
-              </div>
+              )}
             </div>
-          </div>
-        </div>
-
-        {/* Results */}
-        <div className="space-y-6">
-          <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
-            <h2 className="text-xl font-semibold mb-4 text-green-800 dark:text-green-200">
-              📖 Generated Story
-            </h2>
-            
-            {showResults && isComplete() ? (
-              <div className="space-y-4">
-                <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                  <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
-                    Your Completed Story:
-                  </h3>
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    {generateStory()}
-                  </p>
-                </div>
-                
-                <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                  <p className="text-sm text-blue-800 dark:text-blue-200">
-                    <strong>Great job!</strong> You've successfully completed all the blanks. 
-                    Try changing some answers to create different stories!
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                <p className="text-gray-600 dark:text-gray-400 text-center">
-                  {isComplete() 
-                    ? 'Click "Generate Story" to see your completed story!'
-                    : 'Fill in all the blanks above to generate your story.'
-                  }
-                </p>
-              </div>
-            )}
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Code Example */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
-          💻 Code Example
-        </h2>
-        
-        {/* Tab Navigation */}
-        <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-          <button
-            onClick={() => setActiveTab('jsx')}
-            className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === 'jsx'
-                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-            }`}
-          >
-            JSX
-          </button>
-          <button
-            onClick={() => setActiveTab('css')}
-            className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === 'css'
-                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-            }`}
-          >
-            CSS
-          </button>
-        </div>
+      {/* Action Buttons */}
+      <div className="flex space-x-3">
+        <button
+          onClick={() => setShowResults(true)}
+          disabled={!isComplete()}
+          className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+            isComplete()
+              ? 'bg-blue-600 hover:bg-blue-700 text-white'
+              : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+          }`}
+        >
+          Generate Story
+        </button>
+        <button
+          onClick={() => {
+            setAnswers({});
+            setShowResults(false);
+          }}
+          className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+        >
+          Reset
+        </button>
+      </div>
 
-        {/* Tab Content */}
-        <div className="code-block">
-          {activeTab === 'jsx' ? (
-            <pre className="text-sm leading-relaxed">
-{`'use client';
+      {/* Results */}
+      {showResults && isComplete() && (
+        <div className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+          <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+            Your Completed Story:
+          </h3>
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+            {generateStory()}
+          </p>
+          <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <p className="text-sm text-blue-800 dark:text-blue-200">
+              <strong>Great job!</strong> You've successfully completed all the blanks. 
+              Try changing some answers to create different stories!
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function FillBlanksPattern() {
+  const jsxCode = `'use client';
 
 import { useState } from 'react';
 
@@ -364,11 +293,9 @@ export default function FillBlanksExample() {
       )}
     </div>
   );
-}`}
-            </pre>
-          ) : (
-            <pre className="text-sm leading-relaxed">
-{`/* Fill in the Blanks CSS */
+}`;
+
+  const cssCode = `/* Fill in the Blanks CSS */
 
 /* Main Container */
 .fill-blanks-container {
@@ -877,9 +804,33 @@ export default function FillBlanksExample() {
 @keyframes spin {
   0% { transform: translate(-50%, -50%) rotate(0deg); }
   100% { transform: translate(-50%, -50%) rotate(360deg); }
-}`}
-            </pre>
-          )}
+}`;
+
+  return (
+    <div className="space-y-8">
+      <div className="text-center">
+        <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          📝 Fill in the Blanks
+        </h1>
+        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          Interactive form completion that guides users through filling in missing information with helpful prompts and real-time feedback.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Live Pattern - Left Side */}
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+            <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
+              🎯 Interactive Example
+            </h2>
+            <FillBlanksExample />
+          </div>
+        </div>
+
+        {/* Code Example - Right Side */}
+        <div className="space-y-6">
+          <CodeTabs jsxCode={jsxCode} cssCode={cssCode} />
         </div>
       </div>
 

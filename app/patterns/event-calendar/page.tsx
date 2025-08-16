@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface Event {
   id: number;
@@ -14,6 +14,7 @@ interface Event {
 
 export default function EventCalendarPattern() {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'month' | 'week' | 'day'>('month');
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [showEventModal, setShowEventModal] = useState(false);
@@ -303,7 +304,7 @@ export default function EventCalendarPattern() {
               {/* Calendar Days */}
               <div className="grid grid-cols-7">
                 {days.map((day, index) => {
-                  const isToday = day && day.toDateString() === new Date().toDateString();
+                  const isToday = day && day.toDateString() === currentDate.toDateString();
                   const dayEvents = day ? getEventsForDate(day) : [];
                   const isDragOver = day && dragOverDate.current === day.toISOString().split('T')[0];
                   
@@ -662,7 +663,7 @@ export default function EventCalendar() {
         {/* Calendar Days */}
         <div className="calendar-body">
           {days.map((day, index) => {
-            const isToday = day && day.toDateString() === new Date().toDateString();
+                            const isToday = day && day.toDateString() === currentDate.toDateString();
             const dayEvents = day ? getEventsForDate(day) : [];
             
             return (

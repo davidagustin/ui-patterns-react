@@ -576,8 +576,11 @@ export default function WysiwygPattern() {
               </div>
               <button
                 onClick={() => setShowSource(!showSource)}
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 dark:from-blue-600 dark:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 text-white text-sm font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
               >
+                <span className="mr-2">
+                  {showSource ? '🎨' : '📝'}
+                </span>
                 Switch to {showSource ? 'Visual' : 'Text'} Mode
               </button>
             </div>

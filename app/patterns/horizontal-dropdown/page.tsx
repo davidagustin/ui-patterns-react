@@ -158,25 +158,7 @@ export default function HorizontalDropdownPattern() {
                   ))}
                 </div>
 
-                {/* Actions - Desktop */}
-                <div className="nav-actions-desktop">
-                  <button className="nav-login-btn">
-                    Login
-                  </button>
-                  <button className="nav-cta-btn">
-                    Get Started
-                  </button>
-                </div>
 
-                {/* Actions - Mobile */}
-                <div className="nav-actions-mobile">
-                  <button className="nav-login-btn">
-                    Login
-                  </button>
-                  <button className="nav-cta-btn">
-                    Get Started
-                  </button>
-                </div>
               </div>
 
               {/* Mega Menu Example */}

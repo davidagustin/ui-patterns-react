@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function FormattingDataPattern() {
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [locale, setLocale] = useState('en-US');
   const [currency, setCurrency] = useState('USD');
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
 
   // Sample data to format
   const sampleData = {
@@ -19,7 +20,7 @@ export default function FormattingDataPattern() {
     dates: {
       timestamp: new Date('2024-03-15T14:30:00Z'),
       dateOnly: new Date('2024-03-15'),
-      relative: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+      relative: new Date(currentTime.getTime() - 2 * 60 * 60 * 1000), // 2 hours ago
     },
     text: {
       title: 'the quick brown fox jumps over the lazy dog',
@@ -72,7 +73,7 @@ export default function FormattingDataPattern() {
 
   const formatRelativeTime = (date: Date) => {
     const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-    const diff = Math.floor((date.getTime() - Date.now()) / 1000);
+    const diff = Math.floor((date.getTime() - currentTime.getTime()) / 1000);
     
     if (Math.abs(diff) < 60) return rtf.format(diff, 'second');
     if (Math.abs(diff) < 3600) return rtf.format(Math.floor(diff / 60), 'minute');
@@ -478,8 +479,8 @@ export default function DataFormatter() {
       {/* Dates */}
       <div className="format-section">
         <h3>Dates</h3>
-        <p>Full: {formatDate(new Date(), { dateStyle: 'full', timeStyle: 'short' })}</p>
-        <p>Relative: {formatRelativeTime(new Date(Date.now() - 2 * 60 * 60 * 1000))}</p>
+        <p>Full: {formatDate(currentTime, { dateStyle: 'full', timeStyle: 'short' })}</p>
+        <p>Relative: {formatRelativeTime(new Date(currentTime.getTime() - 2 * 60 * 60 * 1000))}</p>
       </div>
 
       {/* Text */}
