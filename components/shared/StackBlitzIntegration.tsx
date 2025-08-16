@@ -38,6 +38,32 @@ function App() {
 }
 
 export default App;`);
+
+    // Add CSS module file for components that use it
+    formData.append("project[files][src/App.module.css]", `/* Custom notification styles */
+.notificationWrapper {
+  @apply flex flex-row items-center justify-between w-96 bg-gray-900 px-4 py-6 text-white shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:translate-y-1 rounded-xl relative transition-all duration-500 ease-in-out;
+}
+
+.iconWrapper {
+  @apply text-xl;
+}
+
+.contentWrapper {
+  @apply flex flex-col items-start justify-center ml-4 cursor-default;
+}
+
+.contentWrapper h1 {
+  @apply text-base text-gray-200 font-semibold leading-none tracking-wider;
+}
+
+.contentWrapper p {
+  @apply text-sm text-gray-400 mt-2 leading-relaxed tracking-wider;
+}
+
+.closeIcon {
+  @apply absolute top-2 right-2 cursor-pointer text-lg;
+}`);
     
     // Essential create-react-app files
     formData.append("project[files][public/index.html]", `<!DOCTYPE html>
@@ -115,6 +141,31 @@ root.render(
   main {
     @apply p-6;
   }
+  
+  /* Custom notification styles */
+  .notificationWrapper {
+    @apply flex flex-row items-center justify-between w-96 bg-gray-900 px-4 py-6 text-white shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:translate-y-1 rounded-xl relative transition-all duration-500 ease-in-out;
+  }
+
+  .iconWrapper {
+    @apply text-xl;
+  }
+
+  .contentWrapper {
+    @apply flex flex-col items-start justify-center ml-4 cursor-default;
+  }
+
+  .contentWrapper h1 {
+    @apply text-base text-gray-200 font-semibold leading-none tracking-wider;
+  }
+
+  .contentWrapper p {
+    @apply text-sm text-gray-400 mt-2 leading-relaxed tracking-wider;
+  }
+
+  .closeIcon {
+    @apply absolute top-2 right-2 cursor-pointer text-lg;
+  }
 }`);
 
     formData.append("project[files][tailwind.config.js]", `/** @type {import('tailwindcss').Config} */
@@ -144,7 +195,11 @@ module.exports = {
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "tailwindcss": "^3.3.0",
-    "autoprefixer": "^10.4.0"
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "classnames": "^2.3.1",
+    "react-hot-toast": "^2.1.1",
+    "react-icons": "^4.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
