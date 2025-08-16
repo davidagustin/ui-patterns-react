@@ -5,8 +5,13 @@ import { useState, useRef, useEffect } from 'react';
 export default function PullToRefreshPattern() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [pullDistance, setPullDistance] = useState(0);
-  const [lastUpdate, setLastUpdate] = useState(new Date());
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  
+  // Set initial time only on client side to prevent hydration mismatch
+  useEffect(() => {
+    setLastUpdate(new Date());
+  }, []);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const startY = useRef<number>(0);
@@ -153,7 +158,7 @@ export default function PullToRefreshPattern() {
                   <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
                     <h3 className="font-medium text-gray-800 dark:text-gray-200">Latest Updates</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Last updated: {lastUpdate.toLocaleTimeString()}
+                      Last updated: {lastUpdate ? lastUpdate.toLocaleTimeString() : 'Loading...'}
                     </p>
                   </div>
                   
@@ -227,7 +232,12 @@ export default function PullToRefreshPattern() {
 export default function PullToRefresh() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [pullDistance, setPullDistance] = useState(0);
-  const [lastUpdate, setLastUpdate] = useState(new Date());
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  
+  // Set initial time only on client side to prevent hydration mismatch
+  useEffect(() => {
+    setLastUpdate(new Date());
+  }, []);
   
   const containerRef = useRef<HTMLDivElement>(null);
   const startY = useRef<number>(0);
@@ -314,7 +324,7 @@ export default function PullToRefresh() {
           <div className="bg-gray-50 p-3 rounded-lg">
             <h3 className="font-medium">Latest Updates</h3>
             <p className="text-sm text-gray-600">
-              Last updated: {lastUpdate.toLocaleTimeString()}
+              Last updated: {lastUpdate ? lastUpdate.toLocaleTimeString() : 'Loading...'}
             </p>
           </div>
           
