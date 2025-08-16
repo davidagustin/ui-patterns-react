@@ -158,9 +158,7 @@ export default function InplaceEditorPattern() {
           </div>
         </div>
         {/* Code Example */}
-<DynamicCodeExample componentName="inplace-editor" />
-          </div>
-        </div>
+        <DynamicCodeExample componentName="inplace-editor" />
       </div>
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">

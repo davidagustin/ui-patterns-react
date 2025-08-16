@@ -25,12 +25,12 @@ ${actualComponentCode}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>${componentName} - UI Pattern Demo</h1>
-        <p>This is a demo of the ${componentName} UI pattern.</p>
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white shadow-sm border-b border-gray-200 p-6">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">${componentName} - UI Pattern Demo</h1>
+        <p className="text-gray-600">This is a demo of the ${componentName} UI pattern.</p>
       </header>
-      <main>
+      <main className="p-6">
         <InteractiveExample />
       </main>
     </div>
@@ -75,18 +75,46 @@ root.render(
 @tailwind components;
 @tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+  
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  .App {
+    @apply min-h-screen bg-gray-50;
+  }
+  
+  .App-header {
+    @apply bg-white shadow-sm border-b border-gray-200 p-6;
+  }
+  
+  .App-header h1 {
+    @apply text-2xl font-bold text-gray-900 mb-2;
+  }
+  
+  .App-header p {
+    @apply text-gray-600;
+  }
+  
+  main {
+    @apply p-6;
+  }
 }`);
 
     formData.append("project[files][tailwind.config.js]", `/** @type {import('tailwindcss').Config} */
@@ -100,6 +128,13 @@ module.exports = {
   plugins: [],
 }`);
 
+    formData.append("project[files][postcss.config.js]", `module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}`);
+
     formData.append("project[files][package.json]", `{
   "name": "${componentName}-ui-pattern",
   "version": "0.1.0",
@@ -108,7 +143,8 @@ module.exports = {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "tailwindcss": "^3.3.0"
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -166,7 +202,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
       "react": "^18.2.0",
       "react-dom": "^18.2.0",
       "react-scripts": "5.0.1",
-      "tailwindcss": "^3.3.0"
+      "tailwindcss": "^3.3.0",
+      "autoprefixer": "^10.4.0"
     };
     formData.append("project[dependencies]", JSON.stringify(dependencies));
     
