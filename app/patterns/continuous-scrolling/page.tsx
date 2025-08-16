@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 interface Post {
   id: number;
@@ -14,12 +14,12 @@ interface Post {
 }
 
 export default function ContinuousScrollingPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-  
+
   const observer = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +27,7 @@ export default function ContinuousScrollingPattern() {
   const generatePosts = (pageNum: number): Post[] => {
     const postsPerPage = 10;
     const timestamp = Date.now();
-    
+
     return Array.from({ length: postsPerPage }, (_, index) => {
       // Create truly unique ID by combining page, index, and timestamp
       const postId = pageNum * 1000 + index + 1;
@@ -38,97 +38,101 @@ export default function ContinuousScrollingPattern() {
         author: getRandomAuthor(),
         date: getRandomDate(),
         likes: Math.floor(Math.random() * 1000),
-        comments: Math.floor(Math.random() * 100)
+        comments: Math.floor(Math.random() * 100),
       };
     });
   };
 
   const getRandomTitle = () => {
     const titles = [
-      'The Future of Web Development',
-      'React Best Practices',
-      'CSS Grid Layout Guide',
-      'JavaScript Performance Tips',
-      'UI/UX Design Principles',
-      'Mobile-First Design',
-      'Accessibility in Modern Web Apps',
-      'State Management Patterns',
-      'Testing Strategies for React',
-      'Deployment Best Practices'
+      "The Future of Web Development",
+      "React Best Practices",
+      "CSS Grid Layout Guide",
+      "JavaScript Performance Tips",
+      "UI/UX Design Principles",
+      "Mobile-First Design",
+      "Accessibility in Modern Web Apps",
+      "State Management Patterns",
+      "Testing Strategies for React",
+      "Deployment Best Practices",
     ];
     return titles[Math.floor(Math.random() * titles.length)];
   };
 
   const getRandomContent = () => {
     const contents = [
-      'This is an interesting article about modern web development practices and how they can improve your workflow.',
-      'Learn about the latest trends in frontend development and how to implement them in your projects.',
-      'Discover the best practices for building scalable and maintainable web applications.',
-      'Explore advanced techniques for optimizing performance and user experience.',
-      'Understand the importance of accessibility and how to make your applications inclusive for all users.'
+      "This is an interesting article about modern web development practices and how they can improve your workflow.",
+      "Learn about the latest trends in frontend development and how to implement them in your projects.",
+      "Discover the best practices for building scalable and maintainable web applications.",
+      "Explore advanced techniques for optimizing performance and user experience.",
+      "Understand the importance of accessibility and how to make your applications inclusive for all users.",
     ];
     return contents[Math.floor(Math.random() * contents.length)];
   };
 
   const getRandomAuthor = () => {
     const authors = [
-      'Sarah Johnson',
-      'Mike Chen',
-      'Emily Rodriguez',
-      'David Kim',
-      'Lisa Thompson',
-      'Alex Morgan',
-      'Rachel Green',
-      'Tom Wilson'
+      "Sarah Johnson",
+      "Mike Chen",
+      "Emily Rodriguez",
+      "David Kim",
+      "Lisa Thompson",
+      "Alex Morgan",
+      "Rachel Green",
+      "Tom Wilson",
     ];
     return authors[Math.floor(Math.random() * authors.length)];
   };
 
   const getRandomDate = () => {
     const dates = [
-      '2 hours ago',
-      '1 day ago',
-      '3 days ago',
-      '1 week ago',
-      '2 weeks ago',
-      '1 month ago'
+      "2 hours ago",
+      "1 day ago",
+      "3 days ago",
+      "1 week ago",
+      "2 weeks ago",
+      "1 month ago",
     ];
     return dates[Math.floor(Math.random() * dates.length)];
   };
 
   const loadMorePosts = useCallback(async () => {
     if (loading || !hasMore) return;
-    
+
     setLoading(true);
-    
+
     // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const newPosts = generatePosts(page);
-    
-    if (page >= 5) { // Limit to 5 pages for demo
+
+    if (page >= 5) {
+      // Limit to 5 pages for demo
       setHasMore(false);
     }
-    
-    setPosts(prev => [...prev, ...newPosts]);
-    setPage(prev => prev + 1);
+
+    setPosts((prev) => [...prev, ...newPosts]);
+    setPage((prev) => prev + 1);
     setLoading(false);
   }, [loading, hasMore, page]);
 
   // Intersection Observer for infinite scroll
-  const lastElementRef = useCallback((node: HTMLDivElement) => {
-    if (loading) return;
-    
-    if (observer.current) observer.current.disconnect();
-    
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
-        loadMorePosts();
-      }
-    });
-    
-    if (node) observer.current.observe(node);
-  }, [loading, hasMore, loadMorePosts]);
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (loading) return;
+
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          loadMorePosts();
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore, loadMorePosts],
+  );
 
   useEffect(() => {
     loadMorePosts();
@@ -136,7 +140,7 @@ export default function ContinuousScrollingPattern() {
 
   const formatNumber = (num: number) => {
     if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'k';
+      return (num / 1000).toFixed(1) + "k";
     }
     return num.toString();
   };
@@ -148,7 +152,8 @@ export default function ContinuousScrollingPattern() {
           📜 Continuous Scrolling Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Load content continuously as users scroll, providing a seamless browsing experience without pagination.
+          Load content continuously as users scroll, providing a seamless
+          browsing experience without pagination.
         </p>
       </div>
 
@@ -160,9 +165,11 @@ export default function ContinuousScrollingPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Scroll down to see new posts load automatically. This pattern is perfect for social media feeds, news sites, and content-heavy applications.
+              Scroll down to see new posts load automatically. This pattern is
+              perfect for social media feeds, news sites, and content-heavy
+              applications.
             </p>
-            
+
             <div className="max-h-96 overflow-y-auto space-y-4 scroll-smooth">
               {posts.map((post, index) => (
                 <div
@@ -178,11 +185,11 @@ export default function ContinuousScrollingPattern() {
                       {post.date}
                     </span>
                   </div>
-                  
+
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                     {post.content}
                   </p>
-                  
+
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500 dark:text-gray-400">
                       By {post.author}
@@ -198,16 +205,18 @@ export default function ContinuousScrollingPattern() {
                   </div>
                 </div>
               ))}
-              
+
               {loading && (
                 <div ref={loadingRef} className="flex justify-center py-4">
                   <div className="flex items-center space-x-2">
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Loading more posts...</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Loading more posts...
+                    </span>
                   </div>
                 </div>
               )}
-              
+
               {!hasMore && (
                 <div className="text-center py-4">
                   <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -225,16 +234,14 @@ export default function ContinuousScrollingPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="continuous-scrolling" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="continuous-scrolling"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -248,31 +255,55 @@ export default function ContinuousScrollingPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Infinite Scroll</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Automatically loads more content as user scrolls</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Infinite Scroll
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Automatically loads more content as user scrolls
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Intersection Observer</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Efficient detection of scroll position</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Intersection Observer
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Efficient detection of scroll position
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Loading States</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Visual feedback during content loading</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Loading States
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Visual feedback during content loading
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Performance Optimized</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Efficient memory management and rendering</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Performance Optimized
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Efficient memory management and rendering
+              </p>
             </div>
           </div>
         </div>
@@ -286,18 +317,30 @@ export default function ContinuousScrollingPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📱</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Social Media Feeds</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Facebook, Twitter, Instagram style feeds</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Social Media Feeds
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Facebook, Twitter, Instagram style feeds
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📰</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">News Websites</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Article lists and content streams</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              News Websites
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Article lists and content streams
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛒</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">E-commerce</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Product catalogs and search results</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              E-commerce
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Product catalogs and search results
+            </p>
           </div>
         </div>
       </div>

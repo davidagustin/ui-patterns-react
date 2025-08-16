@@ -1,30 +1,54 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function DragReorderPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [items, setItems] = useState([
-    { id: 1, title: 'Design System', description: 'Create consistent UI components', priority: 'High' },
-    { id: 2, title: 'User Research', description: 'Conduct user interviews and surveys', priority: 'Medium' },
-    { id: 3, title: 'Prototype Testing', description: 'Test wireframes with users', priority: 'High' },
-    { id: 4, title: 'Content Strategy', description: 'Define messaging and tone', priority: 'Low' },
-    { id: 5, title: 'Accessibility Audit', description: 'Review WCAG compliance', priority: 'Medium' },
+    {
+      id: 1,
+      title: "Design System",
+      description: "Create consistent UI components",
+      priority: "High",
+    },
+    {
+      id: 2,
+      title: "User Research",
+      description: "Conduct user interviews and surveys",
+      priority: "Medium",
+    },
+    {
+      id: 3,
+      title: "Prototype Testing",
+      description: "Test wireframes with users",
+      priority: "High",
+    },
+    {
+      id: 4,
+      title: "Content Strategy",
+      description: "Define messaging and tone",
+      priority: "Low",
+    },
+    {
+      id: 5,
+      title: "Accessibility Audit",
+      description: "Review WCAG compliance",
+      priority: "Medium",
+    },
   ]);
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
   const [dragOverItem, setDragOverItem] = useState<number | null>(null);
 
   const handleDragStart = (e: React.DragEvent, itemId: number) => {
     setDraggedItem(itemId);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', itemId.toString());
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", itemId.toString());
   };
 
   const handleDragOver = (e: React.DragEvent, itemId: number) => {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+    e.dataTransfer.dropEffect = "move";
     if (draggedItem !== itemId) {
       setDragOverItem(itemId);
     }
@@ -36,18 +60,18 @@ export default function DragReorderPattern() {
 
   const handleDrop = (e: React.DragEvent, targetItemId: number) => {
     e.preventDefault();
-    
+
     if (draggedItem && draggedItem !== targetItemId) {
-      const draggedIndex = items.findIndex(item => item.id === draggedItem);
-      const targetIndex = items.findIndex(item => item.id === targetItemId);
-      
+      const draggedIndex = items.findIndex((item) => item.id === draggedItem);
+      const targetIndex = items.findIndex((item) => item.id === targetItemId);
+
       const newItems = [...items];
       const [draggedItemData] = newItems.splice(draggedIndex, 1);
       newItems.splice(targetIndex, 0, draggedItemData);
-      
+
       setItems(newItems);
     }
-    
+
     setDraggedItem(null);
     setDragOverItem(null);
   };
@@ -59,10 +83,14 @@ export default function DragReorderPattern() {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High': return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
-      case 'Medium': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
-      case 'Low': return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+      case "High":
+        return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400";
+      case "Medium":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400";
+      case "Low":
+        return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
     }
   };
 
@@ -73,7 +101,8 @@ export default function DragReorderPattern() {
           🔄 Drag to Reorder Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Allow users to reorder items by dragging them to new positions, providing intuitive list management.
+          Allow users to reorder items by dragging them to new positions,
+          providing intuitive list management.
         </p>
       </div>
 
@@ -85,9 +114,10 @@ export default function DragReorderPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Drag any item to reorder the list. Watch for visual feedback during dragging.
+              Drag any item to reorder the list. Watch for visual feedback
+              during dragging.
             </p>
-            
+
             <div className="space-y-2">
               {items.map((item, index) => (
                 <div
@@ -99,17 +129,27 @@ export default function DragReorderPattern() {
                   onDrop={(e) => handleDrop(e, item.id)}
                   onDragEnd={handleDragEnd}
                   className={`relative p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 cursor-move transition-all duration-200 ${
-                    draggedItem === item.id 
-                      ? 'opacity-50 scale-95 shadow-lg' 
-                      : dragOverItem === item.id 
-                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' 
-                        : 'hover:shadow-md hover:scale-[1.02]'
+                    draggedItem === item.id
+                      ? "opacity-50 scale-95 shadow-lg"
+                      : dragOverItem === item.id
+                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                        : "hover:shadow-md hover:scale-[1.02]"
                   }`}
                 >
                   {/* Drag Handle */}
                   <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 8h16M4 16h16"
+                      />
                     </svg>
                   </div>
 
@@ -118,7 +158,9 @@ export default function DragReorderPattern() {
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
-                          <span className="text-sm text-gray-500 dark:text-gray-400">#{index + 1}</span>
+                          <span className="text-sm text-gray-500 dark:text-gray-400">
+                            #{index + 1}
+                          </span>
                           <h3 className="font-medium text-gray-800 dark:text-gray-200">
                             {item.title}
                           </h3>
@@ -127,7 +169,9 @@ export default function DragReorderPattern() {
                           {item.description}
                         </p>
                       </div>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(item.priority)}`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(item.priority)}`}
+                      >
                         {item.priority}
                       </span>
                     </div>
@@ -142,7 +186,9 @@ export default function DragReorderPattern() {
             </div>
 
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">How to Use</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                How to Use
+              </h4>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <div>• Click and drag any item to reorder</div>
                 <div>• Drop the item in the desired position</div>
@@ -159,16 +205,14 @@ export default function DragReorderPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="drag-reorder" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="drag-reorder"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -182,45 +226,81 @@ export default function DragReorderPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Drag & Drop</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Intuitive drag and drop reordering</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Drag & Drop
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Intuitive drag and drop reordering
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear drag states and drop zones</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear drag states and drop zones
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Drag Handles</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Visual indicators for draggable elements</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Drag Handles
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Visual indicators for draggable elements
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Animations</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Fluid transitions and visual feedback</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smooth Animations
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Fluid transitions and visual feedback
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Touch Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Works on mobile devices with touch gestures</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Touch Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Works on mobile devices with touch gestures
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Accessibility</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Keyboard navigation and screen reader support</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Accessibility
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Keyboard navigation and screen reader support
+              </p>
             </div>
           </div>
         </div>
@@ -234,18 +314,30 @@ export default function DragReorderPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📋</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Task Lists</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Reorder tasks by priority</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Task Lists
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Reorder tasks by priority
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🎵</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Playlists</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Reorder songs and tracks</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Playlists
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Reorder songs and tracks
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📁</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">File Managers</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Organize files and folders</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              File Managers
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Organize files and folders
+            </p>
           </div>
         </div>
       </div>

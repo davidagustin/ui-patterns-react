@@ -1,13 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ModalPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [isOpen, setIsOpen] = useState(false);
-  const [modalType, setModalType] = useState<'simple' | 'form' | 'confirmation'>('simple');
-  const [formData, setFormData] = useState({ name: '', email: '' });
+  const [modalType, setModalType] = useState<
+    "simple" | "form" | "confirmation"
+  >("simple");
+  const [formData, setFormData] = useState({ name: "", email: "" });
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -15,37 +17,37 @@ export default function ModalPattern() {
   // Close modal on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (e.key === "Escape" && isOpen) {
         closeModal();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Form submitted! Data: ' + JSON.stringify(formData));
+    alert("Form submitted! Data: " + JSON.stringify(formData));
     closeModal();
-    setFormData({ name: '', email: '' });
+    setFormData({ name: "", email: "" });
   };
 
   const handleConfirm = () => {
-    alert('Action confirmed!');
+    alert("Action confirmed!");
     closeModal();
   };
 
   const renderModalContent = () => {
     switch (modalType) {
-      case 'form':
+      case "form":
         return (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -55,9 +57,11 @@ export default function ModalPattern() {
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base"
-                style={{ fontSize: '16px' }}
+                style={{ fontSize: "16px" }}
                 placeholder="Enter your name"
                 required
               />
@@ -69,9 +73,11 @@ export default function ModalPattern() {
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base"
-                style={{ fontSize: '16px' }}
+                style={{ fontSize: "16px" }}
                 placeholder="Enter your email"
                 required
               />
@@ -94,20 +100,31 @@ export default function ModalPattern() {
           </form>
         );
 
-      case 'confirmation':
+      case "confirmation":
         return (
           <div className="space-y-4">
             <div className="text-center">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/20 mb-4">
-                <svg className="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                <svg
+                  className="h-6 w-6 text-red-600 dark:text-red-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
                 </svg>
               </div>
               <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
                 Delete Account
               </h3>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                Are you sure you want to delete your account? This action cannot be undone.
+                Are you sure you want to delete your account? This action cannot
+                be undone.
               </p>
             </div>
             <div className="flex justify-end space-x-3 pt-4">
@@ -134,7 +151,8 @@ export default function ModalPattern() {
               Simple Modal
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              This is a simple modal with basic content. You can put any content here including text, images, or other components.
+              This is a simple modal with basic content. You can put any content
+              here including text, images, or other components.
             </p>
             <div className="flex justify-end pt-4">
               <button
@@ -156,7 +174,8 @@ export default function ModalPattern() {
           🪟 Modal Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Overlay content on top of the current page to focus user attention on specific actions or information without navigation.
+          Overlay content on top of the current page to focus user attention on
+          specific actions or information without navigation.
         </p>
       </div>
 
@@ -168,38 +187,39 @@ export default function ModalPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Try different types of modals. Press Escape to close any open modal.
+              Try different types of modals. Press Escape to close any open
+              modal.
             </p>
-            
+
             <div className="space-y-4">
               {/* Modal Type Selector */}
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => setModalType('simple')}
+                  onClick={() => setModalType("simple")}
                   className={`px-4 py-3 rounded text-sm font-medium transition-colors min-h-[44px] flex items-center ${
-                    modalType === 'simple'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                    modalType === "simple"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                   }`}
                 >
                   Simple Modal
                 </button>
                 <button
-                  onClick={() => setModalType('form')}
+                  onClick={() => setModalType("form")}
                   className={`px-4 py-3 rounded text-sm font-medium transition-colors min-h-[44px] flex items-center ${
-                    modalType === 'form'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                    modalType === "form"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                   }`}
                 >
                   Form Modal
                 </button>
                 <button
-                  onClick={() => setModalType('confirmation')}
+                  onClick={() => setModalType("confirmation")}
                   className={`px-4 py-3 rounded text-sm font-medium transition-colors min-h-[44px] flex items-center ${
-                    modalType === 'confirmation'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                    modalType === "confirmation"
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                   }`}
                 >
                   Confirmation Modal
@@ -211,18 +231,19 @@ export default function ModalPattern() {
                 onClick={openModal}
                 className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium min-h-[44px] flex items-center justify-center text-base"
               >
-                Open {modalType.charAt(0).toUpperCase() + modalType.slice(1)} Modal
+                Open {modalType.charAt(0).toUpperCase() + modalType.slice(1)}{" "}
+                Modal
               </button>
 
               {/* Modal */}
               {isOpen && (
                 <div className="fixed inset-0 z-50 overflow-y-auto">
                   {/* Backdrop */}
-                  <div 
+                  <div
                     className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
                     onClick={closeModal}
                   />
-                  
+
                   {/* Modal Container */}
                   <div className="flex min-h-full items-end sm:items-center justify-center p-4">
                     <div className="relative bg-white dark:bg-gray-900 rounded-t-lg sm:rounded-lg shadow-xl max-w-md w-full mx-auto transform transition-all">
@@ -232,15 +253,23 @@ export default function ModalPattern() {
                         className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 min-h-[44px] min-w-[44px] flex items-center justify-center"
                         aria-label="Close modal"
                       >
-                        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        <svg
+                          className="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
                         </svg>
                       </button>
-                      
+
                       {/* Modal Content */}
-                      <div className="p-6">
-                        {renderModalContent()}
-                      </div>
+                      <div className="p-6">{renderModalContent()}</div>
                     </div>
                   </div>
                 </div>
@@ -255,15 +284,15 @@ export default function ModalPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
-              {<DynamicCodeExample 
-                componentName="modal" 
-                activeTab={activeTab} 
-              />}
+              {
+                <DynamicCodeExample
+                  componentName="modal"
+                  activeTab={activeTab}
+                />
+              }
             </div>
           </div>
         </div>
@@ -276,31 +305,55 @@ export default function ModalPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Backdrop Click</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Close modal by clicking outside the content area</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Backdrop Click
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Close modal by clicking outside the content area
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Escape Key</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Keyboard accessibility with Escape key to close</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Escape Key
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Keyboard accessibility with Escape key to close
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Body Scroll Lock</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Prevent background scrolling when modal is open</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Body Scroll Lock
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Prevent background scrolling when modal is open
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Focus Management</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Proper focus trapping and restoration</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Focus Management
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Proper focus trapping and restoration
+              </p>
             </div>
           </div>
         </div>
@@ -314,18 +367,30 @@ export default function ModalPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Form Input</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Collect user input without page navigation</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Form Input
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Collect user input without page navigation
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">⚠️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Confirmations</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Confirm destructive actions before execution</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Confirmations
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Confirm destructive actions before execution
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">ℹ️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Information Display</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Show additional details or help information</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Information Display
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Show additional details or help information
+            </p>
           </div>
         </div>
       </div>

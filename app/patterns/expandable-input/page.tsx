@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ExpandableInputPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [text, setText] = useState('');
-  const [description, setDescription] = useState('');
-  const [notes, setNotes] = useState('');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [text, setText] = useState("");
+  const [description, setDescription] = useState("");
+  const [notes, setNotes] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [newTag, setNewTag] = useState('');
+  const [newTag, setNewTag] = useState("");
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -19,7 +19,7 @@ export default function ExpandableInputPattern() {
   // Auto-resize textarea
   const adjustHeight = (element: HTMLTextAreaElement | null) => {
     if (element) {
-      element.style.height = 'auto';
+      element.style.height = "auto";
       element.style.height = `${element.scrollHeight}px`;
     }
   };
@@ -37,26 +37,26 @@ export default function ExpandableInputPattern() {
   }, [notes]);
 
   const handleTagAdd = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && newTag.trim()) {
+    if (e.key === "Enter" && newTag.trim()) {
       e.preventDefault();
       if (!tags.includes(newTag.trim())) {
         setTags([...tags, newTag.trim()]);
       }
-      setNewTag('');
+      setNewTag("");
     }
   };
 
   const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
+    setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
   const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNewTag(value);
-    
+
     // Auto-expand input based on content
     const input = e.target;
-    input.style.width = 'auto';
+    input.style.width = "auto";
     input.style.width = `${Math.max(value.length * 8, 100)}px`;
   };
 
@@ -67,7 +67,8 @@ export default function ExpandableInputPattern() {
           📏 Expandable Input
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Inputs that dynamically resize and grow with content, providing a natural writing experience.
+          Inputs that dynamically resize and grow with content, providing a
+          natural writing experience.
         </p>
       </div>
 
@@ -78,7 +79,7 @@ export default function ExpandableInputPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             <div className="space-y-6">
               {/* Auto-expanding Textarea */}
               <div className="space-y-2">
@@ -113,7 +114,15 @@ export default function ExpandableInputPattern() {
                 />
                 <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
                   <span>Characters: {description.length}</span>
-                  <span>Words: {description.trim().split(/\s+/).filter(word => word.length > 0).length}</span>
+                  <span>
+                    Words:{" "}
+                    {
+                      description
+                        .trim()
+                        .split(/\s+/)
+                        .filter((word) => word.length > 0).length
+                    }
+                  </span>
                 </div>
               </div>
 
@@ -147,7 +156,7 @@ export default function ExpandableInputPattern() {
                   />
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {tags.length} tag{tags.length !== 1 ? 's' : ''} added
+                  {tags.length} tag{tags.length !== 1 ? "s" : ""} added
                 </p>
               </div>
 
@@ -165,7 +174,7 @@ export default function ExpandableInputPattern() {
                   rows={3}
                 />
                 <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-                  <span>Lines: {notes.split('\n').length}</span>
+                  <span>Lines: {notes.split("\n").length}</span>
                   <span>Characters: {notes.length}</span>
                 </div>
               </div>
@@ -179,16 +188,14 @@ export default function ExpandableInputPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="expandable-input" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="expandable-input"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -202,31 +209,55 @@ export default function ExpandableInputPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Auto-resize</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Inputs grow with content automatically</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Auto-resize
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Inputs grow with content automatically
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Transitions</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Fluid height changes as you type</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smooth Transitions
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Fluid height changes as you type
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Dynamic Width</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Tag inputs expand horizontally</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Dynamic Width
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Tag inputs expand horizontally
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Metrics</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Show character count and other stats</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Content Metrics
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Show character count and other stats
+              </p>
             </div>
           </div>
         </div>
@@ -240,18 +271,30 @@ export default function ExpandableInputPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Text Editors</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Note-taking and content creation</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Text Editors
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Note-taking and content creation
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🏷️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Tag Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Dynamic tag input and removal</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Tag Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Dynamic tag input and removal
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">💬</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Comments</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Expandable comment sections</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Comments
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Expandable comment sections
+            </p>
           </div>
         </div>
       </div>

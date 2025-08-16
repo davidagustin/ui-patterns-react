@@ -1,19 +1,43 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function TablesPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
-  
-  const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
+
+  const [viewMode, setViewMode] = useState<"table" | "cards">("table");
 
   const sampleData = [
-    { id: 1, name: 'John Smith', email: 'john@email.com', role: 'Developer', status: 'Active' },
-    { id: 2, name: 'Sarah Johnson', email: 'sarah@email.com', role: 'Designer', status: 'Active' },
-    { id: 3, name: 'Mike Wilson', email: 'mike@email.com', role: 'Manager', status: 'Inactive' },
-    { id: 4, name: 'Emily Davis', email: 'emily@email.com', role: 'Developer', status: 'Active' }
+    {
+      id: 1,
+      name: "John Smith",
+      email: "john@email.com",
+      role: "Developer",
+      status: "Active",
+    },
+    {
+      id: 2,
+      name: "Sarah Johnson",
+      email: "sarah@email.com",
+      role: "Designer",
+      status: "Active",
+    },
+    {
+      id: 3,
+      name: "Mike Wilson",
+      email: "mike@email.com",
+      role: "Manager",
+      status: "Inactive",
+    },
+    {
+      id: 4,
+      name: "Emily Davis",
+      email: "emily@email.com",
+      role: "Developer",
+      status: "Active",
+    },
   ];
 
   const handleRowSelect = (id: number) => {
@@ -27,9 +51,9 @@ export default function TablesPattern() {
   };
 
   const getStatusColor = (status: string) => {
-    return status === 'Active' 
-      ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
-      : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
+    return status === "Active"
+      ? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
+      : "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400";
   };
 
   return (
@@ -39,7 +63,8 @@ export default function TablesPattern() {
           📊 Tables
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Organize and display data in structured rows and columns with interactive features.
+          Organize and display data in structured rows and columns with
+          interactive features.
         </p>
       </div>
 
@@ -50,7 +75,7 @@ export default function TablesPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -58,10 +83,12 @@ export default function TablesPattern() {
                 </span>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => setViewMode(viewMode === 'table' ? 'cards' : 'table')}
+                    onClick={() =>
+                      setViewMode(viewMode === "table" ? "cards" : "table")
+                    }
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-all text-sm min-h-[44px] flex items-center shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                   >
-                    {viewMode === 'table' ? '📱 Cards' : '📊 Table'}
+                    {viewMode === "table" ? "📱 Cards" : "📊 Table"}
                   </button>
                   <button className="px-4 py-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 border-2 border-blue-600 dark:border-blue-400 rounded-lg min-h-[44px] flex items-center hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                     Export Data
@@ -69,19 +96,23 @@ export default function TablesPattern() {
                 </div>
               </div>
 
-              {viewMode === 'table' ? (
+              {viewMode === "table" ? (
                 <div className="overflow-x-auto">
                   <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow-sm">
                     <thead className="bg-gray-50 dark:bg-gray-700">
                       <tr>
-                                                  <th className="px-4 py-3 text-left">
-                            <input
-                              type="checkbox"
-                              checked={selectedRows.size === sampleData.length}
-                              onChange={() => setSelectedRows(new Set(sampleData.map(row => row.id)))}
-                              className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 cursor-pointer transition-all hover:border-blue-400 dark:hover:border-blue-500"
-                            />
-                          </th>
+                        <th className="px-4 py-3 text-left">
+                          <input
+                            type="checkbox"
+                            checked={selectedRows.size === sampleData.length}
+                            onChange={() =>
+                              setSelectedRows(
+                                new Set(sampleData.map((row) => row.id)),
+                              )
+                            }
+                            className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 cursor-pointer transition-all hover:border-blue-400 dark:hover:border-blue-500"
+                          />
+                        </th>
                         <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                           Name
                         </th>
@@ -98,10 +129,12 @@ export default function TablesPattern() {
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                       {sampleData.map((row) => (
-                        <tr 
+                        <tr
                           key={row.id}
                           className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${
-                            selectedRows.has(row.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                            selectedRows.has(row.id)
+                              ? "bg-blue-50 dark:bg-blue-900/20"
+                              : ""
                           }`}
                         >
                           <td className="px-4 py-3">
@@ -126,7 +159,9 @@ export default function TablesPattern() {
                             {row.role}
                           </td>
                           <td className="px-4 py-3">
-                            <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(row.status)}`}>
+                            <span
+                              className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(row.status)}`}
+                            >
                               {row.status}
                             </span>
                           </td>
@@ -148,7 +183,11 @@ export default function TablesPattern() {
                       <input
                         type="checkbox"
                         checked={selectedRows.size === sampleData.length}
-                        onChange={() => setSelectedRows(new Set(sampleData.map(row => row.id)))}
+                        onChange={() =>
+                          setSelectedRows(
+                            new Set(sampleData.map((row) => row.id)),
+                          )
+                        }
                         className="w-5 h-5 rounded border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 cursor-pointer transition-all hover:border-blue-400 dark:hover:border-blue-500"
                       />
                       <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -162,7 +201,9 @@ export default function TablesPattern() {
                     <div
                       key={row.id}
                       className={`p-4 space-y-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
-                        selectedRows.has(row.id) ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                        selectedRows.has(row.id)
+                          ? "bg-blue-50 dark:bg-blue-900/20"
+                          : ""
                       }`}
                     >
                       <div className="flex items-start justify-between">
@@ -183,16 +224,22 @@ export default function TablesPattern() {
                           </div>
                         </div>
                         <div className="flex items-center space-x-3">
-                          <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(row.status)}`}>
+                          <span
+                            className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(row.status)}`}
+                          >
                             {row.status}
                           </span>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-600">
                         <div>
-                          <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</span>
-                          <div className="mt-1 text-sm text-gray-900 dark:text-gray-100">{row.role}</div>
+                          <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            Role
+                          </span>
+                          <div className="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                            {row.role}
+                          </div>
                         </div>
                         <button className="px-4 py-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm min-h-[44px] border-2 border-blue-600 dark:border-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
                           Edit
@@ -212,15 +259,15 @@ export default function TablesPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
-              {<DynamicCodeExample 
-                componentName="tables" 
-                activeTab={activeTab} 
-              />}
+              {
+                <DynamicCodeExample
+                  componentName="tables"
+                  activeTab={activeTab}
+                />
+              }
             </div>
           </div>
         </div>
@@ -233,31 +280,55 @@ export default function TablesPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Row Selection</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Select individual or all rows with checkboxes</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Row Selection
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Select individual or all rows with checkboxes
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Status Indicators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Color-coded status badges for quick identification</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Status Indicators
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Color-coded status badges for quick identification
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Hover Effects</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Visual feedback when hovering over rows</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Hover Effects
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Visual feedback when hovering over rows
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Bulk Actions</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Perform actions on multiple selected rows</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Bulk Actions
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Perform actions on multiple selected rows
+              </p>
             </div>
           </div>
         </div>
@@ -271,18 +342,30 @@ export default function TablesPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">👥</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">User Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Display user lists with actions and details</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              User Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Display user lists with actions and details
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Reports</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Show structured data with filtering and sorting</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Data Reports
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Show structured data with filtering and sorting
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛒</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Product Catalogs</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">List products with details and management actions</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Product Catalogs
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              List products with details and management actions
+            </p>
           </div>
         </div>
       </div>

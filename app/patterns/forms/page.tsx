@@ -1,51 +1,53 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function FormsPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
 
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Simple validation
-    const newErrors: {[key: string]: string} = {};
+    const newErrors: { [key: string]: string } = {};
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = "Name is required";
     }
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
+      newErrors.email = "Please enter a valid email";
     }
-    
+
     setErrors(newErrors);
-    
+
     if (Object.keys(newErrors).length === 0) {
-      alert('Form submitted successfully! Data: ' + JSON.stringify(formData));
+      alert("Form submitted successfully! Data: " + JSON.stringify(formData));
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors({
         ...errors,
-        [name]: ''
+        [name]: "",
       });
     }
   };
@@ -57,7 +59,8 @@ export default function FormsPattern() {
           📝 Forms Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Forms collect user input in a structured way. They should be clear, accessible, and provide good feedback.
+          Forms collect user input in a structured way. They should be clear,
+          accessible, and provide good feedback.
         </p>
       </div>
 
@@ -70,7 +73,10 @@ export default function FormsPattern() {
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="name"
+                  className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
+                >
                   Name *
                 </label>
                 <input
@@ -79,17 +85,22 @@ export default function FormsPattern() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base ${errors.name ? 'border-red-500 focus:ring-red-500' : ''}`}
-                  style={{ fontSize: '16px' }}
+                  className={`w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base ${errors.name ? "border-red-500 focus:ring-red-500" : ""}`}
+                  style={{ fontSize: "16px" }}
                   placeholder="Enter your name"
                 />
                 {errors.name && (
-                  <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.name}</p>
+                  <p className="text-red-600 dark:text-red-400 text-sm mt-1">
+                    {errors.name}
+                  </p>
                 )}
               </div>
-              
+
               <div>
-                <label htmlFor="email" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="email"
+                  className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
+                >
                   Email *
                 </label>
                 <input
@@ -98,17 +109,22 @@ export default function FormsPattern() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base ${errors.email ? 'border-red-500 focus:ring-red-500' : ''}`}
-                  style={{ fontSize: '16px' }}
+                  className={`w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base ${errors.email ? "border-red-500 focus:ring-red-500" : ""}`}
+                  style={{ fontSize: "16px" }}
                   placeholder="Enter your email"
                 />
                 {errors.email && (
-                  <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.email}</p>
+                  <p className="text-red-600 dark:text-red-400 text-sm mt-1">
+                    {errors.email}
+                  </p>
                 )}
               </div>
-              
+
               <div>
-                <label htmlFor="message" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
+                <label
+                  htmlFor="message"
+                  className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
+                >
                   Message
                 </label>
                 <textarea
@@ -118,12 +134,15 @@ export default function FormsPattern() {
                   onChange={handleChange}
                   rows={4}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100 text-base"
-                  style={{ fontSize: '16px' }}
+                  style={{ fontSize: "16px" }}
                   placeholder="Enter your message..."
                 />
               </div>
-              
-              <button type="submit" className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium transition-colors min-h-[44px] flex items-center justify-center text-base">
+
+              <button
+                type="submit"
+                className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium transition-colors min-h-[44px] flex items-center justify-center text-base"
+              >
                 Submit Form
               </button>
             </form>
@@ -136,16 +155,14 @@ export default function FormsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="forms" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="forms"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -159,31 +176,55 @@ export default function FormsPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Form Validation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Real-time validation with error messages</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Form Validation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Real-time validation with error messages
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Accessible Labels</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Proper labeling for screen readers</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Accessible Labels
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Proper labeling for screen readers
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Error Handling</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear error states and feedback</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Error Handling
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear error states and feedback
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Responsive Design</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Works on all screen sizes</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Responsive Design
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Works on all screen sizes
+              </p>
             </div>
           </div>
         </div>

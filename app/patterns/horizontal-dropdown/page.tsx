@@ -1,56 +1,118 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function HorizontalDropdownPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setActiveDropdown(null);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const menuItems = [
     {
-      id: 'products',
-      label: 'Products',
+      id: "products",
+      label: "Products",
       items: [
-        { id: 'web-app', label: 'Web Application', description: 'Build modern web apps', icon: '🌐' },
-        { id: 'mobile-app', label: 'Mobile App', description: 'iOS and Android apps', icon: '📱' },
-        { id: 'desktop-app', label: 'Desktop App', description: 'Cross-platform desktop', icon: '💻' },
-        { id: 'api', label: 'API Services', description: 'RESTful and GraphQL APIs', icon: '🔌' },
-      ]
+        {
+          id: "web-app",
+          label: "Web Application",
+          description: "Build modern web apps",
+          icon: "🌐",
+        },
+        {
+          id: "mobile-app",
+          label: "Mobile App",
+          description: "iOS and Android apps",
+          icon: "📱",
+        },
+        {
+          id: "desktop-app",
+          label: "Desktop App",
+          description: "Cross-platform desktop",
+          icon: "💻",
+        },
+        {
+          id: "api",
+          label: "API Services",
+          description: "RESTful and GraphQL APIs",
+          icon: "🔌",
+        },
+      ],
     },
     {
-      id: 'solutions',
-      label: 'Solutions',
+      id: "solutions",
+      label: "Solutions",
       items: [
-        { id: 'ecommerce', label: 'E-commerce', description: 'Online store solutions', icon: '🛒' },
-        { id: 'cms', label: 'Content Management', description: 'Manage your content', icon: '📝' },
-        { id: 'analytics', label: 'Analytics', description: 'Data insights and reports', icon: '📊' },
-        { id: 'automation', label: 'Automation', description: 'Workflow automation', icon: '⚡' },
-      ]
+        {
+          id: "ecommerce",
+          label: "E-commerce",
+          description: "Online store solutions",
+          icon: "🛒",
+        },
+        {
+          id: "cms",
+          label: "Content Management",
+          description: "Manage your content",
+          icon: "📝",
+        },
+        {
+          id: "analytics",
+          label: "Analytics",
+          description: "Data insights and reports",
+          icon: "📊",
+        },
+        {
+          id: "automation",
+          label: "Automation",
+          description: "Workflow automation",
+          icon: "⚡",
+        },
+      ],
     },
     {
-      id: 'resources',
-      label: 'Resources',
+      id: "resources",
+      label: "Resources",
       items: [
-        { id: 'docs', label: 'Documentation', description: 'Comprehensive guides', icon: '📚' },
-        { id: 'tutorials', label: 'Tutorials', description: 'Step-by-step tutorials', icon: '🎓' },
-        { id: 'blog', label: 'Blog', description: 'Latest news and updates', icon: '📰' },
-        { id: 'community', label: 'Community', description: 'Join our community', icon: '👥' },
-      ]
-    }
+        {
+          id: "docs",
+          label: "Documentation",
+          description: "Comprehensive guides",
+          icon: "📚",
+        },
+        {
+          id: "tutorials",
+          label: "Tutorials",
+          description: "Step-by-step tutorials",
+          icon: "🎓",
+        },
+        {
+          id: "blog",
+          label: "Blog",
+          description: "Latest news and updates",
+          icon: "📰",
+        },
+        {
+          id: "community",
+          label: "Community",
+          description: "Join our community",
+          icon: "👥",
+        },
+      ],
+    },
   ];
 
   const toggleDropdown = (id: string) => {
@@ -64,7 +126,8 @@ export default function HorizontalDropdownPattern() {
           ↔️ Horizontal Dropdown Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Organize navigation items in a horizontal layout with dropdown menus, perfect for main navigation bars and mega menus.
+          Organize navigation items in a horizontal layout with dropdown menus,
+          perfect for main navigation bars and mega menus.
         </p>
       </div>
 
@@ -76,15 +139,22 @@ export default function HorizontalDropdownPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Hover over or click the navigation items to see horizontal dropdown menus. Each menu shows organized content with icons and descriptions.
+              Hover over or click the navigation items to see horizontal
+              dropdown menus. Each menu shows organized content with icons and
+              descriptions.
             </p>
-            
-            <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-visible horizontal-dropdown-container" ref={dropdownRef}>
+
+            <div
+              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-visible horizontal-dropdown-container"
+              ref={dropdownRef}
+            >
               {/* Main Navigation Bar */}
               <div className="horizontal-dropdown-nav">
                 {/* Logo */}
                 <div className="flex items-center px-4 lg:px-6 py-4">
-                  <span className="text-xl font-bold text-blue-600 dark:text-blue-400">🚀 TechCorp</span>
+                  <span className="text-xl font-bold text-blue-600 dark:text-blue-400">
+                    🚀 TechCorp
+                  </span>
                 </div>
 
                 {/* Navigation Items */}
@@ -96,16 +166,16 @@ export default function HorizontalDropdownPattern() {
                         onMouseEnter={() => setActiveDropdown(item.id)}
                         className={`flex items-center justify-between lg:justify-start space-x-1 px-4 lg:px-6 py-4 text-sm font-medium transition-all duration-200 w-full lg:w-auto ${
                           activeDropdown === item.id
-                            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                            ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                         }`}
                       >
                         <span>{item.label}</span>
-                        <svg 
+                        <svg
                           className={`w-4 h-4 transition-transform duration-200 ${
-                            activeDropdown === item.id ? 'rotate-180' : ''
-                          }`} 
-                          fill="currentColor" 
+                            activeDropdown === item.id ? "rotate-180" : ""
+                          }`}
+                          fill="currentColor"
                           viewBox="0 0 20 20"
                         >
                           <path
@@ -129,7 +199,9 @@ export default function HorizontalDropdownPattern() {
                                   key={subItem.id}
                                   className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left group"
                                 >
-                                  <span className="text-xl flex-shrink-0">{subItem.icon}</span>
+                                  <span className="text-xl flex-shrink-0">
+                                    {subItem.icon}
+                                  </span>
                                   <div className="flex-1 min-w-0">
                                     <div className="font-medium text-gray-900 dark:text-gray-100 text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                       {subItem.label}
@@ -138,7 +210,11 @@ export default function HorizontalDropdownPattern() {
                                       {subItem.description}
                                     </div>
                                   </div>
-                                  <svg className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20">
+                                  <svg
+                                    className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                  >
                                     <path
                                       fillRule="evenodd"
                                       d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
@@ -159,12 +235,13 @@ export default function HorizontalDropdownPattern() {
                     </div>
                   ))}
                 </div>
-
               </div>
 
               {/* Mega Menu Example */}
               <div className="p-4 md:p-6">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Mega Menu Style</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+                  Mega Menu Style
+                </h3>
                 <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3 md:p-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                     {menuItems.map((section) => (
@@ -197,13 +274,13 @@ export default function HorizontalDropdownPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
+
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="horizontal-dropdown" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="horizontal-dropdown"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -217,31 +294,55 @@ export default function HorizontalDropdownPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Horizontal Layout</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Efficient use of horizontal space in navigation bars</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Horizontal Layout
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Efficient use of horizontal space in navigation bars
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Rich Content</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Icons, descriptions, and organized menu items</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Rich Content
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Icons, descriptions, and organized menu items
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Hover & Click Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Both hover and click interactions supported</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Hover & Click Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Both hover and click interactions supported
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Mega Menu Option</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Support for large, multi-column menus</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Mega Menu Option
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Support for large, multi-column menus
+              </p>
             </div>
           </div>
         </div>
@@ -255,18 +356,30 @@ export default function HorizontalDropdownPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🌐</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Website Headers</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Main navigation for websites and web apps</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Website Headers
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Main navigation for websites and web apps
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛒</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">E-commerce</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Product category navigation and mega menus</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              E-commerce
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Product category navigation and mega menus
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🏢</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Corporate Sites</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Service and solution category navigation</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Corporate Sites
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Service and solution category navigation
+            </p>
           </div>
         </div>
       </div>

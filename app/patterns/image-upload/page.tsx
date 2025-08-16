@@ -1,32 +1,32 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ImageUploadPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [uploadedImages, setUploadedImages] = useState<any[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = (files: FileList | null) => {
     if (!files) return;
 
-    Array.from(files).forEach(file => {
-      if (file.type.startsWith('image/')) {
+    Array.from(files).forEach((file) => {
+      if (file.type.startsWith("image/")) {
         const id = Math.random().toString(36).substr(2, 9);
         const preview = URL.createObjectURL(file);
-        
+
         const newImage = {
           id,
           file,
           preview,
           progress: 0,
-          status: 'uploading' as const
+          status: "uploading" as const,
         };
 
-        setUploadedImages(prev => [...prev, newImage]);
+        setUploadedImages((prev) => [...prev, newImage]);
 
         // Simulate upload progress
         simulateUpload(id);
@@ -41,18 +41,18 @@ export default function ImageUploadPattern() {
       if (progress >= 100) {
         progress = 100;
         clearInterval(interval);
-        
-        setUploadedImages(prev => prev.map(img => 
-          img.id === id 
-            ? { ...img, progress: 100, status: 'success' as const }
-            : img
-        ));
+
+        setUploadedImages((prev) =>
+          prev.map((img) =>
+            img.id === id
+              ? { ...img, progress: 100, status: "success" as const }
+              : img,
+          ),
+        );
       } else {
-        setUploadedImages(prev => prev.map(img => 
-          img.id === id 
-            ? { ...img, progress }
-            : img
-        ));
+        setUploadedImages((prev) =>
+          prev.map((img) => (img.id === id ? { ...img, progress } : img)),
+        );
       }
     }, 200);
   };
@@ -76,43 +76,43 @@ export default function ImageUploadPattern() {
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleFileSelect(e.target.files);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
   const removeImage = (id: string) => {
-    setUploadedImages(prev => {
-      const image = prev.find(img => img.id === id);
+    setUploadedImages((prev) => {
+      const image = prev.find((img) => img.id === id);
       if (image) {
         URL.revokeObjectURL(image.preview);
       }
-      return prev.filter(img => img.id !== id);
+      return prev.filter((img) => img.id !== id);
     });
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'uploading':
-        return '⏳';
-      case 'success':
-        return '✅';
-      case 'error':
-        return '❌';
+      case "uploading":
+        return "⏳";
+      case "success":
+        return "✅";
+      case "error":
+        return "❌";
       default:
-        return '📷';
+        return "📷";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'uploading':
-        return 'text-yellow-600 dark:text-yellow-400';
-      case 'success':
-        return 'text-green-600 dark:text-green-400';
-      case 'error':
-        return 'text-red-600 dark:text-red-400';
+      case "uploading":
+        return "text-yellow-600 dark:text-yellow-400";
+      case "success":
+        return "text-green-600 dark:text-green-400";
+      case "error":
+        return "text-red-600 dark:text-red-400";
       default:
-        return 'text-gray-600 dark:text-gray-400';
+        return "text-gray-600 dark:text-gray-400";
     }
   };
 
@@ -123,7 +123,8 @@ export default function ImageUploadPattern() {
           📤 Image Upload Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Drag and drop image upload with preview, progress indicators, and file validation.
+          Drag and drop image upload with preview, progress indicators, and file
+          validation.
         </p>
       </div>
 
@@ -134,14 +135,14 @@ export default function ImageUploadPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             <div className="space-y-6">
               {/* Upload Area */}
               <div
                 className={`border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200 ${
                   isDragOver
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                    : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                    : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
                 }`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -149,7 +150,7 @@ export default function ImageUploadPattern() {
               >
                 <div className="text-4xl mb-4">📷</div>
                 <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-2">
-                  {isDragOver ? 'Drop images here' : 'Drag & drop images here'}
+                  {isDragOver ? "Drop images here" : "Drag & drop images here"}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                   or click to browse files
@@ -189,10 +190,12 @@ export default function ImageUploadPattern() {
                             alt={image.file.name}
                             className="w-full h-full object-cover"
                           />
-                          
+
                           {/* Status Overlay */}
                           <div className="absolute top-2 right-2">
-                            <span className={`text-lg ${getStatusColor(image.status)}`}>
+                            <span
+                              className={`text-lg ${getStatusColor(image.status)}`}
+                            >
                               {getStatusIcon(image.status)}
                             </span>
                           </div>
@@ -216,7 +219,7 @@ export default function ImageUploadPattern() {
                           </p>
 
                           {/* Progress Bar */}
-                          {image.status === 'uploading' && (
+                          {image.status === "uploading" && (
                             <div className="mt-2">
                               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                                 <div
@@ -245,16 +248,14 @@ export default function ImageUploadPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-              <DynamicCodeExample 
-                componentName="image-upload" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="image-upload"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -268,31 +269,55 @@ export default function ImageUploadPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Drag & Drop</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Intuitive drag and drop file upload</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Drag & Drop
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Intuitive drag and drop file upload
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Image Preview</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Instant preview of uploaded images</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Image Preview
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Instant preview of uploaded images
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Progress Indicators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Visual progress bars for upload status</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Progress Indicators
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Visual progress bars for upload status
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">File Validation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Only accept image file types</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                File Validation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Only accept image file types
+              </p>
             </div>
           </div>
         </div>
@@ -306,18 +331,30 @@ export default function ImageUploadPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">👤</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Profile Pictures</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">User avatar and profile image uploads</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Profile Pictures
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              User avatar and profile image uploads
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Blog posts and article image uploads</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Content Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Blog posts and article image uploads
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛍️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Product Images</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">E-commerce product photo uploads</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Product Images
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              E-commerce product photo uploads
+            </p>
           </div>
         </div>
       </div>

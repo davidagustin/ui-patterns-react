@@ -1,76 +1,86 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function FAQPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [openItems, setOpenItems] = useState<Set<number>>(new Set([1]));
-  
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const faqData = [
     {
       id: 1,
-      category: 'general',
-      question: 'What is this service and how does it work?',
-      answer: 'Our service is a comprehensive platform that helps you manage your projects efficiently. It works by providing you with tools to organize tasks, collaborate with team members, and track progress in real-time. You can create projects, assign tasks, set deadlines, and monitor completion status all from one centralized dashboard.'
+      category: "general",
+      question: "What is this service and how does it work?",
+      answer:
+        "Our service is a comprehensive platform that helps you manage your projects efficiently. It works by providing you with tools to organize tasks, collaborate with team members, and track progress in real-time. You can create projects, assign tasks, set deadlines, and monitor completion status all from one centralized dashboard.",
     },
     {
       id: 2,
-      category: 'billing',
-      question: 'How much does it cost and what payment methods do you accept?',
-      answer: 'We offer flexible pricing plans starting from $9.99/month for individuals and $29.99/month for teams. We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers. All plans come with a 14-day free trial with no credit card required.'
+      category: "billing",
+      question: "How much does it cost and what payment methods do you accept?",
+      answer:
+        "We offer flexible pricing plans starting from $9.99/month for individuals and $29.99/month for teams. We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers. All plans come with a 14-day free trial with no credit card required.",
     },
     {
       id: 3,
-      category: 'technical',
-      question: 'Is my data secure and backed up?',
-      answer: 'Yes, we take security very seriously. All data is encrypted in transit and at rest using industry-standard AES-256 encryption. We perform automated daily backups with 99.9% uptime guarantee. Our servers are hosted on AWS with SOC 2 compliance and we undergo regular security audits.'
+      category: "technical",
+      question: "Is my data secure and backed up?",
+      answer:
+        "Yes, we take security very seriously. All data is encrypted in transit and at rest using industry-standard AES-256 encryption. We perform automated daily backups with 99.9% uptime guarantee. Our servers are hosted on AWS with SOC 2 compliance and we undergo regular security audits.",
     },
     {
       id: 4,
-      category: 'general',
-      question: 'Can I cancel my subscription at any time?',
-      answer: 'Absolutely! You can cancel your subscription at any time with no cancellation fees. Your account will remain active until the end of your current billing period, and you\'ll continue to have access to all features during that time. You can easily cancel from your account settings or contact our support team.'
+      category: "general",
+      question: "Can I cancel my subscription at any time?",
+      answer:
+        "Absolutely! You can cancel your subscription at any time with no cancellation fees. Your account will remain active until the end of your current billing period, and you'll continue to have access to all features during that time. You can easily cancel from your account settings or contact our support team.",
     },
     {
       id: 5,
-      category: 'technical',
-      question: 'Do you have a mobile app?',
-      answer: 'Yes, we have mobile apps available for both iOS and Android devices. The mobile apps include all the core features of the web platform, including task management, team collaboration, real-time notifications, and offline access. You can download them from the App Store or Google Play Store.'
+      category: "technical",
+      question: "Do you have a mobile app?",
+      answer:
+        "Yes, we have mobile apps available for both iOS and Android devices. The mobile apps include all the core features of the web platform, including task management, team collaboration, real-time notifications, and offline access. You can download them from the App Store or Google Play Store.",
     },
     {
       id: 6,
-      category: 'billing',
-      question: 'Can I upgrade or downgrade my plan?',
-      answer: 'Yes, you can change your plan at any time. When upgrading, you\'ll be charged the prorated difference immediately and gain access to new features right away. When downgrading, the change takes effect at your next billing cycle, and you\'ll keep access to premium features until then.'
+      category: "billing",
+      question: "Can I upgrade or downgrade my plan?",
+      answer:
+        "Yes, you can change your plan at any time. When upgrading, you'll be charged the prorated difference immediately and gain access to new features right away. When downgrading, the change takes effect at your next billing cycle, and you'll keep access to premium features until then.",
     },
     {
       id: 7,
-      category: 'general',
-      question: 'How do I get support if I need help?',
-      answer: 'We offer multiple support channels: 24/7 live chat through our website, email support with responses within 2 hours during business days, comprehensive documentation and video tutorials, and phone support for premium plan subscribers. You can also access our community forum for peer-to-peer assistance.'
+      category: "general",
+      question: "How do I get support if I need help?",
+      answer:
+        "We offer multiple support channels: 24/7 live chat through our website, email support with responses within 2 hours during business days, comprehensive documentation and video tutorials, and phone support for premium plan subscribers. You can also access our community forum for peer-to-peer assistance.",
     },
     {
       id: 8,
-      category: 'technical',
-      question: 'What integrations do you support?',
-      answer: 'We integrate with over 50+ popular tools including Slack, Microsoft Teams, Google Workspace, GitHub, Jira, Trello, Zapier, and many more. We also provide a REST API and webhooks for custom integrations. New integrations are added regularly based on user feedback.'
-    }
+      category: "technical",
+      question: "What integrations do you support?",
+      answer:
+        "We integrate with over 50+ popular tools including Slack, Microsoft Teams, Google Workspace, GitHub, Jira, Trello, Zapier, and many more. We also provide a REST API and webhooks for custom integrations. New integrations are added regularly based on user feedback.",
+    },
   ];
 
   const categories = [
-    { id: 'all', name: 'All Questions', icon: '📚' },
-    { id: 'general', name: 'General', icon: '❓' },
-    { id: 'billing', name: 'Billing', icon: '💳' },
-    { id: 'technical', name: 'Technical', icon: '⚙️' },
+    { id: "all", name: "All Questions", icon: "📚" },
+    { id: "general", name: "General", icon: "❓" },
+    { id: "billing", name: "Billing", icon: "💳" },
+    { id: "technical", name: "Technical", icon: "⚙️" },
   ];
 
-  const filteredFAQs = faqData.filter(item => {
-    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
-    const matchesSearch = searchQuery === '' || 
+  const filteredFAQs = faqData.filter((item) => {
+    const matchesCategory =
+      selectedCategory === "all" || item.category === selectedCategory;
+    const matchesSearch =
+      searchQuery === "" ||
       item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.answer.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
@@ -87,7 +97,7 @@ export default function FAQPattern() {
   };
 
   const expandAll = () => {
-    setOpenItems(new Set(filteredFAQs.map(item => item.id)));
+    setOpenItems(new Set(filteredFAQs.map((item) => item.id)));
   };
 
   const collapseAll = () => {
@@ -101,7 +111,8 @@ export default function FAQPattern() {
           ❓ FAQ Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Organize frequently asked questions with collapsible sections, search functionality, and category filtering for easy information discovery.
+          Organize frequently asked questions with collapsible sections, search
+          functionality, and category filtering for easy information discovery.
         </p>
       </div>
 
@@ -113,9 +124,10 @@ export default function FAQPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Search questions, filter by category, and click to expand/collapse answers. Try the expand/collapse all buttons.
+              Search questions, filter by category, and click to expand/collapse
+              answers. Try the expand/collapse all buttons.
             </p>
-            
+
             {/* Search and Controls */}
             <div className="space-y-4 mb-6">
               {/* Search Bar */}
@@ -127,19 +139,21 @@ export default function FAQPattern() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                <span className="absolute left-3 top-2.5 text-gray-400">🔍</span>
+                <span className="absolute left-3 top-2.5 text-gray-400">
+                  🔍
+                </span>
               </div>
 
               {/* Category Filter */}
               <div className="flex flex-wrap gap-2">
-                {categories.map(category => (
+                {categories.map((category) => (
                   <button
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       selectedCategory === category.id
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                     }`}
                   >
                     <span className="mr-1">{category.icon}</span>
@@ -181,18 +195,24 @@ export default function FAQPattern() {
                         <h3 className="font-medium text-gray-900 dark:text-gray-100 pr-4">
                           {item.question}
                         </h3>
-                        <span className={`text-blue-500 transition-transform duration-200 ${
-                          openItems.has(item.id) ? 'rotate-180' : ''
-                        }`}>
+                        <span
+                          className={`text-blue-500 transition-transform duration-200 ${
+                            openItems.has(item.id) ? "rotate-180" : ""
+                          }`}
+                        >
                           ▼
                         </span>
                       </div>
                       <div className="mt-1">
-                        <span className={`inline-block px-2 py-1 text-xs rounded-full ${
-                          item.category === 'general' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
-                          item.category === 'billing' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                          'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
-                        }`}>
+                        <span
+                          className={`inline-block px-2 py-1 text-xs rounded-full ${
+                            item.category === "general"
+                              ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                              : item.category === "billing"
+                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                                : "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
+                          }`}
+                        >
                           {item.category}
                         </span>
                       </div>
@@ -230,17 +250,10 @@ export default function FAQPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample 
-                componentName="faq" 
-                activeTab={activeTab} 
-              />
-              }
+              {<DynamicCodeExample componentName="faq" activeTab={activeTab} />}
             </div>
           </div>
         </div>
@@ -253,31 +266,55 @@ export default function FAQPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Collapsible Sections</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Expandable answers to keep interface clean</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Collapsible Sections
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Expandable answers to keep interface clean
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Search Functionality</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Find answers quickly with keyword search</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Search Functionality
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Find answers quickly with keyword search
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Category Filtering</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Organize questions by topic or department</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Category Filtering
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Organize questions by topic or department
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Bulk Actions</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Expand or collapse all items at once</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Bulk Actions
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Expand or collapse all items at once
+              </p>
             </div>
           </div>
         </div>
@@ -291,18 +328,30 @@ export default function FAQPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛠️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Product Support</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Common user questions and troubleshooting</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Product Support
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Common user questions and troubleshooting
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📄</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Documentation</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Technical documentation and guides</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Documentation
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Technical documentation and guides
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🏢</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Company Policies</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">HR policies and employee handbook</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Company Policies
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              HR policies and employee handbook
+            </p>
           </div>
         </div>
       </div>

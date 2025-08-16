@@ -1,40 +1,40 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function StructuredFormatPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [creditCard, setCreditCard] = useState('');
-  const [date, setDate] = useState('');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [creditCard, setCreditCard] = useState("");
+  const [date, setDate] = useState("");
 
   const formatPhoneNumber = (value: string) => {
-    const cleaned = value.replace(/\D/g, '');
+    const cleaned = value.replace(/\D/g, "");
     const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
     if (match) {
       const parts = [match[1], match[2], match[3]].filter(Boolean);
-      return parts.join('-');
+      return parts.join("-");
     }
     return cleaned;
   };
 
   const formatCreditCard = (value: string) => {
-    const cleaned = value.replace(/\D/g, '');
+    const cleaned = value.replace(/\D/g, "");
     const match = cleaned.match(/^(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})$/);
     if (match) {
       const parts = [match[1], match[2], match[3], match[4]].filter(Boolean);
-      return parts.join(' ');
+      return parts.join(" ");
     }
     return cleaned;
   };
 
   const formatDate = (value: string) => {
-    const cleaned = value.replace(/\D/g, '');
+    const cleaned = value.replace(/\D/g, "");
     const match = cleaned.match(/^(\d{0,2})(\d{0,2})(\d{0,4})$/);
     if (match) {
       const parts = [match[1], match[2], match[3]].filter(Boolean);
-      return parts.join('/');
+      return parts.join("/");
     }
     return cleaned;
   };
@@ -46,7 +46,8 @@ export default function StructuredFormatPattern() {
           📋 Structured Format Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Format input with specific patterns to improve user experience and data consistency.
+          Format input with specific patterns to improve user experience and
+          data consistency.
         </p>
       </div>
 
@@ -58,7 +59,8 @@ export default function StructuredFormatPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Try entering data in the fields below. The formatting will be applied automatically as you type.
+              Try entering data in the fields below. The formatting will be
+              applied automatically as you type.
             </p>
             <div className="space-y-4">
               <div className="format-field">
@@ -68,12 +70,16 @@ export default function StructuredFormatPattern() {
                 <input
                   type="tel"
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(formatPhoneNumber(e.target.value))}
+                  onChange={(e) =>
+                    setPhoneNumber(formatPhoneNumber(e.target.value))
+                  }
                   placeholder="(555) 123-4567"
                   className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all"
                   maxLength={12}
                 />
-                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 font-medium">Format: XXX-XXX-XXXX</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 font-medium">
+                  Format: XXX-XXX-XXXX
+                </p>
               </div>
 
               <div className="format-field">
@@ -83,12 +89,16 @@ export default function StructuredFormatPattern() {
                 <input
                   type="text"
                   value={creditCard}
-                  onChange={(e) => setCreditCard(formatCreditCard(e.target.value))}
+                  onChange={(e) =>
+                    setCreditCard(formatCreditCard(e.target.value))
+                  }
                   placeholder="1234 5678 9012 3456"
                   className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all"
                   maxLength={19}
                 />
-                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 font-medium">Format: XXXX XXXX XXXX XXXX</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 font-medium">
+                  Format: XXXX XXXX XXXX XXXX
+                </p>
               </div>
 
               <div className="format-field">
@@ -103,12 +113,16 @@ export default function StructuredFormatPattern() {
                   className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all"
                   maxLength={10}
                 />
-                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 font-medium">Format: MM/DD/YYYY</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 font-medium">
+                  Format: MM/DD/YYYY
+                </p>
               </div>
             </div>
 
             <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Formatting Features</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                Formatting Features
+              </h4>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <div>• Automatic formatting as you type</div>
                 <div>• Input validation and cleaning</div>
@@ -125,16 +139,14 @@ export default function StructuredFormatPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="structured-format" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="structured-format"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -148,31 +160,55 @@ export default function StructuredFormatPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Real-time Formatting</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Format input as user types for immediate feedback</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Real-time Formatting
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Format input as user types for immediate feedback
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Input Validation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clean and validate data automatically</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Input Validation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clean and validate data automatically
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indication of valid/invalid formats</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear indication of valid/invalid formats
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Patterns</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Support for various data formats and patterns</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Patterns
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Support for various data formats and patterns
+              </p>
             </div>
           </div>
         </div>
@@ -186,18 +222,30 @@ export default function StructuredFormatPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📱</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Contact Forms</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Phone numbers, addresses, and personal info</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Contact Forms
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Phone numbers, addresses, and personal info
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">💳</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Payment Forms</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Credit cards, account numbers, and dates</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Payment Forms
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Credit cards, account numbers, and dates
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📅</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Date Inputs</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Birth dates, appointments, and schedules</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Date Inputs
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Birth dates, appointments, and schedules
+            </p>
           </div>
         </div>
       </div>

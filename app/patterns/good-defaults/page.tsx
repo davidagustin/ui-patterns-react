@@ -1,49 +1,50 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function GoodDefaultsPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [userProfile, setUserProfile] = useState({
-    name: '',
-    email: '',
-    country: 'United States',
-    timezone: 'America/New_York',
-    language: 'English',
+    name: "",
+    email: "",
+    country: "United States",
+    timezone: "America/New_York",
+    language: "English",
     notifications: true,
-    theme: 'system',
-    dateFormat: 'MM/DD/YYYY',
+    theme: "system",
+    dateFormat: "MM/DD/YYYY",
   });
 
   const [projectSettings, setProjectSettings] = useState({
-    projectName: '',
-    description: '',
-    visibility: 'private',
-    license: 'MIT',
+    projectName: "",
+    description: "",
+    visibility: "private",
+    license: "MIT",
     includeReadme: true,
     includeGitignore: true,
-    framework: 'react',
-    packageManager: 'npm',
+    framework: "react",
+    packageManager: "npm",
   });
 
   const [formData, setFormData] = useState({
     quantity: 1,
-    priority: 'medium',
-    category: 'general',
-    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 7 days from now
-    assignee: 'current-user',
-    status: 'pending',
+    priority: "medium",
+    category: "general",
+    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0], // 7 days from now
+    assignee: "current-user",
+    status: "pending",
   });
 
   const [preferences, setPreferences] = useState({
-    emailFrequency: 'weekly',
+    emailFrequency: "weekly",
     marketingEmails: false,
     securityAlerts: true,
     autoSave: true,
     autoBackup: true,
-    compressionLevel: 'medium',
+    compressionLevel: "medium",
   });
 
   // Simulate detecting user's location/timezone
@@ -52,16 +53,20 @@ export default function GoodDefaultsPattern() {
       try {
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const locale = navigator.language;
-        
-        setUserProfile(prev => ({
+
+        setUserProfile((prev) => ({
           ...prev,
           timezone,
-          language: locale.startsWith('en') ? 'English' : 
-                   locale.startsWith('es') ? 'Spanish' :
-                   locale.startsWith('fr') ? 'French' : 'English'
+          language: locale.startsWith("en")
+            ? "English"
+            : locale.startsWith("es")
+              ? "Spanish"
+              : locale.startsWith("fr")
+                ? "French"
+                : "English",
         }));
       } catch (error) {
-        console.log('Could not detect user location');
+        console.log("Could not detect user location");
       }
     };
 
@@ -75,7 +80,8 @@ export default function GoodDefaultsPattern() {
           ⚡ Good Defaults Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Provide smart default values that reduce user effort, improve completion rates, and guide users toward optimal choices.
+          Provide smart default values that reduce user effort, improve
+          completion rates, and guide users toward optimal choices.
         </p>
       </div>
 
@@ -87,31 +93,43 @@ export default function GoodDefaultsPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Notice how forms are pre-filled with sensible defaults based on context, user location, and common preferences.
+              Notice how forms are pre-filled with sensible defaults based on
+              context, user location, and common preferences.
             </p>
-            
+
             <div className="space-y-6">
               {/* User Profile with Smart Defaults */}
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">User Profile (Location-based Defaults)</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  User Profile (Location-based Defaults)
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <input
                     type="text"
                     placeholder="Full Name"
                     value={userProfile.name}
-                    onChange={(e) => setUserProfile({...userProfile, name: e.target.value})}
+                    onChange={(e) =>
+                      setUserProfile({ ...userProfile, name: e.target.value })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   />
                   <input
                     type="email"
                     placeholder="Email Address"
                     value={userProfile.email}
-                    onChange={(e) => setUserProfile({...userProfile, email: e.target.value})}
+                    onChange={(e) =>
+                      setUserProfile({ ...userProfile, email: e.target.value })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   />
                   <select
                     value={userProfile.country}
-                    onChange={(e) => setUserProfile({...userProfile, country: e.target.value})}
+                    onChange={(e) =>
+                      setUserProfile({
+                        ...userProfile,
+                        country: e.target.value,
+                      })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   >
                     <option value="United States">🇺🇸 United States</option>
@@ -122,18 +140,30 @@ export default function GoodDefaultsPattern() {
                   </select>
                   <select
                     value={userProfile.timezone}
-                    onChange={(e) => setUserProfile({...userProfile, timezone: e.target.value})}
+                    onChange={(e) =>
+                      setUserProfile({
+                        ...userProfile,
+                        timezone: e.target.value,
+                      })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   >
                     <option value="America/New_York">Eastern Time (ET)</option>
                     <option value="America/Chicago">Central Time (CT)</option>
                     <option value="America/Denver">Mountain Time (MT)</option>
-                    <option value="America/Los_Angeles">Pacific Time (PT)</option>
+                    <option value="America/Los_Angeles">
+                      Pacific Time (PT)
+                    </option>
                     <option value="Europe/London">London (GMT)</option>
                   </select>
                   <select
                     value={userProfile.language}
-                    onChange={(e) => setUserProfile({...userProfile, language: e.target.value})}
+                    onChange={(e) =>
+                      setUserProfile({
+                        ...userProfile,
+                        language: e.target.value,
+                      })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   >
                     <option value="English">English</option>
@@ -143,7 +173,9 @@ export default function GoodDefaultsPattern() {
                   </select>
                   <select
                     value={userProfile.theme}
-                    onChange={(e) => setUserProfile({...userProfile, theme: e.target.value})}
+                    onChange={(e) =>
+                      setUserProfile({ ...userProfile, theme: e.target.value })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   >
                     <option value="system">🔄 System (Recommended)</option>
@@ -152,25 +184,38 @@ export default function GoodDefaultsPattern() {
                   </select>
                 </div>
                 <div className="mt-3 p-2 bg-blue-50 dark:bg-blue-900/20 rounded text-xs text-blue-700 dark:text-blue-300">
-                  💡 Defaults detected: {userProfile.timezone}, {userProfile.language}
+                  💡 Defaults detected: {userProfile.timezone},{" "}
+                  {userProfile.language}
                 </div>
               </div>
 
               {/* Project Settings with Opinionated Defaults */}
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Project Setup (Opinionated Defaults)</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Project Setup (Opinionated Defaults)
+                </h3>
                 <div className="space-y-3">
                   <input
                     type="text"
                     placeholder="Project Name"
                     value={projectSettings.projectName}
-                    onChange={(e) => setProjectSettings({...projectSettings, projectName: e.target.value})}
+                    onChange={(e) =>
+                      setProjectSettings({
+                        ...projectSettings,
+                        projectName: e.target.value,
+                      })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <select
                       value={projectSettings.visibility}
-                      onChange={(e) => setProjectSettings({...projectSettings, visibility: e.target.value})}
+                      onChange={(e) =>
+                        setProjectSettings({
+                          ...projectSettings,
+                          visibility: e.target.value,
+                        })
+                      }
                       className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     >
                       <option value="private">🔒 Private (Recommended)</option>
@@ -178,7 +223,12 @@ export default function GoodDefaultsPattern() {
                     </select>
                     <select
                       value={projectSettings.license}
-                      onChange={(e) => setProjectSettings({...projectSettings, license: e.target.value})}
+                      onChange={(e) =>
+                        setProjectSettings({
+                          ...projectSettings,
+                          license: e.target.value,
+                        })
+                      }
                       className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     >
                       <option value="MIT">MIT License (Popular)</option>
@@ -192,7 +242,12 @@ export default function GoodDefaultsPattern() {
                       <input
                         type="checkbox"
                         checked={projectSettings.includeReadme}
-                        onChange={(e) => setProjectSettings({...projectSettings, includeReadme: e.target.checked})}
+                        onChange={(e) =>
+                          setProjectSettings({
+                            ...projectSettings,
+                            includeReadme: e.target.checked,
+                          })
+                        }
                         className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
                       />
                       <span>Include README.md</span>
@@ -201,7 +256,12 @@ export default function GoodDefaultsPattern() {
                       <input
                         type="checkbox"
                         checked={projectSettings.includeGitignore}
-                        onChange={(e) => setProjectSettings({...projectSettings, includeGitignore: e.target.checked})}
+                        onChange={(e) =>
+                          setProjectSettings({
+                            ...projectSettings,
+                            includeGitignore: e.target.checked,
+                          })
+                        }
                         className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
                       />
                       <span>Include .gitignore</span>
@@ -215,19 +275,28 @@ export default function GoodDefaultsPattern() {
 
               {/* Task Form with Context-aware Defaults */}
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Create Task (Context-aware Defaults)</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Create Task (Context-aware Defaults)
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <input
                     type="number"
                     min="1"
                     value={formData.quantity}
-                    onChange={(e) => setFormData({...formData, quantity: parseInt(e.target.value) || 1})}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        quantity: parseInt(e.target.value) || 1,
+                      })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     placeholder="Quantity"
                   />
                   <select
                     value={formData.priority}
-                    onChange={(e) => setFormData({...formData, priority: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, priority: e.target.value })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   >
                     <option value="low">🟢 Low Priority</option>
@@ -238,12 +307,16 @@ export default function GoodDefaultsPattern() {
                   <input
                     type="date"
                     value={formData.dueDate}
-                    onChange={(e) => setFormData({...formData, dueDate: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, dueDate: e.target.value })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   />
                   <select
                     value={formData.assignee}
-                    onChange={(e) => setFormData({...formData, assignee: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, assignee: e.target.value })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   >
                     <option value="current-user">👤 Assign to me</option>
@@ -258,12 +331,19 @@ export default function GoodDefaultsPattern() {
 
               {/* Notification Preferences with Safe Defaults */}
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Preferences (Safe Defaults)</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Preferences (Safe Defaults)
+                </h3>
                 <div className="space-y-3">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <select
                       value={preferences.emailFrequency}
-                      onChange={(e) => setPreferences({...preferences, emailFrequency: e.target.value})}
+                      onChange={(e) =>
+                        setPreferences({
+                          ...preferences,
+                          emailFrequency: e.target.value,
+                        })
+                      }
                       className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     >
                       <option value="never">Never</option>
@@ -273,7 +353,12 @@ export default function GoodDefaultsPattern() {
                     </select>
                     <select
                       value={preferences.compressionLevel}
-                      onChange={(e) => setPreferences({...preferences, compressionLevel: e.target.value})}
+                      onChange={(e) =>
+                        setPreferences({
+                          ...preferences,
+                          compressionLevel: e.target.value,
+                        })
+                      }
                       className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                     >
                       <option value="low">Low Compression</option>
@@ -286,7 +371,12 @@ export default function GoodDefaultsPattern() {
                       <input
                         type="checkbox"
                         checked={preferences.marketingEmails}
-                        onChange={(e) => setPreferences({...preferences, marketingEmails: e.target.checked})}
+                        onChange={(e) =>
+                          setPreferences({
+                            ...preferences,
+                            marketingEmails: e.target.checked,
+                          })
+                        }
                         className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
                       />
                       <span>Marketing emails (opt-in)</span>
@@ -295,7 +385,12 @@ export default function GoodDefaultsPattern() {
                       <input
                         type="checkbox"
                         checked={preferences.securityAlerts}
-                        onChange={(e) => setPreferences({...preferences, securityAlerts: e.target.checked})}
+                        onChange={(e) =>
+                          setPreferences({
+                            ...preferences,
+                            securityAlerts: e.target.checked,
+                          })
+                        }
                         className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
                       />
                       <span>Security alerts (recommended)</span>
@@ -304,7 +399,12 @@ export default function GoodDefaultsPattern() {
                       <input
                         type="checkbox"
                         checked={preferences.autoSave}
-                        onChange={(e) => setPreferences({...preferences, autoSave: e.target.checked})}
+                        onChange={(e) =>
+                          setPreferences({
+                            ...preferences,
+                            autoSave: e.target.checked,
+                          })
+                        }
                         className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
                       />
                       <span>Auto-save (convenience)</span>
@@ -313,7 +413,12 @@ export default function GoodDefaultsPattern() {
                       <input
                         type="checkbox"
                         checked={preferences.autoBackup}
-                        onChange={(e) => setPreferences({...preferences, autoBackup: e.target.checked})}
+                        onChange={(e) =>
+                          setPreferences({
+                            ...preferences,
+                            autoBackup: e.target.checked,
+                          })
+                        }
                         className="h-4 w-4 text-blue-600 rounded focus:ring-blue-500"
                       />
                       <span>Auto-backup (safety)</span>
@@ -321,7 +426,8 @@ export default function GoodDefaultsPattern() {
                   </div>
                 </div>
                 <div className="mt-3 p-2 bg-orange-50 dark:bg-orange-900/20 rounded text-xs text-orange-700 dark:text-orange-300">
-                  🛡️ Security features enabled by default, marketing disabled for privacy
+                  🛡️ Security features enabled by default, marketing disabled
+                  for privacy
                 </div>
               </div>
             </div>
@@ -334,13 +440,13 @@ export default function GoodDefaultsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
+
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="good-defaults" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="good-defaults"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -354,31 +460,55 @@ export default function GoodDefaultsPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smart Detection</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Automatically detect user location, language, and preferences</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smart Detection
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Automatically detect user location, language, and preferences
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Privacy-First</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Security features enabled, marketing disabled by default</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Privacy-First
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Security features enabled, marketing disabled by default
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Context-Aware</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Defaults change based on user type and context</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Context-Aware
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Defaults change based on user type and context
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Best Practices</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Promote good habits and optimal choices</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Best Practices
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Promote good habits and optimal choices
+              </p>
             </div>
           </div>
         </div>
@@ -392,18 +522,30 @@ export default function GoodDefaultsPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Registration Forms</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Pre-fill location, language, and safe privacy settings</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Registration Forms
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Pre-fill location, language, and safe privacy settings
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">⚙️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Project Setup</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Choose optimal frameworks and configurations</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Project Setup
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Choose optimal frameworks and configurations
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛒</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">E-commerce</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Set reasonable quantities and shipping preferences</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              E-commerce
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Set reasonable quantities and shipping preferences
+            </p>
           </div>
         </div>
       </div>

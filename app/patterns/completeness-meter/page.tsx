@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function CompletenessMeterPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [profileData, setProfileData] = useState({
-    name: '',
-    email: '',
-    bio: '',
-    avatar: '',
+    name: "",
+    email: "",
+    bio: "",
+    avatar: "",
     skills: [] as string[],
-    experience: '',
-    education: '',
-    location: '',
-    portfolio: '',
+    experience: "",
+    education: "",
+    location: "",
+    portfolio: "",
     socialLinks: {
-      linkedin: '',
-      github: '',
-      twitter: ''
-    }
+      linkedin: "",
+      github: "",
+      twitter: "",
+    },
   });
 
   const calculateCompleteness = () => {
@@ -34,64 +34,65 @@ export default function CompletenessMeterPattern() {
       profileData.portfolio,
       profileData.socialLinks.linkedin,
       profileData.socialLinks.github,
-      profileData.socialLinks.twitter
+      profileData.socialLinks.twitter,
     ];
-    
+
     const skillsWeight = profileData.skills.length > 0 ? 1 : 0;
     const totalFields = fields.length + 1; // +1 for skills
-    const filledFields = fields.filter(field => field.trim() !== '').length + skillsWeight;
-    
+    const filledFields =
+      fields.filter((field) => field.trim() !== "").length + skillsWeight;
+
     return Math.round((filledFields / totalFields) * 100);
   };
 
   const completeness = calculateCompleteness();
 
   const getCompletenessColor = (percentage: number) => {
-    if (percentage < 30) return 'bg-red-500';
-    if (percentage < 60) return 'bg-yellow-500';
-    if (percentage < 80) return 'bg-blue-500';
-    return 'bg-green-500';
+    if (percentage < 30) return "bg-red-500";
+    if (percentage < 60) return "bg-yellow-500";
+    if (percentage < 80) return "bg-blue-500";
+    return "bg-green-500";
   };
 
   const getCompletenessMessage = (percentage: number) => {
-    if (percentage < 30) return { text: 'Getting started', icon: '🚀' };
-    if (percentage < 60) return { text: 'Making progress', icon: '📈' };
-    if (percentage < 80) return { text: 'Almost there', icon: '🎯' };
-    if (percentage < 100) return { text: 'Nearly complete', icon: '✨' };
-    return { text: 'Profile complete!', icon: '🎉' };
+    if (percentage < 30) return { text: "Getting started", icon: "🚀" };
+    if (percentage < 60) return { text: "Making progress", icon: "📈" };
+    if (percentage < 80) return { text: "Almost there", icon: "🎯" };
+    if (percentage < 100) return { text: "Nearly complete", icon: "✨" };
+    return { text: "Profile complete!", icon: "🎉" };
   };
 
   const handleInputChange = (field: string, value: string) => {
-    if (field.startsWith('socialLinks.')) {
-      const socialField = field.split('.')[1];
-      setProfileData(prev => ({
+    if (field.startsWith("socialLinks.")) {
+      const socialField = field.split(".")[1];
+      setProfileData((prev) => ({
         ...prev,
         socialLinks: {
           ...prev.socialLinks,
-          [socialField]: value
-        }
+          [socialField]: value,
+        },
       }));
     } else {
-      setProfileData(prev => ({
+      setProfileData((prev) => ({
         ...prev,
-        [field]: value
+        [field]: value,
       }));
     }
   };
 
   const addSkill = (skill: string) => {
     if (skill.trim() && !profileData.skills.includes(skill.trim())) {
-      setProfileData(prev => ({
+      setProfileData((prev) => ({
         ...prev,
-        skills: [...prev.skills, skill.trim()]
+        skills: [...prev.skills, skill.trim()],
       }));
     }
   };
 
   const removeSkill = (skill: string) => {
-    setProfileData(prev => ({
+    setProfileData((prev) => ({
       ...prev,
-      skills: prev.skills.filter(s => s !== skill)
+      skills: prev.skills.filter((s) => s !== skill),
     }));
   };
 
@@ -104,7 +105,8 @@ export default function CompletenessMeterPattern() {
           📊 Completeness Meter Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Show users their progress towards completing a task or profile with visual feedback and encouragement.
+          Show users their progress towards completing a task or profile with
+          visual feedback and encouragement.
         </p>
       </div>
 
@@ -116,49 +118,57 @@ export default function CompletenessMeterPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Fill out the profile form below and watch the completeness meter update in real-time.
+              Fill out the profile form below and watch the completeness meter
+              update in real-time.
             </p>
-            
+
             {/* Completeness Meter */}
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 mb-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Profile Completeness</h3>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  Profile Completeness
+                </h3>
                 <div className="flex items-center space-x-2">
                   <span className="text-2xl">{message.icon}</span>
-                  <span className="text-lg font-bold text-gray-800 dark:text-gray-200">{completeness}%</span>
+                  <span className="text-lg font-bold text-gray-800 dark:text-gray-200">
+                    {completeness}%
+                  </span>
                 </div>
               </div>
-              
+
               {/* Progress Bar */}
               <div className="relative">
                 <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 mb-3">
-                  <div 
+                  <div
                     className={`h-3 rounded-full transition-all duration-500 ease-out ${getCompletenessColor(completeness)}`}
                     style={{ width: `${completeness}%` }}
                   />
                 </div>
                 <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
                   <span>0%</span>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">{message.text}</span>
+                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                    {message.text}
+                  </span>
                   <span>100%</span>
                 </div>
               </div>
-              
+
               {/* Encouragement Message */}
               <div className="mt-4 p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {completeness < 100 
+                  {completeness < 100
                     ? `You're ${100 - completeness}% away from a complete profile. Keep going!`
-                    : 'Congratulations! Your profile is now complete and will be more visible to others.'
-                  }
+                    : "Congratulations! Your profile is now complete and will be more visible to others."}
                 </p>
               </div>
             </div>
 
             {/* Profile Form */}
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 space-y-4">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Edit Profile</h3>
-              
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                Edit Profile
+              </h3>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -167,12 +177,12 @@ export default function CompletenessMeterPattern() {
                   <input
                     type="text"
                     value={profileData.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
                     className="input-field w-full"
                     placeholder="Enter your full name"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Email Address
@@ -180,26 +190,26 @@ export default function CompletenessMeterPattern() {
                   <input
                     type="email"
                     value={profileData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
                     className="input-field w-full"
                     placeholder="your@email.com"
                   />
                 </div>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Bio
                 </label>
                 <textarea
                   value={profileData.bio}
-                  onChange={(e) => handleInputChange('bio', e.target.value)}
+                  onChange={(e) => handleInputChange("bio", e.target.value)}
                   className="input-field w-full resize-none"
                   rows={3}
                   placeholder="Tell us about yourself..."
                 />
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -207,7 +217,9 @@ export default function CompletenessMeterPattern() {
                   </label>
                   <select
                     value={profileData.experience}
-                    onChange={(e) => handleInputChange('experience', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("experience", e.target.value)
+                    }
                     className="input-field w-full"
                   >
                     <option value="">Select experience</option>
@@ -216,7 +228,7 @@ export default function CompletenessMeterPattern() {
                     <option value="senior">Senior (5+ years)</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Education
@@ -224,13 +236,15 @@ export default function CompletenessMeterPattern() {
                   <input
                     type="text"
                     value={profileData.education}
-                    onChange={(e) => handleInputChange('education', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("education", e.target.value)
+                    }
                     className="input-field w-full"
                     placeholder="Your education background"
                   />
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -239,12 +253,14 @@ export default function CompletenessMeterPattern() {
                   <input
                     type="text"
                     value={profileData.location}
-                    onChange={(e) => handleInputChange('location', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("location", e.target.value)
+                    }
                     className="input-field w-full"
                     placeholder="Your location"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Portfolio URL
@@ -252,13 +268,15 @@ export default function CompletenessMeterPattern() {
                   <input
                     type="url"
                     value={profileData.portfolio}
-                    onChange={(e) => handleInputChange('portfolio', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("portfolio", e.target.value)
+                    }
                     className="input-field w-full"
                     placeholder="https://yourportfolio.com"
                   />
                 </div>
               </div>
-              
+
               {/* Skills */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -286,37 +304,45 @@ export default function CompletenessMeterPattern() {
                     className="input-field flex-1"
                     placeholder="Add a skill and press Enter"
                     onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
+                      if (e.key === "Enter") {
                         addSkill(e.currentTarget.value);
-                        e.currentTarget.value = '';
+                        e.currentTarget.value = "";
                       }
                     }}
                   />
                 </div>
               </div>
-              
+
               {/* Social Links */}
               <div className="space-y-3">
-                <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">Social Links</h4>
+                <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Social Links
+                </h4>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <input
                     type="url"
                     value={profileData.socialLinks.linkedin}
-                    onChange={(e) => handleInputChange('socialLinks.linkedin', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("socialLinks.linkedin", e.target.value)
+                    }
                     className="input-field"
                     placeholder="LinkedIn URL"
                   />
                   <input
                     type="url"
                     value={profileData.socialLinks.github}
-                    onChange={(e) => handleInputChange('socialLinks.github', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("socialLinks.github", e.target.value)
+                    }
                     className="input-field"
                     placeholder="GitHub URL"
                   />
                   <input
                     type="url"
                     value={profileData.socialLinks.twitter}
-                    onChange={(e) => handleInputChange('socialLinks.twitter', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("socialLinks.twitter", e.target.value)
+                    }
                     className="input-field"
                     placeholder="Twitter URL"
                   />
@@ -332,16 +358,14 @@ export default function CompletenessMeterPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="completeness-meter" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="completeness-meter"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -355,31 +379,55 @@ export default function CompletenessMeterPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Real-time Updates</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Progress updates instantly as fields are filled</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Real-time Updates
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Progress updates instantly as fields are filled
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Color-coded progress bar with status messages</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Color-coded progress bar with status messages
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Motivational Messages</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Encouraging text based on completion level</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Motivational Messages
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Encouraging text based on completion level
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Flexible Calculation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Customizable field weighting and scoring</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Flexible Calculation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Customizable field weighting and scoring
+              </p>
             </div>
           </div>
         </div>
@@ -393,18 +441,30 @@ export default function CompletenessMeterPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">👤</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Profile Setup</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">User profile completion tracking</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Profile Setup
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              User profile completion tracking
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📋</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Form Progress</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Long form completion status</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Form Progress
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Long form completion status
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🎯</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Goal Tracking</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Progress towards objectives</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Goal Tracking
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Progress towards objectives
+            </p>
           </div>
         </div>
       </div>

@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
-import CodeTabs from '../../../components/shared/CodeTabs';
 
 // Separate component for the interactive example
 function FillBlanksExample() {
@@ -293,7 +292,19 @@ export default function FillBlanksPattern() {
 
         {/* Code Example - Right Side */}
         <div className="space-y-6">
-          <CodeTabs jsxCode={jsxCode} />
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+            
+            {/* Tab Content */}
+            <div className="code-block">
+              <DynamicCodeExample 
+                componentName="fill-blanks" 
+                activeTab={activeTab} 
+              />
+            </div>
+          </div>
         </div>
       </div>
 

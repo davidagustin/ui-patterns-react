@@ -1,46 +1,49 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function TapExpandPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
 
   const items = [
     {
       id: 1,
-      title: 'Design Principles',
-      summary: 'Core principles that guide our design decisions',
-      content: 'Our design principles include accessibility, consistency, and user-centered design. We believe that good design should be inclusive and work for everyone, regardless of their abilities or circumstances.',
-      icon: '🎨'
+      title: "Design Principles",
+      summary: "Core principles that guide our design decisions",
+      content:
+        "Our design principles include accessibility, consistency, and user-centered design. We believe that good design should be inclusive and work for everyone, regardless of their abilities or circumstances.",
+      icon: "🎨",
     },
     {
       id: 2,
-      title: 'User Research Methods',
-      summary: 'Techniques for understanding user needs and behaviors',
-      content: 'We use various research methods including user interviews, surveys, usability testing, and analytics. Each method provides different insights that help us make informed design decisions.',
-      icon: '🔍'
+      title: "User Research Methods",
+      summary: "Techniques for understanding user needs and behaviors",
+      content:
+        "We use various research methods including user interviews, surveys, usability testing, and analytics. Each method provides different insights that help us make informed design decisions.",
+      icon: "🔍",
     },
     {
       id: 3,
-      title: 'Design System Components',
-      summary: 'Reusable UI components and design tokens',
-      content: 'Our design system includes buttons, forms, navigation, typography, and color palettes. All components are documented with usage guidelines and accessibility requirements.',
-      icon: '🧩'
+      title: "Design System Components",
+      summary: "Reusable UI components and design tokens",
+      content:
+        "Our design system includes buttons, forms, navigation, typography, and color palettes. All components are documented with usage guidelines and accessibility requirements.",
+      icon: "🧩",
     },
     {
       id: 4,
-      title: 'Prototyping Tools',
-      summary: 'Tools and techniques for creating interactive prototypes',
-      content: 'We use tools like Figma, Sketch, and InVision for creating prototypes. These help us test ideas quickly and gather feedback before development begins.',
-      icon: '⚡'
-    }
+      title: "Prototyping Tools",
+      summary: "Tools and techniques for creating interactive prototypes",
+      content:
+        "We use tools like Figma, Sketch, and InVision for creating prototypes. These help us test ideas quickly and gather feedback before development begins.",
+      icon: "⚡",
+    },
   ];
 
   const toggleExpanded = (itemId: number) => {
-    setExpandedItems(prev => {
+    setExpandedItems((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(itemId)) {
         newSet.delete(itemId);
@@ -60,7 +63,8 @@ export default function TapExpandPattern() {
           👆 Tap to Expand Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Expand content sections with a tap or click, revealing additional information while maintaining a clean interface.
+          Expand content sections with a tap or click, revealing additional
+          information while maintaining a clean interface.
         </p>
       </div>
 
@@ -72,15 +76,16 @@ export default function TapExpandPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Tap any item to expand and see more details. Tap again to collapse.
+              Tap any item to expand and see more details. Tap again to
+              collapse.
             </p>
-            
+
             <div className="space-y-3">
               {items.map((item) => (
                 <div
                   key={item.id}
                   className={`bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 ${
-                    isExpanded(item.id) ? 'shadow-lg' : 'hover:shadow-md'
+                    isExpanded(item.id) ? "shadow-lg" : "hover:shadow-md"
                   }`}
                 >
                   {/* Header */}
@@ -101,20 +106,27 @@ export default function TapExpandPattern() {
                     </div>
                     <svg
                       className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${
-                        isExpanded(item.id) ? 'rotate-180' : ''
+                        isExpanded(item.id) ? "rotate-180" : ""
                       }`}
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
                     </svg>
                   </button>
 
                   {/* Content */}
                   <div
                     className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                      isExpanded(item.id) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                      isExpanded(item.id)
+                        ? "max-h-96 opacity-100"
+                        : "max-h-0 opacity-0"
                     }`}
                   >
                     <div className="px-4 pb-4">
@@ -135,7 +147,9 @@ export default function TapExpandPattern() {
             </div>
 
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">How to Use</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                How to Use
+              </h4>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <div>• Tap any item to expand and see more details</div>
                 <div>• Tap again to collapse the content</div>
@@ -152,16 +166,14 @@ export default function TapExpandPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="tap-expand" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="tap-expand"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -175,45 +187,81 @@ export default function TapExpandPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Animations</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Fluid expand/collapse transitions</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smooth Animations
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Fluid expand/collapse transitions
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indication of expandable state</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear indication of expandable state
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Items</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Independent expand/collapse states</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Items
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Independent expand/collapse states
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Touch & Mouse Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Works on both mobile and desktop</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Touch & Mouse Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Works on both mobile and desktop
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Keyboard Navigation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Full keyboard accessibility support</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Keyboard Navigation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Full keyboard accessibility support
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">State Management</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Efficient state tracking for multiple items</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                State Management
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Efficient state tracking for multiple items
+              </p>
             </div>
           </div>
         </div>
@@ -227,18 +275,30 @@ export default function TapExpandPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📚</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">FAQ Sections</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Expandable questions and answers</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              FAQ Sections
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Expandable questions and answers
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📋</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Product Lists</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Show product details on demand</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Product Lists
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Show product details on demand
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📖</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Documentation</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Collapsible sections and chapters</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Documentation
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Collapsible sections and chapters
+            </p>
           </div>
         </div>
       </div>

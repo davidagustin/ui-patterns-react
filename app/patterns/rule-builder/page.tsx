@@ -1,61 +1,88 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function RuleBuilderPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [rules, setRules] = useState([
-    { id: 1, field: 'age', operator: 'greater_than', value: '18', enabled: true },
-    { id: 2, field: 'location', operator: 'equals', value: 'US', enabled: true },
-    { id: 3, field: 'subscription', operator: 'contains', value: 'premium', enabled: false }
+    {
+      id: 1,
+      field: "age",
+      operator: "greater_than",
+      value: "18",
+      enabled: true,
+    },
+    {
+      id: 2,
+      field: "location",
+      operator: "equals",
+      value: "US",
+      enabled: true,
+    },
+    {
+      id: 3,
+      field: "subscription",
+      operator: "contains",
+      value: "premium",
+      enabled: false,
+    },
   ]);
 
   const [newRule, setNewRule] = useState({
-    field: 'name',
-    operator: 'contains',
-    value: '',
-    enabled: true
+    field: "name",
+    operator: "contains",
+    value: "",
+    enabled: true,
   });
 
   const fields = [
-    { value: 'name', label: 'Name' },
-    { value: 'age', label: 'Age' },
-    { value: 'location', label: 'Location' },
-    { value: 'subscription', label: 'Subscription' },
-    { value: 'email', label: 'Email' }
+    { value: "name", label: "Name" },
+    { value: "age", label: "Age" },
+    { value: "location", label: "Location" },
+    { value: "subscription", label: "Subscription" },
+    { value: "email", label: "Email" },
   ];
 
   const operators = [
-    { value: 'equals', label: 'Equals' },
-    { value: 'contains', label: 'Contains' },
-    { value: 'greater_than', label: 'Greater than' },
-    { value: 'less_than', label: 'Less than' },
-    { value: 'starts_with', label: 'Starts with' },
-    { value: 'ends_with', label: 'Ends with' }
+    { value: "equals", label: "Equals" },
+    { value: "contains", label: "Contains" },
+    { value: "greater_than", label: "Greater than" },
+    { value: "less_than", label: "Less than" },
+    { value: "starts_with", label: "Starts with" },
+    { value: "ends_with", label: "Ends with" },
   ];
 
   const addRule = () => {
     if (newRule.value.trim()) {
       setRules([...rules, { ...newRule, id: Date.now() }]);
-      setNewRule({ field: 'name', operator: 'contains', value: '', enabled: true });
+      setNewRule({
+        field: "name",
+        operator: "contains",
+        value: "",
+        enabled: true,
+      });
     }
   };
 
   const removeRule = (id: number) => {
-    setRules(rules.filter(rule => rule.id !== id));
+    setRules(rules.filter((rule) => rule.id !== id));
   };
 
   const toggleRule = (id: number) => {
-    setRules(rules.map(rule => 
-      rule.id === id ? { ...rule, enabled: !rule.enabled } : rule
-    ));
+    setRules(
+      rules.map((rule) =>
+        rule.id === id ? { ...rule, enabled: !rule.enabled } : rule,
+      ),
+    );
   };
 
   const updateRule = (id: number, field: string, value: string) => {
-    setRules(rules.map(rule => 
-      rule.id === id ? { ...rule, [field]: value } : rule
-    ));
+    setRules(
+      rules.map((rule) =>
+        rule.id === id ? { ...rule, [field]: value } : rule,
+      ),
+    );
   };
 
   return (
@@ -65,7 +92,8 @@ export default function RuleBuilderPattern() {
           🔧 Rule Builder Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Create complex rules and conditions with an intuitive interface that allows users to build sophisticated filtering logic.
+          Create complex rules and conditions with an intuitive interface that
+          allows users to build sophisticated filtering logic.
         </p>
       </div>
 
@@ -77,19 +105,25 @@ export default function RuleBuilderPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Build custom rules to filter users. Toggle rules on/off and add new conditions to see how the rule builder works.
+              Build custom rules to filter users. Toggle rules on/off and add
+              new conditions to see how the rule builder works.
             </p>
-            
+
             <div className="space-y-4">
               {/* Existing Rules */}
               <div className="space-y-3">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200">Current Rules</h3>
+                <h3 className="font-medium text-gray-800 dark:text-gray-200">
+                  Current Rules
+                </h3>
                 {rules.map((rule) => (
-                  <div key={rule.id} className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 ${
-                    rule.enabled 
-                      ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700' 
-                      : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 opacity-60'
-                  }`}>
+                  <div
+                    key={rule.id}
+                    className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 ${
+                      rule.enabled
+                        ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700"
+                        : "bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 opacity-60"
+                    }`}
+                  >
                     <input
                       type="checkbox"
                       checked={rule.enabled}
@@ -98,26 +132,36 @@ export default function RuleBuilderPattern() {
                     />
                     <select
                       value={rule.field}
-                      onChange={(e) => updateRule(rule.id, 'field', e.target.value)}
+                      onChange={(e) =>
+                        updateRule(rule.id, "field", e.target.value)
+                      }
                       className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[120px]"
                     >
-                      {fields.map(field => (
-                        <option key={field.value} value={field.value}>{field.label}</option>
+                      {fields.map((field) => (
+                        <option key={field.value} value={field.value}>
+                          {field.label}
+                        </option>
                       ))}
                     </select>
                     <select
                       value={rule.operator}
-                      onChange={(e) => updateRule(rule.id, 'operator', e.target.value)}
+                      onChange={(e) =>
+                        updateRule(rule.id, "operator", e.target.value)
+                      }
                       className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[120px]"
                     >
-                      {operators.map(op => (
-                        <option key={op.value} value={op.value}>{op.label}</option>
+                      {operators.map((op) => (
+                        <option key={op.value} value={op.value}>
+                          {op.label}
+                        </option>
                       ))}
                     </select>
                     <input
                       type="text"
                       value={rule.value}
-                      onChange={(e) => updateRule(rule.id, 'value', e.target.value)}
+                      onChange={(e) =>
+                        updateRule(rule.id, "value", e.target.value)
+                      }
                       placeholder="Value"
                       className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[150px] placeholder-gray-500 dark:placeholder-gray-400"
                     />
@@ -134,30 +178,42 @@ export default function RuleBuilderPattern() {
 
               {/* Add New Rule */}
               <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-3">Add New Rule</h3>
+                <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-3">
+                  Add New Rule
+                </h3>
                 <div className="flex items-center gap-3 flex-wrap">
                   <select
                     value={newRule.field}
-                    onChange={(e) => setNewRule({...newRule, field: e.target.value})}
+                    onChange={(e) =>
+                      setNewRule({ ...newRule, field: e.target.value })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[120px]"
                   >
-                    {fields.map(field => (
-                      <option key={field.value} value={field.value}>{field.label}</option>
+                    {fields.map((field) => (
+                      <option key={field.value} value={field.value}>
+                        {field.label}
+                      </option>
                     ))}
                   </select>
                   <select
                     value={newRule.operator}
-                    onChange={(e) => setNewRule({...newRule, operator: e.target.value})}
+                    onChange={(e) =>
+                      setNewRule({ ...newRule, operator: e.target.value })
+                    }
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[120px]"
                   >
-                    {operators.map(op => (
-                      <option key={op.value} value={op.value}>{op.label}</option>
+                    {operators.map((op) => (
+                      <option key={op.value} value={op.value}>
+                        {op.label}
+                      </option>
                     ))}
                   </select>
                   <input
                     type="text"
                     value={newRule.value}
-                    onChange={(e) => setNewRule({...newRule, value: e.target.value})}
+                    onChange={(e) =>
+                      setNewRule({ ...newRule, value: e.target.value })
+                    }
                     placeholder="Enter value"
                     className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600 min-w-[150px] placeholder-gray-500 dark:placeholder-gray-400"
                   />
@@ -173,9 +229,12 @@ export default function RuleBuilderPattern() {
 
               {/* Rule Summary */}
               <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Active Rules Summary</h3>
+                <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                  Active Rules Summary
+                </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {rules.filter(r => r.enabled).length} of {rules.length} rules are active
+                  {rules.filter((r) => r.enabled).length} of {rules.length}{" "}
+                  rules are active
                 </p>
               </div>
             </div>
@@ -188,16 +247,14 @@ export default function RuleBuilderPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="rule-builder" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="rule-builder"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -211,31 +268,55 @@ export default function RuleBuilderPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Dynamic Rule Creation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Add, remove, and modify rules on the fly</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Dynamic Rule Creation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Add, remove, and modify rules on the fly
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Rule Toggle</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Enable/disable individual rules without deletion</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Rule Toggle
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Enable/disable individual rules without deletion
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Operators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Support for various comparison operators</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Operators
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Support for various comparison operators
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indication of active and inactive rules</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear indication of active and inactive rules
+              </p>
             </div>
           </div>
         </div>
@@ -249,18 +330,30 @@ export default function RuleBuilderPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🔍</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Advanced Search</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Build complex search filters and queries</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Advanced Search
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Build complex search filters and queries
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Filtering</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Filter large datasets with multiple criteria</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Data Filtering
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Filter large datasets with multiple criteria
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">⚙️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Automation Rules</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Create conditional workflows and triggers</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Automation Rules
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Create conditional workflows and triggers
+            </p>
           </div>
         </div>
       </div>

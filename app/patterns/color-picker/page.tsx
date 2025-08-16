@@ -1,18 +1,34 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
-import Tooltip from '../../../components/Tooltip';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+import Tooltip from "../../../components/Tooltip";
 
 export default function ColorPickerPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [selectedColor, setSelectedColor] = useState('#3b82f6');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [selectedColor, setSelectedColor] = useState("#3b82f6");
   const [hsl, setHsl] = useState({ h: 217, s: 91, l: 60 });
   const [presetColors] = useState([
-    '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16',
-    '#22c55e', '#10b981', '#06b6d4', '#0ea5e9', '#3b82f6',
-    '#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899',
-    '#f43f5e', '#6b7280', '#374151', '#111827', '#000000'
+    "#ef4444",
+    "#f97316",
+    "#f59e0b",
+    "#eab308",
+    "#84cc16",
+    "#22c55e",
+    "#10b981",
+    "#06b6d4",
+    "#0ea5e9",
+    "#3b82f6",
+    "#6366f1",
+    "#8b5cf6",
+    "#a855f7",
+    "#d946ef",
+    "#ec4899",
+    "#f43f5e",
+    "#6b7280",
+    "#374151",
+    "#111827",
+    "#000000",
   ]);
   const [customColors, setCustomColors] = useState<string[]>([]);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
@@ -27,17 +43,24 @@ export default function ColorPickerPattern() {
 
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
-    let h = 0, s = 0;
+    let h = 0,
+      s = 0;
     const l = (max + min) / 2;
 
     if (max !== min) {
       const d = max - min;
       s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      
+
       switch (max) {
-        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-        case g: h = (b - r) / d + 2; break;
-        case b: h = (r - g) / d + 4; break;
+        case r:
+          h = (g - b) / d + (g < b ? 6 : 0);
+          break;
+        case g:
+          h = (b - r) / d + 2;
+          break;
+        case b:
+          h = (r - g) / d + 4;
+          break;
       }
       h /= 6;
     }
@@ -45,7 +68,7 @@ export default function ColorPickerPattern() {
     return {
       h: Math.round(h * 360),
       s: Math.round(s * 100),
-      l: Math.round(l * 100)
+      l: Math.round(l * 100),
     };
   };
 
@@ -55,29 +78,43 @@ export default function ColorPickerPattern() {
     l /= 100;
 
     const c = (1 - Math.abs(2 * l - 1)) * s;
-    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
     const m = l - c / 2;
-    let r = 0, g = 0, b = 0;
+    let r = 0,
+      g = 0,
+      b = 0;
 
     if (0 <= h && h < 60) {
-      r = c; g = x; b = 0;
+      r = c;
+      g = x;
+      b = 0;
     } else if (60 <= h && h < 120) {
-      r = x; g = c; b = 0;
+      r = x;
+      g = c;
+      b = 0;
     } else if (120 <= h && h < 180) {
-      r = 0; g = c; b = x;
+      r = 0;
+      g = c;
+      b = x;
     } else if (180 <= h && h < 240) {
-      r = 0; g = x; b = c;
+      r = 0;
+      g = x;
+      b = c;
     } else if (240 <= h && h < 300) {
-      r = x; g = 0; b = c;
+      r = x;
+      g = 0;
+      b = c;
     } else if (300 <= h && h < 360) {
-      r = c; g = 0; b = x;
+      r = c;
+      g = 0;
+      b = x;
     }
 
     r = Math.round((r + m) * 255);
     g = Math.round((g + m) * 255);
     b = Math.round((b + m) * 255);
 
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
   };
 
   // Update color when hex changes
@@ -88,13 +125,16 @@ export default function ColorPickerPattern() {
   // Handle click outside to close picker
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (pickerRef.current && !pickerRef.current.contains(event.target as Node)) {
+      if (
+        pickerRef.current &&
+        !pickerRef.current.contains(event.target as Node)
+      ) {
         setIsPickerOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleHslChange = (newHsl: Partial<typeof hsl>) => {
@@ -110,19 +150,27 @@ export default function ColorPickerPattern() {
   };
 
   const getContrastColor = (color: string) => {
-    const hex = color.replace('#', '');
+    const hex = color.replace("#", "");
     const r = parseInt(hex.substr(0, 2), 16);
     const g = parseInt(hex.substr(2, 2), 16);
     const b = parseInt(hex.substr(4, 2), 16);
-    const brightness = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-    return brightness > 128 ? '#000000' : '#ffffff';
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    return brightness > 128 ? "#000000" : "#ffffff";
   };
 
-  const ColorPreview = ({ color, size = 'md', onClick }: { color: string; size?: 'sm' | 'md' | 'lg'; onClick?: () => void }) => {
+  const ColorPreview = ({
+    color,
+    size = "md",
+    onClick,
+  }: {
+    color: string;
+    size?: "sm" | "md" | "lg";
+    onClick?: () => void;
+  }) => {
     const sizeClasses = {
-      sm: 'w-6 h-6',
-      md: 'w-8 h-8',
-      lg: 'w-12 h-12'
+      sm: "w-6 h-6",
+      md: "w-8 h-8",
+      lg: "w-12 h-12",
     };
 
     return (
@@ -143,7 +191,8 @@ export default function ColorPickerPattern() {
           🎨 Color Picker Patterns
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Comprehensive color selection tools with HSL controls, presets, and custom color management.
+          Comprehensive color selection tools with HSL controls, presets, and
+          custom color management.
         </p>
       </div>
 
@@ -154,20 +203,23 @@ export default function ColorPickerPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Color Picker
             </h2>
-            
+
             <div className="space-y-6">
               {/* Color Preview & Trigger */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
                   <Tooltip content="Click to open color picker">
-                    <div 
+                    <div
                       className="w-16 h-16 rounded-xl border-2 border-gray-300 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform"
                       style={{ backgroundColor: selectedColor }}
                       onClick={() => setIsPickerOpen(!isPickerOpen)}
                     />
                   </Tooltip>
                   <div className="flex-1">
-                    <div className="text-lg font-semibold" style={{ color: selectedColor }}>
+                    <div
+                      className="text-lg font-semibold"
+                      style={{ color: selectedColor }}
+                    >
                       Current Color
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400 font-mono">
@@ -201,7 +253,10 @@ export default function ColorPickerPattern() {
 
               {/* Advanced Color Picker */}
               {isPickerOpen && (
-                <div ref={pickerRef} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-xl space-y-4">
+                <div
+                  ref={pickerRef}
+                  className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-xl space-y-4"
+                >
                   {/* HSL Sliders */}
                   <div className="space-y-4">
                     <div>
@@ -214,7 +269,9 @@ export default function ColorPickerPattern() {
                           min="0"
                           max="360"
                           value={hsl.h}
-                          onChange={(e) => handleHslChange({ h: parseInt(e.target.value) })}
+                          onChange={(e) =>
+                            handleHslChange({ h: parseInt(e.target.value) })
+                          }
                           className="w-full h-4 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-cyan-500 via-blue-500 via-purple-500 to-red-500 rounded-lg appearance-none cursor-pointer slider-hue"
                         />
                       </div>
@@ -229,10 +286,12 @@ export default function ColorPickerPattern() {
                         min="0"
                         max="100"
                         value={hsl.s}
-                        onChange={(e) => handleHslChange({ s: parseInt(e.target.value) })}
+                        onChange={(e) =>
+                          handleHslChange({ s: parseInt(e.target.value) })
+                        }
                         className="w-full h-4 rounded-lg appearance-none cursor-pointer slider-saturation"
                         style={{
-                          background: `linear-gradient(to right, hsl(${hsl.h}, 0%, ${hsl.l}%), hsl(${hsl.h}, 100%, ${hsl.l}%))`
+                          background: `linear-gradient(to right, hsl(${hsl.h}, 0%, ${hsl.l}%), hsl(${hsl.h}, 100%, ${hsl.l}%))`,
                         }}
                       />
                     </div>
@@ -246,10 +305,12 @@ export default function ColorPickerPattern() {
                         min="0"
                         max="100"
                         value={hsl.l}
-                        onChange={(e) => handleHslChange({ l: parseInt(e.target.value) })}
+                        onChange={(e) =>
+                          handleHslChange({ l: parseInt(e.target.value) })
+                        }
                         className="w-full h-4 rounded-lg appearance-none cursor-pointer slider-lightness"
                         style={{
-                          background: `linear-gradient(to right, hsl(${hsl.h}, ${hsl.s}%, 0%), hsl(${hsl.h}, ${hsl.s}%, 50%), hsl(${hsl.h}, ${hsl.s}%, 100%))`
+                          background: `linear-gradient(to right, hsl(${hsl.h}, ${hsl.s}%, 0%), hsl(${hsl.h}, ${hsl.s}%, 50%), hsl(${hsl.h}, ${hsl.s}%, 100%))`,
                         }}
                       />
                     </div>
@@ -266,7 +327,9 @@ export default function ColorPickerPattern() {
 
               {/* Preset Colors */}
               <div className="space-y-3">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Preset Colors</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Preset Colors
+                </h3>
                 <div className="grid grid-cols-10 gap-2">
                   {presetColors.map((color) => (
                     <ColorPreview
@@ -283,7 +346,9 @@ export default function ColorPickerPattern() {
               {customColors.length > 0 && (
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Custom Colors</h3>
+                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Custom Colors
+                    </h3>
                     <Tooltip content="Clear all custom colors">
                       <button
                         onClick={() => setCustomColors([])}
@@ -308,29 +373,39 @@ export default function ColorPickerPattern() {
 
               {/* Color Information */}
               <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg space-y-2">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Color Information</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Color Information
+                </h3>
                 <div className="grid grid-cols-2 gap-4 text-xs">
                   <div>
                     <div className="text-gray-500 dark:text-gray-400">HEX</div>
-                    <div className="font-mono">{selectedColor.toUpperCase()}</div>
+                    <div className="font-mono">
+                      {selectedColor.toUpperCase()}
+                    </div>
                   </div>
                   <div>
                     <div className="text-gray-500 dark:text-gray-400">RGB</div>
                     <div className="font-mono">
-                      {parseInt(selectedColor.slice(1, 3), 16)}, {parseInt(selectedColor.slice(3, 5), 16)}, {parseInt(selectedColor.slice(5, 7), 16)}
+                      {parseInt(selectedColor.slice(1, 3), 16)},{" "}
+                      {parseInt(selectedColor.slice(3, 5), 16)},{" "}
+                      {parseInt(selectedColor.slice(5, 7), 16)}
                     </div>
                   </div>
                   <div>
                     <div className="text-gray-500 dark:text-gray-400">HSL</div>
-                    <div className="font-mono">{hsl.h}°, {hsl.s}%, {hsl.l}%</div>
+                    <div className="font-mono">
+                      {hsl.h}°, {hsl.s}%, {hsl.l}%
+                    </div>
                   </div>
                   <div>
-                    <div className="text-gray-500 dark:text-gray-400">Contrast</div>
-                    <div 
+                    <div className="text-gray-500 dark:text-gray-400">
+                      Contrast
+                    </div>
+                    <div
                       className="px-2 py-1 rounded text-xs font-medium"
-                      style={{ 
+                      style={{
                         backgroundColor: selectedColor,
-                        color: getContrastColor(selectedColor)
+                        color: getContrastColor(selectedColor),
                       }}
                     >
                       Sample Text
@@ -348,16 +423,14 @@ export default function ColorPickerPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="color-picker" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="color-picker"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -371,31 +444,55 @@ export default function ColorPickerPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">HSL Controls</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Intuitive hue, saturation, and lightness sliders</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                HSL Controls
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Intuitive hue, saturation, and lightness sliders
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Input Methods</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Hex input, native color picker, and custom sliders</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Input Methods
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Hex input, native color picker, and custom sliders
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Preset & Custom Colors</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Pre-defined color palette and custom color management</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Preset & Custom Colors
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Pre-defined color palette and custom color management
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Color Information</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Display HEX, RGB, HSL values and contrast preview</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Color Information
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Display HEX, RGB, HSL values and contrast preview
+              </p>
             </div>
           </div>
         </div>
@@ -409,18 +506,30 @@ export default function ColorPickerPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🎨</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Design Tools</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Theme customization and design systems</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Design Tools
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Theme customization and design systems
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🏠</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Customization</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">User interface personalization</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Customization
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              User interface personalization
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Visualization</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Chart colors and data representation</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Data Visualization
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Chart colors and data representation
+            </p>
           </div>
         </div>
       </div>

@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect, ReactNode } from 'react';
+import { useState, useRef, useEffect, ReactNode } from "react";
 
 interface TooltipProps {
   content: string;
   children: ReactNode;
   delay?: number;
-  position?: 'top' | 'bottom' | 'left' | 'right';
+  position?: "top" | "bottom" | "left" | "right";
   className?: string;
 }
 
-export default function Tooltip({ 
-  content, 
-  children, 
+export default function Tooltip({
+  content,
+  children,
   delay = 0,
-  position = 'top',
-  className = '' 
+  position = "top",
+  className = "",
 }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
@@ -27,7 +27,7 @@ export default function Tooltip({
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    
+
     if (delay === 0) {
       setIsVisible(true);
       updatePosition();
@@ -51,24 +51,24 @@ export default function Tooltip({
 
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const tooltipRect = tooltipRef.current.getBoundingClientRect();
-    
+
     let top = 0;
     let left = 0;
 
     switch (position) {
-      case 'top':
+      case "top":
         top = triggerRect.top - tooltipRect.height - 8;
         left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
         break;
-      case 'bottom':
+      case "bottom":
         top = triggerRect.bottom + 8;
         left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
         break;
-      case 'left':
+      case "left":
         top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
         left = triggerRect.left - tooltipRect.width - 8;
         break;
-      case 'right':
+      case "right":
         top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
         left = triggerRect.right + 8;
         break;
@@ -76,8 +76,14 @@ export default function Tooltip({
 
     // Keep tooltip within viewport
     const padding = 8;
-    left = Math.max(padding, Math.min(left, window.innerWidth - tooltipRect.width - padding));
-    top = Math.max(padding, Math.min(top, window.innerHeight - tooltipRect.height - padding));
+    left = Math.max(
+      padding,
+      Math.min(left, window.innerWidth - tooltipRect.width - padding),
+    );
+    top = Math.max(
+      padding,
+      Math.min(top, window.innerHeight - tooltipRect.height - padding),
+    );
 
     setTooltipPosition({ top, left });
   };
@@ -101,12 +107,12 @@ export default function Tooltip({
       }
     };
 
-    window.addEventListener('scroll', handleScroll, true);
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("scroll", handleScroll, true);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll, true);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", handleResize);
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -114,15 +120,16 @@ export default function Tooltip({
   }, [isVisible]);
 
   const getArrowClasses = () => {
-    const base = 'absolute w-2 h-2 bg-gray-800 dark:bg-gray-200 transform rotate-45';
+    const base =
+      "absolute w-2 h-2 bg-gray-800 dark:bg-gray-200 transform rotate-45";
     switch (position) {
-      case 'top':
+      case "top":
         return `${base} -bottom-1 left-1/2 -translate-x-1/2`;
-      case 'bottom':
+      case "bottom":
         return `${base} -top-1 left-1/2 -translate-x-1/2`;
-      case 'left':
+      case "left":
         return `${base} -right-1 top-1/2 -translate-y-1/2`;
-      case 'right':
+      case "right":
         return `${base} -left-1 top-1/2 -translate-y-1/2`;
       default:
         return `${base} -bottom-1 left-1/2 -translate-x-1/2`;
@@ -139,7 +146,7 @@ export default function Tooltip({
       >
         {children}
       </div>
-      
+
       {isVisible && (
         <div
           ref={tooltipRef}

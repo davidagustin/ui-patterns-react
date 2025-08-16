@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function PreviewPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [text, setText] = useState('Hello World');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [text, setText] = useState("Hello World");
   const [fontSize, setFontSize] = useState(16);
-  const [color, setColor] = useState('#000000');
-  const [fontFamily, setFontFamily] = useState('Arial');
-  const [textAlign, setTextAlign] = useState('left');
+  const [color, setColor] = useState("#000000");
+  const [fontFamily, setFontFamily] = useState("Arial");
+  const [textAlign, setTextAlign] = useState("left");
 
   return (
     <div className="space-y-8">
@@ -18,7 +18,8 @@ export default function PreviewPattern() {
           👁️ Preview Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Show live previews of changes as users make them, providing immediate visual feedback and reducing the need for trial and error.
+          Show live previews of changes as users make them, providing immediate
+          visual feedback and reducing the need for trial and error.
         </p>
       </div>
 
@@ -30,9 +31,11 @@ export default function PreviewPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Adjust the controls below to see the live preview update in real-time. This pattern is perfect for design tools, editors, and configuration panels.
+              Adjust the controls below to see the live preview update in
+              real-time. This pattern is perfect for design tools, editors, and
+              configuration panels.
             </p>
-            
+
             <div className="space-y-4">
               {/* Controls */}
               <div className="space-y-3">
@@ -124,16 +127,18 @@ export default function PreviewPattern() {
                       color: color,
                       fontFamily: fontFamily,
                       textAlign: textAlign as any,
-                      lineHeight: '1.4',
-                      maxWidth: '100%',
-                      wordWrap: 'break-word'
+                      lineHeight: "1.4",
+                      maxWidth: "100%",
+                      wordWrap: "break-word",
                     }}
                   >
-                    {text || 'Enter text to see preview...'}
+                    {text || "Enter text to see preview..."}
                   </div>
                 </div>
                 <div className="mt-3 text-sm text-gray-600 dark:text-gray-400">
-                  <p><strong>Current Settings:</strong></p>
+                  <p>
+                    <strong>Current Settings:</strong>
+                  </p>
                   <ul className="mt-1 space-y-1">
                     <li>• Font: {fontFamily}</li>
                     <li>• Size: {fontSize}px</li>
@@ -152,16 +157,14 @@ export default function PreviewPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="preview" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="preview"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -175,31 +178,55 @@ export default function PreviewPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Real-time Updates</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Instant visual feedback as users make changes</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Real-time Updates
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Instant visual feedback as users make changes
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Reduced Trial & Error</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Users can see results immediately without guessing</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Reduced Trial & Error
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Users can see results immediately without guessing
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Contextual Preview</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Show changes in the actual context they'll be used</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Contextual Preview
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Show changes in the actual context they'll be used
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Performance Optimized</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Efficient updates that don't slow down the interface</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Performance Optimized
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Efficient updates that don't slow down the interface
+              </p>
             </div>
           </div>
         </div>
@@ -213,18 +240,30 @@ export default function PreviewPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🎨</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Design Tools</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Live preview of design changes in graphic editors</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Design Tools
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Live preview of design changes in graphic editors
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Text Editors</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Real-time formatting preview in rich text editors</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Text Editors
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Real-time formatting preview in rich text editors
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">⚙️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Configuration</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Settings panels with live preview of changes</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Configuration
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Settings panels with live preview of changes
+            </p>
           </div>
         </div>
       </div>
@@ -237,33 +276,57 @@ export default function PreviewPattern() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-3">
             <div className="flex items-start space-x-2">
-              <span className="text-yellow-600 dark:text-yellow-400 text-sm">1.</span>
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">
+                1.
+              </span>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-gray-200">Debounce Updates</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Limit update frequency for performance</p>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                  Debounce Updates
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Limit update frequency for performance
+                </p>
               </div>
             </div>
             <div className="flex items-start space-x-2">
-              <span className="text-yellow-600 dark:text-yellow-400 text-sm">2.</span>
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">
+                2.
+              </span>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-gray-200">Show Context</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Preview changes in realistic environments</p>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                  Show Context
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Preview changes in realistic environments
+                </p>
               </div>
             </div>
           </div>
           <div className="space-y-3">
             <div className="flex items-start space-x-2">
-              <span className="text-yellow-600 dark:text-yellow-400 text-sm">3.</span>
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">
+                3.
+              </span>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-gray-200">Optimize Rendering</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Use efficient rendering techniques</p>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                  Optimize Rendering
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Use efficient rendering techniques
+                </p>
               </div>
             </div>
             <div className="flex items-start space-x-2">
-              <span className="text-yellow-600 dark:text-yellow-400 text-sm">4.</span>
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">
+                4.
+              </span>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-gray-200">Clear Boundaries</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Distinguish preview from actual content</p>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                  Clear Boundaries
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Distinguish preview from actual content
+                </p>
               </div>
             </div>
           </div>

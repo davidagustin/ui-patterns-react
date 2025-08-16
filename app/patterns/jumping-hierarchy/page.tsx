@@ -1,38 +1,101 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function JumpingHierarchyPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedLevel, setSelectedLevel] = useState(3);
 
   const hierarchyLevels = [
-    { level: 1, label: 'Root', path: 'Home', icon: '🏠', color: 'bg-blue-100 text-blue-800' },
-    { level: 2, label: 'Category', path: 'Home > Products', icon: '📦', color: 'bg-green-100 text-green-800' },
-    { level: 3, label: 'Subcategory', path: 'Home > Products > Electronics', icon: '💻', color: 'bg-purple-100 text-purple-800' },
-    { level: 4, label: 'Product Type', path: 'Home > Products > Electronics > Laptops', icon: '💻', color: 'bg-orange-100 text-orange-800' },
-    { level: 5, label: 'Product', path: 'Home > Products > Electronics > Laptops > MacBook Pro', icon: '🍎', color: 'bg-red-100 text-red-800' },
+    {
+      level: 1,
+      label: "Root",
+      path: "Home",
+      icon: "🏠",
+      color: "bg-blue-100 text-blue-800",
+    },
+    {
+      level: 2,
+      label: "Category",
+      path: "Home > Products",
+      icon: "📦",
+      color: "bg-green-100 text-green-800",
+    },
+    {
+      level: 3,
+      label: "Subcategory",
+      path: "Home > Products > Electronics",
+      icon: "💻",
+      color: "bg-purple-100 text-purple-800",
+    },
+    {
+      level: 4,
+      label: "Product Type",
+      path: "Home > Products > Electronics > Laptops",
+      icon: "💻",
+      color: "bg-orange-100 text-orange-800",
+    },
+    {
+      level: 5,
+      label: "Product",
+      path: "Home > Products > Electronics > Laptops > MacBook Pro",
+      icon: "🍎",
+      color: "bg-red-100 text-red-800",
+    },
   ];
 
   const organizationLevels = [
-    { level: 1, label: 'Company', path: 'Acme Corp', icon: '🏢', color: 'bg-blue-100 text-blue-800' },
-    { level: 2, label: 'Department', path: 'Acme Corp > Engineering', icon: '⚙️', color: 'bg-green-100 text-green-800' },
-    { level: 3, label: 'Team', path: 'Acme Corp > Engineering > Frontend', icon: '👥', color: 'bg-purple-100 text-purple-800' },
-    { level: 4, label: 'Project', path: 'Acme Corp > Engineering > Frontend > UI Components', icon: '🎨', color: 'bg-orange-100 text-orange-800' },
-    { level: 5, label: 'Task', path: 'Acme Corp > Engineering > Frontend > UI Components > Button Design', icon: '✅', color: 'bg-red-100 text-red-800' },
+    {
+      level: 1,
+      label: "Company",
+      path: "Acme Corp",
+      icon: "🏢",
+      color: "bg-blue-100 text-blue-800",
+    },
+    {
+      level: 2,
+      label: "Department",
+      path: "Acme Corp > Engineering",
+      icon: "⚙️",
+      color: "bg-green-100 text-green-800",
+    },
+    {
+      level: 3,
+      label: "Team",
+      path: "Acme Corp > Engineering > Frontend",
+      icon: "👥",
+      color: "bg-purple-100 text-purple-800",
+    },
+    {
+      level: 4,
+      label: "Project",
+      path: "Acme Corp > Engineering > Frontend > UI Components",
+      icon: "🎨",
+      color: "bg-orange-100 text-orange-800",
+    },
+    {
+      level: 5,
+      label: "Task",
+      path: "Acme Corp > Engineering > Frontend > UI Components > Button Design",
+      icon: "✅",
+      color: "bg-red-100 text-red-800",
+    },
   ];
 
   const handleJumpToLevel = (level: number) => {
     setSelectedLevel(level);
-    console.log(`Jumping to level ${level}: ${hierarchyLevels[level - 1].label}`);
+    console.log(
+      `Jumping to level ${level}: ${hierarchyLevels[level - 1].label}`,
+    );
   };
 
   const renderJumpingControls = (levels: any[], title: string) => (
     <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">{title}</h3>
-      
+      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+        {title}
+      </h3>
+
       {/* Hierarchy Visualization */}
       <div className="space-y-3 mb-6">
         {levels.map((level, index) => (
@@ -41,13 +104,15 @@ export default function JumpingHierarchyPattern() {
               onClick={() => handleJumpToLevel(level.level)}
               className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-all duration-200 ${
                 selectedLevel === level.level
-                  ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 ring-2 ring-blue-500'
-                  : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
+                  ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 ring-2 ring-blue-500"
+                  : "hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400"
               }`}
             >
               <span className="text-lg">{level.icon}</span>
               <span className="font-medium">{level.label}</span>
-              <span className={`px-2 py-1 rounded text-xs font-medium ${level.color} dark:bg-opacity-20`}>
+              <span
+                className={`px-2 py-1 rounded text-xs font-medium ${level.color} dark:bg-opacity-20`}
+              >
                 Level {level.level}
               </span>
             </button>
@@ -60,15 +125,17 @@ export default function JumpingHierarchyPattern() {
 
       {/* Quick Jump Buttons */}
       <div className="flex flex-wrap gap-2">
-        <span className="text-sm text-gray-600 dark:text-gray-400 self-center mr-2">Quick Jump:</span>
+        <span className="text-sm text-gray-600 dark:text-gray-400 self-center mr-2">
+          Quick Jump:
+        </span>
         {levels.map((level) => (
           <button
             key={`quick-${level.level}`}
             onClick={() => handleJumpToLevel(level.level)}
             className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
               selectedLevel === level.level
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
             }`}
           >
             {level.label}
@@ -100,7 +167,8 @@ export default function JumpingHierarchyPattern() {
           🎯 Jumping in Hierarchy Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Allow users to jump directly to different levels in a hierarchical structure, bypassing intermediate navigation steps for faster access.
+          Allow users to jump directly to different levels in a hierarchical
+          structure, bypassing intermediate navigation steps for faster access.
         </p>
       </div>
 
@@ -112,19 +180,27 @@ export default function JumpingHierarchyPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Click on any level to jump directly to that part of the hierarchy. Notice how you can skip intermediate levels for faster navigation.
+              Click on any level to jump directly to that part of the hierarchy.
+              Notice how you can skip intermediate levels for faster navigation.
             </p>
-            
+
             <div className="space-y-6">
               {renderJumpingControls(hierarchyLevels, "Product Hierarchy")}
-              {renderJumpingControls(organizationLevels, "Organization Structure")}
+              {renderJumpingControls(
+                organizationLevels,
+                "Organization Structure",
+              )}
             </div>
 
             {/* Alternative Jump Pattern - Dropdown */}
             <div className="mt-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-3">Dropdown Jump Navigation</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-3">
+                Dropdown Jump Navigation
+              </h4>
               <div className="flex items-center space-x-3">
-                <span className="text-sm text-gray-600 dark:text-gray-400">Jump to:</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  Jump to:
+                </span>
                 <select
                   value={selectedLevel}
                   onChange={(e) => handleJumpToLevel(Number(e.target.value))}
@@ -132,7 +208,8 @@ export default function JumpingHierarchyPattern() {
                 >
                   {hierarchyLevels.map((level) => (
                     <option key={level.level} value={level.level}>
-                      {level.icon} {level.label} - {level.path.split(' > ').pop()}
+                      {level.icon} {level.label} -{" "}
+                      {level.path.split(" > ").pop()}
                     </option>
                   ))}
                 </select>
@@ -153,16 +230,14 @@ export default function JumpingHierarchyPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="jumping-hierarchy" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="jumping-hierarchy"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -176,31 +251,56 @@ export default function JumpingHierarchyPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Direct Level Access</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Jump to any hierarchy level without traversing intermediate steps</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Direct Level Access
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Jump to any hierarchy level without traversing intermediate
+                steps
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Interface Options</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Buttons, quick jump bar, and dropdown selection</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Interface Options
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Buttons, quick jump bar, and dropdown selection
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Path Display</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indication of current position and full path</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Path Display
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear indication of current position and full path
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Level Identification</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Color-coded badges and icons for easy recognition</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Level Identification
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Color-coded badges and icons for easy recognition
+              </p>
             </div>
           </div>
         </div>
@@ -214,18 +314,30 @@ export default function JumpingHierarchyPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📁</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">File Systems</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Navigate deep folder structures quickly</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              File Systems
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Navigate deep folder structures quickly
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🏢</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Organizational Charts</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Jump between different organizational levels</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Organizational Charts
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Jump between different organizational levels
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛒</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Product Categories</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Skip between category levels in e-commerce</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Product Categories
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Skip between category levels in e-commerce
+            </p>
           </div>
         </div>
       </div>

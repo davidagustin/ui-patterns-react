@@ -1,60 +1,62 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SettingsPattern() {
   const [settings, setSettings] = useState({
-    theme: 'system',
-    language: 'en',
+    theme: "system",
+    language: "en",
     notifications: {
       email: true,
       push: false,
-      sms: false
+      sms: false,
     },
     privacy: {
-      profileVisibility: 'public',
+      profileVisibility: "public",
       showEmail: false,
-      allowMessages: true
+      allowMessages: true,
     },
     preferences: {
       autoSave: true,
       compactMode: false,
-      soundEnabled: true
-    }
+      soundEnabled: true,
+    },
   });
 
-  const [activeTab, setActiveTab] = useState('general');
+  const [activeTab, setActiveTab] = useState("general");
 
   const handleSettingChange = (category: string, key: string, value: any) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
       [category]: {
         ...(prev[category as keyof typeof prev] as any),
-        [key]: value
-      }
+        [key]: value,
+      },
     }));
   };
 
   const handleDirectChange = (key: string, value: any) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
-      [key]: value
+      [key]: value,
     }));
   };
 
   const tabs = [
-    { id: 'general', label: 'General', icon: '⚙️' },
-    { id: 'notifications', label: 'Notifications', icon: '🔔' },
-    { id: 'privacy', label: 'Privacy', icon: '🔒' },
-    { id: 'preferences', label: 'Preferences', icon: '🎨' }
+    { id: "general", label: "General", icon: "⚙️" },
+    { id: "notifications", label: "Notifications", icon: "🔔" },
+    { id: "privacy", label: "Privacy", icon: "🔒" },
+    { id: "preferences", label: "Preferences", icon: "🎨" },
   ];
 
   const renderGeneralSettings = () => (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">Appearance</h3>
-        
+        <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
+          Appearance
+        </h3>
+
         <div className="space-y-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -62,7 +64,7 @@ export default function SettingsPattern() {
             </label>
             <select
               value={settings.theme}
-              onChange={(e) => handleDirectChange('theme', e.target.value)}
+              onChange={(e) => handleDirectChange("theme", e.target.value)}
               className="input-field"
             >
               <option value="light">Light</option>
@@ -80,7 +82,7 @@ export default function SettingsPattern() {
             </label>
             <select
               value={settings.language}
-              onChange={(e) => handleDirectChange('language', e.target.value)}
+              onChange={(e) => handleDirectChange("language", e.target.value)}
               className="input-field"
             >
               <option value="en">English</option>
@@ -101,19 +103,31 @@ export default function SettingsPattern() {
   const renderNotificationSettings = () => (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">Notification Preferences</h3>
-        
+        <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
+          Notification Preferences
+        </h3>
+
         <div className="space-y-4">
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Email Notifications</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Receive updates via email</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Email Notifications
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Receive updates via email
+              </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 checked={settings.notifications.email}
-                onChange={(e) => handleSettingChange('notifications', 'email', e.target.checked)}
+                onChange={(e) =>
+                  handleSettingChange(
+                    "notifications",
+                    "email",
+                    e.target.checked,
+                  )
+                }
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -122,14 +136,20 @@ export default function SettingsPattern() {
 
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Push Notifications</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Receive browser notifications</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Push Notifications
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Receive browser notifications
+              </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 checked={settings.notifications.push}
-                onChange={(e) => handleSettingChange('notifications', 'push', e.target.checked)}
+                onChange={(e) =>
+                  handleSettingChange("notifications", "push", e.target.checked)
+                }
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -138,14 +158,20 @@ export default function SettingsPattern() {
 
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">SMS Notifications</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Receive text message alerts</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                SMS Notifications
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Receive text message alerts
+              </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 checked={settings.notifications.sms}
-                onChange={(e) => handleSettingChange('notifications', 'sms', e.target.checked)}
+                onChange={(e) =>
+                  handleSettingChange("notifications", "sms", e.target.checked)
+                }
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -159,8 +185,10 @@ export default function SettingsPattern() {
   const renderPrivacySettings = () => (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">Privacy & Security</h3>
-        
+        <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
+          Privacy & Security
+        </h3>
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -168,7 +196,13 @@ export default function SettingsPattern() {
             </label>
             <select
               value={settings.privacy.profileVisibility}
-              onChange={(e) => handleSettingChange('privacy', 'profileVisibility', e.target.value)}
+              onChange={(e) =>
+                handleSettingChange(
+                  "privacy",
+                  "profileVisibility",
+                  e.target.value,
+                )
+              }
               className="input-field"
             >
               <option value="public">Public</option>
@@ -182,14 +216,20 @@ export default function SettingsPattern() {
 
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Show Email Address</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Display your email on your profile</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Show Email Address
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Display your email on your profile
+              </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 checked={settings.privacy.showEmail}
-                onChange={(e) => handleSettingChange('privacy', 'showEmail', e.target.checked)}
+                onChange={(e) =>
+                  handleSettingChange("privacy", "showEmail", e.target.checked)
+                }
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -198,14 +238,24 @@ export default function SettingsPattern() {
 
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Allow Messages</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Let other users send you messages</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Allow Messages
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Let other users send you messages
+              </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 checked={settings.privacy.allowMessages}
-                onChange={(e) => handleSettingChange('privacy', 'allowMessages', e.target.checked)}
+                onChange={(e) =>
+                  handleSettingChange(
+                    "privacy",
+                    "allowMessages",
+                    e.target.checked,
+                  )
+                }
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -219,19 +269,31 @@ export default function SettingsPattern() {
   const renderPreferenceSettings = () => (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">User Preferences</h3>
-        
+        <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
+          User Preferences
+        </h3>
+
         <div className="space-y-4">
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Auto-save</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Automatically save your work</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Auto-save
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Automatically save your work
+              </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 checked={settings.preferences.autoSave}
-                onChange={(e) => handleSettingChange('preferences', 'autoSave', e.target.checked)}
+                onChange={(e) =>
+                  handleSettingChange(
+                    "preferences",
+                    "autoSave",
+                    e.target.checked,
+                  )
+                }
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -240,14 +302,24 @@ export default function SettingsPattern() {
 
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Compact Mode</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Use a more compact layout</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Compact Mode
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Use a more compact layout
+              </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 checked={settings.preferences.compactMode}
-                onChange={(e) => handleSettingChange('preferences', 'compactMode', e.target.checked)}
+                onChange={(e) =>
+                  handleSettingChange(
+                    "preferences",
+                    "compactMode",
+                    e.target.checked,
+                  )
+                }
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -256,14 +328,24 @@ export default function SettingsPattern() {
 
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Sound Effects</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Play sound effects for interactions</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Sound Effects
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Play sound effects for interactions
+              </p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
                 checked={settings.preferences.soundEnabled}
-                onChange={(e) => handleSettingChange('preferences', 'soundEnabled', e.target.checked)}
+                onChange={(e) =>
+                  handleSettingChange(
+                    "preferences",
+                    "soundEnabled",
+                    e.target.checked,
+                  )
+                }
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -276,13 +358,13 @@ export default function SettingsPattern() {
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'general':
+      case "general":
         return renderGeneralSettings();
-      case 'notifications':
+      case "notifications":
         return renderNotificationSettings();
-      case 'privacy':
+      case "privacy":
         return renderPrivacySettings();
-      case 'preferences':
+      case "preferences":
         return renderPreferenceSettings();
       default:
         return renderGeneralSettings();
@@ -296,7 +378,8 @@ export default function SettingsPattern() {
           ⚙️ Settings
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          User preferences and configuration options organized in an intuitive settings interface.
+          User preferences and configuration options organized in an intuitive
+          settings interface.
         </p>
       </div>
 
@@ -307,9 +390,8 @@ export default function SettingsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             <div className="space-y-6">
-              {/* Tab Navigation */}
               <div className="flex space-x-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
                 {tabs.map((tab) => (
                   <button
@@ -317,8 +399,8 @@ export default function SettingsPattern() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex-1 flex items-center justify-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                       activeTab === tab.id
-                        ? 'bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 shadow-sm'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                        ? "bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 shadow-sm"
+                        : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                     }`}
                   >
                     <span>{tab.icon}</span>
@@ -328,9 +410,7 @@ export default function SettingsPattern() {
               </div>
 
               {/* Settings Content */}
-              <div className="min-h-[400px]">
-                {renderContent()}
-              </div>
+              <div className="min-h-[400px]">{renderContent()}</div>
 
               {/* Save Button */}
               <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -351,11 +431,11 @@ export default function SettingsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
+
             <div className="code-block">
-              <DynamicCodeExample 
-                componentName="settings" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="settings"
+                activeTab={activeTab}
               />
             </div>
           </div>
@@ -369,31 +449,55 @@ export default function SettingsPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Tabbed Organization</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Group related settings into logical categories</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Tabbed Organization
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Group related settings into logical categories
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Toggle Switches</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Intuitive on/off controls for boolean settings</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Toggle Switches
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Intuitive on/off controls for boolean settings
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Descriptive Labels</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear explanations for each setting</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Descriptive Labels
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear explanations for each setting
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Save Actions</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Explicit save and reset functionality</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Save Actions
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Explicit save and reset functionality
+              </p>
             </div>
           </div>
         </div>
@@ -407,18 +511,30 @@ export default function SettingsPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">👤</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">User Profiles</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Account settings and preferences</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              User Profiles
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Account settings and preferences
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🔧</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">App Configuration</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Application settings and customization</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              App Configuration
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Application settings and customization
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛡️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Privacy Controls</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Security and privacy settings</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Privacy Controls
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Security and privacy settings
+            </p>
           </div>
         </div>
       </div>

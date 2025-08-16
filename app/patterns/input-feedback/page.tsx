@@ -1,32 +1,40 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
-import Tooltip from '../../../components/Tooltip';
+import { useState, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+import Tooltip from "../../../components/Tooltip";
 
 export default function InputFeedbackPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [phone, setPhone] = useState('');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
 
-  const [emailStatus, setEmailStatus] = useState<'idle' | 'validating' | 'valid' | 'invalid'>('idle');
-  const [passwordStrength, setPasswordStrength] = useState<'weak' | 'medium' | 'strong'>('weak');
-  const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'available' | 'taken'>('idle');
-  const [phoneStatus, setPhoneStatus] = useState<'idle' | 'valid' | 'invalid'>('idle');
+  const [emailStatus, setEmailStatus] = useState<
+    "idle" | "validating" | "valid" | "invalid"
+  >("idle");
+  const [passwordStrength, setPasswordStrength] = useState<
+    "weak" | "medium" | "strong"
+  >("weak");
+  const [usernameStatus, setUsernameStatus] = useState<
+    "idle" | "checking" | "available" | "taken"
+  >("idle");
+  const [phoneStatus, setPhoneStatus] = useState<"idle" | "valid" | "invalid">(
+    "idle",
+  );
 
   // Email validation
   useEffect(() => {
     if (!email) {
-      setEmailStatus('idle');
+      setEmailStatus("idle");
       return;
     }
 
-    setEmailStatus('validating');
+    setEmailStatus("validating");
     const timer = setTimeout(() => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      setEmailStatus(emailRegex.test(email) ? 'valid' : 'invalid');
+      setEmailStatus(emailRegex.test(email) ? "valid" : "invalid");
     }, 500);
 
     return () => clearTimeout(timer);
@@ -35,7 +43,7 @@ export default function InputFeedbackPattern() {
   // Password strength calculation
   useEffect(() => {
     if (!password) {
-      setPasswordStrength('weak');
+      setPasswordStrength("weak");
       return;
     }
 
@@ -46,28 +54,30 @@ export default function InputFeedbackPattern() {
     if (/\d/.test(password)) score++;
     if (/[!@#$%^&*]/.test(password)) score++;
 
-    if (score <= 2) setPasswordStrength('weak');
-    else if (score <= 4) setPasswordStrength('medium');
-    else setPasswordStrength('strong');
+    if (score <= 2) setPasswordStrength("weak");
+    else if (score <= 4) setPasswordStrength("medium");
+    else setPasswordStrength("strong");
   }, [password]);
 
   // Username availability check (simulated)
   useEffect(() => {
     if (!username) {
-      setUsernameStatus('idle');
+      setUsernameStatus("idle");
       return;
     }
 
     if (username.length < 3) {
-      setUsernameStatus('idle');
+      setUsernameStatus("idle");
       return;
     }
 
-    setUsernameStatus('checking');
+    setUsernameStatus("checking");
     const timer = setTimeout(() => {
       // Simulate API call - usernames 'admin', 'user', 'test' are taken
-      const takenUsernames = ['admin', 'user', 'test', 'demo'];
-      setUsernameStatus(takenUsernames.includes(username.toLowerCase()) ? 'taken' : 'available');
+      const takenUsernames = ["admin", "user", "test", "demo"];
+      setUsernameStatus(
+        takenUsernames.includes(username.toLowerCase()) ? "taken" : "available",
+      );
     }, 1000);
 
     return () => clearTimeout(timer);
@@ -76,56 +86,58 @@ export default function InputFeedbackPattern() {
   // Phone validation
   useEffect(() => {
     if (!phone) {
-      setPhoneStatus('idle');
+      setPhoneStatus("idle");
       return;
     }
 
     const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-    setPhoneStatus(phoneRegex.test(phone.replace(/\s/g, '')) ? 'valid' : 'invalid');
+    setPhoneStatus(
+      phoneRegex.test(phone.replace(/\s/g, "")) ? "valid" : "invalid",
+    );
   }, [phone]);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'valid':
-      case 'available':
-        return '✓';
-      case 'invalid':
-      case 'taken':
-        return '✗';
-      case 'validating':
-      case 'checking':
-        return '⏳';
+      case "valid":
+      case "available":
+        return "✓";
+      case "invalid":
+      case "taken":
+        return "✗";
+      case "validating":
+      case "checking":
+        return "⏳";
       default:
-        return '';
+        return "";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'valid':
-      case 'available':
-        return 'text-green-600 dark:text-green-400';
-      case 'invalid':
-      case 'taken':
-        return 'text-red-600 dark:text-red-400';
-      case 'validating':
-      case 'checking':
-        return 'text-yellow-600 dark:text-yellow-400';
+      case "valid":
+      case "available":
+        return "text-green-600 dark:text-green-400";
+      case "invalid":
+      case "taken":
+        return "text-red-600 dark:text-red-400";
+      case "validating":
+      case "checking":
+        return "text-yellow-600 dark:text-yellow-400";
       default:
-        return 'text-gray-400';
+        return "text-gray-400";
     }
   };
 
   const getPasswordStrengthColor = () => {
     switch (passwordStrength) {
-      case 'weak':
-        return 'bg-red-500';
-      case 'medium':
-        return 'bg-yellow-500';
-      case 'strong':
-        return 'bg-green-500';
+      case "weak":
+        return "bg-red-500";
+      case "medium":
+        return "bg-yellow-500";
+      case "strong":
+        return "bg-green-500";
       default:
-        return 'bg-gray-300';
+        return "bg-gray-300";
     }
   };
 
@@ -136,7 +148,8 @@ export default function InputFeedbackPattern() {
           💬 Input Feedback
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Provide real-time validation and feedback as users type, helping them correct errors immediately.
+          Provide real-time validation and feedback as users type, helping them
+          correct errors immediately.
         </p>
       </div>
 
@@ -147,7 +160,7 @@ export default function InputFeedbackPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             <div className="space-y-6">
               {/* Email Input */}
               <div className="space-y-2">
@@ -160,28 +173,38 @@ export default function InputFeedbackPattern() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={`input-field pr-10 ${
-                      emailStatus === 'valid' ? 'border-green-500 focus:ring-green-500' :
-                      emailStatus === 'invalid' ? 'border-red-500 focus:ring-red-500' :
-                      'border-gray-300 focus:ring-blue-500'
+                      emailStatus === "valid"
+                        ? "border-green-500 focus:ring-green-500"
+                        : emailStatus === "invalid"
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:ring-blue-500"
                     }`}
                     placeholder="Enter your email address"
                   />
-                  {emailStatus !== 'idle' && (
+                  {emailStatus !== "idle" && (
                     <Tooltip content={`Email validation: ${emailStatus}`}>
-                      <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(emailStatus)}`}>
+                      <span
+                        className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(emailStatus)}`}
+                      >
                         {getStatusIcon(emailStatus)}
                       </span>
                     </Tooltip>
                   )}
                 </div>
-                {emailStatus === 'validating' && (
-                  <p className="text-sm text-yellow-600 dark:text-yellow-400">Validating email format...</p>
+                {emailStatus === "validating" && (
+                  <p className="text-sm text-yellow-600 dark:text-yellow-400">
+                    Validating email format...
+                  </p>
                 )}
-                {emailStatus === 'valid' && (
-                  <p className="text-sm text-green-600 dark:text-green-400">✓ Valid email address</p>
+                {emailStatus === "valid" && (
+                  <p className="text-sm text-green-600 dark:text-green-400">
+                    ✓ Valid email address
+                  </p>
                 )}
-                {emailStatus === 'invalid' && email && (
-                  <p className="text-sm text-red-600 dark:text-red-400">✗ Please enter a valid email address</p>
+                {emailStatus === "invalid" && email && (
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    ✗ Please enter a valid email address
+                  </p>
                 )}
               </div>
 
@@ -202,28 +225,46 @@ export default function InputFeedbackPattern() {
                 {password && (
                   <div className="space-y-2">
                     <div className="flex space-x-1">
-                      <div className={`h-2 flex-1 rounded-full transition-all duration-300 ${
-                        passwordStrength === 'weak' ? 'bg-red-500' :
-                        passwordStrength === 'medium' ? 'bg-yellow-500' :
-                        'bg-green-500'
-                      }`}></div>
-                      <div className={`h-2 flex-1 rounded-full transition-all duration-300 ${
-                        passwordStrength === 'weak' ? 'bg-gray-300' :
-                        passwordStrength === 'medium' ? 'bg-yellow-500' :
-                        'bg-green-500'
-                      }`}></div>
-                      <div className={`h-2 flex-1 rounded-full transition-all duration-300 ${
-                        passwordStrength === 'weak' ? 'bg-gray-300' :
-                        passwordStrength === 'medium' ? 'bg-gray-300' :
-                        'bg-green-500'
-                      }`}></div>
+                      <div
+                        className={`h-2 flex-1 rounded-full transition-all duration-300 ${
+                          passwordStrength === "weak"
+                            ? "bg-red-500"
+                            : passwordStrength === "medium"
+                              ? "bg-yellow-500"
+                              : "bg-green-500"
+                        }`}
+                      ></div>
+                      <div
+                        className={`h-2 flex-1 rounded-full transition-all duration-300 ${
+                          passwordStrength === "weak"
+                            ? "bg-gray-300"
+                            : passwordStrength === "medium"
+                              ? "bg-yellow-500"
+                              : "bg-green-500"
+                        }`}
+                      ></div>
+                      <div
+                        className={`h-2 flex-1 rounded-full transition-all duration-300 ${
+                          passwordStrength === "weak"
+                            ? "bg-gray-300"
+                            : passwordStrength === "medium"
+                              ? "bg-gray-300"
+                              : "bg-green-500"
+                        }`}
+                      ></div>
                     </div>
-                    <p className={`text-sm font-medium ${
-                      passwordStrength === 'weak' ? 'text-red-600 dark:text-red-400' :
-                      passwordStrength === 'medium' ? 'text-yellow-600 dark:text-yellow-400' :
-                      'text-green-600 dark:text-green-400'
-                    }`}>
-                      Password strength: {passwordStrength.charAt(0).toUpperCase() + passwordStrength.slice(1)}
+                    <p
+                      className={`text-sm font-medium ${
+                        passwordStrength === "weak"
+                          ? "text-red-600 dark:text-red-400"
+                          : passwordStrength === "medium"
+                            ? "text-yellow-600 dark:text-yellow-400"
+                            : "text-green-600 dark:text-green-400"
+                      }`}
+                    >
+                      Password strength:{" "}
+                      {passwordStrength.charAt(0).toUpperCase() +
+                        passwordStrength.slice(1)}
                     </p>
                   </div>
                 )}
@@ -240,31 +281,45 @@ export default function InputFeedbackPattern() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className={`input-field pr-10 ${
-                      usernameStatus === 'available' ? 'border-green-500 focus:ring-green-500' :
-                      usernameStatus === 'taken' ? 'border-red-500 focus:ring-red-500' :
-                      'border-gray-300 focus:ring-blue-500'
+                      usernameStatus === "available"
+                        ? "border-green-500 focus:ring-green-500"
+                        : usernameStatus === "taken"
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:ring-blue-500"
                     }`}
                     placeholder="Choose a username"
                   />
-                  {usernameStatus !== 'idle' && (
-                    <Tooltip content={`Username availability: ${usernameStatus}`}>
-                      <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(usernameStatus)}`}>
+                  {usernameStatus !== "idle" && (
+                    <Tooltip
+                      content={`Username availability: ${usernameStatus}`}
+                    >
+                      <span
+                        className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(usernameStatus)}`}
+                      >
                         {getStatusIcon(usernameStatus)}
                       </span>
                     </Tooltip>
                   )}
                 </div>
-                {usernameStatus === 'checking' && (
-                  <p className="text-sm text-yellow-600 dark:text-yellow-400">Checking availability...</p>
+                {usernameStatus === "checking" && (
+                  <p className="text-sm text-yellow-600 dark:text-yellow-400">
+                    Checking availability...
+                  </p>
                 )}
-                {usernameStatus === 'available' && (
-                  <p className="text-sm text-green-600 dark:text-green-400">✓ Username is available</p>
+                {usernameStatus === "available" && (
+                  <p className="text-sm text-green-600 dark:text-green-400">
+                    ✓ Username is available
+                  </p>
                 )}
-                {usernameStatus === 'taken' && (
-                  <p className="text-sm text-red-600 dark:text-red-400">✗ Username is already taken</p>
+                {usernameStatus === "taken" && (
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    ✗ Username is already taken
+                  </p>
                 )}
                 {username && username.length < 3 && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Username must be at least 3 characters</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Username must be at least 3 characters
+                  </p>
                 )}
               </div>
 
@@ -279,25 +334,33 @@ export default function InputFeedbackPattern() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className={`input-field pr-10 ${
-                      phoneStatus === 'valid' ? 'border-green-500 focus:ring-green-500' :
-                      phoneStatus === 'invalid' ? 'border-red-500 focus:ring-red-500' :
-                      'border-gray-300 focus:ring-blue-500'
+                      phoneStatus === "valid"
+                        ? "border-green-500 focus:ring-green-500"
+                        : phoneStatus === "invalid"
+                          ? "border-red-500 focus:ring-red-500"
+                          : "border-gray-300 focus:ring-blue-500"
                     }`}
                     placeholder="Enter phone number"
                   />
-                  {phoneStatus !== 'idle' && (
+                  {phoneStatus !== "idle" && (
                     <Tooltip content={`Phone validation: ${phoneStatus}`}>
-                      <span className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(phoneStatus)}`}>
+                      <span
+                        className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-sm font-medium ${getStatusColor(phoneStatus)}`}
+                      >
                         {getStatusIcon(phoneStatus)}
                       </span>
                     </Tooltip>
                   )}
                 </div>
-                {phoneStatus === 'valid' && (
-                  <p className="text-sm text-green-600 dark:text-green-400">✓ Valid phone number</p>
+                {phoneStatus === "valid" && (
+                  <p className="text-sm text-green-600 dark:text-green-400">
+                    ✓ Valid phone number
+                  </p>
                 )}
-                {phoneStatus === 'invalid' && phone && (
-                  <p className="text-sm text-red-600 dark:text-red-400">✗ Please enter a valid phone number</p>
+                {phoneStatus === "invalid" && phone && (
+                  <p className="text-sm text-red-600 dark:text-red-400">
+                    ✗ Please enter a valid phone number
+                  </p>
                 )}
               </div>
             </div>
@@ -310,14 +373,12 @@ export default function InputFeedbackPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="input-feedback" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="input-feedback"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -331,31 +392,55 @@ export default function InputFeedbackPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Real-time Validation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Instant feedback as users type</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Real-time Validation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Instant feedback as users type
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Indicators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Icons and colors show validation status</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Indicators
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Icons and colors show validation status
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Debounced Validation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Prevents excessive validation calls</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Debounced Validation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Prevents excessive validation calls
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Progressive Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Show different states (checking, valid, invalid)</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Progressive Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Show different states (checking, valid, invalid)
+              </p>
             </div>
           </div>
         </div>
@@ -369,18 +454,30 @@ export default function InputFeedbackPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📧</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Email Validation</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Check email format and availability</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Email Validation
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Check email format and availability
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🔐</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Password Strength</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Real-time password strength indicators</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Password Strength
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Real-time password strength indicators
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">👤</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Username Check</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Verify username availability</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Username Check
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Verify username availability
+            </p>
           </div>
         </div>
       </div>

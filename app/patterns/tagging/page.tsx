@@ -1,18 +1,38 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
-import Tooltip from '../../../components/Tooltip';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+import Tooltip from "../../../components/Tooltip";
 
 export default function TaggingPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [tags, setTags] = useState<string[]>(['React', 'JavaScript', 'Web Development']);
-  const [inputValue, setInputValue] = useState('');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [tags, setTags] = useState<string[]>([
+    "React",
+    "JavaScript",
+    "Web Development",
+  ]);
+  const [inputValue, setInputValue] = useState("");
 
   const predefinedTags = [
-    'React', 'Vue', 'Angular', 'JavaScript', 'TypeScript', 'CSS', 'HTML',
-    'Node.js', 'Python', 'Web Development', 'Mobile', 'Design', 'UX/UI',
-    'Backend', 'Frontend', 'API', 'Database', 'Performance', 'Accessibility'
+    "React",
+    "Vue",
+    "Angular",
+    "JavaScript",
+    "TypeScript",
+    "CSS",
+    "HTML",
+    "Node.js",
+    "Python",
+    "Web Development",
+    "Mobile",
+    "Design",
+    "UX/UI",
+    "Backend",
+    "Frontend",
+    "API",
+    "Database",
+    "Performance",
+    "Accessibility",
   ];
 
   const addTag = (tag: string) => {
@@ -20,20 +40,20 @@ export default function TaggingPattern() {
     if (trimmedTag && !tags.includes(trimmedTag)) {
       setTags([...tags, trimmedTag]);
     }
-    setInputValue('');
+    setInputValue("");
   };
 
   const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
+    setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && inputValue.trim()) {
+    if (e.key === "Enter" && inputValue.trim()) {
       addTag(inputValue);
     }
   };
 
-  const availableTags = predefinedTags.filter(tag => !tags.includes(tag));
+  const availableTags = predefinedTags.filter((tag) => !tags.includes(tag));
 
   return (
     <div className="space-y-8">
@@ -42,7 +62,8 @@ export default function TaggingPattern() {
           🏷️ Tagging Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Allow users to add labels and categories to content for better organization and discovery.
+          Allow users to add labels and categories to content for better
+          organization and discovery.
         </p>
       </div>
 
@@ -54,9 +75,10 @@ export default function TaggingPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Add, remove, and manage tags. Type custom tags or select from predefined options.
+              Add, remove, and manage tags. Type custom tags or select from
+              predefined options.
             </p>
-            
+
             {/* Tag Input */}
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2 min-h-[40px] p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800">
@@ -86,11 +108,13 @@ export default function TaggingPattern() {
                   className="flex-1 min-w-[120px] outline-none bg-transparent text-sm"
                 />
               </div>
-              
+
               {/* Suggested Tags */}
               {availableTags.length > 0 && (
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Suggested tags:</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    Suggested tags:
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {availableTags.slice(0, 8).map((tag) => (
                       <button
@@ -104,7 +128,7 @@ export default function TaggingPattern() {
                   </div>
                 </div>
               )}
-              
+
               {/* Tag Statistics */}
               <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                 <span>{tags.length} tags selected</span>
@@ -127,16 +151,14 @@ export default function TaggingPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="tagging" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="tagging"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -150,31 +172,55 @@ export default function TaggingPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Dynamic Tag Input</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Add custom tags by typing and pressing Enter</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Dynamic Tag Input
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Add custom tags by typing and pressing Enter
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Suggested Tags</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Predefined tags for quick selection</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Suggested Tags
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Predefined tags for quick selection
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Easy Removal</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Click × to remove individual tags</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Easy Removal
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Click × to remove individual tags
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Duplicate Prevention</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Prevents adding duplicate tags</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Duplicate Prevention
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Prevents adding duplicate tags
+              </p>
             </div>
           </div>
         </div>
@@ -188,18 +234,30 @@ export default function TaggingPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Tag blog posts, articles, and documents</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Content Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Tag blog posts, articles, and documents
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Organization</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Categorize datasets and records</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Data Organization
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Categorize datasets and records
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🎨</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Creative Projects</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Tag designs, photos, and creative assets</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Creative Projects
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Tag designs, photos, and creative assets
+            </p>
           </div>
         </div>
       </div>

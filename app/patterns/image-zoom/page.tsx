@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ImageZoomPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -15,11 +15,11 @@ export default function ImageZoomPattern() {
 
   // Zoom controls
   const handleZoomIn = () => {
-    setZoomLevel(prev => Math.min(prev + 0.25, 3));
+    setZoomLevel((prev) => Math.min(prev + 0.25, 3));
   };
 
   const handleZoomOut = () => {
-    setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
+    setZoomLevel((prev) => Math.max(prev - 0.25, 0.5));
   };
 
   const handleReset = () => {
@@ -41,7 +41,7 @@ export default function ImageZoomPattern() {
       setIsDragging(true);
       setDragStart({
         x: e.clientX - position.x,
-        y: e.clientY - position.y
+        y: e.clientY - position.y,
       });
     }
   };
@@ -50,14 +50,14 @@ export default function ImageZoomPattern() {
     if (isDragging && zoomLevel > 1) {
       const newX = e.clientX - dragStart.x;
       const newY = e.clientY - dragStart.y;
-      
+
       // Calculate boundaries based on zoom level
       const maxX = (zoomLevel - 1) * 100;
       const maxY = (zoomLevel - 1) * 100;
-      
+
       setPosition({
         x: Math.max(-maxX, Math.min(maxX, newX)),
-        y: Math.max(-maxY, Math.min(maxY, newY))
+        y: Math.max(-maxY, Math.min(maxY, newY)),
       });
     }
   };
@@ -76,13 +76,13 @@ export default function ImageZoomPattern() {
   // Prevent text selection during drag
   useEffect(() => {
     if (isDragging) {
-      document.body.style.userSelect = 'none';
+      document.body.style.userSelect = "none";
     } else {
-      document.body.style.userSelect = '';
+      document.body.style.userSelect = "";
     }
-    
+
     return () => {
-      document.body.style.userSelect = '';
+      document.body.style.userSelect = "";
     };
   }, [isDragging]);
 
@@ -93,7 +93,8 @@ export default function ImageZoomPattern() {
           🔍 Image Zoom Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Interactive image zoom functionality with mouse controls, wheel zoom, and smooth transitions.
+          Interactive image zoom functionality with mouse controls, wheel zoom,
+          and smooth transitions.
         </p>
       </div>
 
@@ -105,9 +106,10 @@ export default function ImageZoomPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Use the zoom controls or mouse wheel to zoom in/out. Click and drag to pan when zoomed in.
+              Use the zoom controls or mouse wheel to zoom in/out. Click and
+              drag to pan when zoomed in.
             </p>
-            
+
             <div className="space-y-4">
               {/* Zoom Controls */}
               <div className="flex gap-2 justify-center">
@@ -132,7 +134,7 @@ export default function ImageZoomPattern() {
                   Zoom In
                 </button>
               </div>
-              
+
               <div className="text-center text-sm text-gray-600 dark:text-gray-400">
                 Zoom Level: {zoomLevel.toFixed(2)}x
               </div>
@@ -154,12 +156,17 @@ export default function ImageZoomPattern() {
                   className="w-full h-full object-cover transition-transform duration-200 ease-out"
                   style={{
                     transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
-                    cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
-                    transformOrigin: 'center center',
+                    cursor:
+                      zoomLevel > 1
+                        ? isDragging
+                          ? "grabbing"
+                          : "grab"
+                        : "default",
+                    transformOrigin: "center center",
                   }}
                   draggable={false}
                 />
-                
+
                 {/* Zoom indicator */}
                 {zoomLevel > 1 && (
                   <div className="absolute top-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
@@ -177,14 +184,12 @@ export default function ImageZoomPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample 
-                componentName="image-zoom" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="image-zoom"
+                activeTab={activeTab}
               />
             </div>
           </div>
@@ -198,16 +203,45 @@ export default function ImageZoomPattern() {
             ✨ Key Features
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>Mouse Wheel Zoom:</strong> Intuitive zoom in/out with mouse wheel</li>
-            <li>• <strong>Click & Drag Pan:</strong> Click and drag to pan when zoomed in</li>
-            <li>• <strong>Boundary Constraints:</strong> Image stays within container bounds</li>
-            <li>• <strong>Zoom Controls:</strong> Button controls for precise zoom levels</li>
-            <li>• <strong>Reset Functionality:</strong> Quick reset to original view</li>
-            <li>• <strong>Smooth Transitions:</strong> CSS transitions for fluid animations</li>
-            <li>• <strong>Responsive Design:</strong> Works on all screen sizes</li>
-            <li>• <strong>Performance Optimized:</strong> Efficient rendering with useRef</li>
-            <li>• <strong>Proper Cursor Feedback:</strong> Grab/grabbing cursors for better UX</li>
-            <li>• <strong>True Runtime Code Generation:</strong> Code example extracted from actual source files</li>
+            <li>
+              • <strong>Mouse Wheel Zoom:</strong> Intuitive zoom in/out with
+              mouse wheel
+            </li>
+            <li>
+              • <strong>Click & Drag Pan:</strong> Click and drag to pan when
+              zoomed in
+            </li>
+            <li>
+              • <strong>Boundary Constraints:</strong> Image stays within
+              container bounds
+            </li>
+            <li>
+              • <strong>Zoom Controls:</strong> Button controls for precise zoom
+              levels
+            </li>
+            <li>
+              • <strong>Reset Functionality:</strong> Quick reset to original
+              view
+            </li>
+            <li>
+              • <strong>Smooth Transitions:</strong> CSS transitions for fluid
+              animations
+            </li>
+            <li>
+              • <strong>Responsive Design:</strong> Works on all screen sizes
+            </li>
+            <li>
+              • <strong>Performance Optimized:</strong> Efficient rendering with
+              useRef
+            </li>
+            <li>
+              • <strong>Proper Cursor Feedback:</strong> Grab/grabbing cursors
+              for better UX
+            </li>
+            <li>
+              • <strong>True Runtime Code Generation:</strong> Code example
+              extracted from actual source files
+            </li>
           </ul>
         </div>
       </div>
@@ -219,14 +253,33 @@ export default function ImageZoomPattern() {
             🎯 Common Use Cases
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>Product Galleries:</strong> Detailed product image viewing</li>
-            <li>• <strong>Document Viewers:</strong> PDF and document zoom functionality</li>
-            <li>• <strong>Map Applications:</strong> Interactive map zoom and pan</li>
-            <li>• <strong>Image Editors:</strong> Photo editing and cropping tools</li>
-            <li>• <strong>Medical Imaging:</strong> X-ray and scan viewing applications</li>
-            <li>• <strong>Art Galleries:</strong> High-resolution artwork viewing</li>
-            <li>• <strong>Real Estate:</strong> Property photo exploration</li>
-            <li>• <strong>E-commerce:</strong> Product detail image examination</li>
+            <li>
+              • <strong>Product Galleries:</strong> Detailed product image
+              viewing
+            </li>
+            <li>
+              • <strong>Document Viewers:</strong> PDF and document zoom
+              functionality
+            </li>
+            <li>
+              • <strong>Map Applications:</strong> Interactive map zoom and pan
+            </li>
+            <li>
+              • <strong>Image Editors:</strong> Photo editing and cropping tools
+            </li>
+            <li>
+              • <strong>Medical Imaging:</strong> X-ray and scan viewing
+              applications
+            </li>
+            <li>
+              • <strong>Art Galleries:</strong> High-resolution artwork viewing
+            </li>
+            <li>
+              • <strong>Real Estate:</strong> Property photo exploration
+            </li>
+            <li>
+              • <strong>E-commerce:</strong> Product detail image examination
+            </li>
           </ul>
         </div>
       </div>

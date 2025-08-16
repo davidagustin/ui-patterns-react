@@ -1,51 +1,59 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function CarouselPattern() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const slides = [
     {
       id: 1,
-      title: 'Beautiful Landscapes',
-      description: 'Explore stunning natural landscapes from around the world.',
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
-      color: 'from-blue-500 to-purple-600'
+      title: "Beautiful Landscapes",
+      description: "Explore stunning natural landscapes from around the world.",
+      image:
+        "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center",
+      color: "from-blue-500 to-purple-600",
     },
     {
       id: 2,
-      title: 'Urban Architecture',
-      description: 'Discover modern cityscapes and architectural marvels.',
-      image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=400&fit=crop&crop=center',
-      color: 'from-green-500 to-blue-600'
+      title: "Urban Architecture",
+      description: "Discover modern cityscapes and architectural marvels.",
+      image:
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=400&fit=crop&crop=center",
+      color: "from-green-500 to-blue-600",
     },
     {
       id: 3,
-      title: 'Ocean Views',
-      description: 'Experience the tranquility of coastal scenes and ocean horizons.',
-      image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
-      color: 'from-purple-500 to-pink-600'
+      title: "Ocean Views",
+      description:
+        "Experience the tranquility of coastal scenes and ocean horizons.",
+      image:
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center",
+      color: "from-purple-500 to-pink-600",
     },
     {
       id: 4,
-      title: 'Mountain Peaks',
-      description: 'Journey to the highest peaks and breathtaking mountain ranges.',
-      image: 'https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=400&fit=crop&crop=center',
-      color: 'from-orange-500 to-red-600'
+      title: "Mountain Peaks",
+      description:
+        "Journey to the highest peaks and breathtaking mountain ranges.",
+      image:
+        "https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=400&fit=crop&crop=center",
+      color: "from-orange-500 to-red-600",
     },
     {
       id: 5,
-      title: 'Forest Adventures',
-      description: 'Immerse yourself in the beauty of dense forests and woodland trails.',
-      image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop&crop=center',
-      color: 'from-indigo-500 to-purple-600'
-    }
+      title: "Forest Adventures",
+      description:
+        "Immerse yourself in the beauty of dense forests and woodland trails.",
+      image:
+        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop&crop=center",
+      color: "from-indigo-500 to-purple-600",
+    },
   ];
 
   const nextSlide = () => {
@@ -95,7 +103,8 @@ export default function CarouselPattern() {
           🎠 Carousel Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Interactive image carousel with automatic playback, navigation controls, and smooth transitions.
+          Interactive image carousel with automatic playback, navigation
+          controls, and smooth transitions.
         </p>
       </div>
 
@@ -107,9 +116,10 @@ export default function CarouselPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Use the navigation buttons or indicators to browse slides. Hover to pause auto-play.
+              Use the navigation buttons or indicators to browse slides. Hover
+              to pause auto-play.
             </p>
-            
+
             {/* Carousel Container */}
             <div
               ref={carouselRef}
@@ -133,12 +143,18 @@ export default function CarouselPattern() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    
+
                     {/* Overlay */}
-                    <div className={`absolute inset-0 bg-gradient-to-r ${slide.color} bg-opacity-75`}>
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-r ${slide.color} bg-opacity-75`}
+                    >
                       <div className="flex flex-col justify-center items-center h-full px-6 text-center text-white">
-                        <h3 className="text-2xl font-bold mb-2">{slide.title}</h3>
-                        <p className="text-lg opacity-90 max-w-md">{slide.description}</p>
+                        <h3 className="text-2xl font-bold mb-2">
+                          {slide.title}
+                        </h3>
+                        <p className="text-lg opacity-90 max-w-md">
+                          {slide.description}
+                        </p>
                         <div className="mt-4 text-sm opacity-75">
                           Slide {index + 1} of {slides.length}
                         </div>
@@ -154,18 +170,38 @@ export default function CarouselPattern() {
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
                 aria-label="Previous slide"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
-              
+
               <button
                 onClick={nextSlide}
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
                 aria-label="Next slide"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
 
@@ -177,8 +213,8 @@ export default function CarouselPattern() {
                     onClick={() => goToSlide(index)}
                     className={`w-3 h-3 rounded-full transition-all ${
                       index === currentSlide
-                        ? 'bg-white scale-125'
-                        : 'bg-white/50 hover:bg-white/75'
+                        ? "bg-white scale-125"
+                        : "bg-white/50 hover:bg-white/75"
                     }`}
                     aria-label={`Go to slide ${index + 1}`}
                   />
@@ -187,12 +223,14 @@ export default function CarouselPattern() {
 
               {/* Auto-play Status */}
               <div className="absolute top-4 right-4">
-                <div className={`px-2 py-1 rounded-full text-xs ${
-                  isAutoPlaying 
-                    ? 'bg-green-500/80 text-white' 
-                    : 'bg-gray-500/80 text-white'
-                }`}>
-                  {isAutoPlaying ? '▶️ Auto' : '⏸️ Paused'}
+                <div
+                  className={`px-2 py-1 rounded-full text-xs ${
+                    isAutoPlaying
+                      ? "bg-green-500/80 text-white"
+                      : "bg-gray-500/80 text-white"
+                  }`}
+                >
+                  {isAutoPlaying ? "▶️ Auto" : "⏸️ Paused"}
                 </div>
               </div>
             </div>
@@ -203,20 +241,20 @@ export default function CarouselPattern() {
                 onClick={toggleAutoPlay}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isAutoPlaying
-                    ? 'bg-red-500 text-white hover:bg-red-600'
-                    : 'bg-green-500 text-white hover:bg-green-600'
+                    ? "bg-red-500 text-white hover:bg-red-600"
+                    : "bg-green-500 text-white hover:bg-green-600"
                 }`}
               >
-                {isAutoPlaying ? 'Pause' : 'Play'}
+                {isAutoPlaying ? "Pause" : "Play"}
               </button>
-              
+
               <button
                 onClick={prevSlide}
                 className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
               >
                 Previous
               </button>
-              
+
               <button
                 onClick={nextSlide}
                 className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
@@ -238,25 +276,23 @@ export default function CarouselPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
             <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
               <button
-                onClick={() => setActiveTab('jsx')}
+                onClick={() => setActiveTab("jsx")}
                 className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'jsx'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                  activeTab === "jsx"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 }`}
               >
                 JSX
               </button>
               <button
-                onClick={() => setActiveTab('css')}
+                onClick={() => setActiveTab("css")}
                 className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'css'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                  activeTab === "css"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 }`}
               >
                 CSS
@@ -265,9 +301,9 @@ export default function CarouselPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample 
-                componentName="carousel" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="carousel"
+                activeTab={activeTab}
               />
             </div>
           </div>
@@ -281,15 +317,42 @@ export default function CarouselPattern() {
             ✨ Key Features
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>Auto-play Functionality:</strong> Automatic slide progression with configurable timing</li>
-            <li>• <strong>Navigation Controls:</strong> Previous/next buttons and slide indicators</li>
-            <li>• <strong>Smooth Transitions:</strong> CSS transitions for fluid slide changes</li>
-            <li>• <strong>Hover Pause:</strong> Auto-play pauses when hovering over the carousel</li>
-            <li>• <strong>Keyboard Support:</strong> Arrow key navigation for accessibility</li>
-            <li>• <strong>Touch Support:</strong> Swipe gestures for mobile devices</li>
-            <li>• <strong>Visual Indicators:</strong> Current slide highlighting and progress</li>
-            <li>• <strong>Responsive Design:</strong> Adapts to different screen sizes</li>
-            <li>• <strong>Dynamic Code Generation:</strong> Code example extracted from actual source files</li>
+            <li>
+              • <strong>Auto-play Functionality:</strong> Automatic slide
+              progression with configurable timing
+            </li>
+            <li>
+              • <strong>Navigation Controls:</strong> Previous/next buttons and
+              slide indicators
+            </li>
+            <li>
+              • <strong>Smooth Transitions:</strong> CSS transitions for fluid
+              slide changes
+            </li>
+            <li>
+              • <strong>Hover Pause:</strong> Auto-play pauses when hovering
+              over the carousel
+            </li>
+            <li>
+              • <strong>Keyboard Support:</strong> Arrow key navigation for
+              accessibility
+            </li>
+            <li>
+              • <strong>Touch Support:</strong> Swipe gestures for mobile
+              devices
+            </li>
+            <li>
+              • <strong>Visual Indicators:</strong> Current slide highlighting
+              and progress
+            </li>
+            <li>
+              • <strong>Responsive Design:</strong> Adapts to different screen
+              sizes
+            </li>
+            <li>
+              • <strong>Dynamic Code Generation:</strong> Code example extracted
+              from actual source files
+            </li>
           </ul>
         </div>
       </div>
@@ -301,14 +364,33 @@ export default function CarouselPattern() {
             🎯 Common Use Cases
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>Image Galleries:</strong> Photo showcases and portfolios</li>
-            <li>• <strong>Product Showcases:</strong> Multiple product views and features</li>
-            <li>• <strong>Hero Sections:</strong> Rotating banner content</li>
-            <li>• <strong>Testimonials:</strong> Customer reviews and feedback</li>
-            <li>• <strong>Feature Highlights:</strong> Product or service demonstrations</li>
-            <li>• <strong>Event Slideshows:</strong> Conference or event presentations</li>
-            <li>• <strong>News Rotators:</strong> Latest updates and announcements</li>
-            <li>• <strong>Onboarding Flows:</strong> Welcome screens and tutorials</li>
+            <li>
+              • <strong>Image Galleries:</strong> Photo showcases and portfolios
+            </li>
+            <li>
+              • <strong>Product Showcases:</strong> Multiple product views and
+              features
+            </li>
+            <li>
+              • <strong>Hero Sections:</strong> Rotating banner content
+            </li>
+            <li>
+              • <strong>Testimonials:</strong> Customer reviews and feedback
+            </li>
+            <li>
+              • <strong>Feature Highlights:</strong> Product or service
+              demonstrations
+            </li>
+            <li>
+              • <strong>Event Slideshows:</strong> Conference or event
+              presentations
+            </li>
+            <li>
+              • <strong>News Rotators:</strong> Latest updates and announcements
+            </li>
+            <li>
+              • <strong>Onboarding Flows:</strong> Welcome screens and tutorials
+            </li>
           </ul>
         </div>
       </div>

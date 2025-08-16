@@ -1,60 +1,113 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useEffect, useRef } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SearchPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [query, setQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  
+
   const searchRef = useRef<HTMLDivElement>(null);
 
   // Sample data
   const data = [
-    { id: 1, title: 'React Development Guide', category: 'documentation', tags: ['react', 'javascript', 'frontend'], content: 'Complete guide to React development with hooks and modern patterns.' },
-    { id: 2, title: 'TypeScript Best Practices', category: 'documentation', tags: ['typescript', 'javascript', 'development'], content: 'Learn TypeScript best practices for scalable applications.' },
-    { id: 3, title: 'UI Component Library', category: 'project', tags: ['ui', 'components', 'design'], content: 'A comprehensive UI component library built with React and Tailwind CSS.' },
-    { id: 4, title: 'API Integration Tutorial', category: 'tutorial', tags: ['api', 'backend', 'integration'], content: 'Step-by-step guide to integrating APIs in your applications.' },
-    { id: 5, title: 'Database Design Patterns', category: 'documentation', tags: ['database', 'design', 'patterns'], content: 'Common database design patterns for scalable applications.' },
-    { id: 6, title: 'Authentication System', category: 'project', tags: ['auth', 'security', 'user-management'], content: 'Complete authentication system with JWT and OAuth support.' },
-    { id: 7, title: 'Performance Optimization', category: 'tutorial', tags: ['performance', 'optimization', 'web'], content: 'Techniques for optimizing web application performance.' },
-    { id: 8, title: 'Testing Strategies', category: 'documentation', tags: ['testing', 'quality', 'automation'], content: 'Comprehensive testing strategies for modern applications.' }
+    {
+      id: 1,
+      title: "React Development Guide",
+      category: "documentation",
+      tags: ["react", "javascript", "frontend"],
+      content:
+        "Complete guide to React development with hooks and modern patterns.",
+    },
+    {
+      id: 2,
+      title: "TypeScript Best Practices",
+      category: "documentation",
+      tags: ["typescript", "javascript", "development"],
+      content: "Learn TypeScript best practices for scalable applications.",
+    },
+    {
+      id: 3,
+      title: "UI Component Library",
+      category: "project",
+      tags: ["ui", "components", "design"],
+      content:
+        "A comprehensive UI component library built with React and Tailwind CSS.",
+    },
+    {
+      id: 4,
+      title: "API Integration Tutorial",
+      category: "tutorial",
+      tags: ["api", "backend", "integration"],
+      content: "Step-by-step guide to integrating APIs in your applications.",
+    },
+    {
+      id: 5,
+      title: "Database Design Patterns",
+      category: "documentation",
+      tags: ["database", "design", "patterns"],
+      content: "Common database design patterns for scalable applications.",
+    },
+    {
+      id: 6,
+      title: "Authentication System",
+      category: "project",
+      tags: ["auth", "security", "user-management"],
+      content: "Complete authentication system with JWT and OAuth support.",
+    },
+    {
+      id: 7,
+      title: "Performance Optimization",
+      category: "tutorial",
+      tags: ["performance", "optimization", "web"],
+      content: "Techniques for optimizing web application performance.",
+    },
+    {
+      id: 8,
+      title: "Testing Strategies",
+      category: "documentation",
+      tags: ["testing", "quality", "automation"],
+      content: "Comprehensive testing strategies for modern applications.",
+    },
   ];
 
   const filters = [
-    { key: 'all', label: 'All', icon: '🔍' },
-    { key: 'documentation', label: 'Documentation', icon: '📚' },
-    { key: 'tutorial', label: 'Tutorials', icon: '🎓' },
-    { key: 'project', label: 'Projects', icon: '💻' }
+    { key: "all", label: "All", icon: "🔍" },
+    { key: "documentation", label: "Documentation", icon: "📚" },
+    { key: "tutorial", label: "Tutorials", icon: "🎓" },
+    { key: "project", label: "Projects", icon: "💻" },
   ];
 
   // Search suggestions
   const searchSuggestions = [
-    'react development',
-    'typescript guide',
-    'ui components',
-    'api integration',
-    'database design',
-    'authentication',
-    'performance',
-    'testing'
+    "react development",
+    "typescript guide",
+    "ui components",
+    "api integration",
+    "database design",
+    "authentication",
+    "performance",
+    "testing",
   ];
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
         setShowSuggestions(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -66,8 +119,8 @@ export default function SearchPattern() {
     }
 
     // Show suggestions
-    const filteredSuggestions = searchSuggestions.filter(suggestion =>
-      suggestion.toLowerCase().includes(query.toLowerCase())
+    const filteredSuggestions = searchSuggestions.filter((suggestion) =>
+      suggestion.toLowerCase().includes(query.toLowerCase()),
     );
     setSuggestions(filteredSuggestions.slice(0, 5));
     setShowSuggestions(true);
@@ -83,18 +136,21 @@ export default function SearchPattern() {
   }, [query, selectedFilter]);
 
   const performSearch = () => {
-    if (query.trim() === '') {
+    if (query.trim() === "") {
       setResults([]);
       return;
     }
 
-    const filteredResults = data.filter(item => {
-      const matchesQuery = 
+    const filteredResults = data.filter((item) => {
+      const matchesQuery =
         item.title.toLowerCase().includes(query.toLowerCase()) ||
         item.content.toLowerCase().includes(query.toLowerCase()) ||
-        item.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()));
+        item.tags.some((tag) =>
+          tag.toLowerCase().includes(query.toLowerCase()),
+        );
 
-      const matchesFilter = selectedFilter === 'all' || item.category === selectedFilter;
+      const matchesFilter =
+        selectedFilter === "all" || item.category === selectedFilter;
 
       return matchesQuery && matchesFilter;
     });
@@ -103,7 +159,7 @@ export default function SearchPattern() {
 
     // Add to search history
     if (query.trim() && !searchHistory.includes(query.trim())) {
-      setSearchHistory(prev => [query.trim(), ...prev.slice(0, 4)]);
+      setSearchHistory((prev) => [query.trim(), ...prev.slice(0, 4)]);
     }
   };
 
@@ -118,32 +174,41 @@ export default function SearchPattern() {
   };
 
   const clearSearch = () => {
-    setQuery('');
+    setQuery("");
     setResults([]);
     setShowSuggestions(false);
   };
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'documentation': return '📚';
-      case 'tutorial': return '🎓';
-      case 'project': return '💻';
-      default: return '📄';
+      case "documentation":
+        return "📚";
+      case "tutorial":
+        return "🎓";
+      case "project":
+        return "💻";
+      default:
+        return "📄";
     }
   };
 
   const highlightText = (text: string, query: string) => {
     if (!query) return text;
-    
-    const regex = new RegExp(`(${query})`, 'gi');
+
+    const regex = new RegExp(`(${query})`, "gi");
     const parts = text.split(regex);
-    
-    return parts.map((part, index) => 
+
+    return parts.map((part, index) =>
       regex.test(part) ? (
-        <mark key={index} className="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">
+        <mark
+          key={index}
+          className="bg-yellow-200 dark:bg-yellow-800 px-1 rounded"
+        >
           {part}
         </mark>
-      ) : part
+      ) : (
+        part
+      ),
     );
   };
 
@@ -154,7 +219,8 @@ export default function SearchPattern() {
           🔍 Advanced Search Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Comprehensive search functionality with real-time suggestions, filters, and search history.
+          Comprehensive search functionality with real-time suggestions,
+          filters, and search history.
         </p>
       </div>
 
@@ -165,7 +231,7 @@ export default function SearchPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             <div className="space-y-4">
               {/* Search Bar */}
               <div className="relative" ref={searchRef}>
@@ -191,43 +257,48 @@ export default function SearchPattern() {
                 </div>
 
                 {/* Suggestions Dropdown */}
-                {showSuggestions && (suggestions.length > 0 || searchHistory.length > 0) && (
-                  <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
-                    {/* Search History */}
-                    {searchHistory.length > 0 && (
-                      <div className="p-2 border-b border-gray-200 dark:border-gray-700">
-                        <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Recent Searches</div>
-                        {searchHistory.map((item, index) => (
-                          <button
-                            key={index}
-                            onClick={() => handleHistoryClick(item)}
-                            className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded flex items-center"
-                          >
-                            <span className="mr-2">🕒</span>
-                            {item}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                {showSuggestions &&
+                  (suggestions.length > 0 || searchHistory.length > 0) && (
+                    <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
+                      {/* Search History */}
+                      {searchHistory.length > 0 && (
+                        <div className="p-2 border-b border-gray-200 dark:border-gray-700">
+                          <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
+                            Recent Searches
+                          </div>
+                          {searchHistory.map((item, index) => (
+                            <button
+                              key={index}
+                              onClick={() => handleHistoryClick(item)}
+                              className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded flex items-center"
+                            >
+                              <span className="mr-2">🕒</span>
+                              {item}
+                            </button>
+                          ))}
+                        </div>
+                      )}
 
-                    {/* Suggestions */}
-                    {suggestions.length > 0 && (
-                      <div className="p-2">
-                        <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Suggestions</div>
-                        {suggestions.map((suggestion, index) => (
-                          <button
-                            key={index}
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded flex items-center"
-                          >
-                            <span className="mr-2">💡</span>
-                            {suggestion}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
+                      {/* Suggestions */}
+                      {suggestions.length > 0 && (
+                        <div className="p-2">
+                          <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
+                            Suggestions
+                          </div>
+                          {suggestions.map((suggestion, index) => (
+                            <button
+                              key={index}
+                              onClick={() => handleSuggestionClick(suggestion)}
+                              className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded flex items-center"
+                            >
+                              <span className="mr-2">💡</span>
+                              {suggestion}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
               </div>
 
               {/* Filters */}
@@ -238,8 +309,8 @@ export default function SearchPattern() {
                     onClick={() => setSelectedFilter(filter.key)}
                     className={`px-3 py-1 text-sm rounded-full border transition-colors ${
                       selectedFilter === filter.key
-                        ? 'bg-blue-500 text-white border-blue-500'
-                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-300'
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-300"
                     }`}
                   >
                     <span className="mr-1">{filter.icon}</span>
@@ -252,7 +323,9 @@ export default function SearchPattern() {
               {isLoading && (
                 <div className="flex items-center justify-center py-4">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
-                  <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Searching...</span>
+                  <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+                    Searching...
+                  </span>
                 </div>
               )}
 
@@ -260,12 +333,18 @@ export default function SearchPattern() {
               {!isLoading && results.length > 0 && (
                 <div className="space-y-3">
                   <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Found {results.length} result{results.length !== 1 ? 's' : ''}
+                    Found {results.length} result
+                    {results.length !== 1 ? "s" : ""}
                   </div>
                   {results.map((item) => (
-                    <div key={item.id} className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+                    <div
+                      key={item.id}
+                      className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow"
+                    >
                       <div className="flex items-start space-x-3">
-                        <div className="text-2xl">{getCategoryIcon(item.category)}</div>
+                        <div className="text-2xl">
+                          {getCategoryIcon(item.category)}
+                        </div>
                         <div className="flex-1">
                           <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-1">
                             {highlightText(item.title, query)}
@@ -312,16 +391,14 @@ export default function SearchPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="search" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="search"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -335,31 +412,55 @@ export default function SearchPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Real-time Search</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Instant results as you type with debouncing</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Real-time Search
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Instant results as you type with debouncing
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smart Suggestions</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Contextual search suggestions and history</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smart Suggestions
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Contextual search suggestions and history
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Category Filters</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Filter results by content categories</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Category Filters
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Filter results by content categories
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Highlighted Results</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Search terms highlighted in results</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Highlighted Results
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Search terms highlighted in results
+              </p>
             </div>
           </div>
         </div>
@@ -373,18 +474,30 @@ export default function SearchPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📚</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Documentation Sites</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Search through technical documentation</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Documentation Sites
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Search through technical documentation
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛒</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">E-commerce</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Product search with filters and suggestions</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              E-commerce
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Product search with filters and suggestions
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📧</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Email Clients</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Search through emails and contacts</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Email Clients
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Search through emails and contacts
+            </p>
           </div>
         </div>
       </div>

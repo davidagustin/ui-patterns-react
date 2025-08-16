@@ -1,40 +1,43 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function CardsPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
 
   const cards = [
     {
       id: 1,
-      title: 'Product Design',
-      description: 'Learn the fundamentals of creating beautiful and functional user interfaces with modern design principles.',
-      image: '/next.svg',
-      category: 'Design',
+      title: "Product Design",
+      description:
+        "Learn the fundamentals of creating beautiful and functional user interfaces with modern design principles.",
+      image: "/next.svg",
+      category: "Design",
       rating: 4.8,
-      students: 1247
+      students: 1247,
     },
     {
       id: 2,
-      title: 'React Development',
-      description: 'Master React.js with hands-on projects and real-world applications. Build scalable web applications.',
-      image: '/vercel.svg',
-      category: 'Development',
+      title: "React Development",
+      description:
+        "Master React.js with hands-on projects and real-world applications. Build scalable web applications.",
+      image: "/vercel.svg",
+      category: "Development",
       rating: 4.9,
-      students: 2156
+      students: 2156,
     },
     {
       id: 3,
-      title: 'Data Science',
-      description: 'Explore data analysis, machine learning, and statistical modeling with Python and modern tools.',
-      image: '/file.svg',
-      category: 'Analytics',
+      title: "Data Science",
+      description:
+        "Explore data analysis, machine learning, and statistical modeling with Python and modern tools.",
+      image: "/file.svg",
+      category: "Analytics",
       rating: 4.7,
-      students: 892
-    }
+      students: 892,
+    },
   ];
 
   return (
@@ -44,7 +47,8 @@ export default function CardsPattern() {
           🃏 Cards Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Cards present information in a contained, visually distinct unit that can be easily scanned and interacted with.
+          Cards present information in a contained, visually distinct unit that
+          can be easily scanned and interacted with.
         </p>
       </div>
 
@@ -56,7 +60,8 @@ export default function CardsPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Click on any card to see the selection effect. Cards are perfect for displaying courses, products, or any grouped content.
+              Click on any card to see the selection effect. Cards are perfect
+              for displaying courses, products, or any grouped content.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {cards.map((card) => (
@@ -64,14 +69,14 @@ export default function CardsPattern() {
                   key={card.id}
                   onClick={() => setSelectedCard(card.id)}
                   className={`bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
-                    selectedCard === card.id 
-                      ? 'ring-2 ring-blue-500 bg-blue-50 dark:bg-blue-900/20' 
-                      : ''
+                    selectedCard === card.id
+                      ? "ring-2 ring-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                      : ""
                   }`}
                 >
                   <div className="w-full h-32 bg-gray-100 dark:bg-gray-700 rounded-lg mb-3 flex items-center justify-center overflow-hidden">
-                    <img 
-                      src={card.image} 
+                    <img
+                      src={card.image}
                       alt={card.title}
                       className="max-w-full max-h-full object-contain p-2"
                     />
@@ -111,16 +116,14 @@ export default function CardsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="cards" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="cards"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -136,29 +139,47 @@ export default function CardsPattern() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex items-start space-x-3">
               <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-green-600 dark:text-green-400 text-lg">🎯</span>
+                <span className="text-green-600 dark:text-green-400 text-lg">
+                  🎯
+                </span>
               </div>
               <div>
-                <h3 className="font-medium text-green-800 dark:text-green-200">Interactive Selection</h3>
-                <p className="text-sm text-green-600 dark:text-green-400">Click to select cards with visual feedback</p>
+                <h3 className="font-medium text-green-800 dark:text-green-200">
+                  Interactive Selection
+                </h3>
+                <p className="text-sm text-green-600 dark:text-green-400">
+                  Click to select cards with visual feedback
+                </p>
               </div>
             </div>
             <div className="flex items-start space-x-3">
               <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-green-600 dark:text-green-400 text-lg">📱</span>
+                <span className="text-green-600 dark:text-green-400 text-lg">
+                  📱
+                </span>
               </div>
               <div>
-                <h3 className="font-medium text-green-800 dark:text-green-200">Responsive Design</h3>
-                <p className="text-sm text-green-600 dark:text-green-400">Adapts to different screen sizes seamlessly</p>
+                <h3 className="font-medium text-green-800 dark:text-green-200">
+                  Responsive Design
+                </h3>
+                <p className="text-sm text-green-600 dark:text-green-400">
+                  Adapts to different screen sizes seamlessly
+                </p>
               </div>
             </div>
             <div className="flex items-start space-x-3">
               <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-green-600 dark:text-green-400 text-lg">⚡</span>
+                <span className="text-green-600 dark:text-green-400 text-lg">
+                  ⚡
+                </span>
               </div>
               <div>
-                <h3 className="font-medium text-green-800 dark:text-green-200">Smooth Animations</h3>
-                <p className="text-sm text-green-600 dark:text-green-400">Hover effects and transitions for better UX</p>
+                <h3 className="font-medium text-green-800 dark:text-green-200">
+                  Smooth Animations
+                </h3>
+                <p className="text-sm text-green-600 dark:text-green-400">
+                  Hover effects and transitions for better UX
+                </p>
               </div>
             </div>
           </div>
@@ -174,31 +195,55 @@ export default function CardsPattern() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="text-center">
               <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <span className="text-purple-600 dark:text-purple-400 text-xl">🎓</span>
+                <span className="text-purple-600 dark:text-purple-400 text-xl">
+                  🎓
+                </span>
               </div>
-              <h3 className="font-medium text-purple-800 dark:text-purple-200 text-sm">Course Catalogs</h3>
-              <p className="text-xs text-purple-600 dark:text-purple-400">Display educational content</p>
+              <h3 className="font-medium text-purple-800 dark:text-purple-200 text-sm">
+                Course Catalogs
+              </h3>
+              <p className="text-xs text-purple-600 dark:text-purple-400">
+                Display educational content
+              </p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <span className="text-purple-600 dark:text-purple-400 text-xl">🛍️</span>
+                <span className="text-purple-600 dark:text-purple-400 text-xl">
+                  🛍️
+                </span>
               </div>
-              <h3 className="font-medium text-purple-800 dark:text-purple-200 text-sm">Product Showcases</h3>
-              <p className="text-xs text-purple-600 dark:text-purple-400">Feature products and services</p>
+              <h3 className="font-medium text-purple-800 dark:text-purple-200 text-sm">
+                Product Showcases
+              </h3>
+              <p className="text-xs text-purple-600 dark:text-purple-400">
+                Feature products and services
+              </p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <span className="text-purple-600 dark:text-purple-400 text-xl">👥</span>
+                <span className="text-purple-600 dark:text-purple-400 text-xl">
+                  👥
+                </span>
               </div>
-              <h3 className="font-medium text-purple-800 dark:text-purple-200 text-sm">Team Profiles</h3>
-              <p className="text-xs text-purple-600 dark:text-purple-400">Showcase team members</p>
+              <h3 className="font-medium text-purple-800 dark:text-purple-200 text-sm">
+                Team Profiles
+              </h3>
+              <p className="text-xs text-purple-600 dark:text-purple-400">
+                Showcase team members
+              </p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <span className="text-purple-600 dark:text-purple-400 text-xl">📊</span>
+                <span className="text-purple-600 dark:text-purple-400 text-xl">
+                  📊
+                </span>
               </div>
-              <h3 className="font-medium text-purple-800 dark:text-purple-200 text-sm">Dashboard Widgets</h3>
-              <p className="text-xs text-purple-600 dark:text-purple-400">Display key metrics</p>
+              <h3 className="font-medium text-purple-800 dark:text-purple-200 text-sm">
+                Dashboard Widgets
+              </h3>
+              <p className="text-xs text-purple-600 dark:text-purple-400">
+                Display key metrics
+              </p>
             </div>
           </div>
         </div>

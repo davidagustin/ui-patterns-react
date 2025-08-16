@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SwipeNavigationPattern() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -9,47 +9,56 @@ export default function SwipeNavigationPattern() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+
   const containerRef = useRef<HTMLDivElement>(null);
   const pagesRef = useRef<HTMLDivElement>(null);
 
   const pages = [
     {
       id: 1,
-      title: 'Welcome to Our App',
-      description: 'Discover amazing features and start your journey with us.',
-      image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop&crop=center',
-      color: 'from-blue-500 to-purple-600'
+      title: "Welcome to Our App",
+      description: "Discover amazing features and start your journey with us.",
+      image:
+        "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop&crop=center",
+      color: "from-blue-500 to-purple-600",
     },
     {
       id: 2,
-      title: 'Smart Features',
-      description: 'Intelligent tools that adapt to your needs and preferences.',
-      image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=600&fit=crop&crop=center',
-      color: 'from-green-500 to-blue-600'
+      title: "Smart Features",
+      description:
+        "Intelligent tools that adapt to your needs and preferences.",
+      image:
+        "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=600&fit=crop&crop=center",
+      color: "from-green-500 to-blue-600",
     },
     {
       id: 3,
-      title: 'Seamless Experience',
-      description: 'Smooth interactions and intuitive design for the best user experience.',
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&crop=center',
-      color: 'from-purple-500 to-pink-600'
+      title: "Seamless Experience",
+      description:
+        "Smooth interactions and intuitive design for the best user experience.",
+      image:
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&crop=center",
+      color: "from-purple-500 to-pink-600",
     },
     {
       id: 4,
-      title: 'Powerful Analytics',
-      description: 'Get insights and track your progress with detailed analytics.',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=center',
-      color: 'from-orange-500 to-red-600'
+      title: "Powerful Analytics",
+      description:
+        "Get insights and track your progress with detailed analytics.",
+      image:
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&crop=center",
+      color: "from-orange-500 to-red-600",
     },
     {
       id: 5,
-      title: 'Ready to Start',
-      description: 'Everything is set up. Begin your journey and explore the possibilities.',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&crop=center',
-      color: 'from-indigo-500 to-purple-600'
-    }
+      title: "Ready to Start",
+      description:
+        "Everything is set up. Begin your journey and explore the possibilities.",
+      image:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&crop=center",
+      color: "from-indigo-500 to-purple-600",
+    },
   ];
 
   const containerWidth = containerRef.current?.offsetWidth || 0;
@@ -64,26 +73,28 @@ export default function SwipeNavigationPattern() {
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
     e.preventDefault();
-    
+
     const newCurrentX = e.touches[0].clientX;
     setCurrentX(newCurrentX);
-    
+
     const diff = newCurrentX - startX;
-    const newTranslateX = (currentPage * -containerWidth) + diff;
-    
+    const newTranslateX = currentPage * -containerWidth + diff;
+
     // Limit the translation
     const maxTranslateX = 0;
     const minTranslateX = -(pages.length - 1) * containerWidth;
-    
-    setTranslateX(Math.max(minTranslateX, Math.min(maxTranslateX, newTranslateX)));
+
+    setTranslateX(
+      Math.max(minTranslateX, Math.min(maxTranslateX, newTranslateX)),
+    );
   };
 
   const handleTouchEnd = () => {
     if (!isDragging) return;
-    
+
     const diff = currentX - startX;
     const threshold = containerWidth * 0.3; // 30% threshold
-    
+
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage > 0) {
         // Swipe right - go to previous page
@@ -99,7 +110,7 @@ export default function SwipeNavigationPattern() {
       // Reset to current page
       setTranslateX(currentPage * -containerWidth);
     }
-    
+
     setIsDragging(false);
   };
 
@@ -113,26 +124,28 @@ export default function SwipeNavigationPattern() {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
     e.preventDefault();
-    
+
     const newCurrentX = e.clientX;
     setCurrentX(newCurrentX);
-    
+
     const diff = newCurrentX - startX;
-    const newTranslateX = (currentPage * -containerWidth) + diff;
-    
+    const newTranslateX = currentPage * -containerWidth + diff;
+
     // Limit the translation
     const maxTranslateX = 0;
     const minTranslateX = -(pages.length - 1) * containerWidth;
-    
-    setTranslateX(Math.max(minTranslateX, Math.min(maxTranslateX, newTranslateX)));
+
+    setTranslateX(
+      Math.max(minTranslateX, Math.min(maxTranslateX, newTranslateX)),
+    );
   };
 
   const handleMouseUp = () => {
     if (!isDragging) return;
-    
+
     const diff = currentX - startX;
     const threshold = containerWidth * 0.3; // 30% threshold
-    
+
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage > 0) {
         // Swipe right - go to previous page
@@ -148,7 +161,7 @@ export default function SwipeNavigationPattern() {
       // Reset to current page
       setTranslateX(currentPage * -containerWidth);
     }
-    
+
     setIsDragging(false);
   };
 
@@ -179,15 +192,15 @@ export default function SwipeNavigationPattern() {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
+      if (e.key === "ArrowLeft") {
         prevPage();
-      } else if (e.key === 'ArrowRight') {
+      } else if (e.key === "ArrowRight") {
         nextPage();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentPage]);
 
   return (
@@ -197,7 +210,8 @@ export default function SwipeNavigationPattern() {
           📱 Swipe Navigation Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Intuitive swipe gestures for navigating between pages with smooth animations and visual feedback.
+          Intuitive swipe gestures for navigating between pages with smooth
+          animations and visual feedback.
         </p>
       </div>
 
@@ -209,14 +223,15 @@ export default function SwipeNavigationPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Swipe left or right to navigate between pages. You can also use the navigation buttons or keyboard arrows.
+              Swipe left or right to navigate between pages. You can also use
+              the navigation buttons or keyboard arrows.
             </p>
-            
+
             {/* Swipe Container */}
             <div
               ref={containerRef}
               className="relative w-full h-80 overflow-hidden rounded-lg border-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800"
-              style={{ userSelect: isDragging ? 'none' : 'auto' }}
+              style={{ userSelect: isDragging ? "none" : "auto" }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -231,7 +246,7 @@ export default function SwipeNavigationPattern() {
                 className="flex h-full transition-transform duration-300 ease-out"
                 style={{
                   transform: `translateX(${translateX}px)`,
-                  width: `${pages.length * 100}%`
+                  width: `${pages.length * 100}%`,
                 }}
               >
                 {pages.map((page, index) => (
@@ -248,12 +263,18 @@ export default function SwipeNavigationPattern() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    
+
                     {/* Content Overlay */}
-                    <div className={`absolute inset-0 bg-gradient-to-br ${page.color} bg-opacity-90`}>
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${page.color} bg-opacity-90`}
+                    >
                       <div className="flex flex-col justify-center items-center h-full px-4 text-center text-white">
-                        <h3 className="text-2xl font-bold mb-4">{page.title}</h3>
-                        <p className="text-lg opacity-90 max-w-md">{page.description}</p>
+                        <h3 className="text-2xl font-bold mb-4">
+                          {page.title}
+                        </h3>
+                        <p className="text-lg opacity-90 max-w-md">
+                          {page.description}
+                        </p>
                         <div className="mt-6 text-sm opacity-75">
                           Page {index + 1} of {pages.length}
                         </div>
@@ -269,18 +290,38 @@ export default function SwipeNavigationPattern() {
                 disabled={currentPage === 0}
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
-              
+
               <button
                 onClick={nextPage}
                 disabled={currentPage === pages.length - 1}
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             </div>
@@ -293,8 +334,8 @@ export default function SwipeNavigationPattern() {
                   onClick={() => goToPage(index)}
                   className={`w-3 h-3 rounded-full transition-all ${
                     index === currentPage
-                      ? 'bg-blue-600 scale-125'
-                      : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                      ? "bg-blue-600 scale-125"
+                      : "bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
                   }`}
                 />
               ))}
@@ -303,7 +344,13 @@ export default function SwipeNavigationPattern() {
             {/* Swipe Progress */}
             <div className="mt-4 text-center">
               <div className="text-sm text-gray-600 dark:text-gray-400">
-                Swipe Progress: {Math.round((Math.abs(translateX) / (containerWidth * (pages.length - 1))) * 100)}%
+                Swipe Progress:{" "}
+                {Math.round(
+                  (Math.abs(translateX) /
+                    (containerWidth * (pages.length - 1))) *
+                    100,
+                )}
+                %
               </div>
             </div>
           </div>
@@ -315,25 +362,23 @@ export default function SwipeNavigationPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
             <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
               <button
-                onClick={() => setActiveTab('jsx')}
+                onClick={() => setActiveTab("jsx")}
                 className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'jsx'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                  activeTab === "jsx"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 }`}
               >
                 JSX
               </button>
               <button
-                onClick={() => setActiveTab('css')}
+                onClick={() => setActiveTab("css")}
                 className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'css'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                  activeTab === "css"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 }`}
               >
                 CSS
@@ -342,9 +387,9 @@ export default function SwipeNavigationPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample 
-                componentName="swipe-navigation" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="swipe-navigation"
+                activeTab={activeTab}
               />
             </div>
           </div>
@@ -358,15 +403,42 @@ export default function SwipeNavigationPattern() {
             ✨ Key Features
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>Touch & Mouse Support:</strong> Works on both touch devices and desktop</li>
-            <li>• <strong>Smooth Animations:</strong> CSS transitions for fluid page changes</li>
-            <li>• <strong>Threshold-based Swiping:</strong> 30% threshold for page changes</li>
-            <li>• <strong>Boundary Constraints:</strong> Prevents over-swiping beyond limits</li>
-            <li>• <strong>Visual Feedback:</strong> Progress indicators and navigation buttons</li>
-            <li>• <strong>Keyboard Navigation:</strong> Arrow keys for accessibility</li>
-            <li>• <strong>Responsive Design:</strong> Adapts to different screen sizes</li>
-            <li>• <strong>Performance Optimized:</strong> Efficient touch event handling</li>
-            <li>• <strong>Dynamic Code Generation:</strong> Code example extracted from actual source files</li>
+            <li>
+              • <strong>Touch & Mouse Support:</strong> Works on both touch
+              devices and desktop
+            </li>
+            <li>
+              • <strong>Smooth Animations:</strong> CSS transitions for fluid
+              page changes
+            </li>
+            <li>
+              • <strong>Threshold-based Swiping:</strong> 30% threshold for page
+              changes
+            </li>
+            <li>
+              • <strong>Boundary Constraints:</strong> Prevents over-swiping
+              beyond limits
+            </li>
+            <li>
+              • <strong>Visual Feedback:</strong> Progress indicators and
+              navigation buttons
+            </li>
+            <li>
+              • <strong>Keyboard Navigation:</strong> Arrow keys for
+              accessibility
+            </li>
+            <li>
+              • <strong>Responsive Design:</strong> Adapts to different screen
+              sizes
+            </li>
+            <li>
+              • <strong>Performance Optimized:</strong> Efficient touch event
+              handling
+            </li>
+            <li>
+              • <strong>Dynamic Code Generation:</strong> Code example extracted
+              from actual source files
+            </li>
           </ul>
         </div>
       </div>
@@ -378,14 +450,34 @@ export default function SwipeNavigationPattern() {
             🎯 Common Use Cases
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>Onboarding Flows:</strong> Welcome screens and feature introductions</li>
-            <li>• <strong>Image Galleries:</strong> Photo browsing and slideshows</li>
-            <li>• <strong>Product Showcases:</strong> Multiple product views and details</li>
-            <li>• <strong>Story Formats:</strong> Social media stories and narratives</li>
-            <li>• <strong>Carousel Components:</strong> Content rotation and browsing</li>
-            <li>• <strong>Wizard Interfaces:</strong> Step-by-step processes</li>
-            <li>• <strong>Presentation Slides:</strong> Interactive presentations</li>
-            <li>• <strong>Mobile Apps:</strong> Native-like navigation experiences</li>
+            <li>
+              • <strong>Onboarding Flows:</strong> Welcome screens and feature
+              introductions
+            </li>
+            <li>
+              • <strong>Image Galleries:</strong> Photo browsing and slideshows
+            </li>
+            <li>
+              • <strong>Product Showcases:</strong> Multiple product views and
+              details
+            </li>
+            <li>
+              • <strong>Story Formats:</strong> Social media stories and
+              narratives
+            </li>
+            <li>
+              • <strong>Carousel Components:</strong> Content rotation and
+              browsing
+            </li>
+            <li>
+              • <strong>Wizard Interfaces:</strong> Step-by-step processes
+            </li>
+            <li>
+              • <strong>Presentation Slides:</strong> Interactive presentations
+            </li>
+            <li>
+              • <strong>Mobile Apps:</strong> Native-like navigation experiences
+            </li>
           </ul>
         </div>
       </div>

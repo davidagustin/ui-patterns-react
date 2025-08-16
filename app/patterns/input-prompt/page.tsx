@@ -1,36 +1,35 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function InputPromptPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [searchValue, setSearchValue] = useState('');
-  const [messageValue, setMessageValue] = useState('');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [messageValue, setMessageValue] = useState("");
   const [showEmailHelp, setShowEmailHelp] = useState(false);
   const [showPasswordHelp, setShowPasswordHelp] = useState(false);
 
   const searchSuggestions = [
-    'JavaScript tutorials',
-    'React components',
-    'TypeScript guide',
-    'CSS animations',
-    'Web accessibility',
+    "JavaScript tutorials",
+    "React components",
+    "TypeScript guide",
+    "CSS animations",
+    "Web accessibility",
   ];
 
   const emailHints = [
-    'Use your work email for business accounts',
-    'Gmail, Outlook, and Yahoo are supported',
-    'We\'ll never share your email address',
+    "Use your work email for business accounts",
+    "Gmail, Outlook, and Yahoo are supported",
+    "We'll never share your email address",
   ];
 
   const passwordHints = [
-    'Use at least 8 characters',
-    'Include uppercase, lowercase, and numbers',
-    'Avoid common words or personal info',
+    "Use at least 8 characters",
+    "Include uppercase, lowercase, and numbers",
+    "Avoid common words or personal info",
   ];
 
   return (
@@ -40,7 +39,8 @@ export default function InputPromptPattern() {
           💬 Input Prompt Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Guide users with helpful prompts, hints, and suggestions to improve form completion and reduce errors.
+          Guide users with helpful prompts, hints, and suggestions to improve
+          form completion and reduce errors.
         </p>
       </div>
 
@@ -52,13 +52,16 @@ export default function InputPromptPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Try interacting with these inputs to see different types of prompts and suggestions in action.
+              Try interacting with these inputs to see different types of
+              prompts and suggestions in action.
             </p>
-            
+
             <div className="space-y-6">
               {/* Placeholder Prompts */}
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Placeholder Prompts</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Placeholder Prompts
+                </h3>
                 <div className="space-y-3">
                   <input
                     type="text"
@@ -75,7 +78,9 @@ export default function InputPromptPattern() {
 
               {/* Contextual Help */}
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Contextual Help</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Contextual Help
+                </h3>
                 <div className="space-y-3">
                   <div className="relative">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -99,7 +104,10 @@ export default function InputPromptPattern() {
                       <div className="absolute top-full left-0 mt-1 w-64 bg-gray-900 text-white text-xs rounded-lg p-3 z-10">
                         <div className="space-y-1">
                           {emailHints.map((hint, index) => (
-                            <div key={index} className="flex items-start space-x-1">
+                            <div
+                              key={index}
+                              className="flex items-start space-x-1"
+                            >
                               <span className="text-blue-400">•</span>
                               <span>{hint}</span>
                             </div>
@@ -131,7 +139,10 @@ export default function InputPromptPattern() {
                       <div className="absolute top-full left-0 mt-1 w-64 bg-gray-900 text-white text-xs rounded-lg p-3 z-10">
                         <div className="space-y-1">
                           {passwordHints.map((hint, index) => (
-                            <div key={index} className="flex items-start space-x-1">
+                            <div
+                              key={index}
+                              className="flex items-start space-x-1"
+                            >
                               <span className="text-green-400">✓</span>
                               <span>{hint}</span>
                             </div>
@@ -145,7 +156,9 @@ export default function InputPromptPattern() {
 
               {/* Search Suggestions */}
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Search Suggestions</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Search Suggestions
+                </h3>
                 <div className="relative">
                   <input
                     type="text"
@@ -154,15 +167,19 @@ export default function InputPromptPattern() {
                     placeholder="Search for tutorials, guides, or documentation..."
                     className="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                   />
-                  <div className="absolute right-3 top-3 text-gray-400">
-                    🔍
-                  </div>
+                  <div className="absolute right-3 top-3 text-gray-400">🔍</div>
                   {searchValue.length > 0 && (
                     <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-10">
                       <div className="p-2">
-                        <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 px-2">Suggestions:</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 mb-2 px-2">
+                          Suggestions:
+                        </div>
                         {searchSuggestions
-                          .filter(suggestion => suggestion.toLowerCase().includes(searchValue.toLowerCase()))
+                          .filter((suggestion) =>
+                            suggestion
+                              .toLowerCase()
+                              .includes(searchValue.toLowerCase()),
+                          )
                           .map((suggestion, index) => (
                             <button
                               key={index}
@@ -180,7 +197,9 @@ export default function InputPromptPattern() {
 
               {/* Character Counter with Prompt */}
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Character Counter Prompt</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Character Counter Prompt
+                </h3>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Message
@@ -194,16 +213,24 @@ export default function InputPromptPattern() {
                     rows={4}
                   />
                   <div className="flex justify-between items-center mt-1 text-xs">
-                    <span className={`${
-                      messageValue.length < 50 ? 'text-orange-500' : 'text-green-500'
-                    }`}>
-                      {messageValue.length < 50 
-                        ? `${50 - messageValue.length} more characters needed for detailed feedback` 
-                        : 'Great! You\'ll receive detailed feedback'}
+                    <span
+                      className={`${
+                        messageValue.length < 50
+                          ? "text-orange-500"
+                          : "text-green-500"
+                      }`}
+                    >
+                      {messageValue.length < 50
+                        ? `${50 - messageValue.length} more characters needed for detailed feedback`
+                        : "Great! You'll receive detailed feedback"}
                     </span>
-                    <span className={`${
-                      messageValue.length > 180 ? 'text-red-500' : 'text-gray-500 dark:text-gray-400'
-                    }`}>
+                    <span
+                      className={`${
+                        messageValue.length > 180
+                          ? "text-red-500"
+                          : "text-gray-500 dark:text-gray-400"
+                      }`}
+                    >
                       {messageValue.length}/200
                     </span>
                   </div>
@@ -212,7 +239,9 @@ export default function InputPromptPattern() {
 
               {/* Progressive Prompts */}
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
-                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Progressive Prompts</h3>
+                <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Progressive Prompts
+                </h3>
                 <div className="space-y-3">
                   <div>
                     <input
@@ -246,13 +275,13 @@ export default function InputPromptPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
+
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="input-prompt" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="input-prompt"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -266,31 +295,55 @@ export default function InputPromptPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Contextual Help</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Tooltips and hints that appear when needed</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Contextual Help
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Tooltips and hints that appear when needed
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smart Suggestions</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Dynamic suggestions based on user input</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smart Suggestions
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Dynamic suggestions based on user input
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Progress Indicators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Character counters and completion feedback</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Progress Indicators
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Character counters and completion feedback
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Example Prompts</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear placeholder text with examples</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Example Prompts
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear placeholder text with examples
+              </p>
             </div>
           </div>
         </div>
@@ -304,18 +357,30 @@ export default function InputPromptPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Registration Forms</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Guide users through account creation</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Registration Forms
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Guide users through account creation
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🔍</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Search Interfaces</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Provide search suggestions and hints</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Search Interfaces
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Provide search suggestions and hints
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📄</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Creation</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Help users create better content</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Content Creation
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Help users create better content
+            </p>
           </div>
         </div>
       </div>

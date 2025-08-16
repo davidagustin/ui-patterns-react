@@ -1,31 +1,86 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function AlternatingRowsPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [sortField, setSortField] = useState<string>('name');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [sortField, setSortField] = useState<string>("name");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
 
   const data = [
-    { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin', status: 'Active', lastLogin: '2024-01-15' },
-    { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Editor', status: 'Active', lastLogin: '2024-01-14' },
-    { id: 3, name: 'Carol Davis', email: 'carol@example.com', role: 'Viewer', status: 'Inactive', lastLogin: '2024-01-10' },
-    { id: 4, name: 'David Wilson', email: 'david@example.com', role: 'Editor', status: 'Active', lastLogin: '2024-01-15' },
-    { id: 5, name: 'Eva Brown', email: 'eva@example.com', role: 'Admin', status: 'Active', lastLogin: '2024-01-13' },
-    { id: 6, name: 'Frank Miller', email: 'frank@example.com', role: 'Viewer', status: 'Inactive', lastLogin: '2024-01-08' },
-    { id: 7, name: 'Grace Lee', email: 'grace@example.com', role: 'Editor', status: 'Active', lastLogin: '2024-01-15' },
-    { id: 8, name: 'Henry Taylor', email: 'henry@example.com', role: 'Viewer', status: 'Active', lastLogin: '2024-01-12' },
+    {
+      id: 1,
+      name: "Alice Johnson",
+      email: "alice@example.com",
+      role: "Admin",
+      status: "Active",
+      lastLogin: "2024-01-15",
+    },
+    {
+      id: 2,
+      name: "Bob Smith",
+      email: "bob@example.com",
+      role: "Editor",
+      status: "Active",
+      lastLogin: "2024-01-14",
+    },
+    {
+      id: 3,
+      name: "Carol Davis",
+      email: "carol@example.com",
+      role: "Viewer",
+      status: "Inactive",
+      lastLogin: "2024-01-10",
+    },
+    {
+      id: 4,
+      name: "David Wilson",
+      email: "david@example.com",
+      role: "Editor",
+      status: "Active",
+      lastLogin: "2024-01-15",
+    },
+    {
+      id: 5,
+      name: "Eva Brown",
+      email: "eva@example.com",
+      role: "Admin",
+      status: "Active",
+      lastLogin: "2024-01-13",
+    },
+    {
+      id: 6,
+      name: "Frank Miller",
+      email: "frank@example.com",
+      role: "Viewer",
+      status: "Inactive",
+      lastLogin: "2024-01-08",
+    },
+    {
+      id: 7,
+      name: "Grace Lee",
+      email: "grace@example.com",
+      role: "Editor",
+      status: "Active",
+      lastLogin: "2024-01-15",
+    },
+    {
+      id: 8,
+      name: "Henry Taylor",
+      email: "henry@example.com",
+      role: "Viewer",
+      status: "Active",
+      lastLogin: "2024-01-12",
+    },
   ];
 
   const sortedData = [...data].sort((a, b) => {
     const aValue = a[sortField as keyof typeof a];
     const bValue = b[sortField as keyof typeof b];
-    
-    if (sortDirection === 'asc') {
+
+    if (sortDirection === "asc") {
       return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
     } else {
       return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
@@ -34,10 +89,10 @@ export default function AlternatingRowsPattern() {
 
   const handleSort = (field: string) => {
     if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
       setSortField(field);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
@@ -55,7 +110,7 @@ export default function AlternatingRowsPattern() {
     if (selectedRows.size === data.length) {
       setSelectedRows(new Set());
     } else {
-      setSelectedRows(new Set(data.map(row => row.id)));
+      setSelectedRows(new Set(data.map((row) => row.id)));
     }
   };
 
@@ -66,7 +121,8 @@ export default function AlternatingRowsPattern() {
           📊 Alternating Row Colors Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Improve table readability with alternating row colors, hover effects, and selection states for better data scanning.
+          Improve table readability with alternating row colors, hover effects,
+          and selection states for better data scanning.
         </p>
       </div>
 
@@ -78,9 +134,10 @@ export default function AlternatingRowsPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Click headers to sort, select rows with checkboxes, and notice the alternating row colors for better readability.
+              Click headers to sort, select rows with checkboxes, and notice the
+              alternating row colors for better readability.
             </p>
-            
+
             {/* Table Controls */}
             <div className="flex justify-between items-center mb-4">
               <div className="text-sm text-gray-600 dark:text-gray-400">
@@ -109,11 +166,11 @@ export default function AlternatingRowsPattern() {
                       />
                     </th>
                     {[
-                      { key: 'name', label: 'Name' },
-                      { key: 'email', label: 'Email' },
-                      { key: 'role', label: 'Role' },
-                      { key: 'status', label: 'Status' },
-                      { key: 'lastLogin', label: 'Last Login' }
+                      { key: "name", label: "Name" },
+                      { key: "email", label: "Email" },
+                      { key: "role", label: "Role" },
+                      { key: "status", label: "Status" },
+                      { key: "lastLogin", label: "Last Login" },
                     ].map(({ key, label }) => (
                       <th
                         key={key}
@@ -123,7 +180,11 @@ export default function AlternatingRowsPattern() {
                         <div className="flex items-center space-x-1">
                           <span>{label}</span>
                           <span className="text-gray-400">
-                            {sortField === key ? (sortDirection === 'asc' ? '↑' : '↓') : '↕'}
+                            {sortField === key
+                              ? sortDirection === "asc"
+                                ? "↑"
+                                : "↓"
+                              : "↕"}
                           </span>
                         </div>
                       </th>
@@ -135,8 +196,8 @@ export default function AlternatingRowsPattern() {
                     <tr
                       key={row.id}
                       className={`
-                        ${index % 2 === 0 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800'}
-                        ${selectedRows.has(row.id) ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700' : ''}
+                        ${index % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800"}
+                        ${selectedRows.has(row.id) ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700" : ""}
                         hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer
                       `}
                       onClick={() => toggleRowSelection(row.id)}
@@ -157,20 +218,26 @@ export default function AlternatingRowsPattern() {
                         {row.email}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          row.role === 'Admin' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' :
-                          row.role === 'Editor' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                          'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-                        }`}>
+                        <span
+                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            row.role === "Admin"
+                              ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200"
+                              : row.role === "Editor"
+                                ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                                : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+                          }`}
+                        >
                           {row.role}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-sm">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          row.status === 'Active' 
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
-                            : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                        }`}>
+                        <span
+                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            row.status === "Active"
+                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                              : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                          }`}
+                        >
                           {row.status}
                         </span>
                       </td>
@@ -191,16 +258,14 @@ export default function AlternatingRowsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="alternating-rows" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="alternating-rows"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -214,31 +279,55 @@ export default function AlternatingRowsPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Alternating Colors</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Even and odd rows with different background colors</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Alternating Colors
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Even and odd rows with different background colors
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Hover Effects</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Visual feedback when hovering over rows</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Hover Effects
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Visual feedback when hovering over rows
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Selection States</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear visual indication of selected rows</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Selection States
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear visual indication of selected rows
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Sorting Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Click headers to sort data ascending/descending</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Sorting Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Click headers to sort data ascending/descending
+              </p>
             </div>
           </div>
         </div>
@@ -252,18 +341,30 @@ export default function AlternatingRowsPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">👥</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">User Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Admin panels and user lists</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              User Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Admin panels and user lists
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Reports</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Financial and analytics reports</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Data Reports
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Financial and analytics reports
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📋</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Tables</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Any tabular data display</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Data Tables
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Any tabular data display
+            </p>
           </div>
         </div>
       </div>

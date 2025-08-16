@@ -1,19 +1,43 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
-import Link from 'next/link';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+import Link from "next/link";
 
 export default function NavigationTabsPattern() {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState("dashboard");
 
   const navigationTabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: '📊', href: '/dashboard', badge: null },
-    { id: 'projects', label: 'Projects', icon: '📁', href: '/projects', badge: 5 },
-    { id: 'team', label: 'Team', icon: '👥', href: '/team', badge: null },
-    { id: 'analytics', label: 'Analytics', icon: '📈', href: '/analytics', badge: 'New' },
-    { id: 'settings', label: 'Settings', icon: '⚙️', href: '/settings', badge: null },
-    { id: 'help', label: 'Help', icon: '❓', href: '/help', badge: null },
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: "📊",
+      href: "/dashboard",
+      badge: null,
+    },
+    {
+      id: "projects",
+      label: "Projects",
+      icon: "📁",
+      href: "/projects",
+      badge: 5,
+    },
+    { id: "team", label: "Team", icon: "👥", href: "/team", badge: null },
+    {
+      id: "analytics",
+      label: "Analytics",
+      icon: "📈",
+      href: "/analytics",
+      badge: "New",
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: "⚙️",
+      href: "/settings",
+      badge: null,
+    },
+    { id: "help", label: "Help", icon: "❓", href: "/help", badge: null },
   ];
 
   const handleTabClick = (tabId: string) => {
@@ -29,7 +53,8 @@ export default function NavigationTabsPattern() {
           🧭 Navigation Tabs Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Primary navigation tabs provide the main structure of your application, allowing users to switch between top-level sections.
+          Primary navigation tabs provide the main structure of your
+          application, allowing users to switch between top-level sections.
         </p>
       </div>
 
@@ -41,9 +66,10 @@ export default function NavigationTabsPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Click on different navigation tabs to see how they work as primary navigation. Notice the active states and badges.
+              Click on different navigation tabs to see how they work as primary
+              navigation. Notice the active states and badges.
             </p>
-            
+
             {/* Navigation Tabs */}
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
               <nav className="flex bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 overflow-x-auto scrollbar-hide">
@@ -53,18 +79,20 @@ export default function NavigationTabsPattern() {
                     onClick={() => handleTabClick(tab.id)}
                     className={`flex items-center space-x-2 px-4 py-3 font-medium text-sm relative transition-all duration-200 border-b-2 min-h-[44px] whitespace-nowrap ${
                       activeTab === tab.id
-                        ? 'text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-800 border-blue-600 dark:border-blue-400'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 border-transparent'
+                        ? "text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-800 border-blue-600 dark:border-blue-400"
+                        : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 border-transparent"
                     }`}
                   >
                     <span className="text-base">{tab.icon}</span>
                     <span>{tab.label}</span>
                     {tab.badge && (
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                        typeof tab.badge === 'number'
-                          ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                          : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                      }`}>
+                      <span
+                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                          typeof tab.badge === "number"
+                            ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+                            : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                        }`}
+                      >
                         {tab.badge}
                       </span>
                     )}
@@ -76,13 +104,18 @@ export default function NavigationTabsPattern() {
               <div className="p-6">
                 <div className="text-center py-8">
                   <div className="text-6xl mb-4">
-                    {navigationTabs.find(tab => tab.id === activeTab)?.icon}
+                    {navigationTabs.find((tab) => tab.id === activeTab)?.icon}
                   </div>
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                    {navigationTabs.find(tab => tab.id === activeTab)?.label} Section
+                    {navigationTabs.find((tab) => tab.id === activeTab)?.label}{" "}
+                    Section
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400">
-                    This would be the main content area for the {navigationTabs.find(tab => tab.id === activeTab)?.label.toLowerCase()} section of your application.
+                    This would be the main content area for the{" "}
+                    {navigationTabs
+                      .find((tab) => tab.id === activeTab)
+                      ?.label.toLowerCase()}{" "}
+                    section of your application.
                   </p>
                 </div>
               </div>
@@ -90,7 +123,9 @@ export default function NavigationTabsPattern() {
 
             {/* Mobile Navigation Example */}
             <div className="mt-6">
-              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Mobile Navigation</h3>
+              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                Mobile Navigation
+              </h3>
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 max-w-sm">
                 <div className="grid grid-cols-3 gap-2">
                   {navigationTabs.slice(0, 6).map((tab) => (
@@ -99,15 +134,15 @@ export default function NavigationTabsPattern() {
                       onClick={() => handleTabClick(tab.id)}
                       className={`flex flex-col items-center p-3 rounded-lg text-xs transition-colors min-h-[60px] relative ${
                         activeTab === tab.id
-                          ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
-                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                          ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                          : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
                       }`}
                     >
                       <span className="text-lg mb-1">{tab.icon}</span>
                       <span className="font-medium">{tab.label}</span>
                       {tab.badge && (
                         <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 text-xs flex items-center justify-center">
-                          {typeof tab.badge === 'number' ? tab.badge : '!'}
+                          {typeof tab.badge === "number" ? tab.badge : "!"}
                         </span>
                       )}
                     </button>
@@ -124,15 +159,15 @@ export default function NavigationTabsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
-              {<DynamicCodeExample 
-                componentName="navigation-tabs" 
-                activeTab={activeTab} 
-              />}
+              {
+                <DynamicCodeExample
+                  componentName="navigation-tabs"
+                  activeTab={activeTab}
+                />
+              }
             </div>
           </div>
         </div>
@@ -145,31 +180,55 @@ export default function NavigationTabsPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Primary Navigation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Main application sections and top-level navigation</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Primary Navigation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Main application sections and top-level navigation
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Badge Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Show notifications, counts, or status indicators</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Badge Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Show notifications, counts, or status indicators
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Responsive Design</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Adapts to mobile with grid layout</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Responsive Design
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Adapts to mobile with grid layout
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Active State</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indication of current section</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Active State
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear indication of current section
+              </p>
             </div>
           </div>
         </div>
@@ -183,18 +242,30 @@ export default function NavigationTabsPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🏢</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Admin Dashboards</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Main navigation for admin panels and dashboards</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Admin Dashboards
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Main navigation for admin panels and dashboards
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📱</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Mobile Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Primary navigation for mobile applications</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Mobile Apps
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Primary navigation for mobile applications
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🌐</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Web Applications</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Main sections for web apps and portals</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Web Applications
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Main sections for web apps and portals
+            </p>
           </div>
         </div>
       </div>

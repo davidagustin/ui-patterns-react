@@ -1,29 +1,29 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function PaginationPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const allItems = [
-    { id: 1, name: 'Product A', category: 'Electronics', price: '$299' },
-    { id: 2, name: 'Product B', category: 'Clothing', price: '$89' },
-    { id: 3, name: 'Product C', category: 'Electronics', price: '$199' },
-    { id: 4, name: 'Product D', category: 'Books', price: '$24' },
-    { id: 5, name: 'Product E', category: 'Electronics', price: '$399' },
-    { id: 6, name: 'Product F', category: 'Clothing', price: '$129' },
-    { id: 7, name: 'Product G', category: 'Books', price: '$18' },
-    { id: 8, name: 'Product H', category: 'Electronics', price: '$599' },
-    { id: 9, name: 'Product I', category: 'Clothing', price: '$79' },
-    { id: 10, name: 'Product J', category: 'Books', price: '$32' },
-    { id: 11, name: 'Product K', category: 'Electronics', price: '$249' },
-    { id: 12, name: 'Product L', category: 'Clothing', price: '$149' },
-    { id: 13, name: 'Product M', category: 'Books', price: '$28' },
-    { id: 14, name: 'Product N', category: 'Electronics', price: '$349' },
-    { id: 15, name: 'Product O', category: 'Clothing', price: '$99' }
+    { id: 1, name: "Product A", category: "Electronics", price: "$299" },
+    { id: 2, name: "Product B", category: "Clothing", price: "$89" },
+    { id: 3, name: "Product C", category: "Electronics", price: "$199" },
+    { id: 4, name: "Product D", category: "Books", price: "$24" },
+    { id: 5, name: "Product E", category: "Electronics", price: "$399" },
+    { id: 6, name: "Product F", category: "Clothing", price: "$129" },
+    { id: 7, name: "Product G", category: "Books", price: "$18" },
+    { id: 8, name: "Product H", category: "Electronics", price: "$599" },
+    { id: 9, name: "Product I", category: "Clothing", price: "$79" },
+    { id: 10, name: "Product J", category: "Books", price: "$32" },
+    { id: 11, name: "Product K", category: "Electronics", price: "$249" },
+    { id: 12, name: "Product L", category: "Clothing", price: "$149" },
+    { id: 13, name: "Product M", category: "Books", price: "$28" },
+    { id: 14, name: "Product N", category: "Electronics", price: "$349" },
+    { id: 15, name: "Product O", category: "Clothing", price: "$99" },
   ];
 
   const totalPages = Math.ceil(allItems.length / itemsPerPage);
@@ -47,12 +47,16 @@ export default function PaginationPattern() {
     const range = [];
     const rangeWithDots = [];
 
-    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
+    for (
+      let i = Math.max(2, currentPage - delta);
+      i <= Math.min(totalPages - 1, currentPage + delta);
+      i++
+    ) {
       range.push(i);
     }
 
     if (currentPage - delta > 2) {
-      rangeWithDots.push(1, '...');
+      rangeWithDots.push(1, "...");
     } else {
       rangeWithDots.push(1);
     }
@@ -60,7 +64,7 @@ export default function PaginationPattern() {
     rangeWithDots.push(...range);
 
     if (currentPage + delta < totalPages - 1) {
-      rangeWithDots.push('...', totalPages);
+      rangeWithDots.push("...", totalPages);
     } else {
       rangeWithDots.push(totalPages);
     }
@@ -75,7 +79,8 @@ export default function PaginationPattern() {
           📄 Pagination Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Break large sets of content into manageable pages, improving performance and user experience with clear navigation controls.
+          Break large sets of content into manageable pages, improving
+          performance and user experience with clear navigation controls.
         </p>
       </div>
 
@@ -87,14 +92,17 @@ export default function PaginationPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Navigate through the product list using different pagination controls. Try changing the items per page.
+              Navigate through the product list using different pagination
+              controls. Try changing the items per page.
             </p>
-            
+
             <div className="space-y-4">
               {/* Items Per Page Selector */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <label className="text-sm text-gray-600 dark:text-gray-400">Items per page:</label>
+                  <label className="text-sm text-gray-600 dark:text-gray-400">
+                    Items per page:
+                  </label>
                   <select
                     value={itemsPerPage}
                     onChange={(e) => {
@@ -110,7 +118,8 @@ export default function PaginationPattern() {
                   </select>
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Showing {startIndex + 1}-{Math.min(endIndex, allItems.length)} of {allItems.length} items
+                  Showing {startIndex + 1}-{Math.min(endIndex, allItems.length)}{" "}
+                  of {allItems.length} items
                 </div>
               </div>
 
@@ -119,19 +128,38 @@ export default function PaginationPattern() {
                 <table className="w-full">
                   <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ID</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Name</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Category</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Price</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        ID
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Name
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Category
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Price
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {currentItems.map((item) => (
-                      <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">{item.id}</td>
-                        <td className="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">{item.name}</td>
-                        <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{item.category}</td>
-                        <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">{item.price}</td>
+                      <tr
+                        key={item.id}
+                        className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                      >
+                        <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
+                          {item.id}
+                        </td>
+                        <td className="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">
+                          {item.name}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
+                          {item.category}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
+                          {item.price}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -162,15 +190,17 @@ export default function PaginationPattern() {
                 <div className="flex items-center space-x-1">
                   {getVisiblePages().map((page, index) => (
                     <div key={index}>
-                      {page === '...' ? (
-                        <span className="px-3 py-1 text-sm text-gray-500 dark:text-gray-400">...</span>
+                      {page === "..." ? (
+                        <span className="px-3 py-1 text-sm text-gray-500 dark:text-gray-400">
+                          ...
+                        </span>
                       ) : (
                         <button
                           onClick={() => goToPage(page as number)}
                           className={`px-3 py-1 text-sm rounded transition-colors ${
                             currentPage === page
-                              ? 'bg-blue-600 text-white'
-                              : 'border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700'
+                              ? "bg-blue-600 text-white"
+                              : "border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
                           }`}
                         >
                           {page}
@@ -213,15 +243,15 @@ export default function PaginationPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
-              {<DynamicCodeExample 
-                componentName="pagination" 
-                activeTab={activeTab} 
-              />}
+              {
+                <DynamicCodeExample
+                  componentName="pagination"
+                  activeTab={activeTab}
+                />
+              }
             </div>
           </div>
         </div>
@@ -234,31 +264,55 @@ export default function PaginationPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smart Page Numbers</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Show ellipsis for large page ranges</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smart Page Numbers
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Show ellipsis for large page ranges
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Items Per Page</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Configurable page size with automatic reset</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Items Per Page
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Configurable page size with automatic reset
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Navigation Controls</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">First, previous, next, and last page buttons</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Navigation Controls
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                First, previous, next, and last page buttons
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Status Information</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Show current page and total items count</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Status Information
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Show current page and total items count
+              </p>
             </div>
           </div>
         </div>
@@ -272,18 +326,30 @@ export default function PaginationPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Tables</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Navigate through large datasets and records</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Data Tables
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Navigate through large datasets and records
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛒</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">E-commerce</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Browse product catalogs and search results</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              E-commerce
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Browse product catalogs and search results
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📰</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Lists</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Display articles, posts, and content feeds</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Content Lists
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Display articles, posts, and content feeds
+            </p>
           </div>
         </div>
       </div>

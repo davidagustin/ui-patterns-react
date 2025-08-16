@@ -1,11 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function MobileMenuPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOverlayMenuOpen, setIsOverlayMenuOpen] = useState(false);
   const [isSlideMenuOpen, setIsSlideMenuOpen] = useState(false);
@@ -13,28 +12,28 @@ export default function MobileMenuPattern() {
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOverlayMenuOpen || isSlideMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
 
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isOverlayMenuOpen, isSlideMenuOpen]);
 
   const menuItems = [
-    { id: 1, name: 'Home', icon: '🏠', href: '#' },
-    { id: 2, name: 'Products', icon: '📦', href: '#' },
-    { id: 3, name: 'Services', icon: '🛠️', href: '#' },
-    { id: 4, name: 'About', icon: 'ℹ️', href: '#' },
-    { id: 5, name: 'Contact', icon: '📞', href: '#' },
+    { id: 1, name: "Home", icon: "🏠", href: "#" },
+    { id: 2, name: "Products", icon: "📦", href: "#" },
+    { id: 3, name: "Services", icon: "🛠️", href: "#" },
+    { id: 4, name: "About", icon: "ℹ️", href: "#" },
+    { id: 5, name: "Contact", icon: "📞", href: "#" },
   ];
 
   const socialLinks = [
-    { id: 1, name: 'Facebook', icon: '📘', href: '#' },
-    { id: 2, name: 'Twitter', icon: '🐦', href: '#' },
-    { id: 3, name: 'Instagram', icon: '📷', href: '#' },
+    { id: 1, name: "Facebook", icon: "📘", href: "#" },
+    { id: 2, name: "Twitter", icon: "🐦", href: "#" },
+    { id: 3, name: "Instagram", icon: "📷", href: "#" },
   ];
 
   return (
@@ -44,7 +43,8 @@ export default function MobileMenuPattern() {
           🍔 Mobile Menu (Hamburger) Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Create responsive hamburger menus for mobile navigation with smooth animations, overlay effects, and gesture support.
+          Create responsive hamburger menus for mobile navigation with smooth
+          animations, overlay effects, and gesture support.
         </p>
       </div>
 
@@ -56,13 +56,16 @@ export default function MobileMenuPattern() {
               🎯 Interactive Examples
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Three different mobile menu styles: collapsible, full-screen overlay, and slide-in sidebar.
+              Three different mobile menu styles: collapsible, full-screen
+              overlay, and slide-in sidebar.
             </p>
-            
+
             <div className="space-y-6">
               {/* Collapsible Menu */}
               <div className="space-y-2">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200">1. Collapsible Menu</h3>
+                <h3 className="font-medium text-gray-800 dark:text-gray-200">
+                  1. Collapsible Menu
+                </h3>
                 <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
                   {/* Mobile Header */}
                   <div className="bg-white dark:bg-gray-800 px-4 py-3 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
@@ -70,7 +73,9 @@ export default function MobileMenuPattern() {
                       <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                         <span className="text-white font-bold text-sm">L</span>
                       </div>
-                      <span className="font-semibold text-gray-900 dark:text-gray-100">Logo</span>
+                      <span className="font-semibold text-gray-900 dark:text-gray-100">
+                        Logo
+                      </span>
                     </div>
                     <button
                       onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -78,23 +83,31 @@ export default function MobileMenuPattern() {
                       aria-label="Toggle menu"
                     >
                       <div className="w-6 h-6 flex flex-col justify-center space-y-1">
-                        <span className={`block h-0.5 w-6 bg-gray-600 dark:bg-gray-300 transition-all duration-300 ${
-                          isMenuOpen ? 'rotate-45 translate-y-1.5' : ''
-                        }`}></span>
-                        <span className={`block h-0.5 w-6 bg-gray-600 dark:bg-gray-300 transition-all duration-300 ${
-                          isMenuOpen ? 'opacity-0' : ''
-                        }`}></span>
-                        <span className={`block h-0.5 w-6 bg-gray-600 dark:bg-gray-300 transition-all duration-300 ${
-                          isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''
-                        }`}></span>
+                        <span
+                          className={`block h-0.5 w-6 bg-gray-600 dark:bg-gray-300 transition-all duration-300 ${
+                            isMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                          }`}
+                        ></span>
+                        <span
+                          className={`block h-0.5 w-6 bg-gray-600 dark:bg-gray-300 transition-all duration-300 ${
+                            isMenuOpen ? "opacity-0" : ""
+                          }`}
+                        ></span>
+                        <span
+                          className={`block h-0.5 w-6 bg-gray-600 dark:bg-gray-300 transition-all duration-300 ${
+                            isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+                          }`}
+                        ></span>
                       </div>
                     </button>
                   </div>
 
                   {/* Collapsible Menu Content */}
-                  <div className={`bg-white dark:bg-gray-800 transition-all duration-300 ease-in-out overflow-hidden ${
-                    isMenuOpen ? 'max-h-96' : 'max-h-0'
-                  }`}>
+                  <div
+                    className={`bg-white dark:bg-gray-800 transition-all duration-300 ease-in-out overflow-hidden ${
+                      isMenuOpen ? "max-h-96" : "max-h-0"
+                    }`}
+                  >
                     <nav className="py-2">
                       {menuItems.map((item) => (
                         <button
@@ -112,7 +125,9 @@ export default function MobileMenuPattern() {
 
               {/* Overlay Menu */}
               <div className="space-y-2">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200">2. Full-Screen Overlay</h3>
+                <h3 className="font-medium text-gray-800 dark:text-gray-200">
+                  2. Full-Screen Overlay
+                </h3>
                 <button
                   onClick={() => setIsOverlayMenuOpen(true)}
                   className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -124,7 +139,9 @@ export default function MobileMenuPattern() {
 
               {/* Slide Menu */}
               <div className="space-y-2">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200">3. Slide-in Sidebar</h3>
+                <h3 className="font-medium text-gray-800 dark:text-gray-200">
+                  3. Slide-in Sidebar
+                </h3>
                 <button
                   onClick={() => setIsSlideMenuOpen(true)}
                   className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
@@ -136,7 +153,9 @@ export default function MobileMenuPattern() {
             </div>
 
             <div className="mt-6 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Interactive Features</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                Interactive Features
+              </h4>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <div>• Animated hamburger icon transformation</div>
                 <div>• Smooth slide and fade animations</div>
@@ -157,14 +176,26 @@ export default function MobileMenuPattern() {
                     <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                       <span className="text-white font-bold">L</span>
                     </div>
-                    <span className="text-xl font-semibold text-gray-900 dark:text-gray-100">Logo</span>
+                    <span className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                      Logo
+                    </span>
                   </div>
                   <button
                     onClick={() => setIsOverlayMenuOpen(false)}
                     className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                   >
-                    <svg className="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      className="w-6 h-6 text-gray-600 dark:text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -202,11 +233,11 @@ export default function MobileMenuPattern() {
           {isSlideMenuOpen && (
             <div className="fixed inset-0 z-50">
               {/* Backdrop */}
-              <div 
+              <div
                 className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
                 onClick={() => setIsSlideMenuOpen(false)}
               ></div>
-              
+
               {/* Slide Panel */}
               <div className="absolute top-0 left-0 h-full w-80 bg-white dark:bg-gray-900 shadow-xl transform transition-transform animate-slideInLeft">
                 {/* Header */}
@@ -215,14 +246,26 @@ export default function MobileMenuPattern() {
                     <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
                       <span className="text-white font-bold text-sm">L</span>
                     </div>
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Menu</span>
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">
+                      Menu
+                    </span>
                   </div>
                   <button
                     onClick={() => setIsSlideMenuOpen(false)}
                     className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                   >
-                    <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 </div>
@@ -244,11 +287,17 @@ export default function MobileMenuPattern() {
                 <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">JD</span>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                        JD
+                      </span>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">John Doe</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">john@example.com</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                        John Doe
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        john@example.com
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -263,16 +312,14 @@ export default function MobileMenuPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="mobile-menu" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="mobile-menu"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -286,45 +333,81 @@ export default function MobileMenuPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Animated Hamburger Icon</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Transforms into X when menu is open</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Animated Hamburger Icon
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Transforms into X when menu is open
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Menu Styles</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Collapsible, overlay, and slide-in options</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Menu Styles
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Collapsible, overlay, and slide-in options
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Animations</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">CSS transitions and keyframe animations</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smooth Animations
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                CSS transitions and keyframe animations
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Body Scroll Prevention</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Prevents background scrolling when menu is open</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Body Scroll Prevention
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Prevents background scrolling when menu is open
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Touch-Friendly</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Optimized for mobile touch interactions</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Touch-Friendly
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Optimized for mobile touch interactions
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Accessibility Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Keyboard navigation and screen reader friendly</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Accessibility Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Keyboard navigation and screen reader friendly
+              </p>
             </div>
           </div>
         </div>
@@ -338,18 +421,30 @@ export default function MobileMenuPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📱</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Mobile Websites</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Responsive navigation for mobile devices</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Mobile Websites
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Responsive navigation for mobile devices
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📲</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Progressive Web Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">App-like navigation experiences</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Progressive Web Apps
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              App-like navigation experiences
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🌐</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Responsive Design</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Adaptive navigation that works across devices</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Responsive Design
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Adaptive navigation that works across devices
+            </p>
           </div>
         </div>
       </div>
@@ -358,19 +453,27 @@ export default function MobileMenuPattern() {
         .animate-fadeIn {
           animation: fadeIn 0.3s ease-out;
         }
-        
+
         .animate-slideInLeft {
           animation: slideInLeft 0.3s ease-out;
         }
-        
+
         @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
         }
-        
+
         @keyframes slideInLeft {
-          from { transform: translateX(-100%); }
-          to { transform: translateX(0); }
+          from {
+            transform: translateX(-100%);
+          }
+          to {
+            transform: translateX(0);
+          }
         }
       `}</style>
     </div>

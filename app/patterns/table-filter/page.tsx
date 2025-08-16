@@ -1,65 +1,124 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useMemo } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function TableFilterPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [roleFilter, setRoleFilter] = useState('all');
-  const [sortBy, setSortBy] = useState('name');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("name");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const sampleData = [
-    { id: 1, name: 'John Smith', email: 'john@email.com', role: 'Developer', department: 'Engineering', status: 'Active' },
-    { id: 2, name: 'Sarah Johnson', email: 'sarah@email.com', role: 'Designer', department: 'Design', status: 'Active' },
-    { id: 3, name: 'Mike Wilson', email: 'mike@email.com', role: 'Manager', department: 'Product', status: 'Inactive' },
-    { id: 4, name: 'Emily Davis', email: 'emily@email.com', role: 'Developer', department: 'Engineering', status: 'Active' },
-    { id: 5, name: 'David Brown', email: 'david@email.com', role: 'Analyst', department: 'Data', status: 'Active' },
-    { id: 6, name: 'Lisa Chen', email: 'lisa@email.com', role: 'Designer', department: 'Design', status: 'Inactive' },
-    { id: 7, name: 'Tom Anderson', email: 'tom@email.com', role: 'Developer', department: 'Engineering', status: 'Active' },
-    { id: 8, name: 'Maria Garcia', email: 'maria@email.com', role: 'Manager', department: 'Marketing', status: 'Active' }
+    {
+      id: 1,
+      name: "John Smith",
+      email: "john@email.com",
+      role: "Developer",
+      department: "Engineering",
+      status: "Active",
+    },
+    {
+      id: 2,
+      name: "Sarah Johnson",
+      email: "sarah@email.com",
+      role: "Designer",
+      department: "Design",
+      status: "Active",
+    },
+    {
+      id: 3,
+      name: "Mike Wilson",
+      email: "mike@email.com",
+      role: "Manager",
+      department: "Product",
+      status: "Inactive",
+    },
+    {
+      id: 4,
+      name: "Emily Davis",
+      email: "emily@email.com",
+      role: "Developer",
+      department: "Engineering",
+      status: "Active",
+    },
+    {
+      id: 5,
+      name: "David Brown",
+      email: "david@email.com",
+      role: "Analyst",
+      department: "Data",
+      status: "Active",
+    },
+    {
+      id: 6,
+      name: "Lisa Chen",
+      email: "lisa@email.com",
+      role: "Designer",
+      department: "Design",
+      status: "Inactive",
+    },
+    {
+      id: 7,
+      name: "Tom Anderson",
+      email: "tom@email.com",
+      role: "Developer",
+      department: "Engineering",
+      status: "Active",
+    },
+    {
+      id: 8,
+      name: "Maria Garcia",
+      email: "maria@email.com",
+      role: "Manager",
+      department: "Marketing",
+      status: "Active",
+    },
   ];
 
-  const roles = [...new Set(sampleData.map(item => item.role))];
-  const departments = [...new Set(sampleData.map(item => item.department))];
-  const statuses = [...new Set(sampleData.map(item => item.status))];
+  const roles = [...new Set(sampleData.map((item) => item.role))];
+  const departments = [...new Set(sampleData.map((item) => item.department))];
+  const statuses = [...new Set(sampleData.map((item) => item.status))];
 
   const filteredData = useMemo(() => {
-    return sampleData.filter(item => {
-      const nameMatch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                       item.email.toLowerCase().includes(searchTerm.toLowerCase());
-      const roleMatch = roleFilter === 'all' || item.role === roleFilter;
-      const statusMatch = statusFilter === 'all' || item.status === statusFilter;
-              const departmentMatch = true; // Simplified for this example
+    return sampleData.filter((item) => {
+      const nameMatch =
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.email.toLowerCase().includes(searchTerm.toLowerCase());
+      const roleMatch = roleFilter === "all" || item.role === roleFilter;
+      const statusMatch =
+        statusFilter === "all" || item.status === statusFilter;
+      const departmentMatch = true; // Simplified for this example
 
-        return nameMatch && roleMatch && statusMatch && departmentMatch;
-      });
-    }, [searchTerm, statusFilter, roleFilter]);
+      return nameMatch && roleMatch && statusMatch && departmentMatch;
+    });
+  }, [searchTerm, statusFilter, roleFilter]);
 
-    const handleSort = (field: string) => {
-      if (sortBy === field) {
-        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-      } else {
-        setSortBy(field);
-        setSortOrder('asc');
-      }
-    };
-
-    const clearFilters = () => {
-      setSearchTerm('');
-      setStatusFilter('all');
-      setRoleFilter('all');
-    };
-
-  const getStatusColor = (status: string) => {
-    return status === 'Active' 
-      ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
-      : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
+  const handleSort = (field: string) => {
+    if (sortBy === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortBy(field);
+      setSortOrder("asc");
+    }
   };
 
-      const hasActiveFilters = searchTerm !== '' || statusFilter !== 'all' || roleFilter !== 'all';
+  const clearFilters = () => {
+    setSearchTerm("");
+    setStatusFilter("all");
+    setRoleFilter("all");
+  };
+
+  const getStatusColor = (status: string) => {
+    return status === "Active"
+      ? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
+      : "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400";
+  };
+
+  const hasActiveFilters =
+    searchTerm !== "" || statusFilter !== "all" || roleFilter !== "all";
 
   return (
     <div className="space-y-8">
@@ -68,7 +127,8 @@ export default function TableFilterPattern() {
           🔍 Table Filter
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Filter table data with multiple criteria to find specific records quickly and efficiently.
+          Filter table data with multiple criteria to find specific records
+          quickly and efficiently.
         </p>
       </div>
 
@@ -79,12 +139,14 @@ export default function TableFilterPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             <div className="space-y-4">
               {/* Filter Controls */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Filters</h3>
+                  <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Filters
+                  </h3>
                   {hasActiveFilters && (
                     <button
                       onClick={clearFilters}
@@ -119,8 +181,10 @@ export default function TableFilterPattern() {
                       className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="all">All Roles</option>
-                      {roles.map(role => (
-                        <option key={role} value={role}>{role}</option>
+                      {roles.map((role) => (
+                        <option key={role} value={role}>
+                          {role}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -135,8 +199,10 @@ export default function TableFilterPattern() {
                       className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="all">All Departments</option>
-                      {departments.map(dept => (
-                        <option key={dept} value={dept}>{dept}</option>
+                      {departments.map((dept) => (
+                        <option key={dept} value={dept}>
+                          {dept}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -151,8 +217,10 @@ export default function TableFilterPattern() {
                       className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="all">All Statuses</option>
-                      {statuses.map(status => (
-                        <option key={status} value={status}>{status}</option>
+                      {statuses.map((status) => (
+                        <option key={status} value={status}>
+                          {status}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -192,7 +260,10 @@ export default function TableFilterPattern() {
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {filteredData.map((row) => (
-                      <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <tr
+                        key={row.id}
+                        className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                      >
                         <td className="px-4 py-3">
                           <div>
                             <div className="font-medium text-gray-900 dark:text-gray-100">
@@ -210,7 +281,9 @@ export default function TableFilterPattern() {
                           {row.department}
                         </td>
                         <td className="px-4 py-3">
-                          <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(row.status)}`}>
+                          <span
+                            className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(row.status)}`}
+                          >
                             {row.status}
                           </span>
                         </td>
@@ -242,16 +315,14 @@ export default function TableFilterPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="table-filter" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="table-filter"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -265,31 +336,55 @@ export default function TableFilterPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Filters</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Filter by multiple criteria simultaneously</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Filters
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Filter by multiple criteria simultaneously
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Real-time Filtering</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Results update as you type or select</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Real-time Filtering
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Results update as you type or select
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Clear Filters</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Easy way to reset all filters</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Clear Filters
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Easy way to reset all filters
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Results Count</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Show how many results match filters</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Results Count
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Show how many results match filters
+              </p>
             </div>
           </div>
         </div>
@@ -303,18 +398,30 @@ export default function TableFilterPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">👥</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">User Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Filter users by role, status, or department</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              User Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Filter users by role, status, or department
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📦</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Product Catalogs</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Filter products by category, price, or availability</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Product Catalogs
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Filter products by category, price, or availability
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Analysis</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Filter datasets by various criteria</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Data Analysis
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Filter datasets by various criteria
+            </p>
           </div>
         </div>
       </div>

@@ -1,118 +1,150 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ArticleListPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'popular'>('newest');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [sortBy, setSortBy] = useState<"newest" | "oldest" | "popular">(
+    "newest",
+  );
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const articles = [
     {
       id: 1,
-      title: 'Building Scalable React Applications with Modern Architecture',
-      summary: 'Learn how to structure large React applications using modern patterns like component composition, custom hooks, and state management solutions.',
-      author: 'Sarah Chen',
-      date: '2024-01-14',
-      readTime: '8 min read',
-      category: 'React',
-      image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=200&fit=crop',
-      fallback: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=',
-      tags: ['React', 'Architecture', 'JavaScript'],
+      title: "Building Scalable React Applications with Modern Architecture",
+      summary:
+        "Learn how to structure large React applications using modern patterns like component composition, custom hooks, and state management solutions.",
+      author: "Sarah Chen",
+      date: "2024-01-14",
+      readTime: "8 min read",
+      category: "React",
+      image:
+        "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=200&fit=crop",
+      fallback:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=",
+      tags: ["React", "Architecture", "JavaScript"],
       likes: 245,
-      comments: 18
+      comments: 18,
     },
     {
       id: 2,
-      title: 'The Future of Web Development: Trends to Watch in 2024',
-      summary: 'Explore the emerging technologies and frameworks that are shaping the future of web development, from AI-powered tools to edge computing.',
-      author: 'Michael Rodriguez',
-      date: '2024-01-11',
-      readTime: '12 min read',
-      category: 'Trends',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjM0I4MkY2Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPlRoZSBGdXR1cmUgb2YgV2ViPC90ZXh0Pgo8L3N2Zz4K',
-      fallback: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=',
-      tags: ['Web Development', 'AI', 'Trends'],
+      title: "The Future of Web Development: Trends to Watch in 2024",
+      summary:
+        "Explore the emerging technologies and frameworks that are shaping the future of web development, from AI-powered tools to edge computing.",
+      author: "Michael Rodriguez",
+      date: "2024-01-11",
+      readTime: "12 min read",
+      category: "Trends",
+      image:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjM0I4MkY2Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPlRoZSBGdXR1cmUgb2YgV2ViPC90ZXh0Pgo8L3N2Zz4K",
+      fallback:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=",
+      tags: ["Web Development", "AI", "Trends"],
       likes: 189,
-      comments: 24
+      comments: 24,
     },
     {
       id: 3,
-      title: 'Mastering CSS Grid: Advanced Layout Techniques',
-      summary: 'Deep dive into CSS Grid with practical examples and advanced techniques for creating complex, responsive layouts with clean code.',
-      author: 'Emily Johnson',
-      date: '2024-01-10',
-      readTime: '15 min read',
-      category: 'CSS',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop',
-      fallback: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=',
-      tags: ['CSS', 'Grid', 'Layout'],
+      title: "Mastering CSS Grid: Advanced Layout Techniques",
+      summary:
+        "Deep dive into CSS Grid with practical examples and advanced techniques for creating complex, responsive layouts with clean code.",
+      author: "Emily Johnson",
+      date: "2024-01-10",
+      readTime: "15 min read",
+      category: "CSS",
+      image:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop",
+      fallback:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=",
+      tags: ["CSS", "Grid", "Layout"],
       likes: 312,
-      comments: 31
+      comments: 31,
     },
     {
       id: 4,
-      title: 'TypeScript Best Practices for Enterprise Applications',
-      summary: 'Comprehensive guide to using TypeScript effectively in large-scale applications, covering type safety, performance, and maintainability.',
-      author: 'David Kim',
-      date: '2024-01-08',
-      readTime: '10 min read',
-      category: 'TypeScript',
-      image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=400&h=200&fit=crop',
-      fallback: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=',
-      tags: ['TypeScript', 'Enterprise', 'Best Practices'],
+      title: "TypeScript Best Practices for Enterprise Applications",
+      summary:
+        "Comprehensive guide to using TypeScript effectively in large-scale applications, covering type safety, performance, and maintainability.",
+      author: "David Kim",
+      date: "2024-01-08",
+      readTime: "10 min read",
+      category: "TypeScript",
+      image:
+        "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=400&h=200&fit=crop",
+      fallback:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=",
+      tags: ["TypeScript", "Enterprise", "Best Practices"],
       likes: 156,
-      comments: 12
+      comments: 12,
     },
     {
       id: 5,
-      title: 'Building Accessible Web Components with ARIA',
-      summary: 'Learn how to create web components that work for everyone by implementing proper ARIA attributes and accessibility best practices.',
-      author: 'Lisa Wang',
-      date: '2024-01-05',
-      readTime: '11 min read',
-      category: 'Accessibility',
-      image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop',
-      fallback: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=',
-      tags: ['Accessibility', 'ARIA', 'Web Components'],
+      title: "Building Accessible Web Components with ARIA",
+      summary:
+        "Learn how to create web components that work for everyone by implementing proper ARIA attributes and accessibility best practices.",
+      author: "Lisa Wang",
+      date: "2024-01-05",
+      readTime: "11 min read",
+      category: "Accessibility",
+      image:
+        "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop",
+      fallback:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=",
+      tags: ["Accessibility", "ARIA", "Web Components"],
       likes: 203,
-      comments: 16
+      comments: 16,
     },
     {
       id: 6,
-      title: 'Performance Optimization Strategies for Modern Web Apps',
-      summary: 'Practical techniques for optimizing web application performance, including code splitting, lazy loading, and efficient state management.',
-      author: 'Alex Thompson',
-      date: '2024-01-03',
-      readTime: '13 min read',
-      category: 'Performance',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop',
-      fallback: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=',
-      tags: ['Performance', 'Optimization', 'Web Apps'],
+      title: "Performance Optimization Strategies for Modern Web Apps",
+      summary:
+        "Practical techniques for optimizing web application performance, including code splitting, lazy loading, and efficient state management.",
+      author: "Alex Thompson",
+      date: "2024-01-03",
+      readTime: "13 min read",
+      category: "Performance",
+      image:
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop",
+      fallback:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjNkI3MjgwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+Cjwvc3ZnPgo=",
+      tags: ["Performance", "Optimization", "Web Apps"],
       likes: 278,
-      comments: 22
-    }
+      comments: 22,
+    },
   ];
 
-  const categories = ['all', 'React', 'CSS', 'TypeScript', 'Trends', 'Accessibility', 'Performance'];
+  const categories = [
+    "all",
+    "React",
+    "CSS",
+    "TypeScript",
+    "Trends",
+    "Accessibility",
+    "Performance",
+  ];
 
-  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>, fallbackUrl: string) => {
+  const handleImageError = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>,
+    fallbackUrl: string,
+  ) => {
     event.currentTarget.src = fallbackUrl;
   };
 
   const getSortedArticles = () => {
-    const filtered = selectedCategory === 'all' 
-      ? articles 
-      : articles.filter(article => article.category === selectedCategory);
-    
+    const filtered =
+      selectedCategory === "all"
+        ? articles
+        : articles.filter((article) => article.category === selectedCategory);
+
     return filtered.sort((a, b) => {
       switch (sortBy) {
-        case 'newest':
+        case "newest":
           return new Date(b.date).getTime() - new Date(a.date).getTime();
-        case 'oldest':
+        case "oldest":
           return new Date(a.date).getTime() - new Date(b.date).getTime();
-        case 'popular':
+        case "popular":
           return b.likes - a.likes;
         default:
           return 0;
@@ -122,10 +154,10 @@ export default function ArticleListPattern() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -136,7 +168,8 @@ export default function ArticleListPattern() {
           📰 Article List Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Display articles and blog posts in an organized, scannable list with filtering, sorting, and rich metadata.
+          Display articles and blog posts in an organized, scannable list with
+          filtering, sorting, and rich metadata.
         </p>
       </div>
 
@@ -148,16 +181,22 @@ export default function ArticleListPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Browse through articles with different sorting options and category filters. Each article shows key metadata and engagement metrics.
+              Browse through articles with different sorting options and
+              category filters. Each article shows key metadata and engagement
+              metrics.
             </p>
-            
+
             {/* Controls */}
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
               <div className="flex items-center space-x-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Sort by:</label>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Sort by:
+                </label>
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as 'newest' | 'oldest' | 'popular')}
+                  onChange={(e) =>
+                    setSortBy(e.target.value as "newest" | "oldest" | "popular")
+                  }
                   className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800"
                 >
                   <option value="newest">Newest First</option>
@@ -166,15 +205,17 @@ export default function ArticleListPattern() {
                 </select>
               </div>
               <div className="flex items-center space-x-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Category:</label>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Category:
+                </label>
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                   className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-800"
                 >
-                  {categories.map(category => (
+                  {categories.map((category) => (
                     <option key={category} value={category}>
-                      {category === 'all' ? 'All Categories' : category}
+                      {category === "all" ? "All Categories" : category}
                     </option>
                   ))}
                 </select>
@@ -184,7 +225,10 @@ export default function ArticleListPattern() {
             {/* Article List */}
             <div className="space-y-4 max-h-96 overflow-y-auto">
               {getSortedArticles().map((article) => (
-                <article key={article.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow">
+                <article
+                  key={article.id}
+                  className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow"
+                >
                   <div className="flex">
                     <div className="w-24 h-24 bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
                       <img
@@ -237,16 +281,14 @@ export default function ArticleListPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="article-list" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="article-list"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -260,31 +302,55 @@ export default function ArticleListPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Rich Metadata</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Author, date, read time, and engagement metrics</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Rich Metadata
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Author, date, read time, and engagement metrics
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Sorting & Filtering</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Sort by date or popularity, filter by category</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Sorting & Filtering
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Sort by date or popularity, filter by category
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Hierarchy</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear title, summary, and metadata organization</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Hierarchy
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear title, summary, and metadata organization
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Responsive Layout</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Adapts from desktop to mobile seamlessly</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Responsive Layout
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Adapts from desktop to mobile seamlessly
+              </p>
             </div>
           </div>
         </div>
@@ -298,18 +364,30 @@ export default function ArticleListPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Blog Platforms</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">List blog posts with rich metadata and filtering</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Blog Platforms
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              List blog posts with rich metadata and filtering
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📚</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Documentation</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Organize technical articles and guides</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Documentation
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Organize technical articles and guides
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📰</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">News Sites</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Display news articles with timestamps and categories</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              News Sites
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Display news articles with timestamps and categories
+            </p>
           </div>
         </div>
       </div>

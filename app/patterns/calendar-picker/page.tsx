@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
-import Tooltip from '../../../components/Tooltip';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+import Tooltip from "../../../components/Tooltip";
 
 export default function CalendarPickerPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
-  const [selectedTime, setSelectedTime] = useState('12:00');
+  const [selectedTime, setSelectedTime] = useState("12:00");
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -23,7 +23,7 @@ export default function CalendarPickerPattern() {
   };
 
   const getMonthName = (date: Date) => {
-    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
   };
 
   const isToday = (day: number) => {
@@ -45,17 +45,25 @@ export default function CalendarPickerPattern() {
   };
 
   const handleDateSelect = (day: number) => {
-    const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+    const newDate = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth(),
+      day,
+    );
     setSelectedDate(newDate);
     setShowCalendar(false);
   };
 
   const goToPreviousMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1),
+    );
   };
 
   const goToNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1),
+    );
   };
 
   const goToToday = () => {
@@ -65,12 +73,12 @@ export default function CalendarPickerPattern() {
   };
 
   const formatSelectedDate = () => {
-    if (!selectedDate) return 'Select a date';
-    return selectedDate.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    if (!selectedDate) return "Select a date";
+    return selectedDate.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
@@ -78,14 +86,17 @@ export default function CalendarPickerPattern() {
 
   const renderCalendar = () => {
     const days = [];
-    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     // Add day headers
-    dayNames.forEach(day => {
+    dayNames.forEach((day) => {
       days.push(
-        <div key={day} className="text-center text-sm font-medium text-gray-500 dark:text-gray-400 py-2">
+        <div
+          key={day}
+          className="text-center text-sm font-medium text-gray-500 dark:text-gray-400 py-2"
+        >
           {day}
-        </div>
+        </div>,
       );
     });
 
@@ -102,14 +113,14 @@ export default function CalendarPickerPattern() {
           onClick={() => handleDateSelect(day)}
           className={`h-10 w-10 rounded-full text-sm font-medium transition-all duration-200 hover:bg-blue-100 dark:hover:bg-blue-900/20 ${
             isToday(day)
-              ? 'bg-blue-600 text-white hover:bg-blue-700'
+              ? "bg-blue-600 text-white hover:bg-blue-700"
               : isSelected(day)
-              ? 'bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
-              : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                ? "bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                : "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
           }`}
         >
           {day}
-        </button>
+        </button>,
       );
     }
 
@@ -123,7 +134,8 @@ export default function CalendarPickerPattern() {
           📅 Calendar Picker Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Provide intuitive date and time selection with a visual calendar interface and time picker.
+          Provide intuitive date and time selection with a visual calendar
+          interface and time picker.
         </p>
       </div>
 
@@ -135,9 +147,10 @@ export default function CalendarPickerPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Click the date input to open the calendar picker. Select a date and time to see the pattern in action.
+              Click the date input to open the calendar picker. Select a date
+              and time to see the pattern in action.
             </p>
-            
+
             <div className="space-y-4">
               {/* Date Input */}
               <div>
@@ -147,7 +160,11 @@ export default function CalendarPickerPattern() {
                 <div className="relative">
                   <input
                     type="text"
-                    value={selectedDate ? `${formatSelectedDate()} at ${selectedTime}` : 'Click to select date and time'}
+                    value={
+                      selectedDate
+                        ? `${formatSelectedDate()} at ${selectedTime}`
+                        : "Click to select date and time"
+                    }
                     onClick={() => setShowCalendar(!showCalendar)}
                     readOnly
                     className="input-field cursor-pointer"
@@ -265,15 +282,15 @@ export default function CalendarPickerPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
-              {<DynamicCodeExample 
-                componentName="calendar-picker" 
-                activeTab={activeTab} 
-              />}
+              {
+                <DynamicCodeExample
+                  componentName="calendar-picker"
+                  activeTab={activeTab}
+                />
+              }
             </div>
           </div>
         </div>
@@ -286,31 +303,55 @@ export default function CalendarPickerPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Calendar</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Intuitive month view with day selection</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Calendar
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Intuitive month view with day selection
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Time Picker</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Select both date and time in one interface</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Time Picker
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Select both date and time in one interface
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Navigation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Easy month navigation and today button</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Navigation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Easy month navigation and today button
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Today Highlighting</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Current date is visually highlighted</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Today Highlighting
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Current date is visually highlighted
+              </p>
             </div>
           </div>
         </div>
@@ -324,18 +365,30 @@ export default function CalendarPickerPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📅</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Event Scheduling</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Book appointments and schedule meetings</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Event Scheduling
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Book appointments and schedule meetings
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">✈️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Travel Booking</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Select departure and arrival dates</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Travel Booking
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Select departure and arrival dates
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Form Input</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Date and time fields in forms</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Form Input
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Date and time fields in forms
+            </p>
           </div>
         </div>
       </div>

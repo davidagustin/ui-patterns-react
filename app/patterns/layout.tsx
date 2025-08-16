@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function PatternLayout({
   children,
@@ -8,8 +8,8 @@ export default function PatternLayout({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium transition-colors"
         >
           <span className="mr-2">←</span>
@@ -19,9 +19,7 @@ export default function PatternLayout({
           UI Patterns Learning App
         </div>
       </div>
-      <div className="pattern-card">
-        {children}
-      </div>
+      <div className="pattern-card">{children}</div>
     </div>
   );
 }

@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function FatFooterPattern() {
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -12,7 +11,8 @@ export default function FatFooterPattern() {
           🦶 Fat Footer Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Comprehensive footer navigation with multiple sections, links, and information organized in a rich, detailed layout.
+          Comprehensive footer navigation with multiple sections, links, and
+          information organized in a rich, detailed layout.
         </p>
       </div>
 
@@ -24,9 +24,10 @@ export default function FatFooterPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              A comprehensive footer with company information, navigation links, newsletter signup, and legal information.
+              A comprehensive footer with company information, navigation links,
+              newsletter signup, and legal information.
             </p>
-            
+
             {/* Fat Footer */}
             <div className="bg-gray-900 text-white rounded-lg overflow-hidden">
               <div className="p-6">
@@ -39,13 +40,22 @@ export default function FatFooterPattern() {
                       <span className="text-xl font-bold">TechCorp</span>
                     </div>
                     <p className="text-gray-300 text-sm">
-                      Building innovative solutions for the digital world. Join us in shaping the future of technology.
+                      Building innovative solutions for the digital world. Join
+                      us in shaping the future of technology.
                     </p>
                     <div className="flex space-x-3">
-                      <button className="text-blue-400 hover:text-blue-300">📘</button>
-                      <button className="text-blue-400 hover:text-blue-300">🐦</button>
-                      <button className="text-pink-400 hover:text-pink-300">📷</button>
-                      <button className="text-blue-600 hover:text-blue-500">💼</button>
+                      <button className="text-blue-400 hover:text-blue-300">
+                        📘
+                      </button>
+                      <button className="text-blue-400 hover:text-blue-300">
+                        🐦
+                      </button>
+                      <button className="text-pink-400 hover:text-pink-300">
+                        📷
+                      </button>
+                      <button className="text-blue-600 hover:text-blue-500">
+                        💼
+                      </button>
                     </div>
                   </div>
 
@@ -53,10 +63,38 @@ export default function FatFooterPattern() {
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Products</h3>
                     <ul className="space-y-2 text-sm">
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Web Platform</a></li>
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Mobile App</a></li>
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">API Services</a></li>
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Analytics</a></li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          Web Platform
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          Mobile App
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          API Services
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          Analytics
+                        </a>
+                      </li>
                     </ul>
                   </div>
 
@@ -64,10 +102,38 @@ export default function FatFooterPattern() {
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Company</h3>
                     <ul className="space-y-2 text-sm">
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">About Us</a></li>
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Careers</a></li>
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Press</a></li>
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Contact</a></li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          About Us
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          Careers
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          Press
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          Contact
+                        </a>
+                      </li>
                     </ul>
                   </div>
 
@@ -75,10 +141,38 @@ export default function FatFooterPattern() {
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Support</h3>
                     <ul className="space-y-2 text-sm">
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Help Center</a></li>
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Documentation</a></li>
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Community</a></li>
-                      <li><a href="#" className="text-gray-300 hover:text-white transition-colors">Status</a></li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          Help Center
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          Documentation
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          Community
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          className="text-gray-300 hover:text-white transition-colors"
+                        >
+                          Status
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -87,8 +181,12 @@ export default function FatFooterPattern() {
                 <div className="pt-4 border-t border-gray-700">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold mb-2">Stay Updated</h3>
-                      <p className="text-gray-300 text-sm">Get the latest news and updates delivered to your inbox.</p>
+                      <h3 className="text-lg font-semibold mb-2">
+                        Stay Updated
+                      </h3>
+                      <p className="text-gray-300 text-sm">
+                        Get the latest news and updates delivered to your inbox.
+                      </p>
                     </div>
                     <div className="flex w-full md:w-auto md:max-w-md">
                       <input
@@ -109,9 +207,15 @@ export default function FatFooterPattern() {
                     © 2024 TechCorp. All rights reserved.
                   </div>
                   <div className="flex space-x-6">
-                    <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-                    <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Privacy Policy
+                    </a>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Terms of Service
+                    </a>
+                    <a href="#" className="hover:text-white transition-colors">
+                      Cookie Policy
+                    </a>
                   </div>
                 </div>
               </div>
@@ -125,13 +229,13 @@ export default function FatFooterPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
+
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="fat-footer" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="fat-footer"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>

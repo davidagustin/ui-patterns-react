@@ -1,11 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function VerticalDropdownPattern() {
-
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
   const toggleDropdown = (id: string) => {
@@ -20,47 +19,47 @@ export default function VerticalDropdownPattern() {
 
   const menuItems = [
     {
-      id: 'dashboard',
-      label: 'Dashboard',
-      icon: '📊',
+      id: "dashboard",
+      label: "Dashboard",
+      icon: "📊",
       items: [
-        { id: 'overview', label: 'Overview', icon: '👁️' },
-        { id: 'analytics', label: 'Analytics', icon: '📈' },
-        { id: 'reports', label: 'Reports', icon: '📋' },
-      ]
+        { id: "overview", label: "Overview", icon: "👁️" },
+        { id: "analytics", label: "Analytics", icon: "📈" },
+        { id: "reports", label: "Reports", icon: "📋" },
+      ],
     },
     {
-      id: 'products',
-      label: 'Products',
-      icon: '📦',
+      id: "products",
+      label: "Products",
+      icon: "📦",
       items: [
-        { id: 'catalog', label: 'Product Catalog', icon: '📚' },
-        { id: 'categories', label: 'Categories', icon: '🏷️' },
-        { id: 'inventory', label: 'Inventory', icon: '📦' },
-        { id: 'pricing', label: 'Pricing', icon: '💰' },
-      ]
+        { id: "catalog", label: "Product Catalog", icon: "📚" },
+        { id: "categories", label: "Categories", icon: "🏷️" },
+        { id: "inventory", label: "Inventory", icon: "📦" },
+        { id: "pricing", label: "Pricing", icon: "💰" },
+      ],
     },
     {
-      id: 'users',
-      label: 'Users',
-      icon: '👥',
+      id: "users",
+      label: "Users",
+      icon: "👥",
       items: [
-        { id: 'customers', label: 'Customers', icon: '👤' },
-        { id: 'admins', label: 'Administrators', icon: '👨‍💼' },
-        { id: 'permissions', label: 'Permissions', icon: '🔐' },
-      ]
+        { id: "customers", label: "Customers", icon: "👤" },
+        { id: "admins", label: "Administrators", icon: "👨‍💼" },
+        { id: "permissions", label: "Permissions", icon: "🔐" },
+      ],
     },
     {
-      id: 'settings',
-      label: 'Settings',
-      icon: '⚙️',
+      id: "settings",
+      label: "Settings",
+      icon: "⚙️",
       items: [
-        { id: 'general', label: 'General', icon: '🔧' },
-        { id: 'security', label: 'Security', icon: '🔒' },
-        { id: 'integrations', label: 'Integrations', icon: '🔌' },
-        { id: 'billing', label: 'Billing', icon: '💳' },
-      ]
-    }
+        { id: "general", label: "General", icon: "🔧" },
+        { id: "security", label: "Security", icon: "🔒" },
+        { id: "integrations", label: "Integrations", icon: "🔌" },
+        { id: "billing", label: "Billing", icon: "💳" },
+      ],
+    },
   ];
 
   return (
@@ -70,7 +69,8 @@ export default function VerticalDropdownPattern() {
           📋 Vertical Dropdown Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Organize navigation items in a vertical layout with expandable sections, perfect for sidebars and navigation panels.
+          Organize navigation items in a vertical layout with expandable
+          sections, perfect for sidebars and navigation panels.
         </p>
       </div>
 
@@ -82,13 +82,17 @@ export default function VerticalDropdownPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Click on the sections to expand and collapse the vertical dropdown menus. Notice the smooth animations and nested structure.
+              Click on the sections to expand and collapse the vertical dropdown
+              menus. Notice the smooth animations and nested structure.
             </p>
-            
+
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
               <div className="w-64 bg-gray-50 dark:bg-gray-900">
                 {menuItems.map((section) => (
-                  <div key={section.id} className="border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+                  <div
+                    key={section.id}
+                    className="border-b border-gray-200 dark:border-gray-700 last:border-b-0"
+                  >
                     {/* Section Header */}
                     <button
                       onClick={() => toggleDropdown(section.id)}
@@ -100,7 +104,7 @@ export default function VerticalDropdownPattern() {
                       </div>
                       <svg
                         className={`w-4 h-4 transition-transform duration-200 ${
-                          openDropdowns.has(section.id) ? 'rotate-180' : ''
+                          openDropdowns.has(section.id) ? "rotate-180" : ""
                         }`}
                         fill="currentColor"
                         viewBox="0 0 20 20"
@@ -116,7 +120,9 @@ export default function VerticalDropdownPattern() {
                     {/* Dropdown Items */}
                     <div
                       className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                        openDropdowns.has(section.id) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                        openDropdowns.has(section.id)
+                          ? "max-h-96 opacity-100"
+                          : "max-h-0 opacity-0"
                       }`}
                     >
                       <div className="bg-gray-25 dark:bg-gray-850">
@@ -143,27 +149,34 @@ export default function VerticalDropdownPattern() {
               </h3>
               <div className="w-64">
                 {menuItems.slice(0, 2).map((section) => (
-                  <div key={`accordion-${section.id}`} className="border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+                  <div
+                    key={`accordion-${section.id}`}
+                    className="border-b border-gray-200 dark:border-gray-700 last:border-b-0"
+                  >
                     <button
                       onClick={() => toggleDropdown(`accordion-${section.id}`)}
                       className={`flex items-center justify-between w-full px-4 py-3 text-left transition-colors ${
                         openDropdowns.has(`accordion-${section.id}`)
-                          ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
-                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                          ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                       }`}
                     >
                       <div className="flex items-center space-x-3">
                         <span className="text-lg">{section.icon}</span>
                         <span className="font-medium">{section.label}</span>
                       </div>
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
-                        openDropdowns.has(`accordion-${section.id}`)
-                          ? 'bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-300'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
-                      }`}>
+                      <div
+                        className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
+                          openDropdowns.has(`accordion-${section.id}`)
+                            ? "bg-blue-100 dark:bg-blue-800 text-blue-600 dark:text-blue-300"
+                            : "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
+                        }`}
+                      >
                         <svg
                           className={`w-3 h-3 transition-transform duration-200 ${
-                            openDropdowns.has(`accordion-${section.id}`) ? 'rotate-180' : ''
+                            openDropdowns.has(`accordion-${section.id}`)
+                              ? "rotate-180"
+                              : ""
                           }`}
                           fill="currentColor"
                           viewBox="0 0 20 20"
@@ -179,7 +192,9 @@ export default function VerticalDropdownPattern() {
 
                     <div
                       className={`transition-all duration-300 ease-in-out ${
-                        openDropdowns.has(`accordion-${section.id}`) ? 'max-h-96' : 'max-h-0'
+                        openDropdowns.has(`accordion-${section.id}`)
+                          ? "max-h-96"
+                          : "max-h-0"
                       } overflow-hidden`}
                     >
                       <div className="py-2">
@@ -207,11 +222,11 @@ export default function VerticalDropdownPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
+
             <div className="code-block">
-              <DynamicCodeExample 
-                componentName="vertical-dropdown" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="vertical-dropdown"
+                activeTab={activeTab}
               />
             </div>
           </div>
@@ -225,31 +240,55 @@ export default function VerticalDropdownPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Expandable Sections</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Smooth expand/collapse animations for organized content</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Expandable Sections
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Smooth expand/collapse animations for organized content
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Hierarchy</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear distinction between sections and items</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Hierarchy
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear distinction between sections and items
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Styles</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Standard and accordion-style implementations</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Styles
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Standard and accordion-style implementations
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Icon Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Icons for both sections and individual items</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Icon Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Icons for both sections and individual items
+              </p>
             </div>
           </div>
         </div>
@@ -263,18 +302,30 @@ export default function VerticalDropdownPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🏢</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Admin Sidebars</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Organize admin functions in expandable categories</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Admin Sidebars
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Organize admin functions in expandable categories
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📱</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Mobile Navigation</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Space-efficient navigation for mobile apps</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Mobile Navigation
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Space-efficient navigation for mobile apps
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📚</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Documentation Sites</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Organize content hierarchy in sidebars</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Documentation Sites
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Organize content hierarchy in sidebars
+            </p>
           </div>
         </div>
       </div>

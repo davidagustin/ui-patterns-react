@@ -1,22 +1,45 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function DoubleTapPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [doubleTappedItem, setDoubleTappedItem] = useState<number | null>(null);
   const [likedItems, setLikedItems] = useState<Set<number>>(new Set());
-  
+
   const tapTimers = useRef<Map<number, NodeJS.Timeout>>(new Map());
   const tapCounts = useRef<Map<number, number>>(new Map());
 
   const items = [
-    { id: 1, name: 'Sunset Beach', author: 'John Doe', likes: 124, image: '🌅' },
-    { id: 2, name: 'Mountain Peak', author: 'Jane Smith', likes: 89, image: '🏔️' },
-    { id: 3, name: 'City Lights', author: 'Mike Johnson', likes: 203, image: '🌃' },
-    { id: 4, name: 'Forest Path', author: 'Sarah Wilson', likes: 67, image: '🌲' },
+    {
+      id: 1,
+      name: "Sunset Beach",
+      author: "John Doe",
+      likes: 124,
+      image: "🌅",
+    },
+    {
+      id: 2,
+      name: "Mountain Peak",
+      author: "Jane Smith",
+      likes: 89,
+      image: "🏔️",
+    },
+    {
+      id: 3,
+      name: "City Lights",
+      author: "Mike Johnson",
+      likes: 203,
+      image: "🌃",
+    },
+    {
+      id: 4,
+      name: "Forest Path",
+      author: "Sarah Wilson",
+      likes: 67,
+      image: "🌲",
+    },
   ];
 
   const handleTap = (itemId: number) => {
@@ -32,11 +55,11 @@ export default function DoubleTapPattern() {
     if (newCount === 2) {
       // Double tap detected
       setDoubleTappedItem(itemId);
-      setLikedItems(prev => new Set([...prev, itemId]));
-      
+      setLikedItems((prev) => new Set([...prev, itemId]));
+
       // Reset tap count
       tapCounts.current.set(itemId, 0);
-      
+
       // Show feedback briefly
       setTimeout(() => {
         setDoubleTappedItem(null);
@@ -68,7 +91,8 @@ export default function DoubleTapPattern() {
           👆 Double Tap Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Detect double taps to trigger quick actions like liking content, while single taps perform primary actions.
+          Detect double taps to trigger quick actions like liking content, while
+          single taps perform primary actions.
         </p>
       </div>
 
@@ -80,15 +104,18 @@ export default function DoubleTapPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Double tap any card to like it. Single tap to view details. Watch for the heart animation!
+              Double tap any card to like it. Single tap to view details. Watch
+              for the heart animation!
             </p>
-            
+
             <div className="grid grid-cols-2 gap-4">
               {items.map((item) => (
                 <div
                   key={item.id}
                   className={`relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden cursor-pointer transition-all duration-200 ${
-                    doubleTappedItem === item.id ? 'scale-105 ring-2 ring-red-500' : 'hover:shadow-md'
+                    doubleTappedItem === item.id
+                      ? "scale-105 ring-2 ring-red-500"
+                      : "hover:shadow-md"
                   }`}
                   onClick={() => handleMouseClick(item.id)}
                   onTouchStart={() => handleTouchStart(item.id)}
@@ -97,7 +124,7 @@ export default function DoubleTapPattern() {
                   <div className="h-32 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 flex items-center justify-center text-4xl">
                     {item.image}
                   </div>
-                  
+
                   {/* Content */}
                   <div className="p-3">
                     <h3 className="font-medium text-gray-800 dark:text-gray-200 text-sm">
@@ -108,13 +135,19 @@ export default function DoubleTapPattern() {
                     </p>
                     <div className="flex items-center justify-between mt-2">
                       <div className="flex items-center space-x-1">
-                        <span className={`text-lg transition-all duration-300 ${
-                          likedItems.has(item.id) ? 'text-red-500 scale-110' : 'text-gray-400'
-                        }`}>
-                          {likedItems.has(item.id) ? '❤️' : '🤍'}
+                        <span
+                          className={`text-lg transition-all duration-300 ${
+                            likedItems.has(item.id)
+                              ? "text-red-500 scale-110"
+                              : "text-gray-400"
+                          }`}
+                        >
+                          {likedItems.has(item.id) ? "❤️" : "🤍"}
                         </span>
                         <span className="text-xs text-gray-600 dark:text-gray-400">
-                          {likedItems.has(item.id) ? item.likes + 1 : item.likes}
+                          {likedItems.has(item.id)
+                            ? item.likes + 1
+                            : item.likes}
                         </span>
                       </div>
                       <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -136,7 +169,9 @@ export default function DoubleTapPattern() {
             </div>
 
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">How to Use</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                How to Use
+              </h4>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <div>• Single tap to view item details</div>
                 <div>• Double tap quickly to like the item</div>
@@ -153,16 +188,14 @@ export default function DoubleTapPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="double-tap" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="double-tap"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -176,45 +209,81 @@ export default function DoubleTapPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Tap Detection</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Accurate single and double tap detection</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Tap Detection
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Accurate single and double tap detection
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear animations and state changes</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear animations and state changes
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Configurable Timing</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Customizable tap intervals</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Configurable Timing
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Customizable tap intervals
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Touch & Mouse Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Works on both mobile and desktop</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Touch & Mouse Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Works on both mobile and desktop
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">State Management</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Persistent like states and counters</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                State Management
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Persistent like states and counters
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Accessibility</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Keyboard navigation and screen reader support</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Accessibility
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Keyboard navigation and screen reader support
+              </p>
             </div>
           </div>
         </div>
@@ -228,18 +297,30 @@ export default function DoubleTapPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📱</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Social Media</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Like posts and photos quickly</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Social Media
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Like posts and photos quickly
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🖼️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Photo Galleries</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Favorite images and collections</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Photo Galleries
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Favorite images and collections
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🎵</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Music Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Like songs and playlists</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Music Apps
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Like songs and playlists
+            </p>
           </div>
         </div>
       </div>

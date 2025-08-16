@@ -1,41 +1,47 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function DragDropPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [items, setItems] = useState([
-    { id: 1, text: 'Task 1: Design Review', status: 'todo' },
-    { id: 2, text: 'Task 2: Code Implementation', status: 'todo' },
-    { id: 3, text: 'Task 3: Testing Phase', status: 'in-progress' },
-    { id: 4, text: 'Task 4: Documentation', status: 'done' },
-    { id: 5, text: 'Task 5: Deployment', status: 'done' }
+    { id: 1, text: "Task 1: Design Review", status: "todo" },
+    { id: 2, text: "Task 2: Code Implementation", status: "todo" },
+    { id: 3, text: "Task 3: Testing Phase", status: "in-progress" },
+    { id: 4, text: "Task 4: Documentation", status: "done" },
+    { id: 5, text: "Task 5: Deployment", status: "done" },
   ]);
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
 
   const columns = [
-    { id: 'todo', title: 'To Do', color: 'bg-gray-100 dark:bg-gray-800' },
-    { id: 'in-progress', title: 'In Progress', color: 'bg-blue-100 dark:bg-blue-900/20' },
-    { id: 'done', title: 'Done', color: 'bg-green-100 dark:bg-green-900/20' }
+    { id: "todo", title: "To Do", color: "bg-gray-100 dark:bg-gray-800" },
+    {
+      id: "in-progress",
+      title: "In Progress",
+      color: "bg-blue-100 dark:bg-blue-900/20",
+    },
+    { id: "done", title: "Done", color: "bg-green-100 dark:bg-green-900/20" },
   ];
 
   const handleDragStart = (e: React.DragEvent, itemId: number) => {
     setDraggedItem(itemId);
-    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.effectAllowed = "move";
   };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+    e.dataTransfer.dropEffect = "move";
   };
 
   const handleDrop = (e: React.DragEvent, targetStatus: string) => {
     e.preventDefault();
     if (draggedItem) {
-      setItems(items.map(item =>
-        item.id === draggedItem ? { ...item, status: targetStatus } : item
-      ));
+      setItems(
+        items.map((item) =>
+          item.id === draggedItem ? { ...item, status: targetStatus } : item,
+        ),
+      );
       setDraggedItem(null);
     }
   };
@@ -45,7 +51,7 @@ export default function DragDropPattern() {
   };
 
   const getItemsForColumn = (status: string) => {
-    return items.filter(item => item.status === status);
+    return items.filter((item) => item.status === status);
   };
 
   return (
@@ -55,7 +61,8 @@ export default function DragDropPattern() {
           🎯 Drag & Drop Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Allow users to reorder items or move them between different categories through intuitive drag and drop interactions.
+          Allow users to reorder items or move them between different categories
+          through intuitive drag and drop interactions.
         </p>
       </div>
 
@@ -67,9 +74,10 @@ export default function DragDropPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Drag tasks between columns to change their status. This simulates a Kanban board for task management.
+              Drag tasks between columns to change their status. This simulates
+              a Kanban board for task management.
             </p>
-            
+
             <div className="grid grid-cols-3 gap-4">
               {columns.map((column) => (
                 <div
@@ -89,9 +97,9 @@ export default function DragDropPattern() {
                         onDragStart={(e) => handleDragStart(e, item.id)}
                         onDragEnd={handleDragEnd}
                         className={`bg-white dark:bg-gray-700 p-3 rounded border cursor-move transition-all duration-200 ${
-                          draggedItem === item.id 
-                            ? 'opacity-50 scale-95 shadow-lg' 
-                            : 'hover:shadow-md hover:scale-[1.02]'
+                          draggedItem === item.id
+                            ? "opacity-50 scale-95 shadow-lg"
+                            : "hover:shadow-md hover:scale-[1.02]"
                         }`}
                       >
                         <p className="text-sm text-gray-800 dark:text-gray-200">
@@ -105,10 +113,16 @@ export default function DragDropPattern() {
             </div>
 
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">How to Use</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                How to Use
+              </h4>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                <div>• Click and drag any task card to move it between columns</div>
-                <div>• Drop the card in a different column to change its status</div>
+                <div>
+                  • Click and drag any task card to move it between columns
+                </div>
+                <div>
+                  • Drop the card in a different column to change its status
+                </div>
                 <div>• Visual feedback shows which item is being dragged</div>
               </div>
             </div>
@@ -121,16 +135,14 @@ export default function DragDropPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="drag-drop" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="drag-drop"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -144,31 +156,55 @@ export default function DragDropPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indication of drag state and drop zones</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear indication of drag state and drop zones
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Animations</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Fluid transitions during drag operations</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smooth Animations
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Fluid transitions during drag operations
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Touch Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Works on mobile devices with touch gestures</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Touch Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Works on mobile devices with touch gestures
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Accessibility</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Keyboard navigation and screen reader support</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Accessibility
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Keyboard navigation and screen reader support
+              </p>
             </div>
           </div>
         </div>
@@ -182,18 +218,30 @@ export default function DragDropPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📋</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Kanban Boards</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Task management with drag and drop columns</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Kanban Boards
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Task management with drag and drop columns
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🎵</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Playlist Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Reorder songs and tracks in music apps</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Playlist Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Reorder songs and tracks in music apps
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📁</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">File Organization</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Move files between folders and categories</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              File Organization
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Move files between folders and categories
+            </p>
           </div>
         </div>
       </div>

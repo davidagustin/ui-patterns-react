@@ -1,46 +1,59 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function TabsPattern() {
   const [activeTab, setActiveTab] = useState(0);
 
   const tabs = [
-    { 
-      id: 0, 
-      label: 'Overview', 
-      icon: '📊',
+    {
+      id: 0,
+      label: "Overview",
+      icon: "📊",
       content: (
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Project Overview</h3>
+          <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            Project Overview
+          </h3>
           <p className="text-gray-600 dark:text-gray-400">
-            This is the overview tab where you can see a summary of your project. 
-            It contains key metrics and important information at a glance.
+            This is the overview tab where you can see a summary of your
+            project. It contains key metrics and important information at a
+            glance.
           </p>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">1,234</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Total Users</div>
+              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                1,234
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Total Users
+              </div>
             </div>
             <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-              <div className="text-2xl font-bold text-green-600 dark:text-green-400">89%</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Success Rate</div>
+              <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                89%
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Success Rate
+              </div>
             </div>
           </div>
         </div>
-      )
+      ),
     },
-    { 
-      id: 1, 
-      label: 'Details', 
-      icon: '📋',
+    {
+      id: 1,
+      label: "Details",
+      icon: "📋",
       content: (
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Detailed Information</h3>
+          <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            Detailed Information
+          </h3>
           <p className="text-gray-600 dark:text-gray-400">
-            This tab contains detailed information about your project. 
-            You can find comprehensive data and analysis here.
+            This tab contains detailed information about your project. You can
+            find comprehensive data and analysis here.
           </p>
           <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
             <h4 className="font-medium mb-2">Recent Activity</h4>
@@ -51,31 +64,41 @@ export default function TabsPattern() {
             </ul>
           </div>
         </div>
-      )
+      ),
     },
-    { 
-      id: 2, 
-      label: 'Settings', 
-      icon: '⚙️',
+    {
+      id: 2,
+      label: "Settings",
+      icon: "⚙️",
       content: (
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Configuration Settings</h3>
+          <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+            Configuration Settings
+          </h3>
           <p className="text-gray-600 dark:text-gray-400">
-            Manage your project settings and preferences here. 
-            Customize the behavior and appearance of your application.
+            Manage your project settings and preferences here. Customize the
+            behavior and appearance of your application.
           </p>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-gray-700 dark:text-gray-300">Dark Mode</span>
-              <button className="bg-blue-600 text-white px-3 py-1 rounded text-sm">Enabled</button>
+              <span className="text-gray-700 dark:text-gray-300">
+                Dark Mode
+              </span>
+              <button className="bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                Enabled
+              </button>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-gray-700 dark:text-gray-300">Notifications</span>
-              <button className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded text-sm">Disabled</button>
+              <span className="text-gray-700 dark:text-gray-300">
+                Notifications
+              </span>
+              <button className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1 rounded text-sm">
+                Disabled
+              </button>
             </div>
           </div>
         </div>
-      )
+      ),
     },
   ];
 
@@ -86,7 +109,8 @@ export default function TabsPattern() {
           📑 Tabs Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Tabs organize content into multiple sections, allowing users to switch between different views without leaving the page.
+          Tabs organize content into multiple sections, allowing users to switch
+          between different views without leaving the page.
         </p>
       </div>
 
@@ -97,8 +121,6 @@ export default function TabsPattern() {
             <h2 className="text-xl font-semibold mb-6 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
-            {/* Tab Navigation */}
             <div className="flex border-b border-gray-200 dark:border-gray-700 mb-6">
               {tabs.map((tab) => (
                 <button
@@ -106,8 +128,8 @@ export default function TabsPattern() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center space-x-2 px-4 py-3 font-medium transition-all duration-200 ${
                     activeTab === tab.id
-                      ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800'
+                      ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20"
+                      : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800"
                   }`}
                 >
                   <span className="text-lg">{tab.icon}</span>
@@ -117,9 +139,7 @@ export default function TabsPattern() {
             </div>
 
             {/* Tab Content */}
-            <div className="min-h-[300px]">
-              {tabs[activeTab].content}
-            </div>
+            <div className="min-h-[300px]">{tabs[activeTab].content}</div>
           </div>
         </div>
 
@@ -129,15 +149,15 @@ export default function TabsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
-              {<DynamicCodeExample 
-                componentName="tabs" 
-                activeTab={activeTab} 
-              />}
+              {
+                <DynamicCodeExample
+                  componentName="tabs"
+                  activeTab={activeTab}
+                />
+              }
             </div>
           </div>
         </div>
@@ -150,31 +170,55 @@ export default function TabsPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Organization</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Organize related content into logical sections</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Content Organization
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Organize related content into logical sections
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Indicators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear active state and hover effects</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Indicators
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear active state and hover effects
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Accessible Navigation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Keyboard navigation and screen reader support</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Accessible Navigation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Keyboard navigation and screen reader support
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Transitions</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Animated transitions between tab states</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smooth Transitions
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Animated transitions between tab states
+              </p>
             </div>
           </div>
         </div>

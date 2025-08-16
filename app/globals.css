@@ -3756,7 +3756,9 @@ body {
 
 /* Custom Layout Styles */
 .app-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   background-color: white;
   color: #111827;
   min-height: 100vh;
@@ -3770,7 +3772,9 @@ body {
 .app-header {
   background: linear-gradient(to right, #2563eb, #9333ea);
   color: white;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
 .header-container {
@@ -3832,11 +3836,11 @@ body {
     gap: 1rem;
     text-align: center;
   }
-  
+
   .app-title {
     font-size: 1.5rem;
   }
-  
+
   .app-main {
     padding: 1rem;
   }
@@ -3926,7 +3930,9 @@ body {
 
 .pattern-card:hover {
   border-color: #93c5fd;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   background-color: white;
 }
 

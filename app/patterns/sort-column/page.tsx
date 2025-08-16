@@ -1,27 +1,62 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SortColumnPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [sortField, setSortField] = useState<string>('name');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [sortField, setSortField] = useState<string>("name");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const sampleData = [
-    { id: 1, name: 'John Smith', email: 'john@email.com', role: 'Developer', salary: 75000, joinDate: '2023-01-15' },
-    { id: 2, name: 'Sarah Johnson', email: 'sarah@email.com', role: 'Designer', salary: 65000, joinDate: '2023-03-20' },
-    { id: 3, name: 'Mike Wilson', email: 'mike@email.com', role: 'Manager', salary: 95000, joinDate: '2022-11-10' },
-    { id: 4, name: 'Emily Davis', email: 'emily@email.com', role: 'Developer', salary: 80000, joinDate: '2023-06-05' },
-    { id: 5, name: 'David Brown', email: 'david@email.com', role: 'Analyst', salary: 70000, joinDate: '2023-02-28' }
+    {
+      id: 1,
+      name: "John Smith",
+      email: "john@email.com",
+      role: "Developer",
+      salary: 75000,
+      joinDate: "2023-01-15",
+    },
+    {
+      id: 2,
+      name: "Sarah Johnson",
+      email: "sarah@email.com",
+      role: "Designer",
+      salary: 65000,
+      joinDate: "2023-03-20",
+    },
+    {
+      id: 3,
+      name: "Mike Wilson",
+      email: "mike@email.com",
+      role: "Manager",
+      salary: 95000,
+      joinDate: "2022-11-10",
+    },
+    {
+      id: 4,
+      name: "Emily Davis",
+      email: "emily@email.com",
+      role: "Developer",
+      salary: 80000,
+      joinDate: "2023-06-05",
+    },
+    {
+      id: 5,
+      name: "David Brown",
+      email: "david@email.com",
+      role: "Analyst",
+      salary: 70000,
+      joinDate: "2023-02-28",
+    },
   ];
 
   const handleSort = (field: string) => {
     if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
       setSortField(field);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
@@ -31,16 +66,16 @@ export default function SortColumnPattern() {
       let bValue = b[sortField as keyof typeof b];
 
       // Handle different data types
-      if (typeof aValue === 'string' && typeof bValue === 'string') {
+      if (typeof aValue === "string" && typeof bValue === "string") {
         aValue = aValue.toLowerCase();
         bValue = bValue.toLowerCase();
       }
 
       if (aValue < bValue) {
-        return sortDirection === 'asc' ? -1 : 1;
+        return sortDirection === "asc" ? -1 : 1;
       }
       if (aValue > bValue) {
-        return sortDirection === 'asc' ? 1 : -1;
+        return sortDirection === "asc" ? 1 : -1;
       }
       return 0;
     });
@@ -48,24 +83,24 @@ export default function SortColumnPattern() {
 
   const getSortIcon = (field: string) => {
     if (sortField !== field) {
-      return '↕️';
+      return "↕️";
     }
-    return sortDirection === 'asc' ? '↑' : '↓';
+    return sortDirection === "asc" ? "↑" : "↓";
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
   const formatSalary = (salary: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
     }).format(salary);
   };
 
@@ -78,7 +113,8 @@ export default function SortColumnPattern() {
           🔄 Sort By Column
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Sort table data by clicking on column headers with visual indicators for sort direction.
+          Sort table data by clicking on column headers with visual indicators
+          for sort direction.
         </p>
       </div>
 
@@ -89,7 +125,7 @@ export default function SortColumnPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -104,47 +140,58 @@ export default function SortColumnPattern() {
                 <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow-sm">
                   <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                      <th 
+                      <th
                         className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                        onClick={() => handleSort('name')}
+                        onClick={() => handleSort("name")}
                       >
                         <div className="flex items-center space-x-1">
                           <span>Name</span>
-                          <span className="text-gray-400">{getSortIcon('name')}</span>
+                          <span className="text-gray-400">
+                            {getSortIcon("name")}
+                          </span>
                         </div>
                       </th>
-                      <th 
+                      <th
                         className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                        onClick={() => handleSort('role')}
+                        onClick={() => handleSort("role")}
                       >
                         <div className="flex items-center space-x-1">
                           <span>Role</span>
-                          <span className="text-gray-400">{getSortIcon('role')}</span>
+                          <span className="text-gray-400">
+                            {getSortIcon("role")}
+                          </span>
                         </div>
                       </th>
-                      <th 
+                      <th
                         className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                        onClick={() => handleSort('salary')}
+                        onClick={() => handleSort("salary")}
                       >
                         <div className="flex items-center space-x-1">
                           <span>Salary</span>
-                          <span className="text-gray-400">{getSortIcon('salary')}</span>
+                          <span className="text-gray-400">
+                            {getSortIcon("salary")}
+                          </span>
                         </div>
                       </th>
-                      <th 
+                      <th
                         className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                        onClick={() => handleSort('joinDate')}
+                        onClick={() => handleSort("joinDate")}
                       >
                         <div className="flex items-center space-x-1">
                           <span>Join Date</span>
-                          <span className="text-gray-400">{getSortIcon('joinDate')}</span>
+                          <span className="text-gray-400">
+                            {getSortIcon("joinDate")}
+                          </span>
                         </div>
                       </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {sortedData.map((row) => (
-                      <tr key={row.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <tr
+                        key={row.id}
+                        className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                      >
                         <td className="px-4 py-3">
                           <div>
                             <div className="font-medium text-gray-900 dark:text-gray-100">
@@ -183,15 +230,15 @@ export default function SortColumnPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
-              {<DynamicCodeExample 
-                componentName="sort-column" 
-                activeTab={activeTab} 
-              />}
+              {
+                <DynamicCodeExample
+                  componentName="sort-column"
+                  activeTab={activeTab}
+                />
+              }
             </div>
           </div>
         </div>
@@ -204,31 +251,55 @@ export default function SortColumnPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Click to Sort</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Click column headers to sort data</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Click to Sort
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Click column headers to sort data
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Indicators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Arrows show current sort direction</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Indicators
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Arrows show current sort direction
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Toggle Direction</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Click same column to reverse sort</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Toggle Direction
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Click same column to reverse sort
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Data Types</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Sort strings, numbers, and dates</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Data Types
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Sort strings, numbers, and dates
+              </p>
             </div>
           </div>
         </div>
@@ -242,18 +313,30 @@ export default function SortColumnPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Tables</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Sort user lists, products, or reports</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Data Tables
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Sort user lists, products, or reports
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📈</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Analytics</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Sort metrics by value or date</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Analytics
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Sort metrics by value or date
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📋</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Admin Panels</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Manage users, orders, or content</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Admin Panels
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Manage users, orders, or content
+            </p>
           </div>
         </div>
       </div>

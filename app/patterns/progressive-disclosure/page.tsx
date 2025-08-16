@@ -1,64 +1,72 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 interface DisclosureItem {
   id: string;
   title: string;
   summary: string;
   content: string;
-  level: 'basic' | 'intermediate' | 'advanced';
+  level: "basic" | "intermediate" | "advanced";
 }
 
 export default function ProgressiveDisclosurePattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
-  const [filterLevel, setFilterLevel] = useState<'all' | 'basic' | 'intermediate' | 'advanced'>('all');
+  const [filterLevel, setFilterLevel] = useState<
+    "all" | "basic" | "intermediate" | "advanced"
+  >("all");
 
   const disclosureItems: DisclosureItem[] = [
     {
-      id: 'getting-started',
-      title: 'Getting Started with React',
-      summary: 'Learn the basics of React development',
-      content: 'React is a JavaScript library for building user interfaces. Start by creating a new project using Create React App or Next.js. Learn about components, JSX, and state management.',
-      level: 'basic'
+      id: "getting-started",
+      title: "Getting Started with React",
+      summary: "Learn the basics of React development",
+      content:
+        "React is a JavaScript library for building user interfaces. Start by creating a new project using Create React App or Next.js. Learn about components, JSX, and state management.",
+      level: "basic",
     },
     {
-      id: 'components',
-      title: 'Component Architecture',
-      summary: 'Understanding component patterns and best practices',
-      content: 'Components are the building blocks of React applications. Learn about functional components, class components, props, state, and lifecycle methods. Understand component composition and reusability.',
-      level: 'intermediate'
+      id: "components",
+      title: "Component Architecture",
+      summary: "Understanding component patterns and best practices",
+      content:
+        "Components are the building blocks of React applications. Learn about functional components, class components, props, state, and lifecycle methods. Understand component composition and reusability.",
+      level: "intermediate",
     },
     {
-      id: 'hooks',
-      title: 'React Hooks Deep Dive',
-      summary: 'Master modern React with hooks',
-      content: 'Hooks allow you to use state and other React features in functional components. Learn about useState, useEffect, useContext, useReducer, and custom hooks. Understand the rules of hooks and best practices.',
-      level: 'intermediate'
+      id: "hooks",
+      title: "React Hooks Deep Dive",
+      summary: "Master modern React with hooks",
+      content:
+        "Hooks allow you to use state and other React features in functional components. Learn about useState, useEffect, useContext, useReducer, and custom hooks. Understand the rules of hooks and best practices.",
+      level: "intermediate",
     },
     {
-      id: 'performance',
-      title: 'Performance Optimization',
-      summary: 'Techniques for optimizing React applications',
-      content: 'Learn about React.memo, useMemo, useCallback, and other optimization techniques. Understand virtual DOM, reconciliation, and when to optimize. Profile your application and identify bottlenecks.',
-      level: 'advanced'
+      id: "performance",
+      title: "Performance Optimization",
+      summary: "Techniques for optimizing React applications",
+      content:
+        "Learn about React.memo, useMemo, useCallback, and other optimization techniques. Understand virtual DOM, reconciliation, and when to optimize. Profile your application and identify bottlenecks.",
+      level: "advanced",
     },
     {
-      id: 'testing',
-      title: 'Testing React Applications',
-      summary: 'Comprehensive testing strategies',
-      content: 'Write unit tests with Jest and React Testing Library. Learn about integration tests, end-to-end tests, and testing best practices. Understand mocking, test utilities, and testing patterns.',
-      level: 'advanced'
+      id: "testing",
+      title: "Testing React Applications",
+      summary: "Comprehensive testing strategies",
+      content:
+        "Write unit tests with Jest and React Testing Library. Learn about integration tests, end-to-end tests, and testing best practices. Understand mocking, test utilities, and testing patterns.",
+      level: "advanced",
     },
     {
-      id: 'deployment',
-      title: 'Deployment and CI/CD',
-      summary: 'Deploy your React application',
-      content: 'Learn about build optimization, environment variables, and deployment strategies. Set up continuous integration and deployment pipelines. Understand hosting options and performance monitoring.',
-      level: 'intermediate'
-    }
+      id: "deployment",
+      title: "Deployment and CI/CD",
+      summary: "Deploy your React application",
+      content:
+        "Learn about build optimization, environment variables, and deployment strategies. Set up continuous integration and deployment pipelines. Understand hosting options and performance monitoring.",
+      level: "intermediate",
+    },
   ];
 
   const toggleItem = (id: string) => {
@@ -73,32 +81,32 @@ export default function ProgressiveDisclosurePattern() {
 
   const getLevelColor = (level: string) => {
     switch (level) {
-      case 'basic':
-        return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
-      case 'intermediate':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
-      case 'advanced':
-        return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
+      case "basic":
+        return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400";
+      case "intermediate":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400";
+      case "advanced":
+        return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400";
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
     }
   };
 
   const getLevelIcon = (level: string) => {
     switch (level) {
-      case 'basic':
-        return '🌱';
-      case 'intermediate':
-        return '🚀';
-      case 'advanced':
-        return '⚡';
+      case "basic":
+        return "🌱";
+      case "intermediate":
+        return "🚀";
+      case "advanced":
+        return "⚡";
       default:
-        return '📚';
+        return "📚";
     }
   };
 
-  const filteredItems = disclosureItems.filter(item => 
-    filterLevel === 'all' || item.level === filterLevel
+  const filteredItems = disclosureItems.filter(
+    (item) => filterLevel === "all" || item.level === filterLevel,
   );
 
   return (
@@ -108,7 +116,8 @@ export default function ProgressiveDisclosurePattern() {
           📖 Progressive Disclosure Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Reveal information gradually to avoid overwhelming users, showing basic content first and allowing them to explore deeper details.
+          Reveal information gradually to avoid overwhelming users, showing
+          basic content first and allowing them to explore deeper details.
         </p>
       </div>
 
@@ -120,26 +129,33 @@ export default function ProgressiveDisclosurePattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Click on items to expand and see more details. Use the filter to show content by difficulty level.
+              Click on items to expand and see more details. Use the filter to
+              show content by difficulty level.
             </p>
-            
+
             {/* Filter Controls */}
             <div className="flex flex-wrap gap-2 mb-4">
-              {(['all', 'basic', 'intermediate', 'advanced'] as const).map((level) => (
-                <button
-                  key={level}
-                  onClick={() => setFilterLevel(level)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                    filterLevel === level
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-                  }`}
-                >
-                  {level === 'all' ? 'All Levels' : 
-                   level === 'basic' ? '🌱 Basic' :
-                   level === 'intermediate' ? '🚀 Intermediate' : '⚡ Advanced'}
-                </button>
-              ))}
+              {(["all", "basic", "intermediate", "advanced"] as const).map(
+                (level) => (
+                  <button
+                    key={level}
+                    onClick={() => setFilterLevel(level)}
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                      filterLevel === level
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                    }`}
+                  >
+                    {level === "all"
+                      ? "All Levels"
+                      : level === "basic"
+                        ? "🌱 Basic"
+                        : level === "intermediate"
+                          ? "🚀 Intermediate"
+                          : "⚡ Advanced"}
+                  </button>
+                ),
+              )}
             </div>
 
             {/* Disclosure Items */}
@@ -155,7 +171,9 @@ export default function ProgressiveDisclosurePattern() {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <span className="text-lg">{getLevelIcon(item.level)}</span>
+                        <span className="text-lg">
+                          {getLevelIcon(item.level)}
+                        </span>
                         <div className="flex-1">
                           <h3 className="font-medium text-gray-900 dark:text-gray-100 text-sm">
                             {item.title}
@@ -166,16 +184,20 @@ export default function ProgressiveDisclosurePattern() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getLevelColor(item.level)}`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${getLevelColor(item.level)}`}
+                        >
                           {item.level}
                         </span>
-                        <span className={`transform transition-transform ${expandedItems.has(item.id) ? 'rotate-180' : ''}`}>
+                        <span
+                          className={`transform transition-transform ${expandedItems.has(item.id) ? "rotate-180" : ""}`}
+                        >
                           ▼
                         </span>
                       </div>
                     </div>
                   </button>
-                  
+
                   {expandedItems.has(item.id) && (
                     <div className="px-4 pb-3 border-t border-gray-200 dark:border-gray-700">
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-3 leading-relaxed">
@@ -203,16 +225,14 @@ export default function ProgressiveDisclosurePattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="progressive-disclosure" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="progressive-disclosure"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -226,31 +246,55 @@ export default function ProgressiveDisclosurePattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Gradual Information Reveal</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Show basic info first, details on demand</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Gradual Information Reveal
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Show basic info first, details on demand
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Level-based Filtering</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Filter content by difficulty or complexity</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Level-based Filtering
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Filter content by difficulty or complexity
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Animations</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Animated expand/collapse transitions</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smooth Animations
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Animated expand/collapse transitions
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Accessible Design</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Keyboard navigation and screen reader support</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Accessible Design
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Keyboard navigation and screen reader support
+              </p>
             </div>
           </div>
         </div>
@@ -264,18 +308,30 @@ export default function ProgressiveDisclosurePattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📚</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Documentation</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">API docs, tutorials, and help sections</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Documentation
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              API docs, tutorials, and help sections
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">⚙️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Settings Panels</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Advanced options and configuration</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Settings Panels
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Advanced options and configuration
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🎓</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Learning Platforms</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Course content and educational materials</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Learning Platforms
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Course content and educational materials
+            </p>
           </div>
         </div>
       </div>

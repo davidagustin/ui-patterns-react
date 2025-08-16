@@ -1,47 +1,53 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function BreadcrumbsPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [currentPath, setCurrentPath] = useState('electronics/computers/laptops');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [currentPath, setCurrentPath] = useState(
+    "electronics/computers/laptops",
+  );
 
   const breadcrumbData = {
-    'electronics': {
-      label: 'Electronics',
-      icon: '📱',
-      description: 'Electronic devices and gadgets'
+    electronics: {
+      label: "Electronics",
+      icon: "📱",
+      description: "Electronic devices and gadgets",
     },
-    'computers': {
-      label: 'Computers',
-      icon: '💻',
-      description: 'Desktop and laptop computers'
+    computers: {
+      label: "Computers",
+      icon: "💻",
+      description: "Desktop and laptop computers",
     },
-    'laptops': {
-      label: 'Laptops',
-      icon: '🖥️',
-      description: 'Portable computing devices'
-    }
+    laptops: {
+      label: "Laptops",
+      icon: "🖥️",
+      description: "Portable computing devices",
+    },
   };
 
-  const pathSegments = currentPath.split('/');
+  const pathSegments = currentPath.split("/");
 
   const handleBreadcrumbClick = (index: number) => {
-    const newPath = pathSegments.slice(0, index + 1).join('/');
+    const newPath = pathSegments.slice(0, index + 1).join("/");
     setCurrentPath(newPath);
   };
 
   const getBreadcrumbIcon = (segment: string) => {
-    return breadcrumbData[segment as keyof typeof breadcrumbData]?.icon || '📁';
+    return breadcrumbData[segment as keyof typeof breadcrumbData]?.icon || "📁";
   };
 
   const getBreadcrumbLabel = (segment: string) => {
-    return breadcrumbData[segment as keyof typeof breadcrumbData]?.label || segment;
+    return (
+      breadcrumbData[segment as keyof typeof breadcrumbData]?.label || segment
+    );
   };
 
   const getBreadcrumbDescription = (segment: string) => {
-    return breadcrumbData[segment as keyof typeof breadcrumbData]?.description || '';
+    return (
+      breadcrumbData[segment as keyof typeof breadcrumbData]?.description || ""
+    );
   };
 
   return (
@@ -51,7 +57,8 @@ export default function BreadcrumbsPattern() {
           🍞 Breadcrumbs Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Navigational hierarchy that shows users their current location and provides easy navigation to parent levels.
+          Navigational hierarchy that shows users their current location and
+          provides easy navigation to parent levels.
         </p>
       </div>
 
@@ -63,43 +70,56 @@ export default function BreadcrumbsPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Click on any breadcrumb to navigate to that level. The current location is highlighted.
+              Click on any breadcrumb to navigate to that level. The current
+              location is highlighted.
             </p>
-            
+
             {/* Breadcrumbs */}
             <nav className="mb-6" aria-label="Breadcrumb">
               <ol className="flex items-center space-x-2 text-sm">
                 <li>
                   <button
-                    onClick={() => setCurrentPath('')}
+                    onClick={() => setCurrentPath("")}
                     className="flex items-center space-x-1 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                   >
                     <span className="text-lg">🏠</span>
                     <span>Home</span>
                   </button>
                 </li>
-                
+
                 {pathSegments.map((segment, index) => {
                   const isLast = index === pathSegments.length - 1;
                   const isClickable = !isLast;
-                  
+
                   return (
                     <li key={index} className="flex items-center">
-                      <svg className="w-4 h-4 text-gray-400 mx-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                      <svg
+                        className="w-4 h-4 text-gray-400 mx-2"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clipRule="evenodd"
+                        />
                       </svg>
-                      
+
                       {isClickable ? (
                         <button
                           onClick={() => handleBreadcrumbClick(index)}
                           className="flex items-center space-x-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
                         >
-                          <span className="text-lg">{getBreadcrumbIcon(segment)}</span>
+                          <span className="text-lg">
+                            {getBreadcrumbIcon(segment)}
+                          </span>
                           <span>{getBreadcrumbLabel(segment)}</span>
                         </button>
                       ) : (
                         <span className="flex items-center space-x-1 text-gray-900 dark:text-gray-100 font-medium">
-                          <span className="text-lg">{getBreadcrumbIcon(segment)}</span>
+                          <span className="text-lg">
+                            {getBreadcrumbIcon(segment)}
+                          </span>
                           <span>{getBreadcrumbLabel(segment)}</span>
                         </span>
                       )}
@@ -112,37 +132,48 @@ export default function BreadcrumbsPattern() {
             {/* Current Location Info */}
             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
               <div className="flex items-center space-x-3 mb-2">
-                <span className="text-2xl">{getBreadcrumbIcon(pathSegments[pathSegments.length - 1])}</span>
+                <span className="text-2xl">
+                  {getBreadcrumbIcon(pathSegments[pathSegments.length - 1])}
+                </span>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                   {getBreadcrumbLabel(pathSegments[pathSegments.length - 1])}
                 </h3>
               </div>
               <p className="text-gray-600 dark:text-gray-400">
-                {getBreadcrumbDescription(pathSegments[pathSegments.length - 1])}
+                {getBreadcrumbDescription(
+                  pathSegments[pathSegments.length - 1],
+                )}
               </p>
               <div className="mt-3 text-sm text-gray-500 dark:text-gray-400">
-                Current path: <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">{currentPath || 'home'}</code>
+                Current path:{" "}
+                <code className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+                  {currentPath || "home"}
+                </code>
               </div>
             </div>
 
             {/* Path Controls */}
             <div className="mt-4 space-y-2">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Quick Navigation:</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Quick Navigation:
+              </h4>
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => setCurrentPath('electronics')}
+                  onClick={() => setCurrentPath("electronics")}
                   className="px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
                 >
                   Electronics
                 </button>
                 <button
-                  onClick={() => setCurrentPath('electronics/computers')}
+                  onClick={() => setCurrentPath("electronics/computers")}
                   className="px-3 py-1 text-sm bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors"
                 >
                   Computers
                 </button>
                 <button
-                  onClick={() => setCurrentPath('electronics/computers/laptops')}
+                  onClick={() =>
+                    setCurrentPath("electronics/computers/laptops")
+                  }
                   className="px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 rounded hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors"
                 >
                   Laptops
@@ -158,25 +189,23 @@ export default function BreadcrumbsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
             <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
               <button
-                onClick={() => setActiveTab('jsx')}
+                onClick={() => setActiveTab("jsx")}
                 className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'jsx'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                  activeTab === "jsx"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 }`}
               >
                 JSX
               </button>
               <button
-                onClick={() => setActiveTab('css')}
+                onClick={() => setActiveTab("css")}
                 className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'css'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                  activeTab === "css"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 }`}
               >
                 CSS
@@ -185,9 +214,9 @@ export default function BreadcrumbsPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample 
-                componentName="breadcrumbs" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="breadcrumbs"
+                activeTab={activeTab}
               />
             </div>
           </div>
@@ -201,15 +230,42 @@ export default function BreadcrumbsPattern() {
             ✨ Key Features
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>Hierarchical Navigation:</strong> Shows the complete path from root to current location</li>
-            <li>• <strong>Clickable Links:</strong> Each breadcrumb is clickable for easy navigation</li>
-            <li>• <strong>Visual Separators:</strong> Clear chevron separators between levels</li>
-            <li>• <strong>Current Location:</strong> Highlights the current page/location</li>
-            <li>• <strong>Icons Support:</strong> Optional icons for better visual identification</li>
-            <li>• <strong>Accessibility:</strong> Proper ARIA labels and semantic HTML</li>
-            <li>• <strong>Responsive Design:</strong> Adapts to different screen sizes</li>
-            <li>• <strong>Interactive State:</strong> Hover and focus states for better UX</li>
-            <li>• <strong>Dynamic Code Generation:</strong> Code example extracted from actual source files</li>
+            <li>
+              • <strong>Hierarchical Navigation:</strong> Shows the complete
+              path from root to current location
+            </li>
+            <li>
+              • <strong>Clickable Links:</strong> Each breadcrumb is clickable
+              for easy navigation
+            </li>
+            <li>
+              • <strong>Visual Separators:</strong> Clear chevron separators
+              between levels
+            </li>
+            <li>
+              • <strong>Current Location:</strong> Highlights the current
+              page/location
+            </li>
+            <li>
+              • <strong>Icons Support:</strong> Optional icons for better visual
+              identification
+            </li>
+            <li>
+              • <strong>Accessibility:</strong> Proper ARIA labels and semantic
+              HTML
+            </li>
+            <li>
+              • <strong>Responsive Design:</strong> Adapts to different screen
+              sizes
+            </li>
+            <li>
+              • <strong>Interactive State:</strong> Hover and focus states for
+              better UX
+            </li>
+            <li>
+              • <strong>Dynamic Code Generation:</strong> Code example extracted
+              from actual source files
+            </li>
           </ul>
         </div>
       </div>
@@ -221,14 +277,34 @@ export default function BreadcrumbsPattern() {
             🎯 Common Use Cases
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>E-commerce Sites:</strong> Category and product navigation</li>
-            <li>• <strong>File Managers:</strong> Directory structure navigation</li>
-            <li>• <strong>Documentation:</strong> Section and subsection navigation</li>
-            <li>• <strong>Blog Platforms:</strong> Category and tag hierarchy</li>
-            <li>• <strong>Admin Dashboards:</strong> Section and subsection navigation</li>
-            <li>• <strong>Content Management:</strong> Page and content hierarchy</li>
-            <li>• <strong>Knowledge Bases:</strong> Topic and subtopic navigation</li>
-            <li>• <strong>Portfolio Sites:</strong> Project and category organization</li>
+            <li>
+              • <strong>E-commerce Sites:</strong> Category and product
+              navigation
+            </li>
+            <li>
+              • <strong>File Managers:</strong> Directory structure navigation
+            </li>
+            <li>
+              • <strong>Documentation:</strong> Section and subsection
+              navigation
+            </li>
+            <li>
+              • <strong>Blog Platforms:</strong> Category and tag hierarchy
+            </li>
+            <li>
+              • <strong>Admin Dashboards:</strong> Section and subsection
+              navigation
+            </li>
+            <li>
+              • <strong>Content Management:</strong> Page and content hierarchy
+            </li>
+            <li>
+              • <strong>Knowledge Bases:</strong> Topic and subtopic navigation
+            </li>
+            <li>
+              • <strong>Portfolio Sites:</strong> Project and category
+              organization
+            </li>
           </ul>
         </div>
       </div>

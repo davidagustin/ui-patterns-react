@@ -18,8 +18,12 @@ export default function RootLayout({
           <div className="container mx-auto px-4 py-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold">🎨 UI Patterns Learning App</h1>
-                <p className="text-blue-100 mt-2">Interactive examples for mastering UI design patterns</p>
+                <h1 className="text-3xl font-bold">
+                  🎨 UI Patterns Learning App
+                </h1>
+                <p className="text-blue-100 mt-2">
+                  Interactive examples for mastering UI design patterns
+                </p>
               </div>
               <a
                 href="https://github.com/yourusername/ui-patterns-react"
@@ -44,9 +48,7 @@ export default function RootLayout({
             </div>
           </div>
         </header>
-        <main className="container mx-auto p-6">
-          {children}
-        </main>
+        <main className="container mx-auto p-6">{children}</main>
       </body>
     </html>
   );

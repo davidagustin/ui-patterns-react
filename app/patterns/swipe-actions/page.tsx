@@ -1,27 +1,46 @@
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SwipeActionsPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [swipedItem, setSwipedItem] = useState<number | null>(null);
-  
+
   const items = [
-    { id: 1, title: 'Email from John Doe', subtitle: 'Meeting tomorrow at 2 PM', time: '2 min ago' },
-    { id: 2, title: 'Project Update', subtitle: 'Q4 goals have been achieved', time: '1 hour ago' },
-    { id: 3, title: 'System Notification', subtitle: 'Backup completed successfully', time: '3 hours ago' },
-    { id: 4, title: 'Team Message', subtitle: 'New team member joining next week', time: '5 hours ago' },
+    {
+      id: 1,
+      title: "Email from John Doe",
+      subtitle: "Meeting tomorrow at 2 PM",
+      time: "2 min ago",
+    },
+    {
+      id: 2,
+      title: "Project Update",
+      subtitle: "Q4 goals have been achieved",
+      time: "1 hour ago",
+    },
+    {
+      id: 3,
+      title: "System Notification",
+      subtitle: "Backup completed successfully",
+      time: "3 hours ago",
+    },
+    {
+      id: 4,
+      title: "Team Message",
+      subtitle: "New team member joining next week",
+      time: "5 hours ago",
+    },
   ];
 
-  const handleSwipe = (itemId: number, direction: 'left' | 'right') => {
+  const handleSwipe = (itemId: number, direction: "left" | "right") => {
     setSwipedItem(itemId);
-    
+
     // Simulate action
     setTimeout(() => {
       setSwipedItem(null);
-      if (direction === 'left') {
+      if (direction === "left") {
         alert(`Deleted item ${itemId}`);
       } else {
         alert(`Archived item ${itemId}`);
@@ -36,7 +55,8 @@ export default function SwipeActionsPattern() {
           👆 Swipe Actions Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Reveal contextual actions by swiping on list items, providing quick access to common operations.
+          Reveal contextual actions by swiping on list items, providing quick
+          access to common operations.
         </p>
       </div>
 
@@ -48,9 +68,10 @@ export default function SwipeActionsPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Swipe left or right on any item to reveal actions. Swipe left for delete, swipe right for archive.
+              Swipe left or right on any item to reveal actions. Swipe left for
+              delete, swipe right for archive.
             </p>
-            
+
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {items.map((item) => (
                 <SwipeableItem
@@ -63,7 +84,9 @@ export default function SwipeActionsPattern() {
             </div>
 
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">How to Use</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                How to Use
+              </h4>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <div>• Swipe left to reveal delete action (red)</div>
                 <div>• Swipe right to reveal archive action (blue)</div>
@@ -80,16 +103,14 @@ export default function SwipeActionsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="swipe-actions" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="swipe-actions"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -103,45 +124,81 @@ export default function SwipeActionsPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Bidirectional Swipes</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Swipe left or right for different actions</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Bidirectional Swipes
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Swipe left or right for different actions
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indication of available actions</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear indication of available actions
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Threshold Detection</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Actions trigger only when threshold is met</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Threshold Detection
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Actions trigger only when threshold is met
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Animations</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Fluid transitions and visual feedback</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smooth Animations
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Fluid transitions and visual feedback
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Touch & Mouse Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Works on both mobile and desktop</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Touch & Mouse Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Works on both mobile and desktop
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Accessibility</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Keyboard navigation and screen reader support</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Accessibility
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Keyboard navigation and screen reader support
+              </p>
             </div>
           </div>
         </div>
@@ -155,18 +212,30 @@ export default function SwipeActionsPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📧</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Email Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Archive, delete, or mark as read</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Email Apps
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Archive, delete, or mark as read
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📱</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Mobile Lists</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Quick actions on list items</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Mobile Lists
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Quick actions on list items
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">💬</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Chat Applications</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Pin, archive, or delete messages</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Chat Applications
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Pin, archive, or delete messages
+            </p>
           </div>
         </div>
       </div>
@@ -175,14 +244,14 @@ export default function SwipeActionsPattern() {
 }
 
 // SwipeableItem Component
-function SwipeableItem({ 
-  item, 
-  isSwiped, 
-  onSwipe 
-}: { 
-  item: { id: number; title: string; subtitle: string; time: string }; 
-  isSwiped: boolean; 
-  onSwipe: (itemId: number, direction: 'left' | 'right') => void; 
+function SwipeableItem({
+  item,
+  isSwiped,
+  onSwipe,
+}: {
+  item: { id: number; title: string; subtitle: string; time: string };
+  isSwiped: boolean;
+  onSwipe: (itemId: number, direction: "left" | "right") => void;
 }) {
   const [translateX, setTranslateX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -196,7 +265,7 @@ function SwipeableItem({
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
-    
+
     currentX.current = e.touches[0].clientX;
     const diff = currentX.current - startX.current;
     const newTranslateX = Math.max(-120, Math.min(120, diff));
@@ -205,13 +274,13 @@ function SwipeableItem({
 
   const handleTouchEnd = () => {
     setIsDragging(false);
-    
+
     if (translateX < -60) {
-      onSwipe(item.id, 'left');
+      onSwipe(item.id, "left");
     } else if (translateX > 60) {
-      onSwipe(item.id, 'right');
+      onSwipe(item.id, "right");
     }
-    
+
     setTranslateX(0);
   };
 
@@ -222,7 +291,7 @@ function SwipeableItem({
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
-    
+
     currentX.current = e.clientX;
     const diff = currentX.current - startX.current;
     const newTranslateX = Math.max(-120, Math.min(120, diff));
@@ -231,18 +300,18 @@ function SwipeableItem({
 
   const handleMouseUp = () => {
     setIsDragging(false);
-    
+
     if (translateX < -60) {
-      onSwipe(item.id, 'left');
+      onSwipe(item.id, "left");
     } else if (translateX > 60) {
-      onSwipe(item.id, 'right');
+      onSwipe(item.id, "right");
     }
-    
+
     setTranslateX(0);
   };
 
-  const handleAction = (action: 'delete' | 'archive') => {
-    onSwipe(item.id, action === 'delete' ? 'left' : 'right');
+  const handleAction = (action: "delete" | "archive") => {
+    onSwipe(item.id, action === "delete" ? "left" : "right");
   };
 
   return (
@@ -251,7 +320,7 @@ function SwipeableItem({
       <div className="absolute inset-0 flex">
         <div className="flex-1 bg-blue-500 flex items-center justify-center">
           <button
-            onClick={() => handleAction('archive')}
+            onClick={() => handleAction("archive")}
             className="text-white font-medium px-4"
           >
             Archive
@@ -259,7 +328,7 @@ function SwipeableItem({
         </div>
         <div className="flex-1 bg-red-500 flex items-center justify-center">
           <button
-            onClick={() => handleAction('delete')}
+            onClick={() => handleAction("delete")}
             className="text-white font-medium px-4"
           >
             Delete
@@ -270,7 +339,7 @@ function SwipeableItem({
       {/* Content */}
       <div
         className={`relative bg-white dark:bg-gray-800 p-4 transition-transform duration-200 ${
-          isDragging ? '' : 'duration-200'
+          isDragging ? "" : "duration-200"
         }`}
         style={{ transform: `translateX(${translateX}px)` }}
         onTouchStart={handleTouchStart}

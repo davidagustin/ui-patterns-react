@@ -1,44 +1,48 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SlideshowPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const slides = [
     {
       id: 1,
-      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop&crop=center',
-      title: 'Beautiful Mountain View',
-      description: 'Majestic peaks reaching towards the sky, a breathtaking natural wonder.'
+      src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop&crop=center",
+      title: "Beautiful Mountain View",
+      description:
+        "Majestic peaks reaching towards the sky, a breathtaking natural wonder.",
     },
     {
       id: 2,
-      src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=450&fit=crop&crop=center',
-      title: 'Serene Ocean Waves',
-      description: 'Endless blue horizons where sky meets sea in perfect harmony.'
+      src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=450&fit=crop&crop=center",
+      title: "Serene Ocean Waves",
+      description:
+        "Endless blue horizons where sky meets sea in perfect harmony.",
     },
     {
       id: 3,
-      src: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=450&fit=crop&crop=center',
-      title: 'Vibrant City Lights',
-      description: 'Urban energy illuminated against the night sky, a symphony of lights.'
+      src: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=450&fit=crop&crop=center",
+      title: "Vibrant City Lights",
+      description:
+        "Urban energy illuminated against the night sky, a symphony of lights.",
     },
     {
       id: 4,
-      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop&crop=center',
-      title: 'Glorious Sunset',
-      description: 'Golden hour painting the world in warm, enchanting colors.'
+      src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop&crop=center",
+      title: "Glorious Sunset",
+      description: "Golden hour painting the world in warm, enchanting colors.",
     },
     {
       id: 5,
-      src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=450&fit=crop&crop=center',
-      title: 'Tranquil Forest',
-      description: 'Peaceful woodland paths inviting quiet contemplation and wonder.'
-    }
+      src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=450&fit=crop&crop=center",
+      title: "Tranquil Forest",
+      description:
+        "Peaceful woodland paths inviting quiet contemplation and wonder.",
+    },
   ];
 
   // Auto-play functionality
@@ -71,7 +75,8 @@ export default function SlideshowPattern() {
           🎭 Slideshow Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Present images in a sequential, auto-advancing format with navigation controls for engaging visual storytelling.
+          Present images in a sequential, auto-advancing format with navigation
+          controls for engaging visual storytelling.
         </p>
       </div>
 
@@ -83,9 +88,10 @@ export default function SlideshowPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Navigate through slides using arrows, dots, or auto-play. Click play/pause to control automatic advancement.
+              Navigate through slides using arrows, dots, or auto-play. Click
+              play/pause to control automatic advancement.
             </p>
-            
+
             {/* Slideshow Container */}
             <div className="relative bg-gray-900 rounded-lg overflow-hidden aspect-video">
               {/* Main Slide Display */}
@@ -95,7 +101,7 @@ export default function SlideshowPattern() {
                   alt={slides[currentSlide].title}
                   className="w-full h-full object-cover"
                 />
-                
+
                 {/* Slide Content Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
                   <h3 className="text-white text-xl font-bold mb-2">
@@ -128,11 +134,13 @@ export default function SlideshowPattern() {
 
               {/* Progress Bar */}
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-                <div 
+                <div
                   className="h-full bg-white transition-all duration-1000 ease-linear"
-                  style={{ 
-                    width: isPlaying ? '100%' : `${((currentSlide + 1) / slides.length) * 100}%`,
-                    transitionDuration: isPlaying ? '4000ms' : '300ms'
+                  style={{
+                    width: isPlaying
+                      ? "100%"
+                      : `${((currentSlide + 1) / slides.length) * 100}%`,
+                    transitionDuration: isPlaying ? "4000ms" : "300ms",
                   }}
                 />
               </div>
@@ -148,8 +156,8 @@ export default function SlideshowPattern() {
                     onClick={() => goToSlide(index)}
                     className={`w-3 h-3 rounded-full transition-colors ${
                       index === currentSlide
-                        ? 'bg-blue-500'
-                        : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                        ? "bg-blue-500"
+                        : "bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
                     }`}
                   />
                 ))}
@@ -160,11 +168,11 @@ export default function SlideshowPattern() {
                 onClick={() => setIsPlaying(!isPlaying)}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   isPlaying
-                    ? 'bg-red-500 hover:bg-red-600 text-white'
-                    : 'bg-green-500 hover:bg-green-600 text-white'
+                    ? "bg-red-500 hover:bg-red-600 text-white"
+                    : "bg-green-500 hover:bg-green-600 text-white"
                 }`}
               >
-                {isPlaying ? '⏸️ Pause' : '▶️ Play'}
+                {isPlaying ? "⏸️ Pause" : "▶️ Play"}
               </button>
             </div>
           </div>
@@ -176,16 +184,14 @@ export default function SlideshowPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="slideshow" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="slideshow"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -199,31 +205,55 @@ export default function SlideshowPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Auto-Play Mode</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Automatic slide advancement with play/pause controls</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Auto-Play Mode
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Automatic slide advancement with play/pause controls
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Navigation Controls</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Arrow buttons and dot indicators for manual control</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Navigation Controls
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Arrow buttons and dot indicators for manual control
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Overlay</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Title and description overlays on images</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Content Overlay
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Title and description overlays on images
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Progress Indicator</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Visual progress bar and slide counter</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Progress Indicator
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Visual progress bar and slide counter
+              </p>
             </div>
           </div>
         </div>
@@ -237,18 +267,30 @@ export default function SlideshowPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🏢</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Product Showcases</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Highlight product features and benefits</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Product Showcases
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Highlight product features and benefits
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📖</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Hero Sections</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Engaging homepage banners</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Hero Sections
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Engaging homepage banners
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🎨</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Portfolio Presentations</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Showcase creative work dynamically</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Portfolio Presentations
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Showcase creative work dynamically
+            </p>
           </div>
         </div>
       </div>

@@ -1,13 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function FormattingDataPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [locale, setLocale] = useState('en-US');
-  const [currency, setCurrency] = useState('USD');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [locale, setLocale] = useState("en-US");
+  const [currency, setCurrency] = useState("USD");
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
 
   // Sample data to format
@@ -20,52 +19,55 @@ export default function FormattingDataPattern() {
       compact: 1500000,
     },
     dates: {
-      timestamp: new Date('2024-03-15T14:30:00Z'),
-      dateOnly: new Date('2024-03-15'),
+      timestamp: new Date("2024-03-15T14:30:00Z"),
+      dateOnly: new Date("2024-03-15"),
       relative: new Date(currentTime.getTime() - 2 * 60 * 60 * 1000), // 2 hours ago
     },
     text: {
-      title: 'the quick brown fox jumps over the lazy dog',
-      name: 'john doe',
-      sentence: 'this is a sample sentence that needs proper formatting.',
-      phone: '1234567890',
-      creditCard: '4532123456789012',
-      ssn: '123456789',
+      title: "the quick brown fox jumps over the lazy dog",
+      name: "john doe",
+      sentence: "this is a sample sentence that needs proper formatting.",
+      phone: "1234567890",
+      creditCard: "4532123456789012",
+      ssn: "123456789",
     },
     technical: {
       bytes: 1536,
       largeBytes: 15728640,
       duration: 125, // seconds
-      ipAddress: '192.168.1.1',
-      macAddress: '00:1B:44:11:3A:B7',
-    }
+      ipAddress: "192.168.1.1",
+      macAddress: "00:1B:44:11:3A:B7",
+    },
   };
 
   // Formatting functions
-  const formatNumber = (num: number, options: Intl.NumberFormatOptions = {}) => {
+  const formatNumber = (
+    num: number,
+    options: Intl.NumberFormatOptions = {},
+  ) => {
     return new Intl.NumberFormat(locale, options).format(num);
   };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat(locale, {
-      style: 'currency',
+      style: "currency",
       currency: currency,
-      minimumFractionDigits: 2
+      minimumFractionDigits: 2,
     }).format(amount);
   };
 
   const formatPercentage = (value: number) => {
     return new Intl.NumberFormat(locale, {
-      style: 'percent',
+      style: "percent",
       minimumFractionDigits: 1,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(value);
   };
 
   const formatCompactNumber = (num: number) => {
     return new Intl.NumberFormat(locale, {
-      notation: 'compact',
-      compactDisplay: 'short'
+      notation: "compact",
+      compactDisplay: "short",
     }).format(num);
   };
 
@@ -74,25 +76,29 @@ export default function FormattingDataPattern() {
   };
 
   const formatRelativeTime = (date: Date) => {
-    const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+    const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
     const diff = Math.floor((date.getTime() - currentTime.getTime()) / 1000);
-    
-    if (Math.abs(diff) < 60) return rtf.format(diff, 'second');
-    if (Math.abs(diff) < 3600) return rtf.format(Math.floor(diff / 60), 'minute');
-    if (Math.abs(diff) < 86400) return rtf.format(Math.floor(diff / 3600), 'hour');
-    return rtf.format(Math.floor(diff / 86400), 'day');
+
+    if (Math.abs(diff) < 60) return rtf.format(diff, "second");
+    if (Math.abs(diff) < 3600)
+      return rtf.format(Math.floor(diff / 60), "minute");
+    if (Math.abs(diff) < 86400)
+      return rtf.format(Math.floor(diff / 3600), "hour");
+    return rtf.format(Math.floor(diff / 86400), "day");
   };
 
   const formatTitle = (text: string) => {
-    return text.replace(/\w\S*/g, (txt) => 
-      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    return text.replace(
+      /\w\S*/g,
+      (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
     );
   };
 
   const formatProperName = (name: string) => {
-    return name.split(' ').map(part => 
-      part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
-    ).join(' ');
+    return name
+      .split(" ")
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .join(" ");
   };
 
   const formatSentence = (sentence: string) => {
@@ -100,7 +106,7 @@ export default function FormattingDataPattern() {
   };
 
   const formatPhone = (phone: string) => {
-    const cleaned = phone.replace(/\D/g, '');
+    const cleaned = phone.replace(/\D/g, "");
     if (cleaned.length === 10) {
       return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
     }
@@ -108,7 +114,7 @@ export default function FormattingDataPattern() {
   };
 
   const maskCreditCard = (cardNumber: string) => {
-    const cleaned = cardNumber.replace(/\s/g, '');
+    const cleaned = cardNumber.replace(/\s/g, "");
     if (cleaned.length === 16) {
       return `**** **** **** ${cleaned.slice(-4)}`;
     }
@@ -116,7 +122,7 @@ export default function FormattingDataPattern() {
   };
 
   const maskSSN = (ssn: string) => {
-    const cleaned = ssn.replace(/\D/g, '');
+    const cleaned = ssn.replace(/\D/g, "");
     if (cleaned.length === 9) {
       return `***-**-${cleaned.slice(-4)}`;
     }
@@ -124,25 +130,28 @@ export default function FormattingDataPattern() {
   };
 
   const formatBytes = (bytes: number) => {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes === 0) return '0 Bytes';
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+    if (bytes === 0) return "0 Bytes";
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+    return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + " " + sizes[i];
   };
 
   const formatDuration = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    
+
     if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      return `${hours}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
     }
-    return `${minutes}:${secs.toString().padStart(2, '0')}`;
+    return `${minutes}:${secs.toString().padStart(2, "0")}`;
   };
 
   const formatIPAddress = (ip: string) => {
-    return ip.split('.').map(part => part.padStart(3, '0')).join('.');
+    return ip
+      .split(".")
+      .map((part) => part.padStart(3, "0"))
+      .join(".");
   };
 
   const formatMacAddress = (mac: string) => {
@@ -150,20 +159,20 @@ export default function FormattingDataPattern() {
   };
 
   const locales = [
-    { code: 'en-US', name: 'English (US)' },
-    { code: 'en-GB', name: 'English (UK)' },
-    { code: 'es-ES', name: 'Spanish' },
-    { code: 'fr-FR', name: 'French' },
-    { code: 'de-DE', name: 'German' },
-    { code: 'ja-JP', name: 'Japanese' },
+    { code: "en-US", name: "English (US)" },
+    { code: "en-GB", name: "English (UK)" },
+    { code: "es-ES", name: "Spanish" },
+    { code: "fr-FR", name: "French" },
+    { code: "de-DE", name: "German" },
+    { code: "ja-JP", name: "Japanese" },
   ];
 
   const currencies = [
-    { code: 'USD', name: 'US Dollar' },
-    { code: 'EUR', name: 'Euro' },
-    { code: 'GBP', name: 'British Pound' },
-    { code: 'JPY', name: 'Japanese Yen' },
-    { code: 'CAD', name: 'Canadian Dollar' },
+    { code: "USD", name: "US Dollar" },
+    { code: "EUR", name: "Euro" },
+    { code: "GBP", name: "British Pound" },
+    { code: "JPY", name: "Japanese Yen" },
+    { code: "CAD", name: "Canadian Dollar" },
   ];
 
   return (
@@ -173,7 +182,8 @@ export default function FormattingDataPattern() {
           🔧 Formatting Data Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Transform raw data into human-readable formats with proper localization, number formatting, and text transformations.
+          Transform raw data into human-readable formats with proper
+          localization, number formatting, and text transformations.
         </p>
       </div>
 
@@ -185,9 +195,10 @@ export default function FormattingDataPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Change locale and currency to see how data formatting adapts. All examples use real formatting functions.
+              Change locale and currency to see how data formatting adapts. All
+              examples use real formatting functions.
             </p>
-            
+
             {/* Controls */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
@@ -199,8 +210,10 @@ export default function FormattingDataPattern() {
                   onChange={(e) => setLocale(e.target.value)}
                   className="w-full p-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                 >
-                  {locales.map(loc => (
-                    <option key={loc.code} value={loc.code}>{loc.name}</option>
+                  {locales.map((loc) => (
+                    <option key={loc.code} value={loc.code}>
+                      {loc.name}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -213,8 +226,10 @@ export default function FormattingDataPattern() {
                   onChange={(e) => setCurrency(e.target.value)}
                   className="w-full p-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                 >
-                  {currencies.map(curr => (
-                    <option key={curr.code} value={curr.code}>{curr.name}</option>
+                  {currencies.map((curr) => (
+                    <option key={curr.code} value={curr.code}>
+                      {curr.name}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -223,124 +238,228 @@ export default function FormattingDataPattern() {
             {/* Number Formatting */}
             <div className="space-y-6">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">📊 Number Formatting</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+                  📊 Number Formatting
+                </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Integer:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Integer:
+                    </span>
                     <div className="text-right">
-                      <div className="text-xs text-gray-500 dark:text-gray-500">Raw: {sampleData.numbers.integer}</div>
-                      <div className="font-mono">{formatNumber(sampleData.numbers.integer)}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500">
+                        Raw: {sampleData.numbers.integer}
+                      </div>
+                      <div className="font-mono">
+                        {formatNumber(sampleData.numbers.integer)}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Decimal:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Decimal:
+                    </span>
                     <div className="text-right">
-                      <div className="text-xs text-gray-500 dark:text-gray-500">Raw: {sampleData.numbers.decimal}</div>
-                      <div className="font-mono">{formatNumber(sampleData.numbers.decimal, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500">
+                        Raw: {sampleData.numbers.decimal}
+                      </div>
+                      <div className="font-mono">
+                        {formatNumber(sampleData.numbers.decimal, {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Currency:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Currency:
+                    </span>
                     <div className="text-right">
-                      <div className="text-xs text-gray-500 dark:text-gray-500">Raw: {sampleData.numbers.currency}</div>
-                      <div className="font-mono text-green-600 dark:text-green-400">{formatCurrency(sampleData.numbers.currency)}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500">
+                        Raw: {sampleData.numbers.currency}
+                      </div>
+                      <div className="font-mono text-green-600 dark:text-green-400">
+                        {formatCurrency(sampleData.numbers.currency)}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Percentage:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Percentage:
+                    </span>
                     <div className="text-right">
-                      <div className="text-xs text-gray-500 dark:text-gray-500">Raw: {sampleData.numbers.percentage}</div>
-                      <div className="font-mono">{formatPercentage(sampleData.numbers.percentage)}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500">
+                        Raw: {sampleData.numbers.percentage}
+                      </div>
+                      <div className="font-mono">
+                        {formatPercentage(sampleData.numbers.percentage)}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Compact:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Compact:
+                    </span>
                     <div className="text-right">
-                      <div className="text-xs text-gray-500 dark:text-gray-500">Raw: {sampleData.numbers.compact}</div>
-                      <div className="font-mono">{formatCompactNumber(sampleData.numbers.compact)}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500">
+                        Raw: {sampleData.numbers.compact}
+                      </div>
+                      <div className="font-mono">
+                        {formatCompactNumber(sampleData.numbers.compact)}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">📅 Date & Time Formatting</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+                  📅 Date & Time Formatting
+                </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Full Date:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Full Date:
+                    </span>
                     <div className="text-right">
-                      <div className="font-mono">{formatDate(sampleData.dates.timestamp, { dateStyle: 'full', timeStyle: 'short' })}</div>
+                      <div className="font-mono">
+                        {formatDate(sampleData.dates.timestamp, {
+                          dateStyle: "full",
+                          timeStyle: "short",
+                        })}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Short Date:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Short Date:
+                    </span>
                     <div className="text-right">
-                      <div className="font-mono">{formatDate(sampleData.dates.dateOnly, { dateStyle: 'short' })}</div>
+                      <div className="font-mono">
+                        {formatDate(sampleData.dates.dateOnly, {
+                          dateStyle: "short",
+                        })}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Relative Time:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Relative Time:
+                    </span>
                     <div className="text-right">
-                      <div className="font-mono text-blue-600 dark:text-blue-400">{formatRelativeTime(sampleData.dates.relative)}</div>
+                      <div className="font-mono text-blue-600 dark:text-blue-400">
+                        {formatRelativeTime(sampleData.dates.relative)}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">📝 Text Formatting</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+                  📝 Text Formatting
+                </h3>
                 <div className="space-y-3">
                   <div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Title Case:</span>
-                    <div className="text-xs text-gray-500 dark:text-gray-500 font-mono">Raw: {sampleData.text.title}</div>
-                    <div className="font-mono">{formatTitle(sampleData.text.title)}</div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Title Case:
+                    </span>
+                    <div className="text-xs text-gray-500 dark:text-gray-500 font-mono">
+                      Raw: {sampleData.text.title}
+                    </div>
+                    <div className="font-mono">
+                      {formatTitle(sampleData.text.title)}
+                    </div>
                   </div>
                   <div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Proper Name:</span>
-                    <div className="text-xs text-gray-500 dark:text-gray-500 font-mono">Raw: {sampleData.text.name}</div>
-                    <div className="font-mono">{formatProperName(sampleData.text.name)}</div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Proper Name:
+                    </span>
+                    <div className="text-xs text-gray-500 dark:text-gray-500 font-mono">
+                      Raw: {sampleData.text.name}
+                    </div>
+                    <div className="font-mono">
+                      {formatProperName(sampleData.text.name)}
+                    </div>
                   </div>
                   <div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Phone Number:</span>
-                    <div className="text-xs text-gray-500 dark:text-gray-500 font-mono">Raw: {sampleData.text.phone}</div>
-                    <div className="font-mono">{formatPhone(sampleData.text.phone)}</div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Phone Number:
+                    </span>
+                    <div className="text-xs text-gray-500 dark:text-gray-500 font-mono">
+                      Raw: {sampleData.text.phone}
+                    </div>
+                    <div className="font-mono">
+                      {formatPhone(sampleData.text.phone)}
+                    </div>
                   </div>
                   <div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Credit Card:</span>
-                    <div className="text-xs text-gray-500 dark:text-gray-500 font-mono">Raw: {sampleData.text.creditCard}</div>
-                    <div className="font-mono">{maskCreditCard(sampleData.text.creditCard)}</div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Credit Card:
+                    </span>
+                    <div className="text-xs text-gray-500 dark:text-gray-500 font-mono">
+                      Raw: {sampleData.text.creditCard}
+                    </div>
+                    <div className="font-mono">
+                      {maskCreditCard(sampleData.text.creditCard)}
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">💻 Technical Formatting</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
+                  💻 Technical Formatting
+                </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">File Size:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      File Size:
+                    </span>
                     <div className="text-right">
-                      <div className="text-xs text-gray-500 dark:text-gray-500">Raw: {sampleData.technical.bytes} bytes</div>
-                      <div className="font-mono">{formatBytes(sampleData.technical.bytes)}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500">
+                        Raw: {sampleData.technical.bytes} bytes
+                      </div>
+                      <div className="font-mono">
+                        {formatBytes(sampleData.technical.bytes)}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Large File:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Large File:
+                    </span>
                     <div className="text-right">
-                      <div className="text-xs text-gray-500 dark:text-gray-500">Raw: {sampleData.technical.largeBytes} bytes</div>
-                      <div className="font-mono">{formatBytes(sampleData.technical.largeBytes)}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500">
+                        Raw: {sampleData.technical.largeBytes} bytes
+                      </div>
+                      <div className="font-mono">
+                        {formatBytes(sampleData.technical.largeBytes)}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Duration:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Duration:
+                    </span>
                     <div className="text-right">
-                      <div className="text-xs text-gray-500 dark:text-gray-500">Raw: {sampleData.technical.duration} seconds</div>
-                      <div className="font-mono">{formatDuration(sampleData.technical.duration)}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-500">
+                        Raw: {sampleData.technical.duration} seconds
+                      </div>
+                      <div className="font-mono">
+                        {formatDuration(sampleData.technical.duration)}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 dark:text-gray-400">IP Address:</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      IP Address:
+                    </span>
                     <div className="text-right">
-                      <div className="font-mono">{formatIPAddress(sampleData.technical.ipAddress)}</div>
+                      <div className="font-mono">
+                        {formatIPAddress(sampleData.technical.ipAddress)}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -355,16 +474,14 @@ export default function FormattingDataPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="formatting-data" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="formatting-data"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -378,31 +495,55 @@ export default function FormattingDataPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Internationalization</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Support for multiple locales and currencies</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Internationalization
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Support for multiple locales and currencies
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Number Formatting</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Currency, percentages, and compact notation</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Number Formatting
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Currency, percentages, and compact notation
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Date & Time</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Localized dates and relative time formatting</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Date & Time
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Localized dates and relative time formatting
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Masking</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Secure display of sensitive information</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Data Masking
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Secure display of sensitive information
+              </p>
             </div>
           </div>
         </div>
@@ -416,18 +557,30 @@ export default function FormattingDataPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">💰</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Financial Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Currency and number formatting</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Financial Apps
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Currency and number formatting
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🌍</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Global Applications</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Multi-locale data display</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Global Applications
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Multi-locale data display
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Analytics Dashboards</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Data visualization and reporting</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Analytics Dashboards
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Data visualization and reporting
+            </p>
           </div>
         </div>
       </div>

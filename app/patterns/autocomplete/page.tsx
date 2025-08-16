@@ -1,32 +1,68 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function AutocompletePattern() {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const allOptions = [
-    'React', 'React Native', 'React Router', 'React Query', 'React Hook Form',
-    'TypeScript', 'JavaScript', 'Node.js', 'Express.js', 'Next.js',
-    'Vue.js', 'Angular', 'Svelte', 'Solid.js', 'Alpine.js',
-    'Tailwind CSS', 'Bootstrap', 'Material-UI', 'Ant Design', 'Chakra UI',
-    'Redux', 'Zustand', 'Jotai', 'Recoil', 'XState',
-    'GraphQL', 'REST API', 'Apollo Client', 'SWR', 'TanStack Query',
-    'Webpack', 'Vite', 'Parcel', 'Rollup', 'esbuild',
-    'Jest', 'Vitest', 'Cypress', 'Playwright', 'Testing Library',
-    'Docker', 'Kubernetes', 'AWS', 'Vercel', 'Netlify'
+    "React",
+    "React Native",
+    "React Router",
+    "React Query",
+    "React Hook Form",
+    "TypeScript",
+    "JavaScript",
+    "Node.js",
+    "Express.js",
+    "Next.js",
+    "Vue.js",
+    "Angular",
+    "Svelte",
+    "Solid.js",
+    "Alpine.js",
+    "Tailwind CSS",
+    "Bootstrap",
+    "Material-UI",
+    "Ant Design",
+    "Chakra UI",
+    "Redux",
+    "Zustand",
+    "Jotai",
+    "Recoil",
+    "XState",
+    "GraphQL",
+    "REST API",
+    "Apollo Client",
+    "SWR",
+    "TanStack Query",
+    "Webpack",
+    "Vite",
+    "Parcel",
+    "Rollup",
+    "esbuild",
+    "Jest",
+    "Vitest",
+    "Cypress",
+    "Playwright",
+    "Testing Library",
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Vercel",
+    "Netlify",
   ];
 
-  const filteredOptions = allOptions.filter(option =>
-    option.toLowerCase().includes(query.toLowerCase())
+  const filteredOptions = allOptions.filter((option) =>
+    option.toLowerCase().includes(query.toLowerCase()),
   );
 
   useEffect(() => {
@@ -52,8 +88,8 @@ export default function AutocompletePattern() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,23 +100,23 @@ export default function AutocompletePattern() {
     if (!isOpen) return;
 
     switch (e.key) {
-      case 'ArrowDown':
+      case "ArrowDown":
         e.preventDefault();
-        setSelectedIndex(prev => 
-          prev < suggestions.length - 1 ? prev + 1 : prev
+        setSelectedIndex((prev) =>
+          prev < suggestions.length - 1 ? prev + 1 : prev,
         );
         break;
-      case 'ArrowUp':
+      case "ArrowUp":
         e.preventDefault();
-        setSelectedIndex(prev => prev > 0 ? prev - 1 : -1);
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
         break;
-      case 'Enter':
+      case "Enter":
         e.preventDefault();
         if (selectedIndex >= 0 && suggestions[selectedIndex]) {
           handleSelect(suggestions[selectedIndex]);
         }
         break;
-      case 'Escape':
+      case "Escape":
         setIsOpen(false);
         setSelectedIndex(-1);
         break;
@@ -107,7 +143,8 @@ export default function AutocompletePattern() {
           🔍 Autocomplete Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Intelligent text input with real-time suggestions, keyboard navigation, and smart filtering capabilities.
+          Intelligent text input with real-time suggestions, keyboard
+          navigation, and smart filtering capabilities.
         </p>
       </div>
 
@@ -119,9 +156,10 @@ export default function AutocompletePattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Start typing to see suggestions. Use arrow keys to navigate, Enter to select, and Escape to close.
+              Start typing to see suggestions. Use arrow keys to navigate, Enter
+              to select, and Escape to close.
             </p>
-            
+
             {/* Autocomplete Input */}
             <div className="relative">
               <div className="relative">
@@ -135,11 +173,21 @@ export default function AutocompletePattern() {
                   placeholder="Search for a technology..."
                   className="w-full px-4 py-3 pl-10 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
-                
+
                 {/* Search Icon */}
                 <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
                   </svg>
                 </div>
 
@@ -147,14 +195,24 @@ export default function AutocompletePattern() {
                 {query && (
                   <button
                     onClick={() => {
-                      setQuery('');
+                      setQuery("");
                       setIsOpen(false);
                       inputRef.current?.focus();
                     }}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 )}
@@ -172,18 +230,38 @@ export default function AutocompletePattern() {
                       onClick={() => handleSelect(suggestion)}
                       className={`w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${
                         index === selectedIndex
-                          ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
-                          : 'text-gray-900 dark:text-gray-100'
-                      } ${index === 0 ? 'rounded-t-lg' : ''} ${index === suggestions.length - 1 ? 'rounded-b-lg' : ''}`}
+                          ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300"
+                          : "text-gray-900 dark:text-gray-100"
+                      } ${index === 0 ? "rounded-t-lg" : ""} ${index === suggestions.length - 1 ? "rounded-b-lg" : ""}`}
                     >
                       <div className="flex items-center space-x-3">
-                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        <svg
+                          className="w-4 h-4 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                          />
                         </svg>
                         <span className="font-medium">{suggestion}</span>
                         {index === selectedIndex && (
-                          <svg className="w-4 h-4 ml-auto text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          <svg
+                            className="w-4 h-4 ml-auto text-blue-500"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
                           </svg>
                         )}
                       </div>
@@ -196,8 +274,18 @@ export default function AutocompletePattern() {
               {isOpen && query && suggestions.length === 0 && (
                 <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
                   <div className="text-center text-gray-500 dark:text-gray-400">
-                    <svg className="w-8 h-8 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33" />
+                    <svg
+                      className="w-8 h-8 mx-auto mb-2 text-gray-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33"
+                      />
                     </svg>
                     <p>No results found for "{query}"</p>
                     <p className="text-sm mt-1">Try a different search term</p>
@@ -208,12 +296,38 @@ export default function AutocompletePattern() {
 
             {/* Instructions */}
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Keyboard Shortcuts</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                Keyboard Shortcuts
+              </h4>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                <div>• <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">↑↓</kbd> Navigate suggestions</div>
-                <div>• <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">Enter</kbd> Select highlighted item</div>
-                <div>• <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">Esc</kbd> Close dropdown</div>
-                <div>• <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">Tab</kbd> Complete current suggestion</div>
+                <div>
+                  •{" "}
+                  <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">
+                    ↑↓
+                  </kbd>{" "}
+                  Navigate suggestions
+                </div>
+                <div>
+                  •{" "}
+                  <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">
+                    Enter
+                  </kbd>{" "}
+                  Select highlighted item
+                </div>
+                <div>
+                  •{" "}
+                  <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">
+                    Esc
+                  </kbd>{" "}
+                  Close dropdown
+                </div>
+                <div>
+                  •{" "}
+                  <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">
+                    Tab
+                  </kbd>{" "}
+                  Complete current suggestion
+                </div>
               </div>
             </div>
           </div>
@@ -225,25 +339,23 @@ export default function AutocompletePattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
             <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
               <button
-                onClick={() => setActiveTab('jsx')}
+                onClick={() => setActiveTab("jsx")}
                 className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'jsx'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                  activeTab === "jsx"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 }`}
               >
                 JSX
               </button>
               <button
-                onClick={() => setActiveTab('css')}
+                onClick={() => setActiveTab("css")}
                 className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'css'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                  activeTab === "css"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                 }`}
               >
                 CSS
@@ -252,9 +364,9 @@ export default function AutocompletePattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample 
-                componentName="autocomplete" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="autocomplete"
+                activeTab={activeTab}
               />
             </div>
           </div>
@@ -268,15 +380,41 @@ export default function AutocompletePattern() {
             ✨ Key Features
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>Real-time Filtering:</strong> Instant suggestions as you type</li>
-            <li>• <strong>Keyboard Navigation:</strong> Arrow keys, Enter, and Escape support</li>
-            <li>• <strong>Smart Matching:</strong> Case-insensitive partial matching</li>
-            <li>• <strong>Visual Feedback:</strong> Highlighted selected items</li>
-            <li>• <strong>Click Outside:</strong> Closes dropdown when clicking elsewhere</li>
-            <li>• <strong>Clear Functionality:</strong> Easy way to reset the input</li>
-            <li>• <strong>Accessibility:</strong> Proper ARIA labels and keyboard support</li>
-            <li>• <strong>Performance Optimized:</strong> Efficient filtering and rendering</li>
-            <li>• <strong>Dynamic Code Generation:</strong> Code example extracted from actual source files</li>
+            <li>
+              • <strong>Real-time Filtering:</strong> Instant suggestions as you
+              type
+            </li>
+            <li>
+              • <strong>Keyboard Navigation:</strong> Arrow keys, Enter, and
+              Escape support
+            </li>
+            <li>
+              • <strong>Smart Matching:</strong> Case-insensitive partial
+              matching
+            </li>
+            <li>
+              • <strong>Visual Feedback:</strong> Highlighted selected items
+            </li>
+            <li>
+              • <strong>Click Outside:</strong> Closes dropdown when clicking
+              elsewhere
+            </li>
+            <li>
+              • <strong>Clear Functionality:</strong> Easy way to reset the
+              input
+            </li>
+            <li>
+              • <strong>Accessibility:</strong> Proper ARIA labels and keyboard
+              support
+            </li>
+            <li>
+              • <strong>Performance Optimized:</strong> Efficient filtering and
+              rendering
+            </li>
+            <li>
+              • <strong>Dynamic Code Generation:</strong> Code example extracted
+              from actual source files
+            </li>
           </ul>
         </div>
       </div>
@@ -288,14 +426,31 @@ export default function AutocompletePattern() {
             🎯 Common Use Cases
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>Search Interfaces:</strong> Product search and filtering</li>
-            <li>• <strong>Form Inputs:</strong> Country, city, or category selection</li>
-            <li>• <strong>Command Palettes:</strong> Quick action and navigation</li>
-            <li>• <strong>Tag Inputs:</strong> Adding tags and labels</li>
-            <li>• <strong>Address Forms:</strong> Street and city autocomplete</li>
-            <li>• <strong>Code Editors:</strong> IntelliSense and code completion</li>
-            <li>• <strong>Email Clients:</strong> Recipient and contact selection</li>
-            <li>• <strong>File Managers:</strong> File and folder search</li>
+            <li>
+              • <strong>Search Interfaces:</strong> Product search and filtering
+            </li>
+            <li>
+              • <strong>Form Inputs:</strong> Country, city, or category
+              selection
+            </li>
+            <li>
+              • <strong>Command Palettes:</strong> Quick action and navigation
+            </li>
+            <li>
+              • <strong>Tag Inputs:</strong> Adding tags and labels
+            </li>
+            <li>
+              • <strong>Address Forms:</strong> Street and city autocomplete
+            </li>
+            <li>
+              • <strong>Code Editors:</strong> IntelliSense and code completion
+            </li>
+            <li>
+              • <strong>Email Clients:</strong> Recipient and contact selection
+            </li>
+            <li>
+              • <strong>File Managers:</strong> File and folder search
+            </li>
           </ul>
         </div>
       </div>

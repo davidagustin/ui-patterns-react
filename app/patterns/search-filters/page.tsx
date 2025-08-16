@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useMemo } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 interface SearchItem {
   id: number;
@@ -10,20 +10,23 @@ interface SearchItem {
   tags: string[];
   date: string;
   author: string;
-  status: 'published' | 'draft' | 'archived';
-  priority: 'high' | 'medium' | 'low';
+  status: "published" | "draft" | "archived";
+  priority: "high" | "medium" | "low";
 }
 
 export default function SearchFiltersPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedStatus, setSelectedStatus] = useState<string[]>([]);
   const [selectedPriority, setSelectedPriority] = useState<string[]>([]);
-  const [dateRange, setDateRange] = useState<'all' | 'today' | 'week' | 'month' | 'year'>('all');
-  const [sortBy, setSortBy] = useState<'relevance' | 'date' | 'title' | 'author'>('relevance');
+  const [dateRange, setDateRange] = useState<
+    "all" | "today" | "week" | "month" | "year"
+  >("all");
+  const [sortBy, setSortBy] = useState<
+    "relevance" | "date" | "title" | "author"
+  >("relevance");
   const [showFilters, setShowFilters] = useState(false);
 
   // Sample data
@@ -36,7 +39,7 @@ export default function SearchFiltersPattern() {
       date: "2024-01-15",
       author: "John Doe",
       status: "published",
-      priority: "high"
+      priority: "high",
     },
     {
       id: 2,
@@ -46,7 +49,7 @@ export default function SearchFiltersPattern() {
       date: "2024-01-10",
       author: "Jane Smith",
       status: "published",
-      priority: "medium"
+      priority: "medium",
     },
     {
       id: 3,
@@ -56,7 +59,7 @@ export default function SearchFiltersPattern() {
       date: "2024-01-08",
       author: "Mike Johnson",
       status: "draft",
-      priority: "high"
+      priority: "high",
     },
     {
       id: 4,
@@ -66,7 +69,7 @@ export default function SearchFiltersPattern() {
       date: "2024-01-05",
       author: "Sarah Wilson",
       status: "published",
-      priority: "low"
+      priority: "low",
     },
     {
       id: 5,
@@ -76,7 +79,7 @@ export default function SearchFiltersPattern() {
       date: "2024-01-03",
       author: "Alex Brown",
       status: "archived",
-      priority: "medium"
+      priority: "medium",
     },
     {
       id: 6,
@@ -86,59 +89,77 @@ export default function SearchFiltersPattern() {
       date: "2024-01-01",
       author: "Lisa Chen",
       status: "published",
-      priority: "high"
-    }
+      priority: "high",
+    },
   ];
 
   // Get unique values for filters
-  const categories = useMemo(() => [...new Set(sampleData.map(item => item.category))], []);
-  const tags = useMemo(() => [...new Set(sampleData.flatMap(item => item.tags))], []);
-  const statuses = useMemo(() => [...new Set(sampleData.map(item => item.status))], []);
-  const priorities = useMemo(() => [...new Set(sampleData.map(item => item.priority))], []);
+  const categories = useMemo(
+    () => [...new Set(sampleData.map((item) => item.category))],
+    [],
+  );
+  const tags = useMemo(
+    () => [...new Set(sampleData.flatMap((item) => item.tags))],
+    [],
+  );
+  const statuses = useMemo(
+    () => [...new Set(sampleData.map((item) => item.status))],
+    [],
+  );
+  const priorities = useMemo(
+    () => [...new Set(sampleData.map((item) => item.priority))],
+    [],
+  );
 
   // Filter and sort data
   const filteredData = useMemo(() => {
-    let filtered = sampleData.filter(item => {
+    let filtered = sampleData.filter((item) => {
       // Search query filter
-      const matchesQuery = searchQuery === '' || 
+      const matchesQuery =
+        searchQuery === "" ||
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+        item.tags.some((tag) =>
+          tag.toLowerCase().includes(searchQuery.toLowerCase()),
+        );
 
       // Category filter
-      const matchesCategory = selectedCategories.length === 0 || 
+      const matchesCategory =
+        selectedCategories.length === 0 ||
         selectedCategories.includes(item.category);
 
       // Tags filter
-      const matchesTags = selectedTags.length === 0 || 
-        selectedTags.some(tag => item.tags.includes(tag));
+      const matchesTags =
+        selectedTags.length === 0 ||
+        selectedTags.some((tag) => item.tags.includes(tag));
 
       // Status filter
-      const matchesStatus = selectedStatus.length === 0 || 
-        selectedStatus.includes(item.status);
+      const matchesStatus =
+        selectedStatus.length === 0 || selectedStatus.includes(item.status);
 
       // Priority filter
-      const matchesPriority = selectedPriority.length === 0 || 
+      const matchesPriority =
+        selectedPriority.length === 0 ||
         selectedPriority.includes(item.priority);
 
       // Date range filter
       const itemDate = new Date(item.date);
       const now = new Date();
       let matchesDate = true;
-      
+
       switch (dateRange) {
-        case 'today':
+        case "today":
           matchesDate = itemDate.toDateString() === now.toDateString();
           break;
-        case 'week':
+        case "week":
           const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
           matchesDate = itemDate >= weekAgo;
           break;
-        case 'month':
+        case "month":
           const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
           matchesDate = itemDate >= monthAgo;
           break;
-        case 'year':
+        case "year":
           const yearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
           matchesDate = itemDate >= yearAgo;
           break;
@@ -146,17 +167,24 @@ export default function SearchFiltersPattern() {
           matchesDate = true;
       }
 
-      return matchesQuery && matchesCategory && matchesTags && matchesStatus && matchesPriority && matchesDate;
+      return (
+        matchesQuery &&
+        matchesCategory &&
+        matchesTags &&
+        matchesStatus &&
+        matchesPriority &&
+        matchesDate
+      );
     });
 
     // Sort data
     filtered.sort((a, b) => {
       switch (sortBy) {
-        case 'date':
+        case "date":
           return new Date(b.date).getTime() - new Date(a.date).getTime();
-        case 'title':
+        case "title":
           return a.title.localeCompare(b.title);
-        case 'author':
+        case "author":
           return a.author.localeCompare(b.author);
         default:
           return 0; // relevance - keep original order
@@ -164,58 +192,66 @@ export default function SearchFiltersPattern() {
     });
 
     return filtered;
-  }, [searchQuery, selectedCategories, selectedTags, selectedStatus, selectedPriority, dateRange, sortBy]);
+  }, [
+    searchQuery,
+    selectedCategories,
+    selectedTags,
+    selectedStatus,
+    selectedPriority,
+    dateRange,
+    sortBy,
+  ]);
 
   const handleCategoryToggle = (category: string) => {
-    setSelectedCategories(prev => 
-      prev.includes(category) 
-        ? prev.filter(c => c !== category)
-        : [...prev, category]
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category],
     );
   };
 
   const handleTagToggle = (tag: string) => {
-    setSelectedTags(prev => 
-      prev.includes(tag) 
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
   };
 
   const handleStatusToggle = (status: string) => {
-    setSelectedStatus(prev => 
-      prev.includes(status) 
-        ? prev.filter(s => s !== status)
-        : [...prev, status]
+    setSelectedStatus((prev) =>
+      prev.includes(status)
+        ? prev.filter((s) => s !== status)
+        : [...prev, status],
     );
   };
 
   const handlePriorityToggle = (priority: string) => {
-    setSelectedPriority(prev => 
-      prev.includes(priority) 
-        ? prev.filter(p => p !== priority)
-        : [...prev, priority]
+    setSelectedPriority((prev) =>
+      prev.includes(priority)
+        ? prev.filter((p) => p !== priority)
+        : [...prev, priority],
     );
   };
 
   const clearAllFilters = () => {
-    setSearchQuery('');
+    setSearchQuery("");
     setSelectedCategories([]);
     setSelectedTags([]);
     setSelectedStatus([]);
     setSelectedPriority([]);
-    setDateRange('all');
-    setSortBy('relevance');
+    setDateRange("all");
+    setSortBy("relevance");
   };
 
   const getActiveFiltersCount = () => {
-    return (searchQuery ? 1 : 0) + 
-           selectedCategories.length + 
-           selectedTags.length + 
-           selectedStatus.length + 
-           selectedPriority.length + 
-           (dateRange !== 'all' ? 1 : 0) + 
-           (sortBy !== 'relevance' ? 1 : 0);
+    return (
+      (searchQuery ? 1 : 0) +
+      selectedCategories.length +
+      selectedTags.length +
+      selectedStatus.length +
+      selectedPriority.length +
+      (dateRange !== "all" ? 1 : 0) +
+      (sortBy !== "relevance" ? 1 : 0)
+    );
   };
 
   return (
@@ -225,7 +261,8 @@ export default function SearchFiltersPattern() {
           🔍 Search Filters Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Advanced search functionality with multiple filter options, real-time filtering, and clear visual feedback.
+          Advanced search functionality with multiple filter options, real-time
+          filtering, and clear visual feedback.
         </p>
       </div>
 
@@ -236,7 +273,7 @@ export default function SearchFiltersPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             {/* Search Bar */}
             <div className="mb-6">
               <div className="relative">
@@ -247,8 +284,18 @@ export default function SearchFiltersPattern() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
-                <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <svg
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
                 </svg>
               </div>
             </div>
@@ -259,8 +306,18 @@ export default function SearchFiltersPattern() {
                 onClick={() => setShowFilters(!showFilters)}
                 className="flex items-center space-x-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                  />
                 </svg>
                 <span>Filters</span>
                 {getActiveFiltersCount() > 0 && (
@@ -269,7 +326,7 @@ export default function SearchFiltersPattern() {
                   </span>
                 )}
               </button>
-              
+
               {getActiveFiltersCount() > 0 && (
                 <button
                   onClick={clearAllFilters}
@@ -285,16 +342,18 @@ export default function SearchFiltersPattern() {
               <div className="space-y-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                 {/* Categories */}
                 <div>
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Categories</h4>
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                    Categories
+                  </h4>
                   <div className="flex flex-wrap gap-2">
-                    {categories.map(category => (
+                    {categories.map((category) => (
                       <button
                         key={category}
                         onClick={() => handleCategoryToggle(category)}
                         className={`px-3 py-1 rounded-full text-sm transition-colors ${
                           selectedCategories.includes(category)
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                         }`}
                       >
                         {category}
@@ -305,16 +364,18 @@ export default function SearchFiltersPattern() {
 
                 {/* Tags */}
                 <div>
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Tags</h4>
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                    Tags
+                  </h4>
                   <div className="flex flex-wrap gap-2">
-                    {tags.map(tag => (
+                    {tags.map((tag) => (
                       <button
                         key={tag}
                         onClick={() => handleTagToggle(tag)}
                         className={`px-3 py-1 rounded-full text-sm transition-colors ${
                           selectedTags.includes(tag)
-                            ? 'bg-green-500 text-white'
-                            : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                            ? "bg-green-500 text-white"
+                            : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                         }`}
                       >
                         #{tag}
@@ -325,16 +386,18 @@ export default function SearchFiltersPattern() {
 
                 {/* Status */}
                 <div>
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Status</h4>
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                    Status
+                  </h4>
                   <div className="flex flex-wrap gap-2">
-                    {statuses.map(status => (
+                    {statuses.map((status) => (
                       <button
                         key={status}
                         onClick={() => handleStatusToggle(status)}
                         className={`px-3 py-1 rounded-full text-sm transition-colors ${
                           selectedStatus.includes(status)
-                            ? 'bg-purple-500 text-white'
-                            : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                            ? "bg-purple-500 text-white"
+                            : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                         }`}
                       >
                         {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -345,16 +408,18 @@ export default function SearchFiltersPattern() {
 
                 {/* Priority */}
                 <div>
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Priority</h4>
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                    Priority
+                  </h4>
                   <div className="flex flex-wrap gap-2">
-                    {priorities.map(priority => (
+                    {priorities.map((priority) => (
                       <button
                         key={priority}
                         onClick={() => handlePriorityToggle(priority)}
                         className={`px-3 py-1 rounded-full text-sm transition-colors ${
                           selectedPriority.includes(priority)
-                            ? 'bg-orange-500 text-white'
-                            : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                            ? "bg-orange-500 text-white"
+                            : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                         }`}
                       >
                         {priority.charAt(0).toUpperCase() + priority.slice(1)}
@@ -365,7 +430,9 @@ export default function SearchFiltersPattern() {
 
                 {/* Date Range */}
                 <div>
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Date Range</h4>
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                    Date Range
+                  </h4>
                   <select
                     value={dateRange}
                     onChange={(e) => setDateRange(e.target.value as any)}
@@ -381,7 +448,9 @@ export default function SearchFiltersPattern() {
 
                 {/* Sort By */}
                 <div>
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Sort By</h4>
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                    Sort By
+                  </h4>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as any)}
@@ -403,25 +472,37 @@ export default function SearchFiltersPattern() {
                   Results ({filteredData.length})
                 </h4>
               </div>
-              
+
               <div className="space-y-3 max-h-64 overflow-y-auto">
-                {filteredData.map(item => (
-                  <div key={item.id} className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                    <h5 className="font-medium text-gray-900 dark:text-gray-100">{item.title}</h5>
+                {filteredData.map((item) => (
+                  <div
+                    key={item.id}
+                    className="p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
+                  >
+                    <h5 className="font-medium text-gray-900 dark:text-gray-100">
+                      {item.title}
+                    </h5>
                     <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400 mt-1">
                       <span>{item.author}</span>
                       <span>{item.category}</span>
-                      <span className={`px-2 py-1 rounded text-xs ${
-                        item.status === 'published' ? 'bg-green-100 text-green-800' :
-                        item.status === 'draft' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}>
+                      <span
+                        className={`px-2 py-1 rounded text-xs ${
+                          item.status === "published"
+                            ? "bg-green-100 text-green-800"
+                            : item.status === "draft"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
                         {item.status}
                       </span>
                     </div>
                     <div className="flex flex-wrap gap-1 mt-2">
-                      {item.tags.map(tag => (
-                        <span key={tag} className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                      {item.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"
+                        >
                           #{tag}
                         </span>
                       ))}
@@ -439,16 +520,14 @@ export default function SearchFiltersPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="search-filters" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="search-filters"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -462,45 +541,81 @@ export default function SearchFiltersPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Real-time Search</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Instant filtering as you type</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Real-time Search
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Instant filtering as you type
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Filter Types</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Categories, tags, status, priority</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Filter Types
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Categories, tags, status, priority
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Date Range Filtering</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Filter by time periods</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Date Range Filtering
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Filter by time periods
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Sorting Options</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Sort by relevance, date, title, author</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Sorting Options
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Sort by relevance, date, title, author
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Collapsible Filters</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Show/hide filter panel</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Collapsible Filters
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Show/hide filter panel
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Clear All Filters</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Reset all filters at once</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Clear All Filters
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Reset all filters at once
+              </p>
             </div>
           </div>
         </div>
@@ -514,18 +629,30 @@ export default function SearchFiltersPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📚</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Filter articles, posts, and documents</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Content Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Filter articles, posts, and documents
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🛒</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">E-commerce</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Filter products by category, price, brand</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              E-commerce
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Filter products by category, price, brand
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Analytics</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Filter reports and analytics data</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Data Analytics
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Filter reports and analytics data
+            </p>
           </div>
         </div>
       </div>

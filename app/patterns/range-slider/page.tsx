@@ -1,27 +1,33 @@
-'use client';
+"use client";
 
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function RangeSliderPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [singleValue, setSingleValue] = useState(50);
   const [rangeValue, setRangeValue] = useState<[number, number]>([20, 80]);
   const [priceRange, setPriceRange] = useState<[number, number]>([100, 500]);
   const [volume, setVolume] = useState(75);
 
-  const handleRangeChange = useCallback((values: [number, number], setValue: (values: [number, number]) => void) => {
-    setValue(values);
-  }, []);
+  const handleRangeChange = useCallback(
+    (
+      values: [number, number],
+      setValue: (values: [number, number]) => void,
+    ) => {
+      setValue(values);
+    },
+    [],
+  );
 
-  const RangeSlider = ({ 
-    min = 0, 
-    max = 100, 
-    step = 1, 
-    values, 
-    onChange, 
+  const RangeSlider = ({
+    min = 0,
+    max = 100,
+    step = 1,
+    values,
+    onChange,
     formatValue = (value: number) => value.toString(),
-    className = ""
+    className = "",
   }: {
     min?: number;
     max?: number;
@@ -32,30 +38,37 @@ export default function RangeSliderPattern() {
     className?: string;
   }) => {
     const sliderRef = useRef<HTMLDivElement>(null);
-    const [isDragging, setIsDragging] = useState<'min' | 'max' | null>(null);
+    const [isDragging, setIsDragging] = useState<"min" | "max" | null>(null);
 
-    const getPercentage = (value: number) => ((value - min) / (max - min)) * 100;
+    const getPercentage = (value: number) =>
+      ((value - min) / (max - min)) * 100;
 
-    const handleMouseDown = (type: 'min' | 'max') => (e: React.MouseEvent) => {
+    const handleMouseDown = (type: "min" | "max") => (e: React.MouseEvent) => {
       e.preventDefault();
       setIsDragging(type);
     };
 
-    const handleMouseMove = useCallback((e: MouseEvent) => {
-      if (!isDragging || !sliderRef.current) return;
+    const handleMouseMove = useCallback(
+      (e: MouseEvent) => {
+        if (!isDragging || !sliderRef.current) return;
 
-      const rect = sliderRef.current.getBoundingClientRect();
-      const percentage = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
-      const newValue = Math.round((percentage / 100) * (max - min) + min);
+        const rect = sliderRef.current.getBoundingClientRect();
+        const percentage = Math.max(
+          0,
+          Math.min(100, ((e.clientX - rect.left) / rect.width) * 100),
+        );
+        const newValue = Math.round((percentage / 100) * (max - min) + min);
 
-      const [minVal, maxVal] = values;
-      
-      if (isDragging === 'min') {
-        onChange([Math.min(newValue, maxVal - step), maxVal]);
-      } else {
-        onChange([minVal, Math.max(newValue, minVal + step)]);
-      }
-    }, [isDragging, values, min, max, step, onChange]);
+        const [minVal, maxVal] = values;
+
+        if (isDragging === "min") {
+          onChange([Math.min(newValue, maxVal - step), maxVal]);
+        } else {
+          onChange([minVal, Math.max(newValue, minVal + step)]);
+        }
+      },
+      [isDragging, values, min, max, step, onChange],
+    );
 
     const handleMouseUp = useCallback(() => {
       setIsDragging(null);
@@ -64,11 +77,11 @@ export default function RangeSliderPattern() {
     // Add global mouse event listeners when dragging
     React.useEffect(() => {
       if (isDragging) {
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
+        document.addEventListener("mousemove", handleMouseMove);
+        document.addEventListener("mouseup", handleMouseUp);
         return () => {
-          document.removeEventListener('mousemove', handleMouseMove);
-          document.removeEventListener('mouseup', handleMouseUp);
+          document.removeEventListener("mousemove", handleMouseMove);
+          document.removeEventListener("mouseup", handleMouseUp);
         };
       }
     }, [isDragging, handleMouseMove, handleMouseUp]);
@@ -85,25 +98,25 @@ export default function RangeSliderPattern() {
             className="absolute h-full bg-blue-500 rounded-full"
             style={{
               left: `${getPercentage(values[0])}%`,
-              width: `${getPercentage(values[1]) - getPercentage(values[0])}%`
+              width: `${getPercentage(values[1]) - getPercentage(values[0])}%`,
             }}
           />
-          
+
           {/* Min thumb */}
           <div
             className="absolute w-4 h-4 bg-white border-2 border-blue-500 rounded-full cursor-grab active:cursor-grabbing transform -translate-y-1 shadow-sm"
             style={{ left: `calc(${getPercentage(values[0])}% - 8px)` }}
-            onMouseDown={handleMouseDown('min')}
+            onMouseDown={handleMouseDown("min")}
           />
-          
+
           {/* Max thumb */}
           <div
             className="absolute w-4 h-4 bg-white border-2 border-blue-500 rounded-full cursor-grab active:cursor-grabbing transform -translate-y-1 shadow-sm"
             style={{ left: `calc(${getPercentage(values[1])}% - 8px)` }}
-            onMouseDown={handleMouseDown('max')}
+            onMouseDown={handleMouseDown("max")}
           />
         </div>
-        
+
         {/* Value labels */}
         <div className="flex justify-between items-center mt-2 text-sm text-gray-600 dark:text-gray-400">
           <span>{formatValue(values[0])}</span>
@@ -113,14 +126,14 @@ export default function RangeSliderPattern() {
     );
   };
 
-  const SingleSlider = ({ 
-    min = 0, 
-    max = 100, 
-    step = 1, 
-    value, 
-    onChange, 
+  const SingleSlider = ({
+    min = 0,
+    max = 100,
+    step = 1,
+    value,
+    onChange,
     formatValue = (value: number) => value.toString(),
-    className = ""
+    className = "",
   }: {
     min?: number;
     max?: number;
@@ -139,7 +152,7 @@ export default function RangeSliderPattern() {
             className="absolute h-full bg-blue-500 rounded-full"
             style={{ width: `${((value - min) / (max - min)) * 100}%` }}
           />
-          
+
           {/* Native input for accessibility */}
           <input
             type="range"
@@ -150,17 +163,21 @@ export default function RangeSliderPattern() {
             onChange={(e) => onChange(Number(e.target.value))}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
-          
+
           {/* Custom thumb */}
           <div
             className="absolute w-4 h-4 bg-white border-2 border-blue-500 rounded-full transform -translate-y-1 shadow-sm pointer-events-none"
-            style={{ left: `calc(${((value - min) / (max - min)) * 100}% - 8px)` }}
+            style={{
+              left: `calc(${((value - min) / (max - min)) * 100}% - 8px)`,
+            }}
           />
         </div>
-        
+
         {/* Value display */}
         <div className="flex justify-center mt-2">
-          <span className="text-sm text-gray-600 dark:text-gray-400">{formatValue(value)}</span>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            {formatValue(value)}
+          </span>
         </div>
       </div>
     );
@@ -176,7 +193,8 @@ export default function RangeSliderPattern() {
           🎚️ Range Slider Patterns
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Interactive range sliders for selecting single values or ranges with custom styling and accessibility support.
+          Interactive range sliders for selecting single values or ranges with
+          custom styling and accessibility support.
         </p>
       </div>
 
@@ -187,7 +205,7 @@ export default function RangeSliderPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Examples
             </h2>
-            
+
             <div className="space-y-8">
               {/* Single Value Slider */}
               <div className="space-y-4">
@@ -222,13 +240,18 @@ export default function RangeSliderPattern() {
                     max={100}
                     step={1}
                     values={rangeValue}
-                    onChange={(values) => handleRangeChange(values, setRangeValue)}
+                    onChange={(values) =>
+                      handleRangeChange(values, setRangeValue)
+                    }
                     formatValue={formatPercentage}
                   />
                 </div>
                 <div className="text-center p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
                   <p className="text-sm text-green-700 dark:text-green-300">
-                    Selected range: <strong>{rangeValue[0]}% - {rangeValue[1]}%</strong>
+                    Selected range:{" "}
+                    <strong>
+                      {rangeValue[0]}% - {rangeValue[1]}%
+                    </strong>
                   </p>
                 </div>
               </div>
@@ -244,13 +267,18 @@ export default function RangeSliderPattern() {
                     max={1000}
                     step={10}
                     values={priceRange}
-                    onChange={(values) => handleRangeChange(values, setPriceRange)}
+                    onChange={(values) =>
+                      handleRangeChange(values, setPriceRange)
+                    }
                     formatValue={formatPrice}
                   />
                 </div>
                 <div className="text-center p-3 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg">
                   <p className="text-sm text-purple-700 dark:text-purple-300">
-                    Price range: <strong>${priceRange[0]} - ${priceRange[1]}</strong>
+                    Price range:{" "}
+                    <strong>
+                      ${priceRange[0]} - ${priceRange[1]}
+                    </strong>
                   </p>
                 </div>
               </div>
@@ -278,13 +306,13 @@ export default function RangeSliderPattern() {
                           style={{ left: `${step}%` }}
                         />
                       ))}
-                      
+
                       {/* Active track */}
                       <div
                         className="absolute h-full bg-green-500 rounded-full"
                         style={{ width: `${volume}%` }}
                       />
-                      
+
                       {/* Native input */}
                       <input
                         type="range"
@@ -295,7 +323,7 @@ export default function RangeSliderPattern() {
                         onChange={(e) => setVolume(Number(e.target.value))}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                       />
-                      
+
                       {/* Custom thumb */}
                       <div
                         className="absolute w-4 h-4 bg-white border-2 border-green-500 rounded-full transform -translate-y-1 shadow-sm pointer-events-none"
@@ -303,9 +331,11 @@ export default function RangeSliderPattern() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-center space-x-2">
-                    <span className="text-2xl">{volume === 0 ? '🔇' : volume < 50 ? '🔉' : '🔊'}</span>
+                    <span className="text-2xl">
+                      {volume === 0 ? "🔇" : volume < 50 ? "🔉" : "🔊"}
+                    </span>
                     <span className="text-sm text-gray-600 dark:text-gray-400 font-mono">
                       {volume}%
                     </span>
@@ -344,16 +374,14 @@ export default function RangeSliderPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="range-slider" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="range-slider"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -367,31 +395,55 @@ export default function RangeSliderPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Single & Range Selection</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Support for both single values and range selection</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Single & Range Selection
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Support for both single values and range selection
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Custom Styling</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Fully customizable appearance and colors</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Custom Styling
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Fully customizable appearance and colors
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Accessibility Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Keyboard navigation and screen reader support</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Accessibility Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Keyboard navigation and screen reader support
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Value Formatting</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Custom value display formatting functions</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Value Formatting
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Custom value display formatting functions
+              </p>
             </div>
           </div>
         </div>
@@ -405,18 +457,30 @@ export default function RangeSliderPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">💰</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Price Filters</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Product filtering by price range</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Price Filters
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Product filtering by price range
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🔊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Media Controls</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Volume, brightness, and playback controls</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Media Controls
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Volume, brightness, and playback controls
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">⚙️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Settings & Config</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">User preferences and configuration values</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Settings & Config
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              User preferences and configuration values
+            </p>
           </div>
         </div>
       </div>

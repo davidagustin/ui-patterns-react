@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ForgivingFormatPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [creditCard, setCreditCard] = useState('');
-  const [date, setDate] = useState('');
-  const [email, setEmail] = useState('');
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [creditCard, setCreditCard] = useState("");
+  const [date, setDate] = useState("");
+  const [email, setEmail] = useState("");
 
   const normalizePhoneNumber = (input: string) => {
     // Remove all non-digit characters
-    const digits = input.replace(/\D/g, '');
-    
+    const digits = input.replace(/\D/g, "");
+
     // Format based on length
     if (digits.length <= 3) {
       return digits;
@@ -26,21 +26,21 @@ export default function ForgivingFormatPattern() {
 
   const normalizeCreditCard = (input: string) => {
     // Remove all non-digit characters
-    const digits = input.replace(/\D/g, '');
-    
+    const digits = input.replace(/\D/g, "");
+
     // Format in groups of 4
     const groups = [];
     for (let i = 0; i < digits.length && i < 16; i += 4) {
       groups.push(digits.slice(i, i + 4));
     }
-    
-    return groups.join(' ');
+
+    return groups.join(" ");
   };
 
   const normalizeDate = (input: string) => {
     // Remove all non-digit characters
-    const digits = input.replace(/\D/g, '');
-    
+    const digits = input.replace(/\D/g, "");
+
     // Format as MM/DD/YYYY
     if (digits.length <= 2) {
       return digits;
@@ -78,32 +78,39 @@ export default function ForgivingFormatPattern() {
 
   const getValidationStatus = (field: string, value: string) => {
     switch (field) {
-      case 'phone':
-        const phoneDigits = value.replace(/\D/g, '');
-        if (phoneDigits.length === 10) return 'valid';
-        if (phoneDigits.length > 0) return 'invalid';
-        return 'empty';
-      case 'creditCard':
-        const cardDigits = value.replace(/\D/g, '');
-        if (cardDigits.length === 16) return 'valid';
-        if (cardDigits.length > 0) return 'invalid';
-        return 'empty';
-      case 'date':
-        const dateDigits = value.replace(/\D/g, '');
-        if (dateDigits.length === 8) return 'valid';
-        if (dateDigits.length > 0) return 'invalid';
-        return 'empty';
-      case 'email':
+      case "phone":
+        const phoneDigits = value.replace(/\D/g, "");
+        if (phoneDigits.length === 10) return "valid";
+        if (phoneDigits.length > 0) return "invalid";
+        return "empty";
+      case "creditCard":
+        const cardDigits = value.replace(/\D/g, "");
+        if (cardDigits.length === 16) return "valid";
+        if (cardDigits.length > 0) return "invalid";
+        return "empty";
+      case "date":
+        const dateDigits = value.replace(/\D/g, "");
+        if (dateDigits.length === 8) return "valid";
+        if (dateDigits.length > 0) return "invalid";
+        return "empty";
+      case "email":
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (emailRegex.test(value)) return 'valid';
-        if (value.length > 0) return 'invalid';
-        return 'empty';
+        if (emailRegex.test(value)) return "valid";
+        if (value.length > 0) return "invalid";
+        return "empty";
       default:
-        return 'empty';
+        return "empty";
     }
   };
 
-  const renderField = (field: string, label: string, value: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, placeholder: string, examples: string[]) => {
+  const renderField = (
+    field: string,
+    label: string,
+    value: string,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    placeholder: string,
+    examples: string[],
+  ) => {
     const status = getValidationStatus(field, value);
 
     return (
@@ -111,7 +118,7 @@ export default function ForgivingFormatPattern() {
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {label}
         </label>
-        
+
         <div className="relative">
           <input
             type="text"
@@ -119,18 +126,20 @@ export default function ForgivingFormatPattern() {
             onChange={onChange}
             placeholder={placeholder}
             className={`input-field transition-all duration-200 ${
-              status === 'valid' ? 'border-green-500 focus:ring-green-500' :
-              status === 'invalid' ? 'border-red-500 focus:ring-red-500' :
-              'border-gray-300 focus:ring-blue-500'
+              status === "valid"
+                ? "border-green-500 focus:ring-green-500"
+                : status === "invalid"
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
             }`}
           />
-          
+
           {/* Status Icon */}
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            {status === 'valid' && (
+            {status === "valid" && (
               <span className="text-green-500 text-lg">✅</span>
             )}
-            {status === 'invalid' && (
+            {status === "invalid" && (
               <span className="text-red-500 text-lg">❌</span>
             )}
           </div>
@@ -138,16 +147,16 @@ export default function ForgivingFormatPattern() {
 
         {/* Examples */}
         <div className="text-xs text-gray-500 dark:text-gray-400">
-          <span className="font-medium">Examples:</span> {examples.join(', ')}
+          <span className="font-medium">Examples:</span> {examples.join(", ")}
         </div>
 
         {/* Status Message */}
-        {status === 'valid' && (
+        {status === "valid" && (
           <div className="text-sm text-green-600 dark:text-green-400">
             ✓ Format accepted
           </div>
         )}
-        {status === 'invalid' && (
+        {status === "invalid" && (
           <div className="text-sm text-red-600 dark:text-red-400">
             ⚠️ Please check the format
           </div>
@@ -163,7 +172,8 @@ export default function ForgivingFormatPattern() {
           🤝 Forgiving Format Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Accept various input formats and automatically normalize them to a consistent structure, making forms more user-friendly.
+          Accept various input formats and automatically normalize them to a
+          consistent structure, making forms more user-friendly.
         </p>
       </div>
 
@@ -175,44 +185,45 @@ export default function ForgivingFormatPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Try entering data in different formats. The inputs will automatically normalize and format your input as you type.
+              Try entering data in different formats. The inputs will
+              automatically normalize and format your input as you type.
             </p>
-            
+
             <div className="space-y-6">
               {renderField(
-                'phone',
-                'Phone Number',
+                "phone",
+                "Phone Number",
                 phoneNumber,
                 handlePhoneChange,
-                'Enter phone number',
-                ['555-123-4567', '(555) 123-4567', '5551234567']
+                "Enter phone number",
+                ["555-123-4567", "(555) 123-4567", "5551234567"],
               )}
 
               {renderField(
-                'creditCard',
-                'Credit Card Number',
+                "creditCard",
+                "Credit Card Number",
                 creditCard,
                 handleCreditCardChange,
-                'Enter card number',
-                ['1234 5678 9012 3456', '1234567890123456']
+                "Enter card number",
+                ["1234 5678 9012 3456", "1234567890123456"],
               )}
 
               {renderField(
-                'date',
-                'Date',
+                "date",
+                "Date",
                 date,
                 handleDateChange,
-                'Enter date',
-                ['12/25/2023', '12252023', '12-25-2023']
+                "Enter date",
+                ["12/25/2023", "12252023", "12-25-2023"],
               )}
 
               {renderField(
-                'email',
-                'Email Address',
+                "email",
+                "Email Address",
                 email,
                 handleEmailChange,
-                'Enter email address',
-                ['user@example.com', 'USER@EXAMPLE.COM']
+                "Enter email address",
+                ["user@example.com", "USER@EXAMPLE.COM"],
               )}
             </div>
 
@@ -225,7 +236,9 @@ export default function ForgivingFormatPattern() {
                 <li>• Phone: 5551234567, 555-123-4567, or (555) 123-4567</li>
                 <li>• Credit Card: 1234567890123456 or 1234 5678 9012 3456</li>
                 <li>• Date: 12252023, 12/25/2023, or 12-25-2023</li>
-                <li>• Email: USER@EXAMPLE.COM (will be converted to lowercase)</li>
+                <li>
+                  • Email: USER@EXAMPLE.COM (will be converted to lowercase)
+                </li>
               </ul>
             </div>
           </div>
@@ -237,16 +250,14 @@ export default function ForgivingFormatPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
-            {/* Tab Navigation */}
 
             {/* Tab Content */}
             <div className="code-block">
               {
-                <DynamicCodeExample 
-                componentName="forgiving-format" 
-                activeTab={activeTab} 
-              />
+                <DynamicCodeExample
+                  componentName="forgiving-format"
+                  activeTab={activeTab}
+                />
               }
             </div>
           </div>
@@ -260,31 +271,56 @@ export default function ForgivingFormatPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Format Normalization</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Automatically convert various input formats to standard format</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Format Normalization
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Automatically convert various input formats to standard format
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Real-time Validation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Provide immediate feedback on input validity</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Real-time Validation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Provide immediate feedback on input validity
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">User-Friendly</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Accept multiple input formats without requiring specific formatting</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                User-Friendly
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Accept multiple input formats without requiring specific
+                formatting
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indicators show when input is valid or needs correction</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear indicators show when input is valid or needs correction
+              </p>
             </div>
           </div>
         </div>
@@ -298,18 +334,30 @@ export default function ForgivingFormatPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📞</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Contact Forms</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Accept phone numbers in various formats</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Contact Forms
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Accept phone numbers in various formats
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">💳</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Payment Forms</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Handle credit card numbers with spaces or dashes</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Payment Forms
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Handle credit card numbers with spaces or dashes
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📅</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Date Input</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Accept dates in multiple formats</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Date Input
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Accept dates in multiple formats
+            </p>
           </div>
         </div>
       </div>
@@ -322,33 +370,57 @@ export default function ForgivingFormatPattern() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-3">
             <div className="flex items-start space-x-2">
-              <span className="text-yellow-600 dark:text-yellow-400 text-sm">1.</span>
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">
+                1.
+              </span>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-gray-200">Show Examples</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Provide clear examples of accepted formats</p>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                  Show Examples
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Provide clear examples of accepted formats
+                </p>
               </div>
             </div>
             <div className="flex items-start space-x-2">
-              <span className="text-yellow-600 dark:text-yellow-400 text-sm">2.</span>
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">
+                2.
+              </span>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-gray-200">Real-time Feedback</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Show formatting and validation status as users type</p>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                  Real-time Feedback
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Show formatting and validation status as users type
+                </p>
               </div>
             </div>
           </div>
           <div className="space-y-3">
             <div className="flex items-start space-x-2">
-              <span className="text-yellow-600 dark:text-yellow-400 text-sm">3.</span>
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">
+                3.
+              </span>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-gray-200">Preserve Intent</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Keep user input structure when possible</p>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                  Preserve Intent
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Keep user input structure when possible
+                </p>
               </div>
             </div>
             <div className="flex items-start space-x-2">
-              <span className="text-yellow-600 dark:text-yellow-400 text-sm">4.</span>
+              <span className="text-yellow-600 dark:text-yellow-400 text-sm">
+                4.
+              </span>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-gray-200">Graceful Degradation</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Handle edge cases without breaking the experience</p>
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                  Graceful Degradation
+                </h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Handle edge cases without breaking the experience
+                </p>
               </div>
             </div>
           </div>
