@@ -66,12 +66,14 @@ export default function SwipeNavigationPattern() {
     if (!isDragging) return;
     
     const diff = startX - currentX;
-    const threshold = 100;
+    const threshold = 150; // Increased threshold to prevent accidental swipes
     
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage < pages.length - 1) {
+        // Swipe left - go to next page
         setCurrentPage(prev => prev + 1);
       } else if (diff < 0 && currentPage > 0) {
+        // Swipe right - go to previous page
         setCurrentPage(prev => prev - 1);
       }
     }
@@ -96,12 +98,14 @@ export default function SwipeNavigationPattern() {
     if (!isDragging) return;
     
     const diff = startX - currentX;
-    const threshold = 100;
+    const threshold = 150; // Increased threshold to prevent accidental swipes
     
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage < pages.length - 1) {
+        // Swipe left - go to next page
         setCurrentPage(prev => prev + 1);
       } else if (diff < 0 && currentPage > 0) {
+        // Swipe right - go to previous page
         setCurrentPage(prev => prev - 1);
       }
     }
@@ -197,6 +201,19 @@ export default function SwipeNavigationPattern() {
                         src={page.image} 
                         alt={`${page.title} background`}
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          // Show a fallback with the page title
+                          const parent = target.parentElement;
+                          if (parent) {
+                            parent.innerHTML = `
+                              <div class="w-full h-full bg-white/20 rounded-lg flex items-center justify-center">
+                                <span class="text-white/60 text-6xl font-bold">${page.title.charAt(0)}</span>
+                              </div>
+                            `;
+                          }
+                        }}
                       />
                     </div>
                     
@@ -205,6 +222,7 @@ export default function SwipeNavigationPattern() {
                       <h3 className="text-2xl font-bold mb-2">{page.title}</h3>
                       <p className="text-lg opacity-90">{page.content}</p>
                       <p className="text-sm opacity-75 mt-2">Page {index + 1} of {pages.length}</p>
+                      <p className="text-xs opacity-50 mt-1">Image: {page.image}</p>
                     </div>
                   </div>
                 ))}
@@ -263,7 +281,7 @@ export default function SwipeNavigationPattern() {
               {/* Swipe Progress Indicator */}
               {isDragging && (
                 <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-black/30 text-white px-2 py-1 rounded text-xs">
-                  {Math.abs(startX - currentX)}px / 100px threshold
+                  {Math.abs(startX - currentX)}px / 150px threshold
                 </div>
               )}
             </div>
