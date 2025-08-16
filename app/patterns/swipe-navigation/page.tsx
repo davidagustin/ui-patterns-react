@@ -16,35 +16,35 @@ export default function SwipeNavigationPattern() {
       title: 'Home', 
       content: 'Welcome to the home page', 
       color: 'bg-blue-500',
-      image: '/next.svg'
+      image: 'https://picsum.photos/200/200?random=1'
     },
     { 
       id: 2, 
       title: 'Profile', 
       content: 'Your profile information', 
       color: 'bg-green-500',
-      image: '/vercel.svg'
+      image: 'https://picsum.photos/200/200?random=2'
     },
     { 
       id: 3, 
       title: 'Settings', 
       content: 'App settings and preferences', 
       color: 'bg-purple-500',
-      image: '/globe.svg'
+      image: 'https://picsum.photos/200/200?random=3'
     },
     { 
       id: 4, 
       title: 'Messages', 
       content: 'Your conversations', 
       color: 'bg-orange-500',
-      image: '/window.svg'
+      image: 'https://picsum.photos/200/200?random=4'
     },
     { 
       id: 5, 
       title: 'Files', 
       content: 'Your documents and files', 
       color: 'bg-red-500',
-      image: '/file.svg'
+      image: 'https://picsum.photos/200/200?random=5'
     },
   ];
 
@@ -58,7 +58,15 @@ export default function SwipeNavigationPattern() {
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
     e.preventDefault();
-    setCurrentX(e.touches[0].clientX);
+    
+    const newX = e.touches[0].clientX;
+    const diff = startX - newX;
+    const maxSwipeDistance = 200; // Maximum swipe distance
+    
+    // Limit the swipe distance
+    if (Math.abs(diff) <= maxSwipeDistance) {
+      setCurrentX(newX);
+    }
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -66,7 +74,7 @@ export default function SwipeNavigationPattern() {
     e.preventDefault();
     
     const diff = startX - currentX;
-    const threshold = 80; // Increased threshold for more precise control
+    const threshold = 120; // Much higher threshold to prevent accidental swipes
     
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage < pages.length - 1) {
@@ -98,7 +106,7 @@ export default function SwipeNavigationPattern() {
     if (!isDragging) return;
     
     const diff = startX - currentX;
-    const threshold = 80; // Increased threshold for more precise control
+    const threshold = 120; // Much higher threshold to prevent accidental swipes
     
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage < pages.length - 1) {
@@ -175,7 +183,8 @@ export default function SwipeNavigationPattern() {
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
                 MozUserSelect: 'none',
-                msUserSelect: 'none'
+                msUserSelect: 'none',
+                minHeight: '256px'
               }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
@@ -210,6 +219,19 @@ export default function SwipeNavigationPattern() {
                           maxWidth: '100%',
                           maxHeight: '100%'
                         }}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          // Show a fallback icon
+                          const parent = target.parentElement;
+                          if (parent) {
+                            parent.innerHTML = `
+                              <div class="w-32 h-32 bg-white/20 rounded-lg flex items-center justify-center">
+                                <span class="text-white/60 text-4xl">${page.title.charAt(0)}</span>
+                              </div>
+                            `;
+                          }
+                        }}
                       />
                     </div>
                     
@@ -218,6 +240,7 @@ export default function SwipeNavigationPattern() {
                       <h3 className="text-2xl font-bold mb-2">{page.title}</h3>
                       <p className="text-lg opacity-90">{page.content}</p>
                       <p className="text-sm opacity-75 mt-2">Page {index + 1} of {pages.length}</p>
+
                     </div>
                   </div>
                 ))}
@@ -344,35 +367,35 @@ export default function SwipeNavigation() {
       title: 'Home', 
       content: 'Welcome to the home page', 
       color: 'bg-blue-500',
-      image: '/next.svg'
+      image: 'https://picsum.photos/200/200?random=1'
     },
     { 
       id: 2, 
       title: 'Profile', 
       content: 'Your profile information', 
       color: 'bg-green-500',
-      image: '/vercel.svg'
+      image: 'https://picsum.photos/200/200?random=2'
     },
     { 
       id: 3, 
       title: 'Settings', 
       content: 'App settings and preferences', 
       color: 'bg-purple-500',
-      image: '/globe.svg'
+      image: 'https://picsum.photos/200/200?random=3'
     },
     { 
       id: 4, 
       title: 'Messages', 
       content: 'Your conversations', 
       color: 'bg-orange-500',
-      image: '/window.svg'
+      image: 'https://picsum.photos/200/200?random=4'
     },
     { 
       id: 5, 
       title: 'Files', 
       content: 'Your documents and files', 
       color: 'bg-red-500',
-      image: '/file.svg'
+      image: 'https://picsum.photos/200/200?random=5'
     },
   ];
 
