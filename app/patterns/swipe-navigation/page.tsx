@@ -196,24 +196,20 @@ export default function SwipeNavigationPattern() {
                 {pages.map((page, index) => (
                   <div
                     key={page.id}
-                    className={`flex-shrink-0 w-full h-full flex flex-col items-center justify-center ${page.color} text-white relative overflow-hidden`}
+                    className={`flex-shrink-0 h-full flex flex-col items-center justify-center ${page.color} text-white relative overflow-hidden`}
                     style={{ width: `${100 / pages.length}%` }}
                   >
                     {/* Background Image */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                    <div className="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none">
                       <img 
                         src={page.image} 
                         alt={`${page.title} background`}
-                        className="w-32 h-32 object-contain transition-opacity duration-300"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
+                        className="w-32 h-32 object-contain"
+                        style={{ 
+                          opacity: 1,
+                          maxWidth: '100%',
+                          maxHeight: '100%'
                         }}
-                        onLoad={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.opacity = '1';
-                        }}
-                        style={{ opacity: 0 }}
                       />
                     </div>
                     
@@ -466,24 +462,20 @@ export default function SwipeNavigation() {
         {pages.map((page, index) => (
           <div
             key={page.id}
-            className={\`flex-shrink-0 w-full h-full flex flex-col items-center justify-center \${page.color} text-white relative overflow-hidden\`}
+            className={\`flex-shrink-0 h-full flex flex-col items-center justify-center \${page.color} text-white relative overflow-hidden\`}
             style={{ width: \`\${100 / pages.length}%\` }}
           >
             {/* Background Image */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-20">
+            <div className="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none">
               <img 
                 src={page.image} 
                 alt={\`\${page.title} background\`}
-                className="w-32 h-32 object-contain transition-opacity duration-300"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
+                className="w-32 h-32 object-contain"
+                style={{ 
+                  opacity: 1,
+                  maxWidth: '100%',
+                  maxHeight: '100%'
                 }}
-                onLoad={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.opacity = '1';
-                }}
-                style={{ opacity: 0 }}
               />
             </div>
             

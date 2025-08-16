@@ -96,7 +96,7 @@ export default function FatFooterPattern() {
                         placeholder="Enter your email"
                         className="flex-1 px-4 py-2 bg-gray-800 border border-gray-600 rounded-l text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 h-10"
                       />
-                      <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors h-10 flex items-center justify-center whitespace-nowrap">
+                      <button className="px-4 py-2 bg-blue-600 text-white rounded-r hover:bg-blue-700 transition-colors h-10 flex items-center justify-center whitespace-nowrap">
                         Subscribe
                       </button>
                     </div>
