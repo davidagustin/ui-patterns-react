@@ -34,12 +34,12 @@ export default function ImageZoomPattern() {
       const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
       const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
       
-      // Calculate boundary limits based on zoom level
-      const maxOffset = (zoomLevel - 1) * 50; // 50% of the zoom excess
+      // Calculate boundary limits based on zoom level - more restrictive
+      const maxOffset = (zoomLevel - 1) * 25; // Reduced from 50 to 25 for tighter bounds
       
       // Constrain the position within boundaries
-      const constrainedX = Math.max(-maxOffset, Math.min(maxOffset, x * 25));
-      const constrainedY = Math.max(-maxOffset, Math.min(maxOffset, y * 25));
+      const constrainedX = Math.max(-maxOffset, Math.min(maxOffset, x * 15)); // Reduced multiplier from 25 to 15
+      const constrainedY = Math.max(-maxOffset, Math.min(maxOffset, y * 15)); // Reduced multiplier from 25 to 15
       
       setPosition({ x: constrainedX, y: constrainedY });
     }
@@ -126,7 +126,7 @@ export default function ImageZoomPattern() {
                   className="image-zoom-image"
                   style={{
                     transform: `scale(${zoomLevel}) translate(${position.x}%, ${position.y}%)`,
-                    cursor: isZoomed ? 'grab' : 'default',
+                    cursor: zoomLevel > 1 ? 'move' : 'default',
                   }}
                 />
               </div>
@@ -202,12 +202,12 @@ export default function ImageZoomPattern() {
       const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
       const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
       
-      // Calculate boundary limits based on zoom level
-      const maxOffset = (zoomLevel - 1) * 50; // 50% of the zoom excess
+      // Calculate boundary limits based on zoom level - more restrictive
+      const maxOffset = (zoomLevel - 1) * 25; // Reduced from 50 to 25 for tighter bounds
       
       // Constrain the position within boundaries
-      const constrainedX = Math.max(-maxOffset, Math.min(maxOffset, x * 25));
-      const constrainedY = Math.max(-maxOffset, Math.min(maxOffset, y * 25));
+      const constrainedX = Math.max(-maxOffset, Math.min(maxOffset, x * 15)); // Reduced multiplier from 25 to 15
+      const constrainedY = Math.max(-maxOffset, Math.min(maxOffset, y * 15)); // Reduced multiplier from 25 to 15
       
       setPosition({ x: constrainedX, y: constrainedY });
     }
@@ -266,7 +266,7 @@ export default function ImageZoomPattern() {
           className="image-zoom-image"
           style={{
             transform: \`scale(\${zoomLevel}) translate(\${position.x}%, \${position.y}%)\`,
-            cursor: isZoomed ? 'grab' : 'default',
+            cursor: zoomLevel > 1 ? 'move' : 'default',
           }}
         />
       </div>
