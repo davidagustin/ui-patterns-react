@@ -1,36 +1,34 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function BottomNavigationPattern() {
-  
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [activeNavItem, setActiveNavItem] = useState('home');
-  const [activeBadgeItem, setActiveBadgeItem] = useState('home');
-  const [activeFloatingItem, setActiveFloatingItem] = useState('home');
-  const [activeGestureItem, setActiveGestureItem] = useState('home');
+  const [activeNavItem, setActiveNavItem] = useState("home");
+  const [activeBadgeItem, setActiveBadgeItem] = useState("home");
+  const [activeFloatingItem, setActiveFloatingItem] = useState("home");
+  const [activeGestureItem, setActiveGestureItem] = useState("home");
 
   const basicNavItems = [
-    { id: 'home', label: 'Home', icon: '🏠' },
-    { id: 'search', label: 'Search', icon: '🔍' },
-    { id: 'favorites', label: 'Favorites', icon: '❤️' },
-    { id: 'profile', label: 'Profile', icon: '👤' },
+    { id: "home", label: "Home", icon: "🏠" },
+    { id: "search", label: "Search", icon: "🔍" },
+    { id: "favorites", label: "Favorites", icon: "❤️" },
+    { id: "profile", label: "Profile", icon: "👤" },
   ];
 
   const badgeNavItems = [
-    { id: 'home', label: 'Home', icon: '🏠', badge: null },
-    { id: 'messages', label: 'Messages', icon: '💬', badge: '3' },
-    { id: 'notifications', label: 'Alerts', icon: '🔔', badge: '12' },
-    { id: 'profile', label: 'Profile', icon: '👤', badge: null },
+    { id: "home", label: "Home", icon: "🏠", badge: null },
+    { id: "messages", label: "Messages", icon: "💬", badge: "3" },
+    { id: "notifications", label: "Alerts", icon: "🔔", badge: "12" },
+    { id: "profile", label: "Profile", icon: "👤", badge: null },
   ];
 
   const floatingNavItems = [
-    { id: 'home', label: 'Home', icon: '🏠' },
-    { id: 'search', label: 'Search', icon: '🔍' },
-    { id: 'add', label: 'Add', icon: '➕', isFloating: true },
-    { id: 'chat', label: 'Chat', icon: '💬' },
-    { id: 'profile', label: 'Profile', icon: '👤' },
+    { id: "home", label: "Home", icon: "🏠" },
+    { id: "search", label: "Search", icon: "🔍" },
+    { id: "add", label: "Add", icon: "➕", isFloating: true },
+    { id: "chat", label: "Chat", icon: "💬" },
+    { id: "profile", label: "Profile", icon: "👤" },
   ];
 
   return (
@@ -40,7 +38,8 @@ export default function BottomNavigationPattern() {
           📱 Bottom Navigation Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Create mobile-friendly bottom navigation bars with icons, badges, and floating action buttons for intuitive app navigation.
+          Create mobile-friendly bottom navigation bars with icons, badges, and
+          floating action buttons for intuitive app navigation.
         </p>
       </div>
 
@@ -52,25 +51,41 @@ export default function BottomNavigationPattern() {
               🎯 Interactive Examples
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-              Three different bottom navigation styles: basic tabs, with notification badges, and with floating action button.
+              Three different bottom navigation styles: basic tabs, with
+              notification badges, and with floating action button.
             </p>
-            
+
             <div className="space-y-8">
               {/* Basic Bottom Navigation */}
               <div className="space-y-3">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200">1. Basic Bottom Navigation</h3>
+                <h3 className="font-medium text-gray-800 dark:text-gray-200">
+                  1. Basic Bottom Navigation
+                </h3>
                 <div className="relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                   {/* Mock Content Area */}
                   <div className="h-40 p-6 flex items-center justify-center bg-gray-50 dark:bg-gray-700">
                     <div className="text-center">
                       <div className="text-4xl mb-2">
-                        {basicNavItems.find(item => item.id === activeNavItem)?.icon}
+                        {
+                          basicNavItems.find(
+                            (item) => item.id === activeNavItem,
+                          )?.icon
+                        }
                       </div>
                       <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                        {basicNavItems.find(item => item.id === activeNavItem)?.label} Screen
+                        {
+                          basicNavItems.find(
+                            (item) => item.id === activeNavItem,
+                          )?.label
+                        }{" "}
+                        Screen
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                        This is the {basicNavItems.find(item => item.id === activeNavItem)?.label.toLowerCase()} content area.
+                        This is the{" "}
+                        {basicNavItems
+                          .find((item) => item.id === activeNavItem)
+                          ?.label.toLowerCase()}{" "}
+                        content area.
                       </p>
                     </div>
                   </div>
@@ -84,12 +99,14 @@ export default function BottomNavigationPattern() {
                           onClick={() => setActiveNavItem(item.id)}
                           className={`flex-1 flex flex-col items-center py-3 px-2 transition-all duration-200 ${
                             activeNavItem === item.id
-                              ? 'text-blue-600 dark:text-blue-400'
-                              : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400'
+                              ? "text-blue-600 dark:text-blue-400"
+                              : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
                           }`}
                         >
                           <span className="text-xl mb-1">{item.icon}</span>
-                          <span className="text-xs font-medium">{item.label}</span>
+                          <span className="text-xs font-medium">
+                            {item.label}
+                          </span>
                         </button>
                       ))}
                     </nav>
@@ -99,22 +116,37 @@ export default function BottomNavigationPattern() {
 
               {/* Bottom Navigation with Badges */}
               <div className="space-y-3">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200">2. With Notification Badges</h3>
+                <h3 className="font-medium text-gray-800 dark:text-gray-200">
+                  2. With Notification Badges
+                </h3>
                 <div className="relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                   {/* Mock Content Area */}
                   <div className="h-40 p-6 flex items-center justify-center bg-gray-50 dark:bg-gray-700">
                     <div className="text-center">
                       <div className="text-4xl mb-2">
-                        {badgeNavItems.find(item => item.id === activeBadgeItem)?.icon}
+                        {
+                          badgeNavItems.find(
+                            (item) => item.id === activeBadgeItem,
+                          )?.icon
+                        }
                       </div>
                       <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                        {badgeNavItems.find(item => item.id === activeBadgeItem)?.label} Screen
+                        {
+                          badgeNavItems.find(
+                            (item) => item.id === activeBadgeItem,
+                          )?.label
+                        }{" "}
+                        Screen
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                        {activeBadgeItem === 'messages' && 'You have 3 unread messages'}
-                        {activeBadgeItem === 'notifications' && 'You have 12 new notifications'}
-                        {activeBadgeItem === 'home' && 'Welcome to your dashboard'}
-                        {activeBadgeItem === 'profile' && 'Manage your account settings'}
+                        {activeBadgeItem === "messages" &&
+                          "You have 3 unread messages"}
+                        {activeBadgeItem === "notifications" &&
+                          "You have 12 new notifications"}
+                        {activeBadgeItem === "home" &&
+                          "Welcome to your dashboard"}
+                        {activeBadgeItem === "profile" &&
+                          "Manage your account settings"}
                       </p>
                     </div>
                   </div>
@@ -128,19 +160,23 @@ export default function BottomNavigationPattern() {
                           onClick={() => setActiveBadgeItem(item.id)}
                           className={`relative flex-1 flex flex-col items-center py-3 px-2 transition-all duration-200 ${
                             activeBadgeItem === item.id
-                              ? 'text-blue-600 dark:text-blue-400'
-                              : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400'
+                              ? "text-blue-600 dark:text-blue-400"
+                              : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
                           }`}
                         >
                           <div className="relative">
-                            <span className="text-xl mb-1 block">{item.icon}</span>
+                            <span className="text-xl mb-1 block">
+                              {item.icon}
+                            </span>
                             {item.badge && (
                               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                                 {item.badge}
                               </span>
                             )}
                           </div>
-                          <span className="text-xs font-medium">{item.label}</span>
+                          <span className="text-xs font-medium">
+                            {item.label}
+                          </span>
                         </button>
                       ))}
                     </nav>
@@ -150,23 +186,37 @@ export default function BottomNavigationPattern() {
 
               {/* Bottom Navigation with Floating Action Button */}
               <div className="space-y-3">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200">3. With Floating Action Button</h3>
+                <h3 className="font-medium text-gray-800 dark:text-gray-200">
+                  3. With Floating Action Button
+                </h3>
                 <div className="relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                   {/* Mock Content Area */}
                   <div className="h-40 p-6 flex items-center justify-center bg-gray-50 dark:bg-gray-700">
                     <div className="text-center">
                       <div className="text-4xl mb-2">
-                        {floatingNavItems.find(item => item.id === activeFloatingItem)?.icon}
+                        {
+                          floatingNavItems.find(
+                            (item) => item.id === activeFloatingItem,
+                          )?.icon
+                        }
                       </div>
                       <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                        {floatingNavItems.find(item => item.id === activeFloatingItem)?.label} Screen
+                        {
+                          floatingNavItems.find(
+                            (item) => item.id === activeFloatingItem,
+                          )?.label
+                        }{" "}
+                        Screen
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                        {activeFloatingItem === 'add' && 'Create new content here'}
-                        {activeFloatingItem === 'home' && 'Your main dashboard'}
-                        {activeFloatingItem === 'search' && 'Search through content'}
-                        {activeFloatingItem === 'chat' && 'Your conversations'}
-                        {activeFloatingItem === 'profile' && 'Your profile and settings'}
+                        {activeFloatingItem === "add" &&
+                          "Create new content here"}
+                        {activeFloatingItem === "home" && "Your main dashboard"}
+                        {activeFloatingItem === "search" &&
+                          "Search through content"}
+                        {activeFloatingItem === "chat" && "Your conversations"}
+                        {activeFloatingItem === "profile" &&
+                          "Your profile and settings"}
                       </p>
                     </div>
                   </div>
@@ -180,20 +230,24 @@ export default function BottomNavigationPattern() {
                           onClick={() => setActiveFloatingItem(item.id)}
                           className={`relative flex-1 flex flex-col items-center py-3 px-2 transition-all duration-200 ${
                             item.isFloating
-                              ? 'relative -top-4'
+                              ? "relative -top-4"
                               : activeFloatingItem === item.id
-                              ? 'text-blue-600 dark:text-blue-400'
-                              : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400'
+                                ? "text-blue-600 dark:text-blue-400"
+                                : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
                           }`}
                         >
                           {item.isFloating ? (
                             <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition-colors">
-                              <span className="text-white text-xl">{item.icon}</span>
+                              <span className="text-white text-xl">
+                                {item.icon}
+                              </span>
                             </div>
                           ) : (
                             <>
                               <span className="text-xl mb-1">{item.icon}</span>
-                              <span className="text-xs font-medium">{item.label}</span>
+                              <span className="text-xs font-medium">
+                                {item.label}
+                              </span>
                             </>
                           )}
                         </button>
@@ -205,22 +259,33 @@ export default function BottomNavigationPattern() {
 
               {/* Gesture-Enhanced Bottom Navigation */}
               <div className="space-y-3">
-                <h3 className="font-medium text-gray-800 dark:text-gray-200">4. With Gesture Support</h3>
+                <h3 className="font-medium text-gray-800 dark:text-gray-200">
+                  4. With Gesture Support
+                </h3>
                 <div className="relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                   {/* Mock Content Area with Swipe Indicator */}
                   <div className="h-40 p-6 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-700">
                     <div className="text-center">
                       <div className="text-4xl mb-2">
-                        {basicNavItems.find(item => item.id === activeGestureItem)?.icon}
+                        {
+                          basicNavItems.find(
+                            (item) => item.id === activeGestureItem,
+                          )?.icon
+                        }
                       </div>
                       <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                        {basicNavItems.find(item => item.id === activeGestureItem)?.label} Screen
+                        {
+                          basicNavItems.find(
+                            (item) => item.id === activeGestureItem,
+                          )?.label
+                        }{" "}
+                        Screen
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                         Swipe left/right or tap tabs to navigate
                       </p>
                     </div>
-                    
+
                     {/* Swipe Indicator */}
                     <div className="flex items-center mt-4 space-x-2">
                       <span className="text-xs text-gray-500">← Swipe</span>
@@ -230,8 +295,8 @@ export default function BottomNavigationPattern() {
                             key={item.id}
                             className={`w-2 h-2 rounded-full transition-colors ${
                               activeGestureItem === item.id
-                                ? 'bg-blue-600'
-                                : 'bg-gray-300 dark:bg-gray-600'
+                                ? "bg-blue-600"
+                                : "bg-gray-300 dark:bg-gray-600"
                             }`}
                           />
                         ))}
@@ -244,14 +309,14 @@ export default function BottomNavigationPattern() {
                   <div className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
                     <nav className="flex relative">
                       {/* Active Indicator */}
-                      <div 
+                      <div
                         className="absolute top-0 h-1 bg-blue-600 transition-all duration-300 ease-out"
                         style={{
                           width: `${100 / basicNavItems.length}%`,
-                          transform: `translateX(${basicNavItems.findIndex(item => item.id === activeGestureItem) * 100}%)`
+                          transform: `translateX(${basicNavItems.findIndex((item) => item.id === activeGestureItem) * 100}%)`,
                         }}
                       />
-                      
+
                       {basicNavItems.map((item, index) => (
                         <button
                           key={item.id}
@@ -262,17 +327,21 @@ export default function BottomNavigationPattern() {
                           }}
                           className={`flex-1 flex flex-col items-center py-3 px-2 transition-all duration-200 transform hover:scale-105 ${
                             activeGestureItem === item.id
-                              ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                              : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400'
+                              ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20"
+                              : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
                           }`}
                         >
-                          <span className={`text-xl mb-1 transition-transform duration-200 ${
-                            activeGestureItem === item.id ? 'scale-110' : ''
-                          }`}>
+                          <span
+                            className={`text-xl mb-1 transition-transform duration-200 ${
+                              activeGestureItem === item.id ? "scale-110" : ""
+                            }`}
+                          >
                             {item.icon}
                           </span>
-                          <span className="text-xs font-medium">{item.label}</span>
-                          
+                          <span className="text-xs font-medium">
+                            {item.label}
+                          </span>
+
                           {/* Ripple Effect Container */}
                           <div className="absolute inset-0 overflow-hidden rounded-lg">
                             <div className="absolute inset-0 bg-blue-600 opacity-0 scale-0 rounded-full transition-all duration-300 hover:opacity-10 hover:scale-150" />
@@ -286,7 +355,9 @@ export default function BottomNavigationPattern() {
             </div>
 
             <div className="mt-6 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Interactive Features</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                Interactive Features
+              </h4>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <div>• Active state indicators with color changes</div>
                 <div>• Notification badges with count display</div>
@@ -309,17 +380,10 @@ export default function BottomNavigationPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample 
-                componentName="bottom-navigation" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="bottom-navigation"
+                activeTab={activeTab}
               />
-              ) : (
-                <DynamicCodeExample 
-                componentName="bottom-navigation" 
-                activeTab={activeTab} 
-              />
-              )}
             </div>
           </div>
         </div>
@@ -332,45 +396,81 @@ export default function BottomNavigationPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Icon-Based Navigation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear visual indicators with labels</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Icon-Based Navigation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear visual indicators with labels
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Notification Badges</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Count indicators for alerts and messages</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Notification Badges
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Count indicators for alerts and messages
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Floating Action Button</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Prominent call-to-action in navigation</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Floating Action Button
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Prominent call-to-action in navigation
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Active State Indicators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear visual feedback for current tab</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Active State Indicators
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear visual feedback for current tab
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Mobile-Optimized</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Touch-friendly with appropriate sizing</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Mobile-Optimized
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Touch-friendly with appropriate sizing
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Animations</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Hover effects and state transitions</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smooth Animations
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Hover effects and state transitions
+              </p>
             </div>
           </div>
         </div>
@@ -384,18 +484,30 @@ export default function BottomNavigationPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📱</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Mobile Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Primary navigation for mobile applications</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Mobile Apps
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Primary navigation for mobile applications
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🌐</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Progressive Web Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Native app-like navigation experience</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Progressive Web Apps
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Native app-like navigation experience
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">💬</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Social Media Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Quick access to main features and feeds</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Social Media Apps
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Quick access to main features and feeds
+            </p>
           </div>
         </div>
       </div>

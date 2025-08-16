@@ -1,65 +1,73 @@
-'use client';
+"use client";
 
-import { useState, useRef, useCallback } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
-import Tooltip from '../../../components/Tooltip';
+import { useState, useRef, useCallback } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+import Tooltip from "../../../components/Tooltip";
 
 interface FileWithProgress {
   id: string;
   file: File;
   progress: number;
-  status: 'uploading' | 'completed' | 'error';
+  status: "uploading" | "completed" | "error";
   error?: string;
 }
 
 export default function FileUploadPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [files, setFiles] = useState<FileWithProgress[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf', 'text/plain'];
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "application/pdf",
+    "text/plain",
+  ];
   const maxFileSize = 5 * 1024 * 1024; // 5MB
   const maxFiles = 5;
 
   const validateFile = (file: File): string | null => {
     if (!allowedTypes.includes(file.type)) {
-      return 'File type not allowed. Please upload JPEG, PNG, GIF, PDF, or TXT files.';
+      return "File type not allowed. Please upload JPEG, PNG, GIF, PDF, or TXT files.";
     }
     if (file.size > maxFileSize) {
-      return 'File size too large. Maximum size is 5MB.';
+      return "File size too large. Maximum size is 5MB.";
     }
     return null;
   };
 
-  const addFiles = useCallback((newFiles: FileList | File[]) => {
-    const fileArray = Array.from(newFiles);
-    const validFiles: FileWithProgress[] = [];
+  const addFiles = useCallback(
+    (newFiles: FileList | File[]) => {
+      const fileArray = Array.from(newFiles);
+      const validFiles: FileWithProgress[] = [];
 
-    fileArray.forEach((file) => {
-      const error = validateFile(file);
-      if (error) {
-        alert(error);
-        return;
-      }
+      fileArray.forEach((file) => {
+        const error = validateFile(file);
+        if (error) {
+          alert(error);
+          return;
+        }
 
-      if (files.length >= maxFiles) {
-        alert(`Maximum ${maxFiles} files allowed.`);
-        return;
-      }
+        if (files.length >= maxFiles) {
+          alert(`Maximum ${maxFiles} files allowed.`);
+          return;
+        }
 
-      validFiles.push({
-        id: Date.now().toString() + Math.random(),
-        file,
-        progress: 0,
-        status: 'uploading'
+        validFiles.push({
+          id: Date.now().toString() + Math.random(),
+          file,
+          progress: 0,
+          status: "uploading",
+        });
       });
-    });
 
-    setFiles(prev => [...prev, ...validFiles]);
-  }, [files.length]);
+      setFiles((prev) => [...prev, ...validFiles]);
+    },
+    [files.length],
+  );
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -80,14 +88,14 @@ export default function FileUploadPattern() {
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
     setIsDragOver(false);
-    
+
     if (event.dataTransfer.files) {
       addFiles(event.dataTransfer.files);
     }
   };
 
   const removeFile = (id: string) => {
-    setFiles(prev => prev.filter(f => f.id !== id));
+    setFiles((prev) => prev.filter((f) => f.id !== id));
   };
 
   const simulateUpload = async (fileWithProgress: FileWithProgress) => {
@@ -95,37 +103,39 @@ export default function FileUploadPattern() {
     const stepDelay = 50;
 
     for (let i = 0; i <= totalSteps; i++) {
-      await new Promise(resolve => setTimeout(resolve, stepDelay));
-      
-      setFiles(prev => prev.map(f => 
-        f.id === fileWithProgress.id 
-          ? { ...f, progress: i }
-          : f
-      ));
+      await new Promise((resolve) => setTimeout(resolve, stepDelay));
+
+      setFiles((prev) =>
+        prev.map((f) =>
+          f.id === fileWithProgress.id ? { ...f, progress: i } : f,
+        ),
+      );
     }
 
     // Simulate completion or error
     const success = Math.random() > 0.1; // 90% success rate
-    
-    setFiles(prev => prev.map(f => 
-      f.id === fileWithProgress.id 
-        ? { 
-            ...f, 
-            status: success ? 'completed' : 'error',
-            error: success ? undefined : 'Upload failed. Please try again.'
-          }
-        : f
-    ));
+
+    setFiles((prev) =>
+      prev.map((f) =>
+        f.id === fileWithProgress.id
+          ? {
+              ...f,
+              status: success ? "completed" : "error",
+              error: success ? undefined : "Upload failed. Please try again.",
+            }
+          : f,
+      ),
+    );
   };
 
   const startUpload = async () => {
     setUploading(true);
-    
-    const uploadingFiles = files.filter(f => f.status === 'uploading');
-    
+
+    const uploadingFiles = files.filter((f) => f.status === "uploading");
+
     // Simulate concurrent uploads
     await Promise.all(uploadingFiles.map(simulateUpload));
-    
+
     setUploading(false);
   };
 
@@ -135,35 +145,43 @@ export default function FileUploadPattern() {
   };
 
   const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return "0 Bytes";
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
   const getFileIcon = (type: string): string => {
-    if (type.startsWith('image/')) return '🖼️';
-    if (type === 'application/pdf') return '📄';
-    if (type === 'text/plain') return '📝';
-    return '📁';
+    if (type.startsWith("image/")) return "🖼️";
+    if (type === "application/pdf") return "📄";
+    if (type === "text/plain") return "📝";
+    return "📁";
   };
 
   const getStatusIcon = (status: string): string => {
     switch (status) {
-      case 'uploading': return '⏳';
-      case 'completed': return '✅';
-      case 'error': return '❌';
-      default: return '📁';
+      case "uploading":
+        return "⏳";
+      case "completed":
+        return "✅";
+      case "error":
+        return "❌";
+      default:
+        return "📁";
     }
   };
 
   const getStatusColor = (status: string): string => {
     switch (status) {
-      case 'uploading': return 'text-blue-600 dark:text-blue-400';
-      case 'completed': return 'text-green-600 dark:text-green-400';
-      case 'error': return 'text-red-600 dark:text-red-400';
-      default: return 'text-gray-600 dark:text-gray-400';
+      case "uploading":
+        return "text-blue-600 dark:text-blue-400";
+      case "completed":
+        return "text-green-600 dark:text-green-400";
+      case "error":
+        return "text-red-600 dark:text-red-400";
+      default:
+        return "text-gray-600 dark:text-gray-400";
     }
   };
 
@@ -174,7 +192,8 @@ export default function FileUploadPattern() {
           📁 File Upload Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Advanced file upload system with drag-and-drop, progress tracking, and file validation.
+          Advanced file upload system with drag-and-drop, progress tracking, and
+          file validation.
         </p>
       </div>
 
@@ -185,14 +204,14 @@ export default function FileUploadPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             <div className="space-y-4">
               {/* Upload Zone */}
               <div
                 className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
                   isDragOver
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                    : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                    : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
                 }`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -228,10 +247,12 @@ export default function FileUploadPattern() {
                 <div className="flex space-x-3">
                   <button
                     onClick={startUpload}
-                    disabled={uploading || files.every(f => f.status !== 'uploading')}
+                    disabled={
+                      uploading || files.every((f) => f.status !== "uploading")
+                    }
                     className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
-                    {uploading ? 'Uploading...' : 'Start Upload'}
+                    {uploading ? "Uploading..." : "Start Upload"}
                   </button>
                   <button
                     onClick={clearAll}
@@ -244,7 +265,9 @@ export default function FileUploadPattern() {
 
               {/* File Info */}
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-                <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Upload Info</h4>
+                <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">
+                  Upload Info
+                </h4>
                 <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                   <div>• Maximum files: {maxFiles}</div>
                   <div>• Maximum size: {formatFileSize(maxFileSize)}</div>
@@ -262,11 +285,13 @@ export default function FileUploadPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               📋 File List
             </h2>
-            
+
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {files.length === 0 ? (
                 <div className="text-center py-8 text-gray-500 dark:text-gray-400">
-                  <div className="text-4xl mb-2" title="No files selected">📁</div>
+                  <div className="text-4xl mb-2" title="No files selected">
+                    📁
+                  </div>
                   <p>No files selected</p>
                   <p className="text-sm">Drag and drop files or click browse</p>
                 </div>
@@ -277,7 +302,9 @@ export default function FileUploadPattern() {
                     className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700"
                   >
                     <div className="flex items-start space-x-3">
-                      <Tooltip content={`${fileWithProgress.file.type || 'File'} type`}>
+                      <Tooltip
+                        content={`${fileWithProgress.file.type || "File"} type`}
+                      >
                         <div className="text-2xl">
                           {getFileIcon(fileWithProgress.file.type)}
                         </div>
@@ -288,8 +315,12 @@ export default function FileUploadPattern() {
                             {fileWithProgress.file.name}
                           </h3>
                           <div className="flex items-center space-x-2">
-                            <Tooltip content={`File ${fileWithProgress.status}`}>
-                              <span className={`text-sm ${getStatusColor(fileWithProgress.status)}`}>
+                            <Tooltip
+                              content={`File ${fileWithProgress.status}`}
+                            >
+                              <span
+                                className={`text-sm ${getStatusColor(fileWithProgress.status)}`}
+                              >
                                 {getStatusIcon(fileWithProgress.status)}
                               </span>
                             </Tooltip>
@@ -304,13 +335,13 @@ export default function FileUploadPattern() {
                             </Tooltip>
                           </div>
                         </div>
-                        
+
                         <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                           {formatFileSize(fileWithProgress.file.size)}
                         </div>
 
                         {/* Progress Bar */}
-                        {fileWithProgress.status === 'uploading' && (
+                        {fileWithProgress.status === "uploading" && (
                           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
                             <div
                               className="bg-blue-600 h-2 rounded-full transition-all duration-300"
@@ -320,21 +351,22 @@ export default function FileUploadPattern() {
                         )}
 
                         {/* Progress Text */}
-                        {fileWithProgress.status === 'uploading' && (
+                        {fileWithProgress.status === "uploading" && (
                           <div className="text-xs text-gray-500 dark:text-gray-400">
                             {fileWithProgress.progress}% uploaded
                           </div>
                         )}
 
                         {/* Error Message */}
-                        {fileWithProgress.status === 'error' && fileWithProgress.error && (
-                          <div className="text-xs text-red-600 dark:text-red-400">
-                            {fileWithProgress.error}
-                          </div>
-                        )}
+                        {fileWithProgress.status === "error" &&
+                          fileWithProgress.error && (
+                            <div className="text-xs text-red-600 dark:text-red-400">
+                              {fileWithProgress.error}
+                            </div>
+                          )}
 
                         {/* Success Message */}
-                        {fileWithProgress.status === 'completed' && (
+                        {fileWithProgress.status === "completed" && (
                           <div className="text-xs text-green-600 dark:text-green-400">
                             Upload completed successfully
                           </div>
@@ -355,17 +387,10 @@ export default function FileUploadPattern() {
           💻 Code Example
         </h2>
         <div className="code-block">
-          {
-            <DynamicCodeExample 
-                componentName="file-upload" 
-                activeTab={activeTab} 
-              />
-          ) : (
-            <DynamicCodeExample 
-                componentName="file-upload" 
-                activeTab={activeTab} 
-              />
-          )}
+          <DynamicCodeExample
+            componentName="file-upload"
+            activeTab={activeTab}
+          />
         </div>
       </div>
 
@@ -376,31 +401,55 @@ export default function FileUploadPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Drag & Drop</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Intuitive drag-and-drop file upload</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Drag & Drop
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Intuitive drag-and-drop file upload
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Progress Tracking</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Real-time upload progress with visual feedback</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Progress Tracking
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Real-time upload progress with visual feedback
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">File Validation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Type and size validation with error handling</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                File Validation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Type and size validation with error handling
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Files</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Support for multiple file selection and upload</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Files
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Support for multiple file selection and upload
+              </p>
             </div>
           </div>
         </div>
@@ -414,18 +463,30 @@ export default function FileUploadPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📷</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Image Upload</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Profile pictures, galleries, and media uploads</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Image Upload
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Profile pictures, galleries, and media uploads
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📄</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Document Upload</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Resumes, contracts, and file sharing</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Document Upload
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Resumes, contracts, and file sharing
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">☁️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Cloud Storage</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">File backup and cloud storage applications</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Cloud Storage
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              File backup and cloud storage applications
+            </p>
           </div>
         </div>
       </div>

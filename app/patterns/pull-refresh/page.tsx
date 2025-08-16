@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function PullToRefreshPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [pullDistance, setPullDistance] = useState(0);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
@@ -13,7 +12,7 @@ export default function PullToRefreshPattern() {
   useEffect(() => {
     setLastUpdate(new Date());
   }, []);
-  
+
   const containerRef = useRef<HTMLDivElement>(null);
   const startY = useRef<number>(0);
   const currentY = useRef<number>(0);
@@ -28,10 +27,10 @@ export default function PullToRefreshPattern() {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isPulling.current) return;
-    
+
     currentY.current = e.touches[0].clientY;
     const distance = Math.max(0, currentY.current - startY.current);
-    
+
     if (distance > 0) {
       e.preventDefault();
       setPullDistance(Math.min(distance * 0.5, 100));
@@ -43,7 +42,7 @@ export default function PullToRefreshPattern() {
       // Trigger refresh
       setIsRefreshing(true);
       setPullDistance(0);
-      
+
       // Simulate refresh
       setTimeout(() => {
         setIsRefreshing(false);
@@ -52,7 +51,7 @@ export default function PullToRefreshPattern() {
     } else {
       setPullDistance(0);
     }
-    
+
     isPulling.current = false;
   };
 
@@ -65,10 +64,10 @@ export default function PullToRefreshPattern() {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isPulling.current) return;
-    
+
     currentY.current = e.clientY;
     const distance = Math.max(0, currentY.current - startY.current);
-    
+
     if (distance > 0) {
       setPullDistance(Math.min(distance * 0.5, 100));
     }
@@ -78,7 +77,7 @@ export default function PullToRefreshPattern() {
     if (pullDistance > 60) {
       setIsRefreshing(true);
       setPullDistance(0);
-      
+
       setTimeout(() => {
         setIsRefreshing(false);
         setLastUpdate(new Date());
@@ -86,7 +85,7 @@ export default function PullToRefreshPattern() {
     } else {
       setPullDistance(0);
     }
-    
+
     isPulling.current = false;
   };
 
@@ -97,7 +96,8 @@ export default function PullToRefreshPattern() {
           🔄 Pull to Refresh Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Allow users to refresh content by pulling down on scrollable content, providing intuitive mobile interaction.
+          Allow users to refresh content by pulling down on scrollable content,
+          providing intuitive mobile interaction.
         </p>
       </div>
 
@@ -109,13 +109,14 @@ export default function PullToRefreshPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Pull down on the content area to trigger a refresh. Works on both touch and mouse devices.
+              Pull down on the content area to trigger a refresh. Works on both
+              touch and mouse devices.
             </p>
-            
-            <div 
+
+            <div
               ref={containerRef}
               className="relative bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
-              style={{ height: '300px' }}
+              style={{ height: "300px" }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -125,13 +126,13 @@ export default function PullToRefreshPattern() {
               onMouseLeave={handleMouseUp}
             >
               {/* Pull Indicator */}
-              <div 
+              <div
                 className={`absolute top-0 left-0 right-0 flex items-center justify-center transition-all duration-200 ${
-                  pullDistance > 0 ? 'opacity-100' : 'opacity-0'
+                  pullDistance > 0 ? "opacity-100" : "opacity-0"
                 }`}
-                style={{ 
+                style={{
                   transform: `translateY(${pullDistance}px)`,
-                  height: '60px'
+                  height: "60px",
                 }}
               >
                 <div className="flex items-center space-x-2 text-blue-600 dark:text-blue-400">
@@ -142,11 +143,23 @@ export default function PullToRefreshPattern() {
                     </>
                   ) : (
                     <>
-                      <svg className={`w-5 h-5 transition-transform ${pullDistance > 30 ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                      <svg
+                        className={`w-5 h-5 transition-transform ${pullDistance > 30 ? "rotate-180" : ""}`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                        />
                       </svg>
                       <span className="text-sm font-medium">
-                        {pullDistance > 30 ? 'Release to refresh' : 'Pull to refresh'}
+                        {pullDistance > 30
+                          ? "Release to refresh"
+                          : "Pull to refresh"}
                       </span>
                     </>
                   )}
@@ -157,24 +170,41 @@ export default function PullToRefreshPattern() {
               <div className="p-4 pt-16">
                 <div className="space-y-4">
                   <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                    <h3 className="font-medium text-gray-800 dark:text-gray-200">Latest Updates</h3>
+                    <h3 className="font-medium text-gray-800 dark:text-gray-200">
+                      Latest Updates
+                    </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Last updated: {lastUpdate ? lastUpdate.toLocaleTimeString() : 'Loading...'}
+                      Last updated:{" "}
+                      {lastUpdate
+                        ? lastUpdate.toLocaleTimeString()
+                        : "Loading..."}
                     </p>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                      <h4 className="font-medium text-gray-800 dark:text-gray-200">Item 1</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">This is some sample content</p>
+                      <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                        Item 1
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        This is some sample content
+                      </p>
                     </div>
                     <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                      <h4 className="font-medium text-gray-800 dark:text-gray-200">Item 2</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">More sample content here</p>
+                      <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                        Item 2
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        More sample content here
+                      </p>
                     </div>
                     <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                      <h4 className="font-medium text-gray-800 dark:text-gray-200">Item 3</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Additional content items</p>
+                      <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                        Item 3
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Additional content items
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -182,7 +212,9 @@ export default function PullToRefreshPattern() {
             </div>
 
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">How to Use</h4>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                How to Use
+              </h4>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                 <div>• Pull down from the top of the content area</div>
                 <div>• Release when you see "Release to refresh"</div>
@@ -202,17 +234,10 @@ export default function PullToRefreshPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample 
-                componentName="pull-refresh" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="pull-refresh"
+                activeTab={activeTab}
               />
-              ) : (
-                <DynamicCodeExample 
-                componentName="pull-refresh" 
-                activeTab={activeTab} 
-              />
-              )}
             </div>
           </div>
         </div>
@@ -225,45 +250,81 @@ export default function PullToRefreshPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Touch & Mouse Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Works on both mobile and desktop devices</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Touch & Mouse Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Works on both mobile and desktop devices
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indication of pull distance and state</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear indication of pull distance and state
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Threshold Detection</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Triggers refresh only when threshold is met</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Threshold Detection
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Triggers refresh only when threshold is met
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Loading States</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Shows loading animation during refresh</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Loading States
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Shows loading animation during refresh
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Animations</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Fluid transitions and visual feedback</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Smooth Animations
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Fluid transitions and visual feedback
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Accessibility</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Keyboard navigation and screen reader support</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Accessibility
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Keyboard navigation and screen reader support
+              </p>
             </div>
           </div>
         </div>
@@ -277,18 +338,30 @@ export default function PullToRefreshPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📱</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Mobile Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Refresh feeds and content lists</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Mobile Apps
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Refresh feeds and content lists
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📰</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">News Feeds</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Update latest articles and posts</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              News Feeds
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Update latest articles and posts
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">💬</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Chat Applications</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Load new messages and updates</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Chat Applications
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Load new messages and updates
+            </p>
           </div>
         </div>
       </div>

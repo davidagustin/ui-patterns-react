@@ -1,13 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function MenusPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  
-  const [contextMenuPosition, setContextMenuPosition] = useState<{x: number, y: number} | null>(null);
+
+  const [contextMenuPosition, setContextMenuPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -18,8 +20,8 @@ export default function MenusPattern() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleContextMenu = (event: React.MouseEvent) => {
@@ -30,33 +32,38 @@ export default function MenusPattern() {
 
   const menuItems = {
     file: [
-      { id: 'new', label: 'New', icon: '📄', shortcut: 'Ctrl+N' },
-      { id: 'open', label: 'Open', icon: '📂', shortcut: 'Ctrl+O' },
-      { id: 'save', label: 'Save', icon: '💾', shortcut: 'Ctrl+S' },
-      { type: 'divider' },
-      { id: 'export', label: 'Export', icon: '📤', submenu: [
-        { id: 'pdf', label: 'Export as PDF', icon: '📄' },
-        { id: 'image', label: 'Export as Image', icon: '🖼️' },
-        { id: 'csv', label: 'Export as CSV', icon: '📊' },
-      ]},
+      { id: "new", label: "New", icon: "📄", shortcut: "Ctrl+N" },
+      { id: "open", label: "Open", icon: "📂", shortcut: "Ctrl+O" },
+      { id: "save", label: "Save", icon: "💾", shortcut: "Ctrl+S" },
+      { type: "divider" },
+      {
+        id: "export",
+        label: "Export",
+        icon: "📤",
+        submenu: [
+          { id: "pdf", label: "Export as PDF", icon: "📄" },
+          { id: "image", label: "Export as Image", icon: "🖼️" },
+          { id: "csv", label: "Export as CSV", icon: "📊" },
+        ],
+      },
     ],
     edit: [
-      { id: 'undo', label: 'Undo', icon: '↩️', shortcut: 'Ctrl+Z' },
-      { id: 'redo', label: 'Redo', icon: '↪️', shortcut: 'Ctrl+Y' },
-      { type: 'divider' },
-      { id: 'cut', label: 'Cut', icon: '✂️', shortcut: 'Ctrl+X' },
-      { id: 'copy', label: 'Copy', icon: '📋', shortcut: 'Ctrl+C' },
-      { id: 'paste', label: 'Paste', icon: '📄', shortcut: 'Ctrl+V' },
+      { id: "undo", label: "Undo", icon: "↩️", shortcut: "Ctrl+Z" },
+      { id: "redo", label: "Redo", icon: "↪️", shortcut: "Ctrl+Y" },
+      { type: "divider" },
+      { id: "cut", label: "Cut", icon: "✂️", shortcut: "Ctrl+X" },
+      { id: "copy", label: "Copy", icon: "📋", shortcut: "Ctrl+C" },
+      { id: "paste", label: "Paste", icon: "📄", shortcut: "Ctrl+V" },
     ],
     context: [
-      { id: 'copy', label: 'Copy', icon: '📋' },
-      { id: 'paste', label: 'Paste', icon: '📄' },
-      { type: 'divider' },
-      { id: 'delete', label: 'Delete', icon: '🗑️' },
-      { id: 'rename', label: 'Rename', icon: '✏️' },
-      { type: 'divider' },
-      { id: 'properties', label: 'Properties', icon: '⚙️' },
-    ]
+      { id: "copy", label: "Copy", icon: "📋" },
+      { id: "paste", label: "Paste", icon: "📄" },
+      { type: "divider" },
+      { id: "delete", label: "Delete", icon: "🗑️" },
+      { id: "rename", label: "Rename", icon: "✏️" },
+      { type: "divider" },
+      { id: "properties", label: "Properties", icon: "⚙️" },
+    ],
   };
 
   return (
@@ -66,7 +73,8 @@ export default function MenusPattern() {
           📋 Menus Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Organize actions and commands in dropdown menus, context menus, and nested menu structures for efficient navigation.
+          Organize actions and commands in dropdown menus, context menus, and
+          nested menu structures for efficient navigation.
         </p>
       </div>
 
@@ -77,27 +85,32 @@ export default function MenusPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             <div className="space-y-6" ref={menuRef}>
               {/* Menu Bar */}
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                 <div className="flex bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
                   <div className="relative">
                     <button
-                      onClick={() => setActiveMenu(activeMenu === 'file' ? null : 'file')}
+                      onClick={() =>
+                        setActiveMenu(activeMenu === "file" ? null : "file")
+                      }
                       className={`px-4 py-2 text-sm font-medium transition-colors ${
-                        activeMenu === 'file'
-                          ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                        activeMenu === "file"
+                          ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                       }`}
                     >
                       File
                     </button>
-                    {activeMenu === 'file' && (
+                    {activeMenu === "file" && (
                       <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
-                        {menuItems.file.map((item, index) => (
-                          item.type === 'divider' ? (
-                            <div key={index} className="border-t border-gray-200 dark:border-gray-700 my-1" />
+                        {menuItems.file.map((item, index) =>
+                          item.type === "divider" ? (
+                            <div
+                              key={index}
+                              className="border-t border-gray-200 dark:border-gray-700 my-1"
+                            />
                           ) : (
                             <button
                               key={item.id}
@@ -108,34 +121,41 @@ export default function MenusPattern() {
                                 <span>{item.label}</span>
                               </div>
                               {item.shortcut && (
-                                <span className="text-xs text-gray-500 dark:text-gray-400">{item.shortcut}</span>
+                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                  {item.shortcut}
+                                </span>
                               )}
                               {item.submenu && (
                                 <span className="text-gray-400">▶</span>
                               )}
                             </button>
-                          )
-                        ))}
+                          ),
+                        )}
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="relative">
                     <button
-                      onClick={() => setActiveMenu(activeMenu === 'edit' ? null : 'edit')}
+                      onClick={() =>
+                        setActiveMenu(activeMenu === "edit" ? null : "edit")
+                      }
                       className={`px-4 py-2 text-sm font-medium transition-colors ${
-                        activeMenu === 'edit'
-                          ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                        activeMenu === "edit"
+                          ? "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                       }`}
                     >
                       Edit
                     </button>
-                    {activeMenu === 'edit' && (
+                    {activeMenu === "edit" && (
                       <div className="absolute top-full left-0 mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
-                        {menuItems.edit.map((item, index) => (
-                          item.type === 'divider' ? (
-                            <div key={index} className="border-t border-gray-200 dark:border-gray-700 my-1" />
+                        {menuItems.edit.map((item, index) =>
+                          item.type === "divider" ? (
+                            <div
+                              key={index}
+                              className="border-t border-gray-200 dark:border-gray-700 my-1"
+                            />
                           ) : (
                             <button
                               key={item.id}
@@ -146,16 +166,18 @@ export default function MenusPattern() {
                                 <span>{item.label}</span>
                               </div>
                               {item.shortcut && (
-                                <span className="text-xs text-gray-500 dark:text-gray-400">{item.shortcut}</span>
+                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                  {item.shortcut}
+                                </span>
                               )}
                             </button>
-                          )
-                        ))}
+                          ),
+                        )}
                       </div>
                     )}
                   </div>
                 </div>
-                
+
                 {/* Content area with context menu */}
                 <div
                   className="p-6 bg-white dark:bg-gray-800 h-32 flex items-center justify-center text-gray-600 dark:text-gray-400 cursor-pointer"
@@ -169,11 +191,17 @@ export default function MenusPattern() {
               {contextMenuPosition && (
                 <div
                   className="fixed bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 w-40"
-                  style={{ left: contextMenuPosition.x, top: contextMenuPosition.y }}
+                  style={{
+                    left: contextMenuPosition.x,
+                    top: contextMenuPosition.y,
+                  }}
                 >
-                  {menuItems.context.map((item, index) => (
-                    item.type === 'divider' ? (
-                      <div key={index} className="border-t border-gray-200 dark:border-gray-700 my-1" />
+                  {menuItems.context.map((item, index) =>
+                    item.type === "divider" ? (
+                      <div
+                        key={index}
+                        className="border-t border-gray-200 dark:border-gray-700 my-1"
+                      />
                     ) : (
                       <button
                         key={item.id}
@@ -183,8 +211,8 @@ export default function MenusPattern() {
                         <span>{item.icon}</span>
                         <span>{item.label}</span>
                       </button>
-                    )
-                  ))}
+                    ),
+                  )}
                 </div>
               )}
             </div>
@@ -197,19 +225,9 @@ export default function MenusPattern() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            
+
             <div className="code-block">
-              {
-                <DynamicCodeExample 
-                componentName="menus" 
-                activeTab={activeTab} 
-              />
-              ) : (
-                <DynamicCodeExample 
-                componentName="menus" 
-                activeTab={activeTab} 
-              />
-              )}
+              <DynamicCodeExample componentName="menus" activeTab={activeTab} />
             </div>
           </div>
         </div>
@@ -222,31 +240,55 @@ export default function MenusPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Menu Types</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Dropdown menus, context menus, and menu bars</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Menu Types
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Dropdown menus, context menus, and menu bars
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Keyboard Shortcuts</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Display keyboard shortcuts alongside menu items</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Keyboard Shortcuts
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Display keyboard shortcuts alongside menu items
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Separators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Organize menu items with dividers</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Separators
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Organize menu items with dividers
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Click Outside to Close</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Intuitive menu dismissal behavior</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Click Outside to Close
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Intuitive menu dismissal behavior
+              </p>
             </div>
           </div>
         </div>
@@ -260,18 +302,30 @@ export default function MenusPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">💻</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Desktop Apps</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Traditional menu bars and context menus</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Desktop Apps
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Traditional menu bars and context menus
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🌐</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Web Applications</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Action menus and navigation dropdowns</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Web Applications
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Action menus and navigation dropdowns
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">⚙️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Admin Interfaces</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Complex action menus for power users</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Admin Interfaces
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Complex action menus for power users
+            </p>
           </div>
         </div>
       </div>

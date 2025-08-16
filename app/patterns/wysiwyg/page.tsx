@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function WysiwygPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [content, setContent] = useState('Welcome to the WYSIWYG editor! This is a rich text editor where you can format your content using the toolbar above.\n\nTry italicizing text, creating underlined text, or even making lists. Click the buttons in the toolbar to format your text!');
-  
+  const [content, setContent] = useState(
+    "Welcome to the WYSIWYG editor! This is a rich text editor where you can format your content using the toolbar above.\n\nTry italicizing text, creating underlined text, or even making lists. Click the buttons in the toolbar to format your text!",
+  );
+
   const editorRef = useRef<HTMLDivElement>(null);
   const [showSource, setShowSource] = useState(false);
   const [renderKey, setRenderKey] = useState(0);
@@ -17,31 +18,32 @@ export default function WysiwygPattern() {
     if (editorRef.current) {
       editorRef.current.focus();
     }
-    
+
     // Handle special cases for better combination support
     switch (command) {
-      case 'insertUnorderedList':
-      case 'insertOrderedList':
+      case "insertUnorderedList":
+      case "insertOrderedList":
         // Improved list handling
         const selection = window.getSelection();
         if (selection && selection.rangeCount > 0) {
           const range = selection.getRangeAt(0);
-          
+
           // Check if we're already in a list item
-          let listItem = range.commonAncestorContainer.nodeType === Node.ELEMENT_NODE 
-            ? (range.commonAncestorContainer as Element).closest('li')
-            : range.commonAncestorContainer.parentElement?.closest('li');
-          
+          let listItem =
+            range.commonAncestorContainer.nodeType === Node.ELEMENT_NODE
+              ? (range.commonAncestorContainer as Element).closest("li")
+              : range.commonAncestorContainer.parentElement?.closest("li");
+
           if (listItem) {
             // We're already in a list, check if we need to change list type
             const currentList = listItem.parentElement;
             if (currentList) {
-              const isOrdered = command === 'insertOrderedList';
-              const shouldBeOrdered = currentList.tagName === 'OL';
-              
+              const isOrdered = command === "insertOrderedList";
+              const shouldBeOrdered = currentList.tagName === "OL";
+
               if (isOrdered !== shouldBeOrdered) {
                 // Change list type
-                const newList = document.createElement(isOrdered ? 'ol' : 'ul');
+                const newList = document.createElement(isOrdered ? "ol" : "ul");
                 newList.innerHTML = currentList.innerHTML;
                 currentList.parentNode?.replaceChild(newList, currentList);
               }
@@ -51,15 +53,17 @@ export default function WysiwygPattern() {
             // First, ensure we have a proper selection
             if (range.collapsed) {
               // If no text is selected, create a list item with placeholder text
-              const listItem = document.createElement('li');
-              listItem.textContent = 'List item';
-              const list = document.createElement(command === 'insertOrderedList' ? 'ol' : 'ul');
+              const listItem = document.createElement("li");
+              listItem.textContent = "List item";
+              const list = document.createElement(
+                command === "insertOrderedList" ? "ol" : "ul",
+              );
               list.appendChild(listItem);
-              
+
               // Insert the list at cursor position
               range.deleteContents();
               range.insertNode(list);
-              
+
               // Place cursor inside the list item
               const newRange = document.createRange();
               newRange.setStart(listItem.firstChild || listItem, 0);
@@ -73,14 +77,16 @@ export default function WysiwygPattern() {
           }
         } else {
           // No selection, create a new list
-          const listItem = document.createElement('li');
-          listItem.textContent = 'List item';
-          const list = document.createElement(command === 'insertOrderedList' ? 'ol' : 'ul');
+          const listItem = document.createElement("li");
+          listItem.textContent = "List item";
+          const list = document.createElement(
+            command === "insertOrderedList" ? "ol" : "ul",
+          );
           list.appendChild(listItem);
-          
+
           // Insert at the end of the editor
           editorRef.current?.appendChild(list);
-          
+
           // Place cursor inside the list item
           const newRange = document.createRange();
           newRange.setStart(listItem.firstChild || listItem, 0);
@@ -89,15 +95,15 @@ export default function WysiwygPattern() {
           selection?.addRange(newRange);
         }
         break;
-        
-      case 'bold':
-      case 'italic':
-      case 'underline':
+
+      case "bold":
+      case "italic":
+      case "underline":
         // These work well with lists and other formatting
         document.execCommand(command, false, value);
         break;
-        
-      case 'createLink':
+
+      case "createLink":
         // Handle link creation and reset visited state
         document.execCommand(command, false, value);
         // Reset visited state for the newly created link
@@ -105,30 +111,30 @@ export default function WysiwygPattern() {
           resetVisitedState();
         }, 100);
         break;
-        
-      case 'justifyLeft':
-      case 'justifyCenter':
-      case 'justifyRight':
-      case 'justifyFull':
+
+      case "justifyLeft":
+      case "justifyCenter":
+      case "justifyRight":
+      case "justifyFull":
         // Alignment works on block elements
         document.execCommand(command, false, value);
         break;
-        
+
       default:
         document.execCommand(command, false, value);
     }
-    
+
     // Ensure proper HTML structure after formatting
     ensureValidStructure();
-    
+
     updateContent();
     // Force re-render of the rendered preview
-    setRenderKey(prev => prev + 1);
+    setRenderKey((prev) => prev + 1);
   };
 
   const updateContent = () => {
     if (editorRef.current) {
-      setContent(editorRef.current.innerText || '');
+      setContent(editorRef.current.innerText || "");
     }
   };
 
@@ -142,83 +148,88 @@ export default function WysiwygPattern() {
     if (editorRef.current) {
       // Get the HTML content
       let html = editorRef.current.innerHTML;
-      
+
       // Create a temporary div to parse and clean the HTML
-      const tempDiv = document.createElement('div');
+      const tempDiv = document.createElement("div");
       tempDiv.innerHTML = html;
-      
+
       // Function to clean up styles while preserving text alignment
       const cleanElement = (element: Element) => {
-        if (element.hasAttribute('style')) {
-          const style = element.getAttribute('style') || '';
+        if (element.hasAttribute("style")) {
+          const style = element.getAttribute("style") || "";
           // Keep only text-align and remove everything else
           const textAlignMatch = style.match(/text-align:\s*[^;]+/);
           if (textAlignMatch) {
-            element.setAttribute('style', textAlignMatch[0]);
+            element.setAttribute("style", textAlignMatch[0]);
           } else {
-            element.removeAttribute('style');
+            element.removeAttribute("style");
           }
         }
-        
+
         // Remove class attributes
-        element.removeAttribute('class');
-        
+        element.removeAttribute("class");
+
         // Recursively clean child elements
         Array.from(element.children).forEach(cleanElement);
       };
-      
+
       // Clean all elements
       cleanElement(tempDiv);
-      
+
       // Fix invalid HTML structure - remove lists from inside paragraphs
-      const paragraphsWithLists = tempDiv.querySelectorAll('p');
-      paragraphsWithLists.forEach(p => {
-        const lists = p.querySelectorAll('ul, ol');
-        lists.forEach(list => {
+      const paragraphsWithLists = tempDiv.querySelectorAll("p");
+      paragraphsWithLists.forEach((p) => {
+        const lists = p.querySelectorAll("ul, ol");
+        lists.forEach((list) => {
           // Move the list outside of the paragraph
           p.parentNode?.insertBefore(list, p.nextSibling);
           // Remove the list from the paragraph
           list.remove();
         });
-        
+
         // If paragraph is now empty, remove it
-        if (p.innerHTML.trim() === '') {
+        if (p.innerHTML.trim() === "") {
           p.remove();
         }
       });
-      
+
       // Convert remaining divs to paragraphs for cleaner output
-      const divs = tempDiv.querySelectorAll('div');
-      divs.forEach(div => {
+      const divs = tempDiv.querySelectorAll("div");
+      divs.forEach((div) => {
         // Skip if div contains lists
-        if (div.querySelector('ul, ol')) {
+        if (div.querySelector("ul, ol")) {
           return;
         }
-        
-        const p = document.createElement('p');
+
+        const p = document.createElement("p");
         p.innerHTML = div.innerHTML;
-        if (div.hasAttribute('style')) {
-          p.setAttribute('style', div.getAttribute('style') || '');
+        if (div.hasAttribute("style")) {
+          p.setAttribute("style", div.getAttribute("style") || "");
         }
         div.parentNode?.replaceChild(p, div);
       });
-      
+
       // Process links to ensure they have proper attributes
-      const links = tempDiv.querySelectorAll('a');
-      links.forEach(link => {
-        const href = link.getAttribute('href');
+      const links = tempDiv.querySelectorAll("a");
+      links.forEach((link) => {
+        const href = link.getAttribute("href");
         if (href) {
           // Ensure external links have target and rel attributes
-          if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:') || href.startsWith('tel:')) {
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
+          if (
+            href.startsWith("http://") ||
+            href.startsWith("https://") ||
+            href.startsWith("mailto:") ||
+            href.startsWith("tel:")
+          ) {
+            link.setAttribute("target", "_blank");
+            link.setAttribute("rel", "noopener noreferrer");
           }
         }
       });
-      
+
       return tempDiv.innerHTML;
     }
-    return content.replace(/\n/g, '<br>');
+    return content.replace(/\n/g, "<br>");
   };
 
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -226,23 +237,31 @@ export default function WysiwygPattern() {
   };
 
   const insertLink = () => {
-    const url = prompt('Enter URL:');
+    const url = prompt("Enter URL:");
     if (url) {
       // Format the URL to ensure it has a protocol
       let formattedUrl = url.trim();
-      if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://') && !formattedUrl.startsWith('mailto:') && !formattedUrl.startsWith('tel:')) {
-        formattedUrl = 'https://' + formattedUrl;
+      if (
+        !formattedUrl.startsWith("http://") &&
+        !formattedUrl.startsWith("https://") &&
+        !formattedUrl.startsWith("mailto:") &&
+        !formattedUrl.startsWith("tel:")
+      ) {
+        formattedUrl = "https://" + formattedUrl;
       }
-      
+
       // Ensure we have a selection
       const selection = window.getSelection();
       if (selection && selection.toString().trim()) {
-        formatText('createLink', formattedUrl);
+        formatText("createLink", formattedUrl);
       } else {
         // If no text is selected, insert the URL as text
-        formatText('insertHTML', `<a href="${formattedUrl}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+        formatText(
+          "insertHTML",
+          `<a href="${formattedUrl}" target="_blank" rel="noopener noreferrer">${url}</a>`,
+        );
       }
-      
+
       // Reset visited state for newly created links
       setTimeout(() => {
         resetVisitedState();
@@ -251,26 +270,30 @@ export default function WysiwygPattern() {
   };
 
   const insertImage = () => {
-    const url = prompt('Enter image URL:');
+    const url = prompt("Enter image URL:");
     if (url) {
       // Insert image with proper alt text
-      const altText = prompt('Enter alt text for the image:') || 'Image';
-      formatText('insertHTML', `<img src="${url}" alt="${altText}" style="max-width: 100%; height: auto;">`);
+      const altText = prompt("Enter alt text for the image:") || "Image";
+      formatText(
+        "insertHTML",
+        `<img src="${url}" alt="${altText}" style="max-width: 100%; height: auto;">`,
+      );
     }
   };
 
   const clearFormatting = () => {
-    formatText('removeFormat');
+    formatText("removeFormat");
   };
 
   const resetContent = () => {
-    const defaultContent = 'Welcome to the WYSIWYG editor! This is a rich text editor where you can format your content using the toolbar above.\n\nTry italicizing text, creating underlined text, or even making lists. Click the buttons in the toolbar to format your text!';
+    const defaultContent =
+      "Welcome to the WYSIWYG editor! This is a rich text editor where you can format your content using the toolbar above.\n\nTry italicizing text, creating underlined text, or even making lists. Click the buttons in the toolbar to format your text!";
     setContent(defaultContent);
-    
+
     if (editorRef.current) {
-      editorRef.current.innerHTML = defaultContent.replace(/\n/g, '<br>');
+      editorRef.current.innerHTML = defaultContent.replace(/\n/g, "<br>");
     }
-    
+
     // Reset visited state for any existing links
     setTimeout(() => {
       resetVisitedState();
@@ -281,19 +304,19 @@ export default function WysiwygPattern() {
   const resetVisitedState = () => {
     if (editorRef.current) {
       // Get all links in the editor
-      const links = editorRef.current.querySelectorAll('a');
-      links.forEach(link => {
+      const links = editorRef.current.querySelectorAll("a");
+      links.forEach((link) => {
         // Add a unique timestamp to force browser to treat as new link
-        const href = link.getAttribute('href');
+        const href = link.getAttribute("href");
         if (href) {
-          const separator = href.includes('?') ? '&' : '?';
+          const separator = href.includes("?") ? "&" : "?";
           const timestamp = Date.now();
           const newHref = `${href}${separator}_t=${timestamp}`;
-          link.setAttribute('href', newHref);
-          
+          link.setAttribute("href", newHref);
+
           // Remove the timestamp after a brief delay to keep the URL clean
           setTimeout(() => {
-            link.setAttribute('href', href);
+            link.setAttribute("href", href);
           }, 50);
         }
       });
@@ -304,37 +327,39 @@ export default function WysiwygPattern() {
   const ensureValidStructure = () => {
     if (editorRef.current) {
       // Fix common issues with list structure
-      const lists = editorRef.current.querySelectorAll('ul, ol');
-      lists.forEach(list => {
+      const lists = editorRef.current.querySelectorAll("ul, ol");
+      lists.forEach((list) => {
         // Ensure list is not inside a paragraph
         const parent = list.parentElement;
-        if (parent && parent.tagName === 'P') {
+        if (parent && parent.tagName === "P") {
           parent.parentNode?.insertBefore(list, parent.nextSibling);
-          if (parent.innerHTML.trim() === '') {
+          if (parent.innerHTML.trim() === "") {
             parent.remove();
           }
         }
-        
+
         // Ensure list items are properly structured
-        const listItems = list.querySelectorAll('li');
-        listItems.forEach(item => {
+        const listItems = list.querySelectorAll("li");
+        listItems.forEach((item) => {
           // Remove any nested lists that shouldn't be there
-          const nestedLists = item.querySelectorAll('ul, ol');
-          nestedLists.forEach(nestedList => {
+          const nestedLists = item.querySelectorAll("ul, ol");
+          nestedLists.forEach((nestedList) => {
             // Only keep nested lists if they're properly structured
-            const nestedItems = nestedList.querySelectorAll('li');
+            const nestedItems = nestedList.querySelectorAll("li");
             if (nestedItems.length === 0) {
               nestedList.remove();
             }
           });
         });
       });
-      
+
       // Fix orphaned list items (list items not in a list)
-      const orphanedItems = editorRef.current.querySelectorAll('li:not(ul li):not(ol li)');
-      orphanedItems.forEach(item => {
+      const orphanedItems = editorRef.current.querySelectorAll(
+        "li:not(ul li):not(ol li)",
+      );
+      orphanedItems.forEach((item) => {
         // Wrap orphaned list items in a ul
-        const ul = document.createElement('ul');
+        const ul = document.createElement("ul");
         item.parentNode?.insertBefore(ul, item);
         ul.appendChild(item);
       });
@@ -344,13 +369,18 @@ export default function WysiwygPattern() {
   // Handle link clicks in rendered preview
   const handlePreviewClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (target.tagName === 'A') {
+    if (target.tagName === "A") {
       e.preventDefault();
-      const href = target.getAttribute('href');
+      const href = target.getAttribute("href");
       if (href) {
         // Open external links in new tab
-        if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:') || href.startsWith('tel:')) {
-          window.open(href, '_blank', 'noopener,noreferrer');
+        if (
+          href.startsWith("http://") ||
+          href.startsWith("https://") ||
+          href.startsWith("mailto:") ||
+          href.startsWith("tel:")
+        ) {
+          window.open(href, "_blank", "noopener,noreferrer");
         }
       }
     }
@@ -359,7 +389,7 @@ export default function WysiwygPattern() {
   // Set initial content
   useEffect(() => {
     if (editorRef.current && !showSource) {
-      editorRef.current.innerHTML = content.replace(/\n/g, '<br>');
+      editorRef.current.innerHTML = content.replace(/\n/g, "<br>");
     }
   }, [showSource]);
 
@@ -370,7 +400,8 @@ export default function WysiwygPattern() {
           ✏️ WYSIWYG Editor Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          What You See Is What You Get editor with rich text formatting capabilities, toolbar controls, and real-time preview.
+          What You See Is What You Get editor with rich text formatting
+          capabilities, toolbar controls, and real-time preview.
         </p>
       </div>
 
@@ -382,7 +413,8 @@ export default function WysiwygPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Use the toolbar to format your text. The editor shows exactly how your content will appear when published.
+              Use the toolbar to format your text. The editor shows exactly how
+              your content will appear when published.
             </p>
 
             {/* Editor Mode Toggle */}
@@ -395,8 +427,8 @@ export default function WysiwygPattern() {
                   onClick={() => setShowSource(false)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     !showSource
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                   }`}
                 >
                   ✏️ Visual
@@ -405,8 +437,8 @@ export default function WysiwygPattern() {
                   onClick={() => setShowSource(true)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     showSource
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                   }`}
                 >
                   👤 Text
@@ -421,21 +453,21 @@ export default function WysiwygPattern() {
                   {/* Text Formatting */}
                   <div className="flex items-center space-x-1">
                     <button
-                      onClick={() => formatText('bold')}
+                      onClick={() => formatText("bold")}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-sm font-bold transition-colors"
                       title="Bold"
                     >
                       B
                     </button>
                     <button
-                      onClick={() => formatText('italic')}
+                      onClick={() => formatText("italic")}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-sm italic transition-colors"
                       title="Italic"
                     >
                       I
                     </button>
                     <button
-                      onClick={() => formatText('underline')}
+                      onClick={() => formatText("underline")}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-sm underline transition-colors"
                       title="Underline"
                     >
@@ -446,14 +478,14 @@ export default function WysiwygPattern() {
                   {/* History */}
                   <div className="flex items-center space-x-1">
                     <button
-                      onClick={() => formatText('undo')}
+                      onClick={() => formatText("undo")}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-sm transition-colors"
                       title="Undo"
                     >
                       ←
                     </button>
                     <button
-                      onClick={() => formatText('redo')}
+                      onClick={() => formatText("redo")}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-sm transition-colors"
                       title="Redo"
                     >
@@ -464,21 +496,21 @@ export default function WysiwygPattern() {
                   {/* Alignment */}
                   <div className="flex items-center space-x-1">
                     <button
-                      onClick={() => formatText('justifyLeft')}
+                      onClick={() => formatText("justifyLeft")}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-sm transition-colors"
                       title="Align Left"
                     >
                       ⬅️
                     </button>
                     <button
-                      onClick={() => formatText('justifyCenter')}
+                      onClick={() => formatText("justifyCenter")}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-sm transition-colors"
                       title="Align Center"
                     >
                       ↔️
                     </button>
                     <button
-                      onClick={() => formatText('justifyRight')}
+                      onClick={() => formatText("justifyRight")}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-sm transition-colors"
                       title="Align Right"
                     >
@@ -489,14 +521,14 @@ export default function WysiwygPattern() {
                   {/* Lists */}
                   <div className="flex items-center space-x-1">
                     <button
-                      onClick={() => formatText('insertUnorderedList')}
+                      onClick={() => formatText("insertUnorderedList")}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-sm transition-colors"
                       title="Bullet List"
                     >
                       •
                     </button>
                     <button
-                      onClick={() => formatText('insertOrderedList')}
+                      onClick={() => formatText("insertOrderedList")}
                       className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded text-sm transition-colors"
                       title="Numbered List"
                     >
@@ -552,8 +584,8 @@ export default function WysiwygPattern() {
                   placeholder="Start typing here... Use the toolbar buttons to format your text!"
                   className="w-full h-full min-h-[300px] p-4 bg-transparent border-none outline-none resize-none text-gray-900 dark:text-gray-100 leading-relaxed focus:ring-2 focus:ring-blue-500 focus:ring-inset rounded-lg"
                   style={{
-                    fontFamily: 'inherit',
-                    lineHeight: '1.6'
+                    fontFamily: "inherit",
+                    lineHeight: "1.6",
                   }}
                 />
               ) : (
@@ -564,8 +596,8 @@ export default function WysiwygPattern() {
                   suppressContentEditableWarning={true}
                   className="w-full h-full min-h-[300px] p-4 bg-transparent border-none outline-none resize-none text-gray-900 dark:text-gray-100 leading-relaxed focus:ring-2 focus:ring-blue-500 focus:ring-inset rounded-lg"
                   style={{
-                    fontFamily: 'inherit',
-                    lineHeight: '1.6'
+                    fontFamily: "inherit",
+                    lineHeight: "1.6",
                   }}
                 />
               )}
@@ -574,32 +606,37 @@ export default function WysiwygPattern() {
             {/* Editor Info */}
             <div className="flex items-center justify-between text-sm">
               <div className="text-gray-500 dark:text-gray-400">
-                {showSource ? '📝 Text Editor' : '🎨 Visual Editor'} - {content.length} characters
+                {showSource ? "📝 Text Editor" : "🎨 Visual Editor"} -{" "}
+                {content.length} characters
               </div>
             </div>
 
-                         {/* Preview of HTML Output */}
-             <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-               <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">HTML Output Preview:</h4>
-               <pre className="text-xs text-gray-600 dark:text-gray-400 whitespace-pre-wrap overflow-x-auto bg-white dark:bg-gray-800 p-3 rounded border">
-                 {getCleanHtmlContent()}
-               </pre>
-             </div>
+            {/* Preview of HTML Output */}
+            <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+              <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                HTML Output Preview:
+              </h4>
+              <pre className="text-xs text-gray-600 dark:text-gray-400 whitespace-pre-wrap overflow-x-auto bg-white dark:bg-gray-800 p-3 rounded border">
+                {getCleanHtmlContent()}
+              </pre>
+            </div>
 
-                            {/* Rendered HTML Preview */}
-               <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                 <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Rendered Preview:</h4>
-                 <div 
-                   key={renderKey}
-                   className="bg-white dark:bg-gray-800 p-4 rounded border min-h-[100px] rendered-preview"
-                   style={{
-                     fontFamily: 'inherit',
-                     lineHeight: '1.6'
-                   }}
-                   dangerouslySetInnerHTML={{ __html: getCleanHtmlContent() }}
-                   onClick={handlePreviewClick}
-                 />
-               </div>
+            {/* Rendered HTML Preview */}
+            <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+              <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Rendered Preview:
+              </h4>
+              <div
+                key={renderKey}
+                className="bg-white dark:bg-gray-800 p-4 rounded border min-h-[100px] rendered-preview"
+                style={{
+                  fontFamily: "inherit",
+                  lineHeight: "1.6",
+                }}
+                dangerouslySetInnerHTML={{ __html: getCleanHtmlContent() }}
+                onClick={handlePreviewClick}
+              />
+            </div>
           </div>
         </div>
 
@@ -612,17 +649,10 @@ export default function WysiwygPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample 
-                componentName="wysiwyg" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="wysiwyg"
+                activeTab={activeTab}
               />
-              ) : (
-                <DynamicCodeExample 
-                componentName="wysiwyg" 
-                activeTab={activeTab} 
-              />
-              )}
             </div>
           </div>
         </div>
@@ -635,31 +665,55 @@ export default function WysiwygPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Rich Text Formatting</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Bold, italic, underline, and text alignment</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Rich Text Formatting
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Bold, italic, underline, and text alignment
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Lists and Links</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Create bullet points, numbered lists, and hyperlinks</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Lists and Links
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Create bullet points, numbered lists, and hyperlinks
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">See formatting changes immediately as you type</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                See formatting changes immediately as you type
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">HTML Source View</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Toggle between visual editor and HTML code</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                HTML Source View
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Toggle between visual editor and HTML code
+              </p>
             </div>
           </div>
         </div>
@@ -673,18 +727,30 @@ export default function WysiwygPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Rich text editing for blog posts and articles</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Content Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Rich text editing for blog posts and articles
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📧</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Email Composer</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Format emails with rich text capabilities</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Email Composer
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Format emails with rich text capabilities
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📋</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Document Editor</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Create formatted documents and notes</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Document Editor
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Create formatted documents and notes
+            </p>
           </div>
         </div>
       </div>

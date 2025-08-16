@@ -1,17 +1,16 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function InplaceEditorPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [editingField, setEditingField] = useState<string | null>(null);
-  
+
   const [userData, setUserData] = useState({
-    name: 'John Doe',
-    title: 'Senior Developer',
-    email: 'john.doe@example.com',
-    bio: 'Passionate developer with 5+ years of experience in React and Node.js.'
+    name: "John Doe",
+    title: "Senior Developer",
+    email: "john.doe@example.com",
+    bio: "Passionate developer with 5+ years of experience in React and Node.js.",
   });
 
   const [tempValues, setTempValues] = useState({ ...userData });
@@ -24,7 +23,7 @@ export default function InplaceEditorPattern() {
   const saveEdit = (field: string) => {
     setUserData({
       ...userData,
-      [field]: (tempValues as any)[field]
+      [field]: (tempValues as any)[field],
     });
     setEditingField(null);
   };
@@ -35,14 +34,18 @@ export default function InplaceEditorPattern() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, field: string) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       saveEdit(field);
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       cancelEdit();
     }
   };
 
-  const renderEditableField = (field: keyof typeof userData, label: string, type: 'text' | 'textarea' = 'text') => {
+  const renderEditableField = (
+    field: keyof typeof userData,
+    label: string,
+    type: "text" | "textarea" = "text",
+  ) => {
     const isEditing = editingField === field;
     const value = isEditing ? tempValues[field] : userData[field];
 
@@ -53,10 +56,12 @@ export default function InplaceEditorPattern() {
         </label>
         {isEditing ? (
           <div className="space-y-2">
-            {type === 'textarea' ? (
+            {type === "textarea" ? (
               <textarea
                 value={value}
-                onChange={(e) => setTempValues({ ...tempValues, [field]: e.target.value })}
+                onChange={(e) =>
+                  setTempValues({ ...tempValues, [field]: e.target.value })
+                }
                 onKeyDown={(e) => handleKeyDown(e, field)}
                 className="input-field resize-none"
                 rows={3}
@@ -66,7 +71,9 @@ export default function InplaceEditorPattern() {
               <input
                 type={type}
                 value={value}
-                onChange={(e) => setTempValues({ ...tempValues, [field]: e.target.value })}
+                onChange={(e) =>
+                  setTempValues({ ...tempValues, [field]: e.target.value })
+                }
                 onKeyDown={(e) => handleKeyDown(e, field)}
                 className="input-field"
                 autoFocus
@@ -90,8 +97,10 @@ export default function InplaceEditorPattern() {
         ) : (
           <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
             <div className="flex-1">
-              {type === 'textarea' ? (
-                <p className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{value}</p>
+              {type === "textarea" ? (
+                <p className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
+                  {value}
+                </p>
               ) : (
                 <p className="text-gray-800 dark:text-gray-200">{value}</p>
               )}
@@ -115,7 +124,8 @@ export default function InplaceEditorPattern() {
           ✏️ Inplace Editor Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Edit content directly in context without navigating to separate forms, providing a seamless editing experience.
+          Edit content directly in context without navigating to separate forms,
+          providing a seamless editing experience.
         </p>
       </div>
 
@@ -127,21 +137,36 @@ export default function InplaceEditorPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Click the edit button next to any field to start editing. Press Enter to save or Escape to cancel.
+              Click the edit button next to any field to start editing. Press
+              Enter to save or Escape to cancel.
             </p>
-            
+
             <div className="space-y-4">
-              {renderEditableField('name', 'Full Name')}
-              {renderEditableField('title', 'Job Title')}
-              {renderEditableField('email', 'Email Address')}
-              {renderEditableField('bio', 'Bio', 'textarea')}
+              {renderEditableField("name", "Full Name")}
+              {renderEditableField("title", "Job Title")}
+              {renderEditableField("email", "Email Address")}
+              {renderEditableField("bio", "Bio", "textarea")}
             </div>
 
             <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Keyboard Shortcuts</h3>
+              <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                Keyboard Shortcuts
+              </h3>
               <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                <div>• <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">Enter</kbd> to save changes</div>
-                <div>• <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">Escape</kbd> to cancel editing</div>
+                <div>
+                  •{" "}
+                  <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">
+                    Enter
+                  </kbd>{" "}
+                  to save changes
+                </div>
+                <div>
+                  •{" "}
+                  <kbd className="px-1 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-xs">
+                    Escape
+                  </kbd>{" "}
+                  to cancel editing
+                </div>
               </div>
             </div>
           </div>
@@ -156,17 +181,10 @@ export default function InplaceEditorPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample 
-                componentName="inplace-editor" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="inplace-editor"
+                activeTab={activeTab}
               />
-              ) : (
-                <DynamicCodeExample 
-                componentName="inplace-editor" 
-                activeTab={activeTab} 
-              />
-              )}
             </div>
           </div>
         </div>
@@ -179,31 +197,55 @@ export default function InplaceEditorPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Contextual Editing</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Edit content directly where it appears</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Contextual Editing
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Edit content directly where it appears
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Keyboard Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Enter to save, Escape to cancel</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Keyboard Support
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Enter to save, Escape to cancel
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Feedback</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear indication of editing state</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual Feedback
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear indication of editing state
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Auto-focus</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Automatic focus on input when editing starts</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Auto-focus
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Automatic focus on input when editing starts
+              </p>
             </div>
           </div>
         </div>
@@ -217,18 +259,30 @@ export default function InplaceEditorPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">👤</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">User Profiles</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Quick editing of user information and preferences</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              User Profiles
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Quick editing of user information and preferences
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📝</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Inline editing of titles, descriptions, and content</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Content Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Inline editing of titles, descriptions, and content
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">⚙️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Settings Panels</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Quick configuration changes without page navigation</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Settings Panels
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Quick configuration changes without page navigation
+            </p>
           </div>
         </div>
       </div>

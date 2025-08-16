@@ -1,13 +1,12 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState, useRef, useEffect } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SelectDropdownPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedFramework, setSelectedFramework] = useState('');
+  const [selectedFramework, setSelectedFramework] = useState("");
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isFrameworkOpen, setIsFrameworkOpen] = useState(false);
@@ -17,67 +16,96 @@ export default function SelectDropdownPattern() {
   const frameworkRef = useRef<HTMLDivElement>(null);
 
   const countries = [
-    { code: 'us', name: 'United States', flag: '🇺🇸' },
-    { code: 'ca', name: 'Canada', flag: '🇨🇦' },
-    { code: 'uk', name: 'United Kingdom', flag: '🇬🇧' },
-    { code: 'de', name: 'Germany', flag: '🇩🇪' },
-    { code: 'fr', name: 'France', flag: '🇫🇷' },
-    { code: 'jp', name: 'Japan', flag: '🇯🇵' },
-    { code: 'au', name: 'Australia', flag: '🇦🇺' },
-    { code: 'br', name: 'Brazil', flag: '🇧🇷' },
-    { code: 'in', name: 'India', flag: '🇮🇳' },
-    { code: 'cn', name: 'China', flag: '🇨🇳' }
+    { code: "us", name: "United States", flag: "🇺🇸" },
+    { code: "ca", name: "Canada", flag: "🇨🇦" },
+    { code: "uk", name: "United Kingdom", flag: "🇬🇧" },
+    { code: "de", name: "Germany", flag: "🇩🇪" },
+    { code: "fr", name: "France", flag: "🇫🇷" },
+    { code: "jp", name: "Japan", flag: "🇯🇵" },
+    { code: "au", name: "Australia", flag: "🇦🇺" },
+    { code: "br", name: "Brazil", flag: "🇧🇷" },
+    { code: "in", name: "India", flag: "🇮🇳" },
+    { code: "cn", name: "China", flag: "🇨🇳" },
   ];
 
   const categories = [
-    { id: 'web-dev', name: 'Web Development', icon: '🌐' },
-    { id: 'mobile-dev', name: 'Mobile Development', icon: '📱' },
-    { id: 'design', name: 'UI/UX Design', icon: '🎨' },
-    { id: 'data-science', name: 'Data Science', icon: '📊' },
-    { id: 'devops', name: 'DevOps', icon: '⚙️' },
-    { id: 'ai-ml', name: 'AI/Machine Learning', icon: '🤖' }
+    { id: "web-dev", name: "Web Development", icon: "🌐" },
+    { id: "mobile-dev", name: "Mobile Development", icon: "📱" },
+    { id: "design", name: "UI/UX Design", icon: "🎨" },
+    { id: "data-science", name: "Data Science", icon: "📊" },
+    { id: "devops", name: "DevOps", icon: "⚙️" },
+    { id: "ai-ml", name: "AI/Machine Learning", icon: "🤖" },
   ];
 
   const frameworks = [
-    { id: 'react', name: 'React', description: 'A JavaScript library for building user interfaces' },
-    { id: 'vue', name: 'Vue.js', description: 'The Progressive JavaScript Framework' },
-    { id: 'angular', name: 'Angular', description: 'Platform for building mobile and desktop web applications' },
-    { id: 'svelte', name: 'Svelte', description: 'Cybernetically enhanced web apps' },
-    { id: 'nextjs', name: 'Next.js', description: 'The React Framework for Production' }
+    {
+      id: "react",
+      name: "React",
+      description: "A JavaScript library for building user interfaces",
+    },
+    {
+      id: "vue",
+      name: "Vue.js",
+      description: "The Progressive JavaScript Framework",
+    },
+    {
+      id: "angular",
+      name: "Angular",
+      description: "Platform for building mobile and desktop web applications",
+    },
+    {
+      id: "svelte",
+      name: "Svelte",
+      description: "Cybernetically enhanced web apps",
+    },
+    {
+      id: "nextjs",
+      name: "Next.js",
+      description: "The React Framework for Production",
+    },
   ];
 
   // Handle click outside to close dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (countryRef.current && !countryRef.current.contains(event.target as Node)) {
+      if (
+        countryRef.current &&
+        !countryRef.current.contains(event.target as Node)
+      ) {
         setIsCountryOpen(false);
       }
-      if (categoriesRef.current && !categoriesRef.current.contains(event.target as Node)) {
+      if (
+        categoriesRef.current &&
+        !categoriesRef.current.contains(event.target as Node)
+      ) {
         setIsCategoriesOpen(false);
       }
-      if (frameworkRef.current && !frameworkRef.current.contains(event.target as Node)) {
+      if (
+        frameworkRef.current &&
+        !frameworkRef.current.contains(event.target as Node)
+      ) {
         setIsFrameworkOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleCategoryToggle = (categoryId: string) => {
-    setSelectedCategories(prev => 
-      prev.includes(categoryId) 
-        ? prev.filter(id => id !== categoryId)
-        : [...prev, categoryId]
+    setSelectedCategories((prev) =>
+      prev.includes(categoryId)
+        ? prev.filter((id) => id !== categoryId)
+        : [...prev, categoryId],
     );
   };
 
   const getSelectedCountry = () => {
-    return countries.find(country => country.code === selectedCountry);
+    return countries.find((country) => country.code === selectedCountry);
   };
 
   const getSelectedFramework = () => {
-    return frameworks.find(framework => framework.id === selectedFramework);
+    return frameworks.find((framework) => framework.id === selectedFramework);
   };
 
   return (
@@ -87,7 +115,8 @@ export default function SelectDropdownPattern() {
           🔽 Select Dropdown Patterns
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Custom dropdown selects with single and multiple selection, search, and rich content support.
+          Custom dropdown selects with single and multiple selection, search,
+          and rich content support.
         </p>
       </div>
 
@@ -98,7 +127,7 @@ export default function SelectDropdownPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Examples
             </h2>
-            
+
             <div className="space-y-8">
               {/* Single Select - Country */}
               <div className="space-y-2">
@@ -114,20 +143,30 @@ export default function SelectDropdownPattern() {
                     <span className="flex items-center">
                       {getSelectedCountry() ? (
                         <>
-                          <span className="mr-2">{getSelectedCountry()!.flag}</span>
-                          <span className="block truncate">{getSelectedCountry()!.name}</span>
+                          <span className="mr-2">
+                            {getSelectedCountry()!.flag}
+                          </span>
+                          <span className="block truncate">
+                            {getSelectedCountry()!.name}
+                          </span>
                         </>
                       ) : (
-                        <span className="block truncate text-gray-500 dark:text-gray-400">Select a country...</span>
+                        <span className="block truncate text-gray-500 dark:text-gray-400">
+                          Select a country...
+                        </span>
                       )}
                     </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2">
                       <svg
-                        className={`h-5 w-5 text-gray-400 transform transition-transform ${isCountryOpen ? 'rotate-180' : ''}`}
+                        className={`h-5 w-5 text-gray-400 transform transition-transform ${isCountryOpen ? "rotate-180" : ""}`}
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
-                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     </span>
                   </button>
@@ -145,7 +184,9 @@ export default function SelectDropdownPattern() {
                         >
                           <span className="flex items-center">
                             <span className="mr-2">{country.flag}</span>
-                            <span className="block truncate">{country.name}</span>
+                            <span className="block truncate">
+                              {country.name}
+                            </span>
                           </span>
                         </button>
                       ))}
@@ -168,10 +209,15 @@ export default function SelectDropdownPattern() {
                     <span className="block truncate">
                       {selectedCategories.length > 0 ? (
                         <div className="flex flex-wrap gap-1">
-                          {selectedCategories.slice(0, 2).map(categoryId => {
-                            const category = categories.find(c => c.id === categoryId);
+                          {selectedCategories.slice(0, 2).map((categoryId) => {
+                            const category = categories.find(
+                              (c) => c.id === categoryId,
+                            );
                             return (
-                              <span key={categoryId} className="inline-flex items-center px-2 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 text-xs rounded">
+                              <span
+                                key={categoryId}
+                                className="inline-flex items-center px-2 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 text-xs rounded"
+                              >
                                 {category?.icon} {category?.name}
                               </span>
                             );
@@ -183,16 +229,22 @@ export default function SelectDropdownPattern() {
                           )}
                         </div>
                       ) : (
-                        <span className="text-gray-500 dark:text-gray-400">Select categories...</span>
+                        <span className="text-gray-500 dark:text-gray-400">
+                          Select categories...
+                        </span>
                       )}
                     </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2">
                       <svg
-                        className={`h-5 w-5 text-gray-400 transform transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`}
+                        className={`h-5 w-5 text-gray-400 transform transition-transform ${isCategoriesOpen ? "rotate-180" : ""}`}
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
-                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     </span>
                   </button>
@@ -211,7 +263,9 @@ export default function SelectDropdownPattern() {
                             className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                           />
                           <span className="mr-2">{category.icon}</span>
-                          <span className="block truncate">{category.name}</span>
+                          <span className="block truncate">
+                            {category.name}
+                          </span>
                         </label>
                       ))}
                     </div>
@@ -233,20 +287,30 @@ export default function SelectDropdownPattern() {
                     <span className="block">
                       {getSelectedFramework() ? (
                         <div>
-                          <div className="font-medium">{getSelectedFramework()!.name}</div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{getSelectedFramework()!.description}</div>
+                          <div className="font-medium">
+                            {getSelectedFramework()!.name}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                            {getSelectedFramework()!.description}
+                          </div>
                         </div>
                       ) : (
-                        <span className="text-gray-500 dark:text-gray-400">Choose a framework...</span>
+                        <span className="text-gray-500 dark:text-gray-400">
+                          Choose a framework...
+                        </span>
                       )}
                     </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2">
                       <svg
-                        className={`h-5 w-5 text-gray-400 transform transition-transform ${isFrameworkOpen ? 'rotate-180' : ''}`}
+                        className={`h-5 w-5 text-gray-400 transform transition-transform ${isFrameworkOpen ? "rotate-180" : ""}`}
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
-                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     </span>
                   </button>
@@ -263,7 +327,9 @@ export default function SelectDropdownPattern() {
                           className="w-full text-left px-3 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700 focus:outline-none first:rounded-t-lg last:rounded-b-lg"
                         >
                           <div className="font-medium">{framework.name}</div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">{framework.description}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            {framework.description}
+                          </div>
                         </button>
                       ))}
                     </div>
@@ -273,11 +339,26 @@ export default function SelectDropdownPattern() {
 
               {/* Selection Summary */}
               <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                <h4 className="font-medium text-green-800 dark:text-green-200 mb-2">Selection Summary:</h4>
+                <h4 className="font-medium text-green-800 dark:text-green-200 mb-2">
+                  Selection Summary:
+                </h4>
                 <div className="text-sm text-green-700 dark:text-green-300 space-y-1">
-                  <div>Country: {getSelectedCountry()?.name || 'None selected'}</div>
-                  <div>Categories: {selectedCategories.length > 0 ? selectedCategories.map(id => categories.find(c => c.id === id)?.name).join(', ') : 'None selected'}</div>
-                  <div>Framework: {getSelectedFramework()?.name || 'None selected'}</div>
+                  <div>
+                    Country: {getSelectedCountry()?.name || "None selected"}
+                  </div>
+                  <div>
+                    Categories:{" "}
+                    {selectedCategories.length > 0
+                      ? selectedCategories
+                          .map(
+                            (id) => categories.find((c) => c.id === id)?.name,
+                          )
+                          .join(", ")
+                      : "None selected"}
+                  </div>
+                  <div>
+                    Framework: {getSelectedFramework()?.name || "None selected"}
+                  </div>
                 </div>
               </div>
             </div>
@@ -293,17 +374,10 @@ export default function SelectDropdownPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample 
-                componentName="select-dropdown" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="select-dropdown"
+                activeTab={activeTab}
               />
-              ) : (
-                <DynamicCodeExample 
-                componentName="select-dropdown" 
-                activeTab={activeTab} 
-              />
-              )}
             </div>
           </div>
         </div>
@@ -316,31 +390,55 @@ export default function SelectDropdownPattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Selection Types</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Single select, multi-select, and rich content options</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Multiple Selection Types
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Single select, multi-select, and rich content options
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Custom Styling</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Fully customizable appearance and behavior</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Custom Styling
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Fully customizable appearance and behavior
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Keyboard Navigation</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Full keyboard support for accessibility</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Keyboard Navigation
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Full keyboard support for accessibility
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Click Outside Handling</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Automatically closes when clicking outside</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Click Outside Handling
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Automatically closes when clicking outside
+              </p>
             </div>
           </div>
         </div>
@@ -354,18 +452,30 @@ export default function SelectDropdownPattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🌍</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Location Selection</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Country, state, and city pickers</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Location Selection
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Country, state, and city pickers
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">🏷️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Category Filters</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Multi-select category filtering</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Category Filters
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Multi-select category filtering
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">⚙️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Settings & Preferences</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Configuration options and choices</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Settings & Preferences
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Configuration options and choices
+            </p>
           </div>
         </div>
       </div>

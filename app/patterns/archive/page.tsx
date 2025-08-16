@@ -1,39 +1,86 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
+import { useState } from "react";
+import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ArchivePattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [archivedItems, setArchivedItems] = useState<number[]>([]);
   const [showArchived, setShowArchived] = useState(false);
 
   const items = [
-    { id: 1, title: 'Project Alpha', status: 'Active', date: '2024-01-15', category: 'Development' },
-    { id: 2, title: 'Marketing Campaign Q1', status: 'Completed', date: '2024-01-10', category: 'Marketing' },
-    { id: 3, title: 'User Research Study', status: 'Active', date: '2024-01-20', category: 'Research' },
-    { id: 4, title: 'Budget Planning 2023', status: 'Archived', date: '2023-12-31', category: 'Finance' },
-    { id: 5, title: 'Product Launch Strategy', status: 'Completed', date: '2024-01-05', category: 'Strategy' },
-    { id: 6, title: 'Team Building Event', status: 'Active', date: '2024-01-25', category: 'HR' },
-    { id: 7, title: 'Q4 Sales Report', status: 'Archived', date: '2023-12-15', category: 'Sales' },
-    { id: 8, title: 'Website Redesign', status: 'Active', date: '2024-01-18', category: 'Design' }
+    {
+      id: 1,
+      title: "Project Alpha",
+      status: "Active",
+      date: "2024-01-15",
+      category: "Development",
+    },
+    {
+      id: 2,
+      title: "Marketing Campaign Q1",
+      status: "Completed",
+      date: "2024-01-10",
+      category: "Marketing",
+    },
+    {
+      id: 3,
+      title: "User Research Study",
+      status: "Active",
+      date: "2024-01-20",
+      category: "Research",
+    },
+    {
+      id: 4,
+      title: "Budget Planning 2023",
+      status: "Archived",
+      date: "2023-12-31",
+      category: "Finance",
+    },
+    {
+      id: 5,
+      title: "Product Launch Strategy",
+      status: "Completed",
+      date: "2024-01-05",
+      category: "Strategy",
+    },
+    {
+      id: 6,
+      title: "Team Building Event",
+      status: "Active",
+      date: "2024-01-25",
+      category: "HR",
+    },
+    {
+      id: 7,
+      title: "Q4 Sales Report",
+      status: "Archived",
+      date: "2023-12-15",
+      category: "Sales",
+    },
+    {
+      id: 8,
+      title: "Website Redesign",
+      status: "Active",
+      date: "2024-01-18",
+      category: "Design",
+    },
   ];
 
   const toggleArchive = (id: number) => {
-    setArchivedItems(prev => 
-      prev.includes(id) 
-        ? prev.filter(itemId => itemId !== id)
-        : [...prev, id]
+    setArchivedItems((prev) =>
+      prev.includes(id)
+        ? prev.filter((itemId) => itemId !== id)
+        : [...prev, id],
     );
   };
 
   const isArchived = (id: number) => archivedItems.includes(id);
 
-  const filteredItems = items.filter(item => 
-    showArchived ? isArchived(item.id) : !isArchived(item.id)
+  const filteredItems = items.filter((item) =>
+    showArchived ? isArchived(item.id) : !isArchived(item.id),
   );
 
-  const activeItems = items.filter(item => !isArchived(item.id));
+  const activeItems = items.filter((item) => !isArchived(item.id));
   const archivedCount = archivedItems.length;
 
   return (
@@ -43,7 +90,8 @@ export default function ArchivePattern() {
           📦 Archive Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Organize and manage items by archiving them. Keep active items visible while storing completed or old items in an archive.
+          Organize and manage items by archiving them. Keep active items visible
+          while storing completed or old items in an archive.
         </p>
       </div>
 
@@ -54,7 +102,7 @@ export default function ArchivePattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-            
+
             {/* Archive Controls */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex space-x-2">
@@ -62,8 +110,8 @@ export default function ArchivePattern() {
                   onClick={() => setShowArchived(false)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     !showArchived
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                   }`}
                 >
                   Active ({activeItems.length})
@@ -72,14 +120,14 @@ export default function ArchivePattern() {
                   onClick={() => setShowArchived(true)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     showArchived
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                   }`}
                 >
                   Archived ({archivedCount})
                 </button>
               </div>
-              
+
               {!showArchived && archivedCount > 0 && (
                 <button
                   onClick={() => setShowArchived(true)}
@@ -98,22 +146,28 @@ export default function ArchivePattern() {
                     key={item.id}
                     className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-200 ${
                       isArchived(item.id)
-                        ? 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 opacity-75'
-                        : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-md'
+                        ? "bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 opacity-75"
+                        : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:shadow-md"
                     }`}
                   >
                     <div className="flex items-center space-x-3">
-                      <div className={`w-3 h-3 rounded-full ${
-                        item.status === 'Active' ? 'bg-green-500' :
-                        item.status === 'Completed' ? 'bg-blue-500' :
-                        'bg-gray-400'
-                      }`}></div>
+                      <div
+                        className={`w-3 h-3 rounded-full ${
+                          item.status === "Active"
+                            ? "bg-green-500"
+                            : item.status === "Completed"
+                              ? "bg-blue-500"
+                              : "bg-gray-400"
+                        }`}
+                      ></div>
                       <div>
-                        <h3 className={`font-semibold ${
-                          isArchived(item.id) 
-                            ? 'text-gray-500 dark:text-gray-400' 
-                            : 'text-gray-900 dark:text-gray-100'
-                        }`}>
+                        <h3
+                          className={`font-semibold ${
+                            isArchived(item.id)
+                              ? "text-gray-500 dark:text-gray-400"
+                              : "text-gray-900 dark:text-gray-100"
+                          }`}
+                        >
                           {item.title}
                         </h3>
                         <div className="flex items-center space-x-2 text-sm">
@@ -127,23 +181,45 @@ export default function ArchivePattern() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <button
                       onClick={() => toggleArchive(item.id)}
                       className={`p-2 rounded-lg transition-all duration-200 ${
                         isArchived(item.id)
-                          ? 'text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
-                          : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          ? "text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                          : "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       }`}
-                      aria-label={isArchived(item.id) ? 'Unarchive item' : 'Archive item'}
+                      aria-label={
+                        isArchived(item.id) ? "Unarchive item" : "Archive item"
+                      }
                     >
                       {isArchived(item.id) ? (
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
                         </svg>
                       ) : (
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                          />
                         </svg>
                       )}
                     </button>
@@ -153,13 +229,12 @@ export default function ArchivePattern() {
                 <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                   <div className="text-4xl mb-2">📦</div>
                   <p className="text-lg font-medium mb-1">
-                    {showArchived ? 'No archived items' : 'No active items'}
+                    {showArchived ? "No archived items" : "No active items"}
                   </p>
                   <p className="text-sm">
-                    {showArchived 
-                      ? 'Items you archive will appear here' 
-                      : 'All items have been archived'
-                    }
+                    {showArchived
+                      ? "Items you archive will appear here"
+                      : "All items have been archived"}
                   </p>
                 </div>
               )}
@@ -193,17 +268,10 @@ export default function ArchivePattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample 
-                componentName="archive" 
-                activeTab={activeTab} 
+              <DynamicCodeExample
+                componentName="archive"
+                activeTab={activeTab}
               />
-              ) : (
-                <DynamicCodeExample 
-                componentName="archive" 
-                activeTab={activeTab} 
-              />
-              )}
             </div>
           </div>
         </div>
@@ -216,31 +284,55 @@ export default function ArchivePattern() {
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Toggle Views</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Switch between active and archived items</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Toggle Views
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Switch between active and archived items
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual States</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Clear visual distinction for archived items</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Visual States
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Clear visual distinction for archived items
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Bulk Operations</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Archive multiple items at once</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Bulk Operations
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Archive multiple items at once
+              </p>
             </div>
           </div>
           <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
+            <span className="text-green-600 dark:text-green-400 text-lg">
+              ✓
+            </span>
             <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Status Indicators</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Color-coded status for easy identification</p>
+              <h4 className="font-medium text-gray-800 dark:text-gray-200">
+                Status Indicators
+              </h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Color-coded status for easy identification
+              </p>
             </div>
           </div>
         </div>
@@ -254,18 +346,30 @@ export default function ArchivePattern() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📧</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Email Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Archive old emails while keeping inbox clean</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Email Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Archive old emails while keeping inbox clean
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📁</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">File Organization</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Archive completed projects and documents</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              File Organization
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Archive completed projects and documents
+            </p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
             <div className="text-2xl mb-2">📋</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Task Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Archive completed tasks and keep active ones visible</p>
+            <h4 className="font-medium text-gray-800 dark:text-gray-200">
+              Task Management
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Archive completed tasks and keep active ones visible
+            </p>
           </div>
         </div>
       </div>
