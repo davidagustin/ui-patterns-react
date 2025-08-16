@@ -324,7 +324,7 @@ export default function SwipeNavigation() {
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
   
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef(null);
   
   const pages = [
     { 
@@ -340,38 +340,17 @@ export default function SwipeNavigation() {
       content: 'Your profile information', 
       color: 'bg-green-500',
       image: 'https://picsum.photos/400/300?random=2'
-    },
-    { 
-      id: 3, 
-      title: 'Settings', 
-      content: 'App settings and preferences', 
-      color: 'bg-purple-500',
-      image: 'https://picsum.photos/400/300?random=3'
-    },
-    { 
-      id: 4, 
-      title: 'Messages', 
-      content: 'Your conversations', 
-      color: 'bg-orange-500',
-      image: 'https://picsum.photos/400/300?random=4'
-    },
-    { 
-      id: 5, 
-      title: 'Files', 
-      content: 'Your documents and files', 
-      color: 'bg-red-500',
-      image: 'https://picsum.photos/400/300?random=5'
-    },
+    }
   ];
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart = (e) => {
     e.preventDefault();
     setIsDragging(true);
     setStartX(e.touches[0].clientX);
     setCurrentX(e.touches[0].clientX);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
+  const handleTouchMove = (e) => {
     if (!isDragging) return;
     e.preventDefault();
     setCurrentX(e.touches[0].clientX);
@@ -394,7 +373,7 @@ export default function SwipeNavigation() {
     setIsDragging(false);
   };
 
-  const goToPage = (pageIndex: number) => {
+  const goToPage = (pageIndex) => {
     if (pageIndex >= 0 && pageIndex < pages.length) {
       setCurrentPage(pageIndex);
     }
@@ -412,19 +391,6 @@ export default function SwipeNavigation() {
     }
   };
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
-        prevPage();
-      } else if (e.key === 'ArrowRight') {
-        nextPage();
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [currentPage]);
-
   return (
     <div 
       ref={containerRef}
@@ -434,7 +400,6 @@ export default function SwipeNavigation() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Page Container */}
       <div 
         className="flex h-full transition-transform duration-300 ease-out"
         style={{
@@ -448,16 +413,14 @@ export default function SwipeNavigation() {
             className={\`flex-shrink-0 h-full flex flex-col items-center justify-center \${page.color} text-white relative overflow-hidden\`}
             style={{ width: \`\${100 / pages.length}%\` }}
           >
-            {/* Background Image */}
             <div className="absolute inset-0 flex items-center justify-center opacity-30">
               <img 
                 src={page.image} 
-                alt={`${page.title} background`}
+                alt={\`\${page.title} background\`}
                 className="w-full h-full object-cover"
               />
             </div>
             
-            {/* Content Overlay */}
             <div className="text-center relative z-10 px-4">
               <h3 className="text-2xl font-bold mb-2">{page.title}</h3>
               <p className="text-lg opacity-90">{page.content}</p>
@@ -467,28 +430,26 @@ export default function SwipeNavigation() {
         ))}
       </div>
 
-      {/* Navigation Dots */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
         {pages.map((_, index) => (
           <button
             key={index}
             onClick={() => goToPage(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-200 ${
+            className={\`w-3 h-3 rounded-full transition-all duration-200 \${
               index === currentPage 
                 ? 'bg-white scale-125' 
                 : 'bg-white/50 hover:bg-white/75'
-            }`}
+            }\`}
           />
         ))}
       </div>
 
-      {/* Navigation Arrows */}
       <button
         onClick={prevPage}
         disabled={currentPage === 0}
-        className={`absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center ${
+        className={\`absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center \${
           currentPage === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'
-        }`}
+        }\`}
       >
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -498,9 +459,9 @@ export default function SwipeNavigation() {
       <button
         onClick={nextPage}
         disabled={currentPage === pages.length - 1}
-        className={`absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center ${
+        className={\`absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center \${
           currentPage === pages.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'
-        }`}
+        }\`}
       >
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
