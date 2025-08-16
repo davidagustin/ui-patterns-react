@@ -1,10 +1,14 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function AlternatingRowsPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [sortField, setSortField] = useState<string>("name");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+
   const data = [
     {
       id: 1,
@@ -71,15 +75,18 @@ export default function AlternatingRowsPattern() {
       lastLogin: "2024-01-12",
     },
   ];
+
   const sortedData = [...data].sort((a, b) => {
     const aValue = a[sortField as keyof typeof a];
     const bValue = b[sortField as keyof typeof b];
+
     if (sortDirection === "asc") {
       return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
     } else {
       return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
     }
   });
+
   const handleSort = (field: string) => {
     if (sortField === field) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
@@ -88,6 +95,7 @@ export default function AlternatingRowsPattern() {
       setSortDirection("asc");
     }
   };
+
   const toggleRowSelection = (id: number) => {
     const newSelected = new Set(selectedRows);
     if (newSelected.has(id)) {
@@ -97,6 +105,7 @@ export default function AlternatingRowsPattern() {
     }
     setSelectedRows(newSelected);
   };
+
   const toggleAllRows = () => {
     if (selectedRows.size === data.length) {
       setSelectedRows(new Set());
@@ -104,6 +113,7 @@ export default function AlternatingRowsPattern() {
       setSelectedRows(new Set(data.map((row) => row.id)));
     }
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -115,7 +125,8 @@ export default function AlternatingRowsPattern() {
           and selection states for better data scanning.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -126,6 +137,7 @@ export default function AlternatingRowsPattern() {
               Click headers to sort, select rows with checkboxes, and notice the
               alternating row colors for better readability.
             </p>
+
             {/* Table Controls */}
             <div className="flex justify-between items-center mb-4">
               <div className="text-sm text-gray-600 dark:text-gray-400">
@@ -139,6 +151,7 @@ export default function AlternatingRowsPattern() {
                 Clear Selection
               </button>
             </div>
+
             {/* Table */}
             <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
               <table className="w-full">
@@ -238,9 +251,24 @@ export default function AlternatingRowsPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-        <DynamicCodeExample componentName="alternating-rows" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="alternating-rows" />
+              }
+            </div>
+          </div>
+        </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -301,6 +329,7 @@ export default function AlternatingRowsPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

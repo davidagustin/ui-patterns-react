@@ -1,19 +1,24 @@
 "use client";
+
 import { useState, useMemo } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 interface Tag {
   id: string;
   name: string;
   count: number;
   category: "technology" | "design" | "business" | "lifestyle";
 }
+
 export default function TagCloudPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedCategory, setSelectedCategory] = useState<
     "all" | "technology" | "design" | "business" | "lifestyle"
   >("all");
   const [sortBy, setSortBy] = useState<"frequency" | "alphabetical">(
     "frequency",
   );
+
   const tags: Tag[] = [
     // Technology
     { id: "1", name: "React", count: 1250, category: "technology" },
@@ -26,6 +31,7 @@ export default function TagCloudPattern() {
     { id: "8", name: "Vue.js", count: 420, category: "technology" },
     { id: "9", name: "Angular", count: 380, category: "technology" },
     { id: "10", name: "Docker", count: 320, category: "technology" },
+
     // Design
     { id: "11", name: "UI/UX", count: 890, category: "design" },
     { id: "12", name: "Figma", count: 720, category: "design" },
@@ -37,6 +43,7 @@ export default function TagCloudPattern() {
     { id: "18", name: "Color Theory", count: 220, category: "design" },
     { id: "19", name: "Icon Design", count: 180, category: "design" },
     { id: "20", name: "Illustration", count: 150, category: "design" },
+
     // Business
     { id: "21", name: "Startup", count: 680, category: "business" },
     { id: "22", name: "Marketing", count: 540, category: "business" },
@@ -48,6 +55,7 @@ export default function TagCloudPattern() {
     { id: "28", name: "Strategy", count: 200, category: "business" },
     { id: "29", name: "Leadership", count: 180, category: "business" },
     { id: "30", name: "Finance", count: 160, category: "business" },
+
     // Lifestyle
     { id: "31", name: "Productivity", count: 450, category: "lifestyle" },
     { id: "32", name: "Remote Work", count: 380, category: "lifestyle" },
@@ -60,26 +68,32 @@ export default function TagCloudPattern() {
     { id: "39", name: "Photography", count: 140, category: "lifestyle" },
     { id: "40", name: "Music", count: 120, category: "lifestyle" },
   ];
+
   const filteredAndSortedTags = useMemo(() => {
     let filtered =
       selectedCategory === "all"
         ? tags
         : tags.filter((tag) => tag.category === selectedCategory);
+
     if (sortBy === "alphabetical") {
       filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
     } else {
       filtered = [...filtered].sort((a, b) => b.count - a.count);
     }
+
     return filtered;
   }, [selectedCategory, sortBy]);
+
   const getTagSize = (count: number) => {
     const maxCount = Math.max(...tags.map((t) => t.count));
     const minCount = Math.min(...tags.map((t) => t.count));
     const range = maxCount - minCount;
     const normalized = (count - minCount) / range;
+
     // Size range from 0.8 to 2.5
     return 0.8 + normalized * 1.7;
   };
+
   const getTagColor = (category: string) => {
     switch (category) {
       case "technology":
@@ -94,6 +108,7 @@ export default function TagCloudPattern() {
         return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-900/40";
     }
   };
+
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "technology":
@@ -108,12 +123,14 @@ export default function TagCloudPattern() {
         return "🏷️";
     }
   };
+
   const formatCount = (count: number) => {
     if (count >= 1000) {
       return (count / 1000).toFixed(1) + "k";
     }
     return count.toString();
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -125,7 +142,8 @@ export default function TagCloudPattern() {
           to identify popular topics at a glance.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -136,6 +154,7 @@ export default function TagCloudPattern() {
               Filter by category and sort by frequency or alphabetically. Tag
               sizes represent their popularity.
             </p>
+
             {/* Controls */}
             <div className="flex flex-wrap gap-3 mb-6">
               {/* Category Filter */}
@@ -155,6 +174,7 @@ export default function TagCloudPattern() {
                   <option value="lifestyle">🌟 Lifestyle</option>
                 </select>
               </div>
+
               {/* Sort Options */}
               <div className="flex items-center space-x-2">
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -170,6 +190,7 @@ export default function TagCloudPattern() {
                 </select>
               </div>
             </div>
+
             {/* Tag Cloud */}
             <div className="min-h-64 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
               <div className="flex flex-wrap gap-2 justify-center items-center">
@@ -187,12 +208,14 @@ export default function TagCloudPattern() {
                   </button>
                 ))}
               </div>
+
               {filteredAndSortedTags.length === 0 && (
                 <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                   No tags found for the selected category.
                 </div>
               )}
             </div>
+
             {/* Legend */}
             <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
               {(["technology", "design", "business", "lifestyle"] as const).map(
@@ -210,11 +233,24 @@ export default function TagCloudPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="tag-cloud" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="tag-cloud" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -275,6 +311,7 @@ export default function TagCloudPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

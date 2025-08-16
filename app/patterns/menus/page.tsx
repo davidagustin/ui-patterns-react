@@ -1,13 +1,17 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function MenusPattern() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+
   const [contextMenuPosition, setContextMenuPosition] = useState<{
     x: number;
     y: number;
   } | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -15,14 +19,17 @@ export default function MenusPattern() {
         setContextMenuPosition(null);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
   const handleContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
     setContextMenuPosition({ x: event.clientX, y: event.clientY });
     setActiveMenu(null);
   };
+
   const menuItems = {
     file: [
       { id: "new", label: "New", icon: "📄", shortcut: "Ctrl+N" },
@@ -58,6 +65,7 @@ export default function MenusPattern() {
       { id: "properties", label: "Properties", icon: "⚙️" },
     ],
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -69,13 +77,15 @@ export default function MenusPattern() {
           nested menu structures for efficient navigation.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
+
             <div className="space-y-6" ref={menuRef}>
               {/* Menu Bar */}
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -124,6 +134,7 @@ export default function MenusPattern() {
                       </div>
                     )}
                   </div>
+
                   <div className="relative">
                     <button
                       onClick={() =>
@@ -166,6 +177,7 @@ export default function MenusPattern() {
                     )}
                   </div>
                 </div>
+
                 {/* Content area with context menu */}
                 <div
                   className="p-6 bg-white dark:bg-gray-800 h-32 flex items-center justify-center text-gray-600 dark:text-gray-400 cursor-pointer"
@@ -174,6 +186,7 @@ export default function MenusPattern() {
                   Right-click here for context menu
                 </div>
               </div>
+
               {/* Context Menu */}
               {contextMenuPosition && (
                 <div
@@ -205,11 +218,21 @@ export default function MenusPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="menus" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            <div className="code-block">
+              <DynamicCodeExample componentName="menus" />
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -270,6 +293,7 @@ export default function MenusPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

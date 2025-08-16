@@ -1,8 +1,12 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function VerticalDropdownPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
+
   const toggleDropdown = (id: string) => {
     const newOpenDropdowns = new Set(openDropdowns);
     if (newOpenDropdowns.has(id)) {
@@ -12,6 +16,7 @@ export default function VerticalDropdownPattern() {
     }
     setOpenDropdowns(newOpenDropdowns);
   };
+
   const menuItems = [
     {
       id: "dashboard",
@@ -56,6 +61,7 @@ export default function VerticalDropdownPattern() {
       ],
     },
   ];
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -67,7 +73,8 @@ export default function VerticalDropdownPattern() {
           sections, perfect for sidebars and navigation panels.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -78,6 +85,7 @@ export default function VerticalDropdownPattern() {
               Click on the sections to expand and collapse the vertical dropdown
               menus. Notice the smooth animations and nested structure.
             </p>
+
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
               <div className="w-64 bg-gray-50 dark:bg-gray-900">
                 {menuItems.map((section) => (
@@ -108,6 +116,7 @@ export default function VerticalDropdownPattern() {
                         />
                       </svg>
                     </button>
+
                     {/* Dropdown Items */}
                     <div
                       className={`overflow-hidden transition-all duration-300 ease-in-out ${
@@ -132,6 +141,7 @@ export default function VerticalDropdownPattern() {
                 ))}
               </div>
             </div>
+
             {/* Alternative Style - Accordion */}
             <div className="mt-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
               <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
@@ -179,6 +189,7 @@ export default function VerticalDropdownPattern() {
                         </svg>
                       </div>
                     </button>
+
                     <div
                       className={`transition-all duration-300 ease-in-out ${
                         openDropdowns.has(`accordion-${section.id}`)
@@ -204,9 +215,21 @@ export default function VerticalDropdownPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-        <DynamicCodeExample componentName="vertical-dropdown" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            <div className="code-block">
+              <DynamicCodeExample componentName="vertical-dropdown" />
+            </div>
+          </div>
+        </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -267,6 +290,7 @@ export default function VerticalDropdownPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

@@ -1,10 +1,14 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function FormattingDataPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [locale, setLocale] = useState("en-US");
   const [currency, setCurrency] = useState("USD");
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
+
   // Sample data to format
   const sampleData = {
     numbers: {
@@ -35,6 +39,7 @@ export default function FormattingDataPattern() {
       macAddress: "00:1B:44:11:3A:B7",
     },
   };
+
   // Formatting functions
   const formatNumber = (
     num: number,
@@ -42,6 +47,7 @@ export default function FormattingDataPattern() {
   ) => {
     return new Intl.NumberFormat(locale, options).format(num);
   };
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat(locale, {
       style: "currency",
@@ -49,6 +55,7 @@ export default function FormattingDataPattern() {
       minimumFractionDigits: 2,
     }).format(amount);
   };
+
   const formatPercentage = (value: number) => {
     return new Intl.NumberFormat(locale, {
       style: "percent",
@@ -56,18 +63,22 @@ export default function FormattingDataPattern() {
       maximumFractionDigits: 2,
     }).format(value);
   };
+
   const formatCompactNumber = (num: number) => {
     return new Intl.NumberFormat(locale, {
       notation: "compact",
       compactDisplay: "short",
     }).format(num);
   };
+
   const formatDate = (date: Date, options: Intl.DateTimeFormatOptions = {}) => {
     return new Intl.DateTimeFormat(locale, options).format(date);
   };
+
   const formatRelativeTime = (date: Date) => {
     const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
     const diff = Math.floor((date.getTime() - currentTime.getTime()) / 1000);
+
     if (Math.abs(diff) < 60) return rtf.format(diff, "second");
     if (Math.abs(diff) < 3600)
       return rtf.format(Math.floor(diff / 60), "minute");
@@ -75,21 +86,25 @@ export default function FormattingDataPattern() {
       return rtf.format(Math.floor(diff / 3600), "hour");
     return rtf.format(Math.floor(diff / 86400), "day");
   };
+
   const formatTitle = (text: string) => {
     return text.replace(
       /\w\S*/g,
       (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
     );
   };
+
   const formatProperName = (name: string) => {
     return name
       .split(" ")
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
       .join(" ");
   };
+
   const formatSentence = (sentence: string) => {
     return sentence.charAt(0).toUpperCase() + sentence.slice(1);
   };
+
   const formatPhone = (phone: string) => {
     const cleaned = phone.replace(/\D/g, "");
     if (cleaned.length === 10) {
@@ -97,6 +112,7 @@ export default function FormattingDataPattern() {
     }
     return phone;
   };
+
   const maskCreditCard = (cardNumber: string) => {
     const cleaned = cardNumber.replace(/\s/g, "");
     if (cleaned.length === 16) {
@@ -104,6 +120,7 @@ export default function FormattingDataPattern() {
     }
     return cardNumber;
   };
+
   const maskSSN = (ssn: string) => {
     const cleaned = ssn.replace(/\D/g, "");
     if (cleaned.length === 9) {
@@ -111,30 +128,36 @@ export default function FormattingDataPattern() {
     }
     return ssn;
   };
+
   const formatBytes = (bytes: number) => {
     const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
     if (bytes === 0) return "0 Bytes";
     const i = Math.floor(Math.log(bytes) / Math.log(1024));
     return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + " " + sizes[i];
   };
+
   const formatDuration = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
+
     if (hours > 0) {
       return `${hours}:${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
     }
     return `${minutes}:${secs.toString().padStart(2, "0")}`;
   };
+
   const formatIPAddress = (ip: string) => {
     return ip
       .split(".")
       .map((part) => part.padStart(3, "0"))
       .join(".");
   };
+
   const formatMacAddress = (mac: string) => {
     return mac.toUpperCase();
   };
+
   const locales = [
     { code: "en-US", name: "English (US)" },
     { code: "en-GB", name: "English (UK)" },
@@ -143,6 +166,7 @@ export default function FormattingDataPattern() {
     { code: "de-DE", name: "German" },
     { code: "ja-JP", name: "Japanese" },
   ];
+
   const currencies = [
     { code: "USD", name: "US Dollar" },
     { code: "EUR", name: "Euro" },
@@ -150,6 +174,7 @@ export default function FormattingDataPattern() {
     { code: "JPY", name: "Japanese Yen" },
     { code: "CAD", name: "Canadian Dollar" },
   ];
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -161,7 +186,8 @@ export default function FormattingDataPattern() {
           localization, number formatting, and text transformations.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -172,6 +198,7 @@ export default function FormattingDataPattern() {
               Change locale and currency to see how data formatting adapts. All
               examples use real formatting functions.
             </p>
+
             {/* Controls */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
@@ -207,6 +234,7 @@ export default function FormattingDataPattern() {
                 </select>
               </div>
             </div>
+
             {/* Number Formatting */}
             <div className="space-y-6">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
@@ -284,6 +312,7 @@ export default function FormattingDataPattern() {
                   </div>
                 </div>
               </div>
+
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
                   📅 Date & Time Formatting
@@ -326,6 +355,7 @@ export default function FormattingDataPattern() {
                   </div>
                 </div>
               </div>
+
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
                   📝 Text Formatting
@@ -377,6 +407,7 @@ export default function FormattingDataPattern() {
                   </div>
                 </div>
               </div>
+
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
                   💻 Technical Formatting
@@ -436,11 +467,24 @@ export default function FormattingDataPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="formatting-data" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="formatting-data" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -501,6 +545,7 @@ export default function FormattingDataPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

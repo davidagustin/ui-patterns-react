@@ -1,8 +1,12 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function CategorizationPattern() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
+
   const categories = [
     { id: "all", name: "All Items", count: 42, color: "gray" },
     { id: "electronics", name: "Electronics", count: 12, color: "blue" },
@@ -10,6 +14,7 @@ export default function CategorizationPattern() {
     { id: "books", name: "Books", count: 15, color: "purple" },
     { id: "home", name: "Home & Garden", count: 7, color: "orange" },
   ];
+
   const items = [
     // Electronics (12 items)
     {
@@ -108,6 +113,7 @@ export default function CategorizationPattern() {
       image:
         "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300&h=200&fit=crop",
     },
+
     // Clothing (8 items)
     {
       id: 13,
@@ -173,6 +179,7 @@ export default function CategorizationPattern() {
       image:
         "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=300&h=200&fit=crop",
     },
+
     // Books (15 items)
     {
       id: 21,
@@ -294,6 +301,7 @@ export default function CategorizationPattern() {
       image:
         "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=200&fit=crop",
     },
+
     // Home & Garden (7 items)
     {
       id: 36,
@@ -352,10 +360,12 @@ export default function CategorizationPattern() {
         "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop",
     },
   ];
+
   const filteredItems =
     selectedCategory === "all"
       ? items
       : items.filter((item) => item.category === selectedCategory);
+
   const getCategoryColor = (color: string) => {
     const colors = {
       gray: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200",
@@ -369,6 +379,7 @@ export default function CategorizationPattern() {
     };
     return colors[color as keyof typeof colors] || colors.gray;
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -380,7 +391,8 @@ export default function CategorizationPattern() {
           dynamic filtering capabilities.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -391,6 +403,7 @@ export default function CategorizationPattern() {
               Click on categories to filter items. Each category shows item
               count and uses color coding for easy identification.
             </p>
+
             {/* Category Navigation */}
             <div className="flex flex-wrap gap-2 mb-6">
               {categories.map((category) => (
@@ -411,6 +424,7 @@ export default function CategorizationPattern() {
                 </button>
               ))}
             </div>
+
             {/* Items Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
               {filteredItems.map((item) => {
@@ -446,6 +460,7 @@ export default function CategorizationPattern() {
                 );
               })}
             </div>
+
             {filteredItems.length === 0 && (
               <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                 No items found in this category
@@ -453,11 +468,44 @@ export default function CategorizationPattern() {
             )}
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="categorization" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab("jsx")}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === "jsx"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab("css")}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === "css"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              <DynamicCodeExample componentName="categorization" />
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
@@ -503,6 +551,7 @@ export default function CategorizationPattern() {
           </ul>
         </div>
       </div>
+
       {/* Common Use Cases */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">

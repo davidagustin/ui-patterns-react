@@ -1,6 +1,8 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function FormsPattern() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -16,6 +18,7 @@ export default function FormsPattern() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
   const countries = [
     { value: "", label: "Select a country" },
     { value: "us", label: "United States" },
@@ -26,20 +29,24 @@ export default function FormsPattern() {
     { value: "fr", label: "France" },
     { value: "jp", label: "Japan" },
   ];
+
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
+
     // First Name validation
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First name is required";
     } else if (formData.firstName.length < 2) {
       newErrors.firstName = "First name must be at least 2 characters";
     }
+
     // Last Name validation
     if (!formData.lastName.trim()) {
       newErrors.lastName = "Last name is required";
     } else if (formData.lastName.length < 2) {
       newErrors.lastName = "Last name must be at least 2 characters";
     }
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
@@ -47,11 +54,13 @@ export default function FormsPattern() {
     } else if (!emailRegex.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
+
     // Phone validation
     const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
     if (formData.phone && !phoneRegex.test(formData.phone.replace(/\s/g, ""))) {
       newErrors.phone = "Please enter a valid phone number";
     }
+
     // Password validation
     if (!formData.password) {
       newErrors.password = "Password is required";
@@ -61,40 +70,52 @@ export default function FormsPattern() {
       newErrors.password =
         "Password must contain uppercase, lowercase, and number";
     }
+
     // Confirm Password validation
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
+
     // Country validation
     if (!formData.country) {
       newErrors.country = "Please select a country";
     }
+
     // Terms validation
     if (!formData.terms) {
       newErrors.terms = "You must accept the terms and conditions";
     }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!validateForm()) {
       return;
     }
+
     setIsSubmitting(true);
+
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 2000));
+
     setIsSubmitting(false);
     setIsSubmitted(true);
+
     // Reset form after successful submission
     setTimeout(() => {
       setFormData({
@@ -111,23 +132,29 @@ export default function FormsPattern() {
       setIsSubmitted(false);
     }, 3000);
   };
+
   const getPasswordStrength = (password: string) => {
     if (!password) return { strength: 0, label: "", color: "" };
+
     let strength = 0;
     if (password.length >= 8) strength++;
     if (/[a-z]/.test(password)) strength++;
     if (/[A-Z]/.test(password)) strength++;
     if (/\d/.test(password)) strength++;
     if (/[^A-Za-z0-9]/.test(password)) strength++;
+
     const labels = ["Very Weak", "Weak", "Fair", "Good", "Strong"];
     const colors = ["red", "orange", "yellow", "lightgreen", "green"];
+
     return {
       strength: Math.min(strength, 5),
       label: labels[Math.min(strength - 1, 4)],
       color: colors[Math.min(strength - 1, 4)],
     };
   };
+
   const passwordStrength = getPasswordStrength(formData.password);
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -139,7 +166,8 @@ export default function FormsPattern() {
           accessibility features for optimal user experience.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -150,6 +178,7 @@ export default function FormsPattern() {
               Fill out the form to see real-time validation, password strength
               indicator, and submission feedback.
             </p>
+
             {/* Success Message */}
             {isSubmitted && (
               <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
@@ -168,6 +197,7 @@ export default function FormsPattern() {
                 </div>
               </div>
             )}
+
             {/* Registration Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Personal Information */}
@@ -175,6 +205,7 @@ export default function FormsPattern() {
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
                   Personal Information
                 </h3>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label
@@ -203,6 +234,7 @@ export default function FormsPattern() {
                       </p>
                     )}
                   </div>
+
                   <div>
                     <label
                       htmlFor="lastName"
@@ -231,6 +263,7 @@ export default function FormsPattern() {
                     )}
                   </div>
                 </div>
+
                 <div>
                   <label
                     htmlFor="email"
@@ -256,6 +289,7 @@ export default function FormsPattern() {
                     </p>
                   )}
                 </div>
+
                 <div>
                   <label
                     htmlFor="phone"
@@ -282,11 +316,13 @@ export default function FormsPattern() {
                   )}
                 </div>
               </div>
+
               {/* Security */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
                   Security
                 </h3>
+
                 <div>
                   <label
                     htmlFor="password"
@@ -341,6 +377,7 @@ export default function FormsPattern() {
                     </p>
                   )}
                 </div>
+
                 <div>
                   <label
                     htmlFor="confirmPassword"
@@ -369,11 +406,13 @@ export default function FormsPattern() {
                   )}
                 </div>
               </div>
+
               {/* Preferences */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
                   Preferences
                 </h3>
+
                 <div>
                   <label
                     htmlFor="country"
@@ -405,6 +444,7 @@ export default function FormsPattern() {
                     </p>
                   )}
                 </div>
+
                 <div className="space-y-3">
                   <div className="flex items-center">
                     <input
@@ -423,6 +463,7 @@ export default function FormsPattern() {
                       Subscribe to our newsletter for updates and offers
                     </label>
                   </div>
+
                   <div className="flex items-start">
                     <input
                       type="checkbox"
@@ -461,6 +502,7 @@ export default function FormsPattern() {
                   )}
                 </div>
               </div>
+
               {/* Submit Button */}
               <div className="pt-4">
                 <button
@@ -481,75 +523,130 @@ export default function FormsPattern() {
             </form>
           </div>
         </div>
+
         {/* Code Example */}
-        <DynamicCodeExample componentName="forms" />
-      </div>
-      {/* Key Features */}
-      <div className="mt-8 max-w-3xl">
-        <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg p-5 border border-green-200 dark:border-green-800">
-          <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
-            ✨ Key Features
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-700 dark:text-gray-300">
-            <div className="flex items-center space-x-2">
-              <span className="text-green-600">•</span>
-              <span>Real-time validation</span>
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => {}}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  true
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => {}}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  false
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                }`}
+              >
+                CSS
+              </button>
             </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-green-600">•</span>
-              <span>Password strength indicator</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-green-600">•</span>
-              <span>Form state management</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-green-600">•</span>
-              <span>Accessibility support</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-green-600">•</span>
-              <span>Loading states</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-green-600">•</span>
-              <span>Error handling</span>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              <DynamicCodeExample componentName="forms" />
             </div>
           </div>
         </div>
       </div>
+
+      {/* Key Features */}
+      <div className="space-y-6">
+        <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+          <h2 className="text-xl font-semibold mb-4 text-green-800 dark:text-green-200">
+            ✨ Key Features
+          </h2>
+          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+            <li>
+              • <strong>Real-time Validation:</strong> Instant feedback as users
+              type
+            </li>
+            <li>
+              • <strong>Password Strength Indicator:</strong> Visual feedback
+              for password security
+            </li>
+            <li>
+              • <strong>Form State Management:</strong> Efficient handling of
+              form data and errors
+            </li>
+            <li>
+              • <strong>Accessibility:</strong> Proper labels, ARIA attributes,
+              and keyboard navigation
+            </li>
+            <li>
+              • <strong>Loading States:</strong> Visual feedback during form
+              submission
+            </li>
+            <li>
+              • <strong>Error Handling:</strong> Clear error messages and
+              validation
+            </li>
+            <li>
+              • <strong>Responsive Design:</strong> Works on all screen sizes
+            </li>
+            <li>
+              • <strong>Success Feedback:</strong> Confirmation messages after
+              submission
+            </li>
+            <li>
+              • <strong>Dynamic Code Generation:</strong> Code example extracted
+              from actual source files
+            </li>
+          </ul>
+        </div>
+      </div>
+
       {/* Common Use Cases */}
-      <div className="mt-6 max-w-3xl">
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-5 border border-purple-200 dark:border-purple-800">
-          <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">
+      <div className="space-y-6">
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
+          <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-200">
             🎯 Common Use Cases
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-700 dark:text-gray-300">
-            <div className="flex items-center space-x-2">
-              <span className="text-purple-600">•</span>
-              <span>User registration</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-purple-600">•</span>
-              <span>Contact forms</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-purple-600">•</span>
-              <span>Profile settings</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-purple-600">•</span>
-              <span>Checkout forms</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-purple-600">•</span>
-              <span>Survey forms</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-purple-600">•</span>
-              <span>Application forms</span>
-            </div>
-          </div>
+          </h2>
+          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+            <li>
+              • <strong>User Registration:</strong> Account creation and signup
+              forms
+            </li>
+            <li>
+              • <strong>Contact Forms:</strong> Customer support and inquiry
+              forms
+            </li>
+            <li>
+              • <strong>Profile Settings:</strong> User profile and preference
+              forms
+            </li>
+            <li>
+              • <strong>Checkout Forms:</strong> E-commerce payment and shipping
+              forms
+            </li>
+            <li>
+              • <strong>Survey Forms:</strong> Data collection and feedback
+              forms
+            </li>
+            <li>
+              • <strong>Application Forms:</strong> Job applications and
+              submissions
+            </li>
+            <li>
+              • <strong>Settings Forms:</strong> Application configuration forms
+            </li>
+            <li>
+              • <strong>Search Forms:</strong> Advanced search and filter forms
+            </li>
+          </ul>
         </div>
       </div>
     </div>

@@ -1,10 +1,14 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function BreadcrumbsPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [currentPath, setCurrentPath] = useState(
     "electronics/computers/laptops",
   );
+
   const breadcrumbData = {
     electronics: {
       label: "Electronics",
@@ -22,24 +26,30 @@ export default function BreadcrumbsPattern() {
       description: "Portable computing devices",
     },
   };
+
   const pathSegments = currentPath.split("/");
+
   const handleBreadcrumbClick = (index: number) => {
     const newPath = pathSegments.slice(0, index + 1).join("/");
     setCurrentPath(newPath);
   };
+
   const getBreadcrumbIcon = (segment: string) => {
     return breadcrumbData[segment as keyof typeof breadcrumbData]?.icon || "📁";
   };
+
   const getBreadcrumbLabel = (segment: string) => {
     return (
       breadcrumbData[segment as keyof typeof breadcrumbData]?.label || segment
     );
   };
+
   const getBreadcrumbDescription = (segment: string) => {
     return (
       breadcrumbData[segment as keyof typeof breadcrumbData]?.description || ""
     );
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -51,7 +61,8 @@ export default function BreadcrumbsPattern() {
           provides easy navigation to parent levels.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -62,6 +73,7 @@ export default function BreadcrumbsPattern() {
               Click on any breadcrumb to navigate to that level. The current
               location is highlighted.
             </p>
+
             {/* Breadcrumbs */}
             <nav className="mb-6" aria-label="Breadcrumb">
               <ol className="flex items-center space-x-2 text-sm">
@@ -74,9 +86,11 @@ export default function BreadcrumbsPattern() {
                     <span>Home</span>
                   </button>
                 </li>
+
                 {pathSegments.map((segment, index) => {
                   const isLast = index === pathSegments.length - 1;
                   const isClickable = !isLast;
+
                   return (
                     <li key={index} className="flex items-center">
                       <svg
@@ -90,6 +104,7 @@ export default function BreadcrumbsPattern() {
                           clipRule="evenodd"
                         />
                       </svg>
+
                       {isClickable ? (
                         <button
                           onClick={() => handleBreadcrumbClick(index)}
@@ -113,6 +128,7 @@ export default function BreadcrumbsPattern() {
                 })}
               </ol>
             </nav>
+
             {/* Current Location Info */}
             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
               <div className="flex items-center space-x-3 mb-2">
@@ -135,6 +151,7 @@ export default function BreadcrumbsPattern() {
                 </code>
               </div>
             </div>
+
             {/* Path Controls */}
             <div className="mt-4 space-y-2">
               <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -165,11 +182,44 @@ export default function BreadcrumbsPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="breadcrumbs" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab("jsx")}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === "jsx"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab("css")}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === "css"
+                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
+                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                }`}
+              >
+                CSS
+              </button>
+            </div>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              <DynamicCodeExample componentName="breadcrumbs" />
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
@@ -216,6 +266,7 @@ export default function BreadcrumbsPattern() {
           </ul>
         </div>
       </div>
+
       {/* Common Use Cases */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">

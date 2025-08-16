@@ -1,6 +1,8 @@
 "use client";
+
 import { useState, useMemo } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 interface SearchItem {
   id: number;
   title: string;
@@ -11,7 +13,9 @@ interface SearchItem {
   status: "published" | "draft" | "archived";
   priority: "high" | "medium" | "low";
 }
+
 export default function SearchFiltersPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -24,6 +28,7 @@ export default function SearchFiltersPattern() {
     "relevance" | "date" | "title" | "author"
   >("relevance");
   const [showFilters, setShowFilters] = useState(false);
+
   // Sample data
   const sampleData: SearchItem[] = [
     {
@@ -87,6 +92,7 @@ export default function SearchFiltersPattern() {
       priority: "high",
     },
   ];
+
   // Get unique values for filters
   const categories = useMemo(
     () => [...new Set(sampleData.map((item) => item.category))],
@@ -104,6 +110,7 @@ export default function SearchFiltersPattern() {
     () => [...new Set(sampleData.map((item) => item.priority))],
     [],
   );
+
   // Filter and sort data
   const filteredData = useMemo(() => {
     let filtered = sampleData.filter((item) => {
@@ -115,25 +122,31 @@ export default function SearchFiltersPattern() {
         item.tags.some((tag) =>
           tag.toLowerCase().includes(searchQuery.toLowerCase()),
         );
+
       // Category filter
       const matchesCategory =
         selectedCategories.length === 0 ||
         selectedCategories.includes(item.category);
+
       // Tags filter
       const matchesTags =
         selectedTags.length === 0 ||
         selectedTags.some((tag) => item.tags.includes(tag));
+
       // Status filter
       const matchesStatus =
         selectedStatus.length === 0 || selectedStatus.includes(item.status);
+
       // Priority filter
       const matchesPriority =
         selectedPriority.length === 0 ||
         selectedPriority.includes(item.priority);
+
       // Date range filter
       const itemDate = new Date(item.date);
       const now = new Date();
       let matchesDate = true;
+
       switch (dateRange) {
         case "today":
           matchesDate = itemDate.toDateString() === now.toDateString();
@@ -153,6 +166,7 @@ export default function SearchFiltersPattern() {
         default:
           matchesDate = true;
       }
+
       return (
         matchesQuery &&
         matchesCategory &&
@@ -162,6 +176,7 @@ export default function SearchFiltersPattern() {
         matchesDate
       );
     });
+
     // Sort data
     filtered.sort((a, b) => {
       switch (sortBy) {
@@ -175,6 +190,7 @@ export default function SearchFiltersPattern() {
           return 0; // relevance - keep original order
       }
     });
+
     return filtered;
   }, [
     searchQuery,
@@ -185,6 +201,7 @@ export default function SearchFiltersPattern() {
     dateRange,
     sortBy,
   ]);
+
   const handleCategoryToggle = (category: string) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
@@ -192,11 +209,13 @@ export default function SearchFiltersPattern() {
         : [...prev, category],
     );
   };
+
   const handleTagToggle = (tag: string) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
   };
+
   const handleStatusToggle = (status: string) => {
     setSelectedStatus((prev) =>
       prev.includes(status)
@@ -204,6 +223,7 @@ export default function SearchFiltersPattern() {
         : [...prev, status],
     );
   };
+
   const handlePriorityToggle = (priority: string) => {
     setSelectedPriority((prev) =>
       prev.includes(priority)
@@ -211,6 +231,7 @@ export default function SearchFiltersPattern() {
         : [...prev, priority],
     );
   };
+
   const clearAllFilters = () => {
     setSearchQuery("");
     setSelectedCategories([]);
@@ -220,6 +241,7 @@ export default function SearchFiltersPattern() {
     setDateRange("all");
     setSortBy("relevance");
   };
+
   const getActiveFiltersCount = () => {
     return (
       (searchQuery ? 1 : 0) +
@@ -231,6 +253,7 @@ export default function SearchFiltersPattern() {
       (sortBy !== "relevance" ? 1 : 0)
     );
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -242,13 +265,15 @@ export default function SearchFiltersPattern() {
           filtering, and clear visual feedback.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
+
             {/* Search Bar */}
             <div className="mb-6">
               <div className="relative">
@@ -274,6 +299,7 @@ export default function SearchFiltersPattern() {
                 </svg>
               </div>
             </div>
+
             {/* Filter Toggle */}
             <div className="flex items-center justify-between mb-4">
               <button
@@ -300,6 +326,7 @@ export default function SearchFiltersPattern() {
                   </span>
                 )}
               </button>
+
               {getActiveFiltersCount() > 0 && (
                 <button
                   onClick={clearAllFilters}
@@ -309,6 +336,7 @@ export default function SearchFiltersPattern() {
                 </button>
               )}
             </div>
+
             {/* Filters Panel */}
             {showFilters && (
               <div className="space-y-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
@@ -333,6 +361,7 @@ export default function SearchFiltersPattern() {
                     ))}
                   </div>
                 </div>
+
                 {/* Tags */}
                 <div>
                   <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
@@ -354,6 +383,7 @@ export default function SearchFiltersPattern() {
                     ))}
                   </div>
                 </div>
+
                 {/* Status */}
                 <div>
                   <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
@@ -375,6 +405,7 @@ export default function SearchFiltersPattern() {
                     ))}
                   </div>
                 </div>
+
                 {/* Priority */}
                 <div>
                   <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
@@ -396,6 +427,7 @@ export default function SearchFiltersPattern() {
                     ))}
                   </div>
                 </div>
+
                 {/* Date Range */}
                 <div>
                   <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
@@ -413,6 +445,7 @@ export default function SearchFiltersPattern() {
                     <option value="year">This year</option>
                   </select>
                 </div>
+
                 {/* Sort By */}
                 <div>
                   <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
@@ -431,6 +464,7 @@ export default function SearchFiltersPattern() {
                 </div>
               </div>
             )}
+
             {/* Results */}
             <div className="mt-6">
               <div className="flex items-center justify-between mb-4">
@@ -438,6 +472,7 @@ export default function SearchFiltersPattern() {
                   Results ({filteredData.length})
                 </h4>
               </div>
+
               <div className="space-y-3 max-h-64 overflow-y-auto">
                 {filteredData.map((item) => (
                   <div
@@ -478,11 +513,24 @@ export default function SearchFiltersPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="search-filters" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="search-filters" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -569,6 +617,7 @@ export default function SearchFiltersPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

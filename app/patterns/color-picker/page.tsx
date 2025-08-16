@@ -1,8 +1,11 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 import Tooltip from "../../../components/Tooltip";
+
 export default function ColorPickerPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedColor, setSelectedColor] = useState("#3b82f6");
   const [hsl, setHsl] = useState({ h: 217, s: 91, l: 60 });
   const [presetColors] = useState([
@@ -29,20 +32,25 @@ export default function ColorPickerPattern() {
   ]);
   const [customColors, setCustomColors] = useState<string[]>([]);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
+
   const pickerRef = useRef<HTMLDivElement>(null);
+
   // Convert hex to HSL
   const hexToHsl = (hex: string) => {
     const r = parseInt(hex.slice(1, 3), 16) / 255;
     const g = parseInt(hex.slice(3, 5), 16) / 255;
     const b = parseInt(hex.slice(5, 7), 16) / 255;
+
     const max = Math.max(r, g, b);
     const min = Math.min(r, g, b);
     let h = 0,
       s = 0;
     const l = (max + min) / 2;
+
     if (max !== min) {
       const d = max - min;
       s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
       switch (max) {
         case r:
           h = (g - b) / d + (g < b ? 6 : 0);
@@ -56,22 +64,26 @@ export default function ColorPickerPattern() {
       }
       h /= 6;
     }
+
     return {
       h: Math.round(h * 360),
       s: Math.round(s * 100),
       l: Math.round(l * 100),
     };
   };
+
   // Convert HSL to hex
   const hslToHex = (h: number, s: number, l: number) => {
     s /= 100;
     l /= 100;
+
     const c = (1 - Math.abs(2 * l - 1)) * s;
     const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
     const m = l - c / 2;
     let r = 0,
       g = 0,
       b = 0;
+
     if (0 <= h && h < 60) {
       r = c;
       g = x;
@@ -97,15 +109,19 @@ export default function ColorPickerPattern() {
       g = 0;
       b = x;
     }
+
     r = Math.round((r + m) * 255);
     g = Math.round((g + m) * 255);
     b = Math.round((b + m) * 255);
+
     return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
   };
+
   // Update color when hex changes
   useEffect(() => {
     setHsl(hexToHsl(selectedColor));
   }, [selectedColor]);
+
   // Handle click outside to close picker
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -116,19 +132,23 @@ export default function ColorPickerPattern() {
         setIsPickerOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
   const handleHslChange = (newHsl: Partial<typeof hsl>) => {
     const updatedHsl = { ...hsl, ...newHsl };
     setHsl(updatedHsl);
     setSelectedColor(hslToHex(updatedHsl.h, updatedHsl.s, updatedHsl.l));
   };
+
   const addToCustomColors = () => {
     if (!customColors.includes(selectedColor)) {
       setCustomColors([selectedColor, ...customColors.slice(0, 9)]);
     }
   };
+
   const getContrastColor = (color: string) => {
     const hex = color.replace("#", "");
     const r = parseInt(hex.substr(0, 2), 16);
@@ -137,6 +157,7 @@ export default function ColorPickerPattern() {
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
     return brightness > 128 ? "#000000" : "#ffffff";
   };
+
   const ColorPreview = ({
     color,
     size = "md",
@@ -151,6 +172,7 @@ export default function ColorPickerPattern() {
       md: "w-8 h-8",
       lg: "w-12 h-12",
     };
+
     return (
       <button
         onClick={onClick}
@@ -161,6 +183,7 @@ export default function ColorPickerPattern() {
       />
     );
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -172,13 +195,15 @@ export default function ColorPickerPattern() {
           custom color management.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Color Picker
             </h2>
+
             <div className="space-y-6">
               {/* Color Preview & Trigger */}
               <div className="space-y-4">
@@ -202,6 +227,7 @@ export default function ColorPickerPattern() {
                     </div>
                   </div>
                 </div>
+
                 {/* Color Input Field */}
                 <div className="flex space-x-2">
                   <input
@@ -224,6 +250,7 @@ export default function ColorPickerPattern() {
                   />
                 </div>
               </div>
+
               {/* Advanced Color Picker */}
               {isPickerOpen && (
                 <div
@@ -249,6 +276,7 @@ export default function ColorPickerPattern() {
                         />
                       </div>
                     </div>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Saturation: {hsl.s}%
@@ -267,6 +295,7 @@ export default function ColorPickerPattern() {
                         }}
                       />
                     </div>
+
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Lightness: {hsl.l}%
@@ -286,6 +315,7 @@ export default function ColorPickerPattern() {
                       />
                     </div>
                   </div>
+
                   <button
                     onClick={addToCustomColors}
                     className="w-full px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm"
@@ -294,6 +324,7 @@ export default function ColorPickerPattern() {
                   </button>
                 </div>
               )}
+
               {/* Preset Colors */}
               <div className="space-y-3">
                 <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -310,6 +341,7 @@ export default function ColorPickerPattern() {
                   ))}
                 </div>
               </div>
+
               {/* Custom Colors */}
               {customColors.length > 0 && (
                 <div className="space-y-3">
@@ -338,6 +370,7 @@ export default function ColorPickerPattern() {
                   </div>
                 </div>
               )}
+
               {/* Color Information */}
               <div className="p-4 bg-gray-50 dark:bg-gray-900 rounded-lg space-y-2">
                 <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -383,11 +416,24 @@ export default function ColorPickerPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="color-picker" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="color-picker" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -448,6 +494,7 @@ export default function ColorPickerPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

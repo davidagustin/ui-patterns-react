@@ -1,9 +1,14 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function TablesPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+
   const [viewMode, setViewMode] = useState<"table" | "cards">("table");
+
   const sampleData = [
     {
       id: 1,
@@ -34,6 +39,7 @@ export default function TablesPattern() {
       status: "Active",
     },
   ];
+
   const handleRowSelect = (id: number) => {
     const newSelected = new Set(selectedRows);
     if (newSelected.has(id)) {
@@ -43,11 +49,13 @@ export default function TablesPattern() {
     }
     setSelectedRows(newSelected);
   };
+
   const getStatusColor = (status: string) => {
     return status === "Active"
       ? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
       : "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400";
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -59,13 +67,15 @@ export default function TablesPattern() {
           interactive features.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
+
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -85,6 +95,7 @@ export default function TablesPattern() {
                   </button>
                 </div>
               </div>
+
               {viewMode === "table" ? (
                 <div className="overflow-x-auto">
                   <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow-sm">
@@ -184,6 +195,7 @@ export default function TablesPattern() {
                       </span>
                     </label>
                   </div>
+
                   {/* Card Layout */}
                   {sampleData.map((row) => (
                     <div
@@ -219,6 +231,7 @@ export default function TablesPattern() {
                           </span>
                         </div>
                       </div>
+
                       <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-600">
                         <div>
                           <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
@@ -239,11 +252,24 @@ export default function TablesPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="tables" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="tables" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -304,6 +330,7 @@ export default function TablesPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

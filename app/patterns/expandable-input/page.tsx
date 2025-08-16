@@ -1,16 +1,21 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function ExpandableInputPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [text, setText] = useState("");
   const [description, setDescription] = useState("");
   const [notes, setNotes] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const notesRef = useRef<HTMLTextAreaElement>(null);
   const tagInputRef = useRef<HTMLInputElement>(null);
+
   // Auto-resize textarea
   const adjustHeight = (element: HTMLTextAreaElement | null) => {
     if (element) {
@@ -18,15 +23,19 @@ export default function ExpandableInputPattern() {
       element.style.height = `${element.scrollHeight}px`;
     }
   };
+
   useEffect(() => {
     adjustHeight(textareaRef.current);
   }, [text]);
+
   useEffect(() => {
     adjustHeight(descriptionRef.current);
   }, [description]);
+
   useEffect(() => {
     adjustHeight(notesRef.current);
   }, [notes]);
+
   const handleTagAdd = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && newTag.trim()) {
       e.preventDefault();
@@ -36,17 +45,21 @@ export default function ExpandableInputPattern() {
       setNewTag("");
     }
   };
+
   const removeTag = (tagToRemove: string) => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
   };
+
   const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNewTag(value);
+
     // Auto-expand input based on content
     const input = e.target;
     input.style.width = "auto";
     input.style.width = `${Math.max(value.length * 8, 100)}px`;
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -58,13 +71,15 @@ export default function ExpandableInputPattern() {
           natural writing experience.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
+
             <div className="space-y-6">
               {/* Auto-expanding Textarea */}
               <div className="space-y-2">
@@ -83,6 +98,7 @@ export default function ExpandableInputPattern() {
                   Character count: {text.length}
                 </p>
               </div>
+
               {/* Expandable Description */}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -109,6 +125,7 @@ export default function ExpandableInputPattern() {
                   </span>
                 </div>
               </div>
+
               {/* Dynamic Tag Input */}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -142,6 +159,7 @@ export default function ExpandableInputPattern() {
                   {tags.length} tag{tags.length !== 1 ? "s" : ""} added
                 </p>
               </div>
+
               {/* Expandable Notes */}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -163,11 +181,24 @@ export default function ExpandableInputPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="expandable-input" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="expandable-input" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -228,6 +259,7 @@ export default function ExpandableInputPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

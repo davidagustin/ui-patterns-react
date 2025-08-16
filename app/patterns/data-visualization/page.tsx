@@ -1,16 +1,21 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function DataVisualizationPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedChart, setSelectedChart] = useState<
     "bar" | "line" | "pie" | "area"
   >("bar");
+
   const [timeRange, setTimeRange] = useState<"7d" | "30d" | "90d" | "1y">(
     "30d",
   );
   const [selectedMetric, setSelectedMetric] = useState<
     "sales" | "users" | "revenue"
   >("sales");
+
   // Sample data
   const salesData = {
     "7d": [120, 190, 300, 500, 200, 300, 450],
@@ -27,6 +32,7 @@ export default function DataVisualizationPattern() {
       () => Math.floor(Math.random() * 500) + 100,
     ),
   };
+
   const userData = {
     "7d": [50, 80, 120, 200, 150, 180, 220],
     "30d": [
@@ -42,6 +48,7 @@ export default function DataVisualizationPattern() {
       () => Math.floor(Math.random() * 300) + 50,
     ),
   };
+
   const revenueData = {
     "7d": [1200, 1900, 3000, 5000, 2000, 3000, 4500],
     "30d": [
@@ -58,11 +65,13 @@ export default function DataVisualizationPattern() {
       () => Math.floor(Math.random() * 5000) + 1000,
     ),
   };
+
   const pieData = [
     { name: "Desktop", value: 45, color: "#3B82F6" },
     { name: "Mobile", value: 35, color: "#10B981" },
     { name: "Tablet", value: 20, color: "#F59E0B" },
   ];
+
   const getCurrentData = () => {
     switch (selectedMetric) {
       case "sales":
@@ -75,6 +84,7 @@ export default function DataVisualizationPattern() {
         return salesData[timeRange];
     }
   };
+
   const getMetricLabel = () => {
     switch (selectedMetric) {
       case "sales":
@@ -87,6 +97,7 @@ export default function DataVisualizationPattern() {
         return "Sales";
     }
   };
+
   const getMetricUnit = () => {
     switch (selectedMetric) {
       case "sales":
@@ -99,11 +110,13 @@ export default function DataVisualizationPattern() {
         return "units";
     }
   };
+
   const currentData = getCurrentData();
   const total = currentData.reduce((sum, value) => sum + value, 0);
   const average = Math.round(total / currentData.length);
   const max = Math.max(...currentData);
   const min = Math.min(...currentData);
+
   const renderBarChart = () => {
     const maxValue = Math.max(...currentData);
     return (
@@ -121,17 +134,20 @@ export default function DataVisualizationPattern() {
       </div>
     );
   };
+
   const renderLineChart = () => {
     const maxValue = Math.max(...currentData);
     const points = currentData.slice(-10).map((value, index) => ({
       x: (index / 9) * 100,
       y: 100 - (value / maxValue) * 100,
     }));
+
     const pathData = points
       .map(
         (point, index) => `${index === 0 ? "M" : "L"} ${point.x}% ${point.y}%`,
       )
       .join(" ");
+
     return (
       <div className="h-64 relative">
         <svg
@@ -161,12 +177,14 @@ export default function DataVisualizationPattern() {
       </div>
     );
   };
+
   const renderAreaChart = () => {
     const maxValue = Math.max(...currentData);
     const points = currentData.slice(-10).map((value, index) => ({
       x: (index / 9) * 100,
       y: 100 - (value / maxValue) * 100,
     }));
+
     const pathData =
       points
         .map(
@@ -174,6 +192,7 @@ export default function DataVisualizationPattern() {
             `${index === 0 ? "M" : "L"} ${point.x}% ${point.y}%`,
         )
         .join(" ") + ` L 100% 100% L 0% 100% Z`;
+
     return (
       <div className="h-64 relative">
         <svg
@@ -197,9 +216,11 @@ export default function DataVisualizationPattern() {
       </div>
     );
   };
+
   const renderPieChart = () => {
     const total = pieData.reduce((sum, item) => sum + item.value, 0);
     let currentAngle = 0;
+
     return (
       <div className="h-64 flex items-center justify-center">
         <svg className="w-48 h-48" viewBox="0 0 100 100">
@@ -208,19 +229,23 @@ export default function DataVisualizationPattern() {
             const angle = (percentage / 100) * 360;
             const startAngle = currentAngle;
             currentAngle += angle;
+
             const x1 = 50 + 40 * Math.cos(((startAngle - 90) * Math.PI) / 180);
             const y1 = 50 + 40 * Math.sin(((startAngle - 90) * Math.PI) / 180);
             const x2 =
               50 + 40 * Math.cos(((currentAngle - 90) * Math.PI) / 180);
             const y2 =
               50 + 40 * Math.sin(((currentAngle - 90) * Math.PI) / 180);
+
             const largeArcFlag = angle > 180 ? 1 : 0;
+
             const pathData = [
               `M 50 50`,
               `L ${x1} ${y1}`,
               `A 40 40 0 ${largeArcFlag} 1 ${x2} ${y2}`,
               "Z",
             ].join(" ");
+
             return (
               <path
                 key={index}
@@ -235,6 +260,7 @@ export default function DataVisualizationPattern() {
       </div>
     );
   };
+
   const renderChart = () => {
     switch (selectedChart) {
       case "bar":
@@ -249,6 +275,7 @@ export default function DataVisualizationPattern() {
         return renderBarChart();
     }
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -260,13 +287,15 @@ export default function DataVisualizationPattern() {
           filtering, real-time updates, and responsive design.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
+
             {/* Chart Controls */}
             <div className="space-y-6">
               <div>
@@ -295,6 +324,7 @@ export default function DataVisualizationPattern() {
                   ))}
                 </div>
               </div>
+
               {/* Metric Selector */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -310,6 +340,7 @@ export default function DataVisualizationPattern() {
                   <option value="revenue">Revenue</option>
                 </select>
               </div>
+
               {/* Time Range Selector */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -337,6 +368,7 @@ export default function DataVisualizationPattern() {
                 </div>
               </div>
             </div>
+
             {/* Chart Display */}
             <div className="mt-6">
               <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
@@ -357,9 +389,11 @@ export default function DataVisualizationPattern() {
                       : `${currentData.length} data points`}
                   </div>
                 </div>
+
                 <div className="h-64 flex items-center justify-center">
                   {renderChart()}
                 </div>
+
                 {/* Stats */}
                 {selectedChart !== "pie" && (
                   <div className="grid grid-cols-4 gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -401,12 +435,43 @@ export default function DataVisualizationPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-        <DynamicCodeExample componentName="data-visualization" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            <div className="space-y-4">
+              {/* Chart Type Selector */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Chart Type
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { key: "bar", label: "Bar Chart", icon: "📊" },
+                    { key: "line", label: "Line Chart", icon: "📈" },
+                    { key: "area", label: "Area Chart", icon: "📉" },
+                    { key: "pie", label: "Pie Chart", icon: "🥧" },
+                  ].map((chart) => (
+                    <button
+                      key={chart.key}
+                      onClick={() => setSelectedChart(chart.key as any)}
+                      className={`p-3 rounded-lg border transition-all duration-200 ${
+                        selectedChart === chart.key
+                          ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300"
+                          : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
+                      }`}
+                    >
+                      <div className="text-lg mb-1">{chart.icon}</div>
+                      <div className="text-xs font-medium">{chart.label}</div>
                     </button>
                   ))}
                 </div>
               </div>
+
               {/* Metric Selector */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -422,6 +487,7 @@ export default function DataVisualizationPattern() {
                   <option value="revenue">Revenue</option>
                 </select>
               </div>
+
               {/* Time Range Selector */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -451,6 +517,7 @@ export default function DataVisualizationPattern() {
             </div>
           </div>
         </div>
+
         {/* Chart Display */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
@@ -468,6 +535,7 @@ export default function DataVisualizationPattern() {
                       : "Last year"}
               </div>
             </div>
+
             {/* Key Metrics */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
@@ -503,10 +571,12 @@ export default function DataVisualizationPattern() {
                 </div>
               </div>
             </div>
+
             {/* Chart */}
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
               {renderChart()}
             </div>
+
             {/* Legend for Pie Chart */}
             {selectedChart === "pie" && (
               <div className="mt-4 flex justify-center space-x-4">
@@ -526,16 +596,21 @@ export default function DataVisualizationPattern() {
           </div>
         </div>
       </div>
+
       {/* Code Example */}
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
         <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
           💻 Code Example
         </h2>
+
         {/* Tab Content */}
         <div className="code-block">
-          {<DynamicCodeExample componentName="data-visualization" />}
+          {
+            <DynamicCodeExample componentName="data-visualization" />
+          }
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -596,6 +671,7 @@ export default function DataVisualizationPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

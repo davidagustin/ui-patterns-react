@@ -1,8 +1,12 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function AdaptableViewPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [viewMode, setViewMode] = useState<"grid" | "list" | "card">("grid");
+
   const content = [
     {
       id: 1,
@@ -77,6 +81,7 @@ export default function AdaptableViewPattern() {
       tags: ["Solar", "Portable", "Eco-friendly"],
     },
   ];
+
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <span
@@ -87,6 +92,7 @@ export default function AdaptableViewPattern() {
       </span>
     ));
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -98,7 +104,8 @@ export default function AdaptableViewPattern() {
           card) to match their viewing preferences and context.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -109,6 +116,7 @@ export default function AdaptableViewPattern() {
               Switch between different view modes to see how the same content
               adapts to different layouts and user preferences.
             </p>
+
             {/* View Mode Controls */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex space-x-2">
@@ -147,6 +155,7 @@ export default function AdaptableViewPattern() {
                 {content.length} items
               </span>
             </div>
+
             {/* Content Display */}
             <div
               className={`${
@@ -182,6 +191,7 @@ export default function AdaptableViewPattern() {
                       className="w-full h-full object-cover rounded-lg"
                     />
                   </div>
+
                   {/* Content */}
                   <div
                     className={`flex-1 ${viewMode === "list" ? "min-w-0" : ""}`}
@@ -198,6 +208,7 @@ export default function AdaptableViewPattern() {
                         {item.price}
                       </span>
                     </div>
+
                     <p
                       className={`text-gray-600 dark:text-gray-400 mb-3 ${
                         viewMode === "list" ? "text-sm line-clamp-2" : "text-sm"
@@ -205,6 +216,7 @@ export default function AdaptableViewPattern() {
                     >
                       {item.description}
                     </p>
+
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         <div className="flex">{renderStars(item.rating)}</div>
@@ -212,6 +224,7 @@ export default function AdaptableViewPattern() {
                           ({item.rating})
                         </span>
                       </div>
+
                       <div className="flex flex-wrap gap-1">
                         {item.tags.slice(0, 2).map((tag) => (
                           <span
@@ -229,9 +242,22 @@ export default function AdaptableViewPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-        <DynamicCodeExample componentName="adaptable-view" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              <DynamicCodeExample componentName="adaptable-view" />
+            </div>
+          </div>
+        </div>
       </div>
+
       {/* Key Features */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
@@ -276,6 +302,7 @@ export default function AdaptableViewPattern() {
           </ul>
         </div>
       </div>
+
       {/* Common Use Cases */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">

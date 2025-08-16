@@ -1,14 +1,19 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function ModuleTabsPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [activeMainTab, setActiveMainTab] = useState("overview");
   const [activeSubTab, setActiveSubTab] = useState("metrics");
+
   const mainTabs = [
     { id: "overview", label: "Overview", icon: "📊" },
     { id: "details", label: "Details", icon: "📋" },
     { id: "settings", label: "Settings", icon: "⚙️" },
   ];
+
   const subTabs = {
     overview: [
       { id: "metrics", label: "Key Metrics" },
@@ -26,12 +31,14 @@ export default function ModuleTabsPattern() {
       { id: "permissions", label: "Permissions" },
     ],
   };
+
   const handleMainTabChange = (tabId: string) => {
     setActiveMainTab(tabId);
     // Reset to first sub-tab when changing main tab
     const firstSubTab = subTabs[tabId as keyof typeof subTabs][0];
     setActiveSubTab(firstSubTab.id);
   };
+
   const getContentForTab = (): { title: string; content: React.ReactNode } => {
     const content: Record<
       string,
@@ -345,6 +352,7 @@ export default function ModuleTabsPattern() {
         },
       },
     };
+
     const mainContent = content[activeMainTab as keyof typeof content];
     return (
       mainContent?.[activeSubTab as keyof typeof mainContent] || {
@@ -353,7 +361,9 @@ export default function ModuleTabsPattern() {
       }
     );
   };
+
   const currentContent = getContentForTab();
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -365,7 +375,8 @@ export default function ModuleTabsPattern() {
           organizing related content into logical sub-sections.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -377,6 +388,7 @@ export default function ModuleTabsPattern() {
               navigation. Notice how sub-tabs change based on the main tab
               selection.
             </p>
+
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
               {/* Main Navigation Tabs */}
               <div className="flex bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
@@ -395,6 +407,7 @@ export default function ModuleTabsPattern() {
                   </button>
                 ))}
               </div>
+
               {/* Sub-tabs (Module Tabs) */}
               <div className="flex bg-gray-25 dark:bg-gray-850 border-b border-gray-100 dark:border-gray-750 overflow-x-auto">
                 {subTabs[activeMainTab as keyof typeof subTabs].map(
@@ -413,6 +426,7 @@ export default function ModuleTabsPattern() {
                   ),
                 )}
               </div>
+
               {/* Content Area */}
               <div className="p-6">
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
@@ -425,11 +439,24 @@ export default function ModuleTabsPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="module-tabs" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="module-tabs" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -490,6 +517,7 @@ export default function ModuleTabsPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

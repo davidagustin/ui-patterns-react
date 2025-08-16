@@ -1,6 +1,8 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 interface Event {
   id: number;
   title: string;
@@ -10,10 +12,13 @@ interface Event {
   color: string;
   description?: string;
 }
+
 export default function EventCalendarPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<"month" | "week" | "day">("month");
+
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -22,6 +27,7 @@ export default function EventCalendarPattern() {
   );
   const [draggedEvent, setDraggedEvent] = useState<Event | null>(null);
   const dragOverDate = useRef<string | null>(null);
+
   const [events, setEvents] = useState<Event[]>([
     {
       id: 1,
@@ -80,6 +86,7 @@ export default function EventCalendarPattern() {
       description: "Conduct user testing sessions for the new feature.",
     },
   ]);
+
   const [newEvent, setNewEvent] = useState<Partial<Event>>({
     title: "",
     time: "",
@@ -87,10 +94,12 @@ export default function EventCalendarPattern() {
     color: "blue",
     description: "",
   });
+
   const getEventsForDate = (date: Date) => {
     const dateStr = date.toISOString().split("T")[0];
     return events.filter((event) => event.date === dateStr);
   };
+
   const formatTime = (time: string) => {
     const [hours, minutes] = time.split(":");
     const hour24 = parseInt(hours);
@@ -98,6 +107,7 @@ export default function EventCalendarPattern() {
     const ampm = hour24 >= 12 ? "PM" : "AM";
     return `${hour12}:${minutes} ${ampm}`;
   };
+
   const handleDateClick = (date: Date) => {
     setSelectedDateForEvent(date);
     setIsCreating(true);
@@ -112,14 +122,17 @@ export default function EventCalendarPattern() {
     });
     setShowEventModal(true);
   };
+
   const handleEventClick = (event: Event) => {
     setSelectedEvent(event);
     setIsCreating(false);
     setNewEvent(event);
     setShowEventModal(true);
   };
+
   const handleSaveEvent = () => {
     if (!newEvent.title || !newEvent.time) return;
+
     if (isCreating) {
       const event: Event = {
         id: Math.max(...events.map((e) => e.id), 0) + 1,
@@ -139,10 +152,12 @@ export default function EventCalendarPattern() {
         ),
       );
     }
+
     setShowEventModal(false);
     setSelectedEvent(null);
     setIsCreating(false);
   };
+
   const handleDeleteEvent = () => {
     if (selectedEvent) {
       setEvents(events.filter((e) => e.id !== selectedEvent.id));
@@ -150,20 +165,24 @@ export default function EventCalendarPattern() {
       setSelectedEvent(null);
     }
   };
+
   const handleCloseModal = () => {
     setShowEventModal(false);
     setSelectedEvent(null);
     setIsCreating(false);
   };
+
   const handleDragStart = (e: React.DragEvent, event: Event) => {
     setDraggedEvent(event);
     e.dataTransfer.effectAllowed = "move";
   };
+
   const handleDragOver = (e: React.DragEvent, date: Date) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
     dragOverDate.current = date.toISOString().split("T")[0];
   };
+
   const handleDrop = (e: React.DragEvent, date: Date) => {
     e.preventDefault();
     if (draggedEvent) {
@@ -177,10 +196,12 @@ export default function EventCalendarPattern() {
     }
     dragOverDate.current = null;
   };
+
   const handleDragEnd = () => {
     setDraggedEvent(null);
     dragOverDate.current = null;
   };
+
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -188,23 +209,29 @@ export default function EventCalendarPattern() {
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
     const startingDay = firstDay.getDay();
+
     const days = [];
+
     // Add empty cells for days before the first day of the month
     for (let i = 0; i < startingDay; i++) {
       days.push(null);
     }
+
     // Add all days of the month
     for (let i = 1; i <= daysInMonth; i++) {
       days.push(new Date(year, month, i));
     }
+
     return days;
   };
+
   const formatDate = (date: Date) => {
     return date.toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
     });
   };
+
   const getEventColor = (color: string) => {
     const colors = {
       blue: "bg-blue-500",
@@ -216,11 +243,13 @@ export default function EventCalendarPattern() {
     };
     return colors[color as keyof typeof colors] || "bg-gray-500";
   };
+
   const days = getDaysInMonth(selectedDate);
   const currentMonth = selectedDate.toLocaleDateString("en-US", {
     month: "long",
     year: "numeric",
   });
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -232,13 +261,15 @@ export default function EventCalendarPattern() {
           with different view modes and event management.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
+
             {/* Calendar Controls */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
               <div className="flex items-center space-x-4">
@@ -280,6 +311,7 @@ export default function EventCalendarPattern() {
                   Today
                 </button>
               </div>
+
               <div className="flex items-center space-x-3">
                 <button
                   onClick={() => {
@@ -301,6 +333,7 @@ export default function EventCalendarPattern() {
                   <span>+</span>
                   <span>Add Event</span>
                 </button>
+
                 <div className="flex space-x-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
                   <button
                     onClick={() => setViewMode("month")}
@@ -335,6 +368,7 @@ export default function EventCalendarPattern() {
                 </div>
               </div>
             </div>
+
             {/* Calendar Grid */}
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
               {/* Day Headers */}
@@ -350,6 +384,7 @@ export default function EventCalendarPattern() {
                   ),
                 )}
               </div>
+
               {/* Calendar Days */}
               <div className="grid grid-cols-7">
                 {days.map((day, index) => {
@@ -359,6 +394,7 @@ export default function EventCalendarPattern() {
                   const isDragOver =
                     day &&
                     dragOverDate.current === day.toISOString().split("T")[0];
+
                   return (
                     <div
                       key={index}
@@ -384,6 +420,7 @@ export default function EventCalendarPattern() {
                           >
                             {day.getDate()}
                           </div>
+
                           <div className="space-y-1">
                             {dayEvents.slice(0, 3).map((event) => (
                               <div
@@ -421,6 +458,7 @@ export default function EventCalendarPattern() {
                 })}
               </div>
             </div>
+
             {/* Event Legend */}
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -446,6 +484,7 @@ export default function EventCalendarPattern() {
                 ))}
               </div>
             </div>
+
             {/* Quick Stats */}
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <div className="flex items-center justify-between text-sm">
@@ -473,6 +512,7 @@ export default function EventCalendarPattern() {
             </div>
           </div>
         </div>
+
         {/* Event Modal */}
         {showEventModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -488,6 +528,7 @@ export default function EventCalendarPattern() {
                   ×
                 </button>
               </div>
+
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -503,6 +544,7 @@ export default function EventCalendarPattern() {
                     placeholder="Enter event title"
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Time
@@ -516,6 +558,7 @@ export default function EventCalendarPattern() {
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Event Type
@@ -535,6 +578,7 @@ export default function EventCalendarPattern() {
                     <option value="testing">Testing</option>
                   </select>
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Color
@@ -555,6 +599,7 @@ export default function EventCalendarPattern() {
                     )}
                   </div>
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Description (Optional)
@@ -569,6 +614,7 @@ export default function EventCalendarPattern() {
                     placeholder="Enter event description"
                   />
                 </div>
+
                 {selectedEvent && (
                   <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
                     <div className="text-sm text-gray-500 dark:text-gray-400">
@@ -583,6 +629,7 @@ export default function EventCalendarPattern() {
                   </div>
                 )}
               </div>
+
               <div className="flex space-x-3 mt-6">
                 <button
                   onClick={handleSaveEvent}
@@ -609,11 +656,24 @@ export default function EventCalendarPattern() {
             </div>
           </div>
         )}
+
         {/* Code Example */}
-<DynamicCodeExample componentName="event-calendar" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="event-calendar" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -700,6 +760,7 @@ export default function EventCalendarPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

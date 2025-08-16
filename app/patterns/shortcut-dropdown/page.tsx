@@ -1,9 +1,14 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function ShortcutDropdownPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [isOpen, setIsOpen] = useState(false);
+
   const dropdownRef = useRef<HTMLDivElement>(null);
+
   const shortcuts = [
     {
       id: "new-project",
@@ -48,6 +53,7 @@ export default function ShortcutDropdownPattern() {
       action: () => console.log("Settings"),
     },
   ];
+
   const quickActions = [
     {
       id: "copy-link",
@@ -74,6 +80,7 @@ export default function ShortcutDropdownPattern() {
       action: () => console.log("Duplicate"),
     },
   ];
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -83,13 +90,16 @@ export default function ShortcutDropdownPattern() {
         setIsOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
   const handleShortcutAction = (shortcut: any) => {
     shortcut.action();
     setIsOpen(false);
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -101,7 +111,8 @@ export default function ShortcutDropdownPattern() {
           a convenient dropdown interface.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -112,6 +123,7 @@ export default function ShortcutDropdownPattern() {
               Click the shortcut button to see available actions and keyboard
               shortcuts. Try clicking on different shortcuts.
             </p>
+
             <div className="space-y-4">
               {/* Main Shortcut Dropdown */}
               <div className="relative" ref={dropdownRef}>
@@ -133,6 +145,7 @@ export default function ShortcutDropdownPattern() {
                     />
                   </svg>
                 </button>
+
                 {isOpen && (
                   <div className="absolute top-full left-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
                     {/* Keyboard Shortcuts Section */}
@@ -158,6 +171,7 @@ export default function ShortcutDropdownPattern() {
                         ))}
                       </div>
                     </div>
+
                     {/* Quick Actions Section */}
                     <div className="p-3">
                       <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -179,6 +193,7 @@ export default function ShortcutDropdownPattern() {
                   </div>
                 )}
               </div>
+
               {/* Toolbar with Multiple Shortcut Dropdowns */}
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
                 <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -194,6 +209,7 @@ export default function ShortcutDropdownPattern() {
                   <button className="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                     👁️ View
                   </button>
+                  <div className="flex-1"></div>
                   <button className="px-3 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors">
                     ⚡ Shortcuts
                   </button>
@@ -202,11 +218,23 @@ export default function ShortcutDropdownPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="shortcut-dropdown" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="shortcut-dropdown" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -267,6 +295,7 @@ export default function ShortcutDropdownPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

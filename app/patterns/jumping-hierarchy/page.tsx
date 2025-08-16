@@ -1,8 +1,12 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function JumpingHierarchyPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedLevel, setSelectedLevel] = useState(3);
+
   const hierarchyLevels = [
     {
       level: 1,
@@ -40,6 +44,7 @@ export default function JumpingHierarchyPattern() {
       color: "bg-red-100 text-red-800",
     },
   ];
+
   const organizationLevels = [
     {
       level: 1,
@@ -77,17 +82,20 @@ export default function JumpingHierarchyPattern() {
       color: "bg-red-100 text-red-800",
     },
   ];
+
   const handleJumpToLevel = (level: number) => {
     setSelectedLevel(level);
     console.log(
       `Jumping to level ${level}: ${hierarchyLevels[level - 1].label}`,
     );
   };
+
   const renderJumpingControls = (levels: any[], title: string) => (
     <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
       <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
         {title}
       </h3>
+
       {/* Hierarchy Visualization */}
       <div className="space-y-3 mb-6">
         {levels.map((level, index) => (
@@ -114,6 +122,7 @@ export default function JumpingHierarchyPattern() {
           </div>
         ))}
       </div>
+
       {/* Quick Jump Buttons */}
       <div className="flex flex-wrap gap-2">
         <span className="text-sm text-gray-600 dark:text-gray-400 self-center mr-2">
@@ -133,6 +142,7 @@ export default function JumpingHierarchyPattern() {
           </button>
         ))}
       </div>
+
       {/* Current Level Info */}
       <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
         <div className="flex items-center space-x-3">
@@ -149,6 +159,7 @@ export default function JumpingHierarchyPattern() {
       </div>
     </div>
   );
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -160,7 +171,8 @@ export default function JumpingHierarchyPattern() {
           structure, bypassing intermediate navigation steps for faster access.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -171,6 +183,7 @@ export default function JumpingHierarchyPattern() {
               Click on any level to jump directly to that part of the hierarchy.
               Notice how you can skip intermediate levels for faster navigation.
             </p>
+
             <div className="space-y-6">
               {renderJumpingControls(hierarchyLevels, "Product Hierarchy")}
               {renderJumpingControls(
@@ -178,6 +191,7 @@ export default function JumpingHierarchyPattern() {
                 "Organization Structure",
               )}
             </div>
+
             {/* Alternative Jump Pattern - Dropdown */}
             <div className="mt-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-3">
@@ -209,11 +223,24 @@ export default function JumpingHierarchyPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="jumping-hierarchy" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="jumping-hierarchy" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -275,6 +302,7 @@ export default function JumpingHierarchyPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

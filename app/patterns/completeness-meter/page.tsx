@@ -1,7 +1,10 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function CompletenessMeterPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [profileData, setProfileData] = useState({
     name: "",
     email: "",
@@ -18,6 +21,7 @@ export default function CompletenessMeterPattern() {
       twitter: "",
     },
   });
+
   const calculateCompleteness = () => {
     const fields = [
       profileData.name,
@@ -32,19 +36,24 @@ export default function CompletenessMeterPattern() {
       profileData.socialLinks.github,
       profileData.socialLinks.twitter,
     ];
+
     const skillsWeight = profileData.skills.length > 0 ? 1 : 0;
     const totalFields = fields.length + 1; // +1 for skills
     const filledFields =
       fields.filter((field) => field.trim() !== "").length + skillsWeight;
+
     return Math.round((filledFields / totalFields) * 100);
   };
+
   const completeness = calculateCompleteness();
+
   const getCompletenessColor = (percentage: number) => {
     if (percentage < 30) return "bg-red-500";
     if (percentage < 60) return "bg-yellow-500";
     if (percentage < 80) return "bg-blue-500";
     return "bg-green-500";
   };
+
   const getCompletenessMessage = (percentage: number) => {
     if (percentage < 30) return { text: "Getting started", icon: "🚀" };
     if (percentage < 60) return { text: "Making progress", icon: "📈" };
@@ -52,6 +61,7 @@ export default function CompletenessMeterPattern() {
     if (percentage < 100) return { text: "Nearly complete", icon: "✨" };
     return { text: "Profile complete!", icon: "🎉" };
   };
+
   const handleInputChange = (field: string, value: string) => {
     if (field.startsWith("socialLinks.")) {
       const socialField = field.split(".")[1];
@@ -69,6 +79,7 @@ export default function CompletenessMeterPattern() {
       }));
     }
   };
+
   const addSkill = (skill: string) => {
     if (skill.trim() && !profileData.skills.includes(skill.trim())) {
       setProfileData((prev) => ({
@@ -77,13 +88,16 @@ export default function CompletenessMeterPattern() {
       }));
     }
   };
+
   const removeSkill = (skill: string) => {
     setProfileData((prev) => ({
       ...prev,
       skills: prev.skills.filter((s) => s !== skill),
     }));
   };
+
   const message = getCompletenessMessage(completeness);
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -95,7 +109,8 @@ export default function CompletenessMeterPattern() {
           visual feedback and encouragement.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -106,6 +121,7 @@ export default function CompletenessMeterPattern() {
               Fill out the profile form below and watch the completeness meter
               update in real-time.
             </p>
+
             {/* Completeness Meter */}
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 mb-6">
               <div className="flex items-center justify-between mb-4">
@@ -119,6 +135,7 @@ export default function CompletenessMeterPattern() {
                   </span>
                 </div>
               </div>
+
               {/* Progress Bar */}
               <div className="relative">
                 <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3 mb-3">
@@ -135,6 +152,7 @@ export default function CompletenessMeterPattern() {
                   <span>100%</span>
                 </div>
               </div>
+
               {/* Encouragement Message */}
               <div className="mt-4 p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
                 <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -144,11 +162,13 @@ export default function CompletenessMeterPattern() {
                 </p>
               </div>
             </div>
+
             {/* Profile Form */}
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 space-y-4">
               <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
                 Edit Profile
               </h3>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -162,6 +182,7 @@ export default function CompletenessMeterPattern() {
                     placeholder="Enter your full name"
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Email Address
@@ -175,6 +196,7 @@ export default function CompletenessMeterPattern() {
                   />
                 </div>
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Bio
@@ -187,6 +209,7 @@ export default function CompletenessMeterPattern() {
                   placeholder="Tell us about yourself..."
                 />
               </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -205,6 +228,7 @@ export default function CompletenessMeterPattern() {
                     <option value="senior">Senior (5+ years)</option>
                   </select>
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Education
@@ -220,6 +244,7 @@ export default function CompletenessMeterPattern() {
                   />
                 </div>
               </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -235,6 +260,7 @@ export default function CompletenessMeterPattern() {
                     placeholder="Your location"
                   />
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Portfolio URL
@@ -250,6 +276,7 @@ export default function CompletenessMeterPattern() {
                   />
                 </div>
               </div>
+
               {/* Skills */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -285,6 +312,7 @@ export default function CompletenessMeterPattern() {
                   />
                 </div>
               </div>
+
               {/* Social Links */}
               <div className="space-y-3">
                 <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -323,11 +351,24 @@ export default function CompletenessMeterPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="completeness-meter" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="completeness-meter" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -388,6 +429,7 @@ export default function CompletenessMeterPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

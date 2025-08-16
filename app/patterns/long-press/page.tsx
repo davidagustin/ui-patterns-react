@@ -1,21 +1,27 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function LongPressPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [longPressedItem, setLongPressedItem] = useState<number | null>(null);
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,
     y: 0,
   });
+
   const longPressTimer = useRef<NodeJS.Timeout | null>(null);
   const isLongPressing = useRef(false);
+
   const items = [
     { id: 1, name: "Document 1", type: "PDF", size: "2.3 MB" },
     { id: 2, name: "Image 1", type: "JPG", size: "1.8 MB" },
     { id: 3, name: "Video 1", type: "MP4", size: "15.2 MB" },
     { id: 4, name: "Audio 1", type: "MP3", size: "3.7 MB" },
   ];
+
   const handleMouseDown = (itemId: number, e: React.MouseEvent) => {
     isLongPressing.current = true;
     longPressTimer.current = setTimeout(() => {
@@ -26,18 +32,21 @@ export default function LongPressPattern() {
       }
     }, 500);
   };
+
   const handleMouseUp = () => {
     isLongPressing.current = false;
     if (longPressTimer.current) {
       clearTimeout(longPressTimer.current);
     }
   };
+
   const handleMouseLeave = () => {
     isLongPressing.current = false;
     if (longPressTimer.current) {
       clearTimeout(longPressTimer.current);
     }
   };
+
   const handleTouchStart = (itemId: number, e: React.TouchEvent) => {
     isLongPressing.current = true;
     longPressTimer.current = setTimeout(() => {
@@ -51,23 +60,28 @@ export default function LongPressPattern() {
       }
     }, 500);
   };
+
   const handleTouchEnd = () => {
     isLongPressing.current = false;
     if (longPressTimer.current) {
       clearTimeout(longPressTimer.current);
     }
   };
+
   const handleContextMenuAction = (action: string, itemId: number) => {
     setShowContextMenu(false);
     alert(`${action} item ${itemId}`);
   };
+
   useEffect(() => {
     const handleClickOutside = () => {
       setShowContextMenu(false);
     };
+
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -79,7 +93,8 @@ export default function LongPressPattern() {
           contextual menus and secondary interactions.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -90,6 +105,7 @@ export default function LongPressPattern() {
               Long press (hold for 500ms) on any item to reveal a context menu
               with actions.
             </p>
+
             <div className="space-y-2">
               {items.map((item) => (
                 <div
@@ -132,6 +148,7 @@ export default function LongPressPattern() {
                 </div>
               ))}
             </div>
+
             {/* Context Menu */}
             {showContextMenu && (
               <div
@@ -181,6 +198,7 @@ export default function LongPressPattern() {
                 </button>
               </div>
             )}
+
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
                 How to Use
@@ -194,11 +212,22 @@ export default function LongPressPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="long-press" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              <DynamicCodeExample componentName="long-press" />
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -285,6 +314,7 @@ export default function LongPressPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

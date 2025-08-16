@@ -1,14 +1,19 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function ForgivingFormatPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [creditCard, setCreditCard] = useState("");
   const [date, setDate] = useState("");
   const [email, setEmail] = useState("");
+
   const normalizePhoneNumber = (input: string) => {
     // Remove all non-digit characters
     const digits = input.replace(/\D/g, "");
+
     // Format based on length
     if (digits.length <= 3) {
       return digits;
@@ -18,19 +23,24 @@ export default function ForgivingFormatPattern() {
       return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
     }
   };
+
   const normalizeCreditCard = (input: string) => {
     // Remove all non-digit characters
     const digits = input.replace(/\D/g, "");
+
     // Format in groups of 4
     const groups = [];
     for (let i = 0; i < digits.length && i < 16; i += 4) {
       groups.push(digits.slice(i, i + 4));
     }
+
     return groups.join(" ");
   };
+
   const normalizeDate = (input: string) => {
     // Remove all non-digit characters
     const digits = input.replace(/\D/g, "");
+
     // Format as MM/DD/YYYY
     if (digits.length <= 2) {
       return digits;
@@ -40,26 +50,32 @@ export default function ForgivingFormatPattern() {
       return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4, 8)}`;
     }
   };
+
   const normalizeEmail = (input: string) => {
     // Convert to lowercase and trim whitespace
     return input.toLowerCase().trim();
   };
+
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const normalized = normalizePhoneNumber(e.target.value);
     setPhoneNumber(normalized);
   };
+
   const handleCreditCardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const normalized = normalizeCreditCard(e.target.value);
     setCreditCard(normalized);
   };
+
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const normalized = normalizeDate(e.target.value);
     setDate(normalized);
   };
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const normalized = normalizeEmail(e.target.value);
     setEmail(normalized);
   };
+
   const getValidationStatus = (field: string, value: string) => {
     switch (field) {
       case "phone":
@@ -86,6 +102,7 @@ export default function ForgivingFormatPattern() {
         return "empty";
     }
   };
+
   const renderField = (
     field: string,
     label: string,
@@ -95,11 +112,13 @@ export default function ForgivingFormatPattern() {
     examples: string[],
   ) => {
     const status = getValidationStatus(field, value);
+
     return (
       <div className="space-y-2">
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {label}
         </label>
+
         <div className="relative">
           <input
             type="text"
@@ -114,6 +133,7 @@ export default function ForgivingFormatPattern() {
                   : "border-gray-300 focus:ring-blue-500"
             }`}
           />
+
           {/* Status Icon */}
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
             {status === "valid" && (
@@ -124,10 +144,12 @@ export default function ForgivingFormatPattern() {
             )}
           </div>
         </div>
+
         {/* Examples */}
         <div className="text-xs text-gray-500 dark:text-gray-400">
           <span className="font-medium">Examples:</span> {examples.join(", ")}
         </div>
+
         {/* Status Message */}
         {status === "valid" && (
           <div className="text-sm text-green-600 dark:text-green-400">
@@ -142,6 +164,7 @@ export default function ForgivingFormatPattern() {
       </div>
     );
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -153,7 +176,8 @@ export default function ForgivingFormatPattern() {
           consistent structure, making forms more user-friendly.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -164,6 +188,7 @@ export default function ForgivingFormatPattern() {
               Try entering data in different formats. The inputs will
               automatically normalize and format your input as you type.
             </p>
+
             <div className="space-y-6">
               {renderField(
                 "phone",
@@ -173,6 +198,7 @@ export default function ForgivingFormatPattern() {
                 "Enter phone number",
                 ["555-123-4567", "(555) 123-4567", "5551234567"],
               )}
+
               {renderField(
                 "creditCard",
                 "Credit Card Number",
@@ -181,6 +207,7 @@ export default function ForgivingFormatPattern() {
                 "Enter card number",
                 ["1234 5678 9012 3456", "1234567890123456"],
               )}
+
               {renderField(
                 "date",
                 "Date",
@@ -189,6 +216,7 @@ export default function ForgivingFormatPattern() {
                 "Enter date",
                 ["12/25/2023", "12252023", "12-25-2023"],
               )}
+
               {renderField(
                 "email",
                 "Email Address",
@@ -198,6 +226,7 @@ export default function ForgivingFormatPattern() {
                 ["user@example.com", "USER@EXAMPLE.COM"],
               )}
             </div>
+
             {/* Demo Instructions */}
             <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
               <h4 className="font-medium text-yellow-800 dark:text-yellow-200 mb-2">
@@ -214,11 +243,24 @@ export default function ForgivingFormatPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="forgiving-format" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="forgiving-format" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -280,6 +322,7 @@ export default function ForgivingFormatPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">
@@ -315,6 +358,7 @@ export default function ForgivingFormatPattern() {
           </div>
         </div>
       </div>
+
       {/* Best Practices */}
       <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-yellow-200 dark:border-yellow-800">
         <h3 className="text-lg font-semibold mb-4 text-yellow-800 dark:text-yellow-200">

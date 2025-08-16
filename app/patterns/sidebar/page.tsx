@@ -1,10 +1,14 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function SidebarPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeMenuItem, setActiveMenuItem] = useState("dashboard");
+
   const menuItems = [
     { id: "dashboard", name: "Dashboard", icon: "📊", badge: null },
     { id: "users", name: "Users", icon: "👥", badge: "12" },
@@ -13,12 +17,15 @@ export default function SidebarPattern() {
     { id: "products", name: "Products", icon: "🛍️", badge: null },
     { id: "settings", name: "Settings", icon: "⚙️", badge: null },
   ];
+
   const subMenuItems = [
     { id: "profile", name: "Profile", parent: "settings" },
     { id: "security", name: "Security", parent: "settings" },
     { id: "billing", name: "Billing", parent: "settings" },
   ];
+
   const [expandedItems, setExpandedItems] = useState<string[]>(["settings"]);
+
   const toggleExpanded = (itemId: string) => {
     setExpandedItems((prev) =>
       prev.includes(itemId)
@@ -26,9 +33,11 @@ export default function SidebarPattern() {
         : [...prev, itemId],
     );
   };
+
   const hasSubMenu = (itemId: string) => {
     return subMenuItems.some((sub) => sub.parent === itemId);
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -40,7 +49,8 @@ export default function SidebarPattern() {
           perfect for admin dashboards and complex applications.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -51,6 +61,7 @@ export default function SidebarPattern() {
               A full-featured sidebar with collapsible sections, badges, and
               nested menu items. Try collapsing the sidebar!
             </p>
+
             {/* Sidebar Demo Container */}
             <div
               className="relative flex bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
@@ -77,6 +88,7 @@ export default function SidebarPattern() {
                   </svg>
                 </button>
               </div>
+
               {/* Mobile Backdrop */}
               {isMobileOpen && (
                 <div
@@ -84,6 +96,7 @@ export default function SidebarPattern() {
                   onClick={() => setIsMobileOpen(false)}
                 />
               )}
+
               {/* Sidebar */}
               <aside
                 className={`bg-gray-900 text-white transition-all duration-300 flex flex-col z-20 ${
@@ -125,6 +138,7 @@ export default function SidebarPattern() {
                     </button>
                   </div>
                 </div>
+
                 {/* Navigation Menu */}
                 <nav className="flex-1 p-4 space-y-2">
                   {menuItems.map((item) => (
@@ -179,6 +193,7 @@ export default function SidebarPattern() {
                           </>
                         )}
                       </button>
+
                       {/* Sub Menu */}
                       {hasSubMenu(item.id) &&
                         expandedItems.includes(item.id) &&
@@ -204,6 +219,7 @@ export default function SidebarPattern() {
                     </div>
                   ))}
                 </nav>
+
                 {/* Sidebar Footer */}
                 <div className="p-4 border-t border-gray-700">
                   <div className="flex items-center space-x-3">
@@ -223,6 +239,7 @@ export default function SidebarPattern() {
                   </div>
                 </div>
               </aside>
+
               {/* Main Content Area */}
               <main className="flex-1 p-6 bg-gray-50 dark:bg-gray-700">
                 <div className="h-full">
@@ -247,6 +264,7 @@ export default function SidebarPattern() {
                 </div>
               </main>
             </div>
+
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
                 Interactive Features
@@ -261,11 +279,24 @@ export default function SidebarPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="sidebar" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="sidebar" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -352,6 +383,7 @@ export default function SidebarPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

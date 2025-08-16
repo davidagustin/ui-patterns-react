@@ -1,6 +1,8 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 interface FavoriteItem {
   id: string;
   title: string;
@@ -10,6 +12,7 @@ interface FavoriteItem {
   addedAt: Date;
   isFavorite: boolean;
 }
+
 export default function FavoritesPattern() {
   const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
   const [filterCategory, setFilterCategory] = useState<
@@ -17,6 +20,7 @@ export default function FavoritesPattern() {
   >("all");
   const [sortBy, setSortBy] = useState<"date" | "name">("date");
   const [searchQuery, setSearchQuery] = useState("");
+
   // Sample data
   const sampleItems: FavoriteItem[] = [
     {
@@ -77,9 +81,11 @@ export default function FavoritesPattern() {
       isFavorite: true,
     },
   ];
+
   useEffect(() => {
     setFavorites(sampleItems);
   }, []);
+
   const toggleFavorite = (id: string) => {
     setFavorites((prev) =>
       prev.map((item) =>
@@ -87,9 +93,11 @@ export default function FavoritesPattern() {
       ),
     );
   };
+
   const removeFavorite = (id: string) => {
     setFavorites((prev) => prev.filter((item) => item.id !== id));
   };
+
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "article":
@@ -104,6 +112,7 @@ export default function FavoritesPattern() {
         return "⭐";
     }
   };
+
   const getCategoryColor = (category: string) => {
     switch (category) {
       case "article":
@@ -118,6 +127,7 @@ export default function FavoritesPattern() {
         return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
     }
   };
+
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat("en-US", {
       month: "short",
@@ -125,6 +135,7 @@ export default function FavoritesPattern() {
       year: "numeric",
     }).format(date);
   };
+
   const filteredAndSortedFavorites = favorites
     .filter((item) => item.isFavorite)
     .filter(
@@ -143,6 +154,7 @@ export default function FavoritesPattern() {
         return a.title.localeCompare(b.title);
       }
     });
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -154,7 +166,8 @@ export default function FavoritesPattern() {
           management and quick access.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -165,6 +178,7 @@ export default function FavoritesPattern() {
               Manage your favorite items with filtering, sorting, and search
               capabilities.
             </p>
+
             {/* Controls */}
             <div className="space-y-4 mb-6">
               {/* Search */}
@@ -180,6 +194,7 @@ export default function FavoritesPattern() {
                   🔍
                 </span>
               </div>
+
               {/* Filters and Sort */}
               <div className="flex flex-wrap gap-3">
                 <select
@@ -193,6 +208,7 @@ export default function FavoritesPattern() {
                   <option value="video">🎥 Videos</option>
                   <option value="tool">🔧 Tools</option>
                 </select>
+
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
@@ -203,6 +219,7 @@ export default function FavoritesPattern() {
                 </select>
               </div>
             </div>
+
             {/* Favorites List */}
             <div className="space-y-3">
               {filteredAndSortedFavorites.length === 0 ? (
@@ -274,6 +291,7 @@ export default function FavoritesPattern() {
                 ))
               )}
             </div>
+
             {/* Stats */}
             <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
               <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
@@ -285,11 +303,22 @@ export default function FavoritesPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="favorites" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              <DynamicCodeExample componentName="favorites" />
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -350,6 +379,7 @@ export default function FavoritesPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

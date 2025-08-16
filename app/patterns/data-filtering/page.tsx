@@ -1,7 +1,10 @@
 "use client";
+
 import { useState, useMemo } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function DataFilteringPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
@@ -10,6 +13,7 @@ export default function DataFilteringPattern() {
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<"name" | "price" | "rating">("name");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
   // Sample product data
   const products = [
     {
@@ -133,11 +137,13 @@ export default function DataFilteringPattern() {
       inStock: true,
     },
   ];
+
   // Extract unique values for filters
   const categories = [...new Set(products.map((p) => p.category))];
   const brands = [...new Set(products.map((p) => p.brand))];
   const sizes = [...new Set(products.map((p) => p.size))];
   const ratings = [4.0, 4.2, 4.4, 4.6, 4.8];
+
   // Filter and sort products
   const filteredProducts = useMemo(() => {
     let filtered = products.filter((product) => {
@@ -146,23 +152,29 @@ export default function DataFilteringPattern() {
         searchTerm === "" ||
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.brand.toLowerCase().includes(searchTerm.toLowerCase());
+
       // Category filter
       const matchesCategory =
         selectedCategories.length === 0 ||
         selectedCategories.includes(product.category);
+
       // Brand filter
       const matchesBrand =
         selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+
       // Price range filter
       const matchesPrice =
         product.price >= priceRange[0] && product.price <= priceRange[1];
+
       // Rating filter
       const matchesRating =
         selectedRatings.length === 0 ||
         selectedRatings.some((rating) => product.rating >= rating);
+
       // Size filter
       const matchesSize =
         selectedSizes.length === 0 || selectedSizes.includes(product.size);
+
       return (
         matchesSearch &&
         matchesCategory &&
@@ -172,16 +184,19 @@ export default function DataFilteringPattern() {
         matchesSize
       );
     });
+
     // Sort products
     filtered.sort((a, b) => {
       const aValue = a[sortBy];
       const bValue = b[sortBy];
+
       if (sortOrder === "asc") {
         return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
       } else {
         return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
       }
     });
+
     return filtered;
   }, [
     searchTerm,
@@ -193,6 +208,7 @@ export default function DataFilteringPattern() {
     sortBy,
     sortOrder,
   ]);
+
   // Calculate filter counts
   const getFilterCounts = (filterType: string, values: string[]) => {
     return values.map((value) => {
@@ -211,6 +227,7 @@ export default function DataFilteringPattern() {
           (searchTerm === "" ||
             product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             product.brand.toLowerCase().includes(searchTerm.toLowerCase()));
+
         switch (filterType) {
           case "category":
             return matchesOtherFilters && product.category === value;
@@ -222,9 +239,11 @@ export default function DataFilteringPattern() {
             return false;
         }
       }).length;
+
       return { value, count };
     });
   };
+
   const handleFilterToggle = (filterType: string, value: string) => {
     switch (filterType) {
       case "category":
@@ -250,6 +269,7 @@ export default function DataFilteringPattern() {
         break;
     }
   };
+
   const handleRatingToggle = (rating: number) => {
     setSelectedRatings((prev) =>
       prev.includes(rating)
@@ -257,6 +277,7 @@ export default function DataFilteringPattern() {
         : [...prev, rating],
     );
   };
+
   const clearAllFilters = () => {
     setSelectedCategories([]);
     setSelectedBrands([]);
@@ -265,6 +286,7 @@ export default function DataFilteringPattern() {
     setPriceRange([0, 1000]);
     setSearchTerm("");
   };
+
   const getActiveFiltersCount = () => {
     return (
       selectedCategories.length +
@@ -275,6 +297,7 @@ export default function DataFilteringPattern() {
       (searchTerm ? 1 : 0)
     );
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -286,13 +309,15 @@ export default function DataFilteringPattern() {
           price ranges, and multi-select capabilities.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
+
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               {/* Filters Sidebar */}
               <div className="lg:col-span-1 space-y-6">
@@ -310,6 +335,7 @@ export default function DataFilteringPattern() {
                       </button>
                     )}
                   </div>
+
                   {/* Search */}
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -323,6 +349,7 @@ export default function DataFilteringPattern() {
                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-gray-100"
                     />
                   </div>
+
                   {/* Price Range */}
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -348,6 +375,7 @@ export default function DataFilteringPattern() {
                       </div>
                     </div>
                   </div>
+
                   {/* Categories */}
                   <div className="mb-6">
                     <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -379,6 +407,7 @@ export default function DataFilteringPattern() {
                       )}
                     </div>
                   </div>
+
                   {/* Brands */}
                   <div className="mb-6">
                     <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -410,6 +439,7 @@ export default function DataFilteringPattern() {
                       )}
                     </div>
                   </div>
+
                   {/* Ratings */}
                   <div className="mb-6">
                     <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -434,6 +464,7 @@ export default function DataFilteringPattern() {
                       ))}
                     </div>
                   </div>
+
                   {/* Sizes */}
                   <div className="mb-6">
                     <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -465,6 +496,7 @@ export default function DataFilteringPattern() {
                   </div>
                 </div>
               </div>
+
               {/* Products Grid */}
               <div className="lg:col-span-3 space-y-6">
                 {/* Results Header */}
@@ -481,6 +513,7 @@ export default function DataFilteringPattern() {
                         </p>
                       )}
                     </div>
+
                     <div className="flex items-center space-x-4">
                       <select
                         value={sortBy}
@@ -495,6 +528,7 @@ export default function DataFilteringPattern() {
                         <option value="price">Sort by Price</option>
                         <option value="rating">Sort by Rating</option>
                       </select>
+
                       <button
                         onClick={() =>
                           setSortOrder(sortOrder === "asc" ? "desc" : "asc")
@@ -506,6 +540,7 @@ export default function DataFilteringPattern() {
                     </div>
                   </div>
                 </div>
+
                 {/* Products */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredProducts.map((product) => (
@@ -522,6 +557,7 @@ export default function DataFilteringPattern() {
                             {product.brand}
                           </span>
                         </div>
+
                         <div className="flex items-center space-x-2 mb-2">
                           <div className="flex items-center">
                             {[...Array(5)].map((_, i) => (
@@ -537,6 +573,7 @@ export default function DataFilteringPattern() {
                             ({product.rating})
                           </span>
                         </div>
+
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
                             ${product.price}
@@ -551,6 +588,7 @@ export default function DataFilteringPattern() {
                             {product.inStock ? "In Stock" : "Out of Stock"}
                           </span>
                         </div>
+
                         <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                           <span>{product.category}</span>
                           <span>{product.size}</span>
@@ -559,6 +597,7 @@ export default function DataFilteringPattern() {
                     </div>
                   ))}
                 </div>
+
                 {/* No Results */}
                 {filteredProducts.length === 0 && (
                   <div className="text-center py-12">
@@ -581,11 +620,24 @@ export default function DataFilteringPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="data-filtering" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="data-filtering" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -646,6 +698,7 @@ export default function DataFilteringPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

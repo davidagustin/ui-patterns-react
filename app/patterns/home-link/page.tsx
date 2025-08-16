@@ -1,6 +1,8 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function HomeLinkPattern() {
   return (
     <div className="space-y-8">
@@ -13,13 +15,15 @@ export default function HomeLinkPattern() {
           homepage from anywhere in your application.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
+
             {/* Logo Home Link */}
             <div className="space-y-6">
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
@@ -44,6 +48,7 @@ export default function HomeLinkPattern() {
                   </nav>
                 </div>
               </div>
+
               {/* Breadcrumb Home Link */}
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
                 <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -68,6 +73,7 @@ export default function HomeLinkPattern() {
                   </span>
                 </nav>
               </div>
+
               {/* Back to Home Button */}
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
                 <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -83,6 +89,7 @@ export default function HomeLinkPattern() {
                   </div>
                 </div>
               </div>
+
               {/* Mobile Home Tab */}
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
                 <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -115,6 +122,7 @@ export default function HomeLinkPattern() {
                   </div>
                 </div>
               </div>
+
               {/* Floating Home Button */}
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 relative">
                 <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -130,11 +138,23 @@ export default function HomeLinkPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="home-link" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="home-link" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -195,6 +215,7 @@ export default function HomeLinkPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

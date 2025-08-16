@@ -1,7 +1,10 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function MorphingControlsPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [searchMode, setSearchMode] = useState<"basic" | "advanced">("basic");
   const [buttonMode, setButtonMode] = useState<
     "default" | "loading" | "success"
@@ -10,9 +13,11 @@ export default function MorphingControlsPattern() {
     "text",
   );
   const [toggleState, setToggleState] = useState(false);
+
   const handleSearchModeChange = () => {
     setSearchMode(searchMode === "basic" ? "advanced" : "basic");
   };
+
   const handleButtonClick = () => {
     setButtonMode("loading");
     setTimeout(() => {
@@ -22,6 +27,7 @@ export default function MorphingControlsPattern() {
       }, 2000);
     }, 2000);
   };
+
   const handleInputModeChange = () => {
     const modes: ("text" | "email" | "password")[] = [
       "text",
@@ -32,6 +38,7 @@ export default function MorphingControlsPattern() {
     const nextIndex = (currentIndex + 1) % modes.length;
     setInputMode(modes[nextIndex]);
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -43,13 +50,15 @@ export default function MorphingControlsPattern() {
           on context, state, or user interaction.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
+
             <div className="space-y-6">
               {/* Morphing Search Bar */}
               <div className="space-y-3">
@@ -96,6 +105,7 @@ export default function MorphingControlsPattern() {
                   search modes
                 </p>
               </div>
+
               {/* Morphing Button */}
               <div className="space-y-3">
                 <h3 className="font-medium text-gray-800 dark:text-gray-200">
@@ -144,6 +154,7 @@ export default function MorphingControlsPattern() {
                   Watch the button transform through different states
                 </p>
               </div>
+
               {/* Morphing Input */}
               <div className="space-y-3">
                 <h3 className="font-medium text-gray-800 dark:text-gray-200">
@@ -179,6 +190,7 @@ export default function MorphingControlsPattern() {
                   Click the icon to cycle through different input types
                 </p>
               </div>
+
               {/* Morphing Toggle */}
               <div className="space-y-3">
                 <h3 className="font-medium text-gray-800 dark:text-gray-200">
@@ -210,11 +222,24 @@ export default function MorphingControlsPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="morphing-controls" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="morphing-controls" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -275,6 +300,7 @@ export default function MorphingControlsPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

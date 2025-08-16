@@ -1,13 +1,17 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function ThumbnailPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedImage, setSelectedImage] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
   const [thumbnailSize, setThumbnailSize] = useState<
     "small" | "medium" | "large"
   >("medium");
   const [showTooltips, setShowTooltips] = useState(true);
+
   const images = [
     {
       id: 1,
@@ -52,6 +56,7 @@ export default function ThumbnailPattern() {
       description: "Colorful flowers blooming in a garden",
     },
   ];
+
   const getSizeClasses = () => {
     switch (thumbnailSize) {
       case "small":
@@ -62,12 +67,14 @@ export default function ThumbnailPattern() {
         return "w-24 h-24";
     }
   };
+
   const handleImageError = (
     event: React.SyntheticEvent<HTMLImageElement, Event>,
     fallbackUrl: string,
   ) => {
     event.currentTarget.src = fallbackUrl;
   };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -79,7 +86,8 @@ export default function ThumbnailPattern() {
           controls for efficient image browsing.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -91,6 +99,7 @@ export default function ThumbnailPattern() {
               thumbnail size and toggle tooltips. Click on thumbnails or use
               navigation arrows to view different images.
             </p>
+
             {/* Controls */}
             <div className="flex flex-wrap gap-4 mb-6">
               <div>
@@ -111,6 +120,7 @@ export default function ThumbnailPattern() {
                   <option value="large">Large</option>
                 </select>
               </div>
+
               <div className="flex items-center">
                 <label className="flex items-center space-x-2 cursor-pointer">
                   <input
@@ -125,6 +135,7 @@ export default function ThumbnailPattern() {
                 </label>
               </div>
             </div>
+
             {/* Main Image Display */}
             <div className="relative mb-6">
               <div
@@ -155,6 +166,7 @@ export default function ThumbnailPattern() {
                   </div>
                 )}
               </div>
+
               {/* Navigation Arrows */}
               <button
                 onClick={() =>
@@ -177,11 +189,13 @@ export default function ThumbnailPattern() {
                 →
               </button>
             </div>
+
             {/* Thumbnail Grid */}
             <div className="space-y-4">
               <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
                 Thumbnails ({images.length})
               </h3>
+
               <div className="flex flex-wrap gap-2 justify-center">
                 {images.map((image, index) => (
                   <div
@@ -211,6 +225,7 @@ export default function ThumbnailPattern() {
                         </div>
                       )}
                     </button>
+
                     {/* Tooltip */}
                     {showTooltips && (
                       <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-10 transition-opacity">
@@ -222,6 +237,7 @@ export default function ThumbnailPattern() {
                 ))}
               </div>
             </div>
+
             {/* Image Info */}
             <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
@@ -239,11 +255,22 @@ export default function ThumbnailPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="thumbnail" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="thumbnail" />
+              }
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -304,6 +331,7 @@ export default function ThumbnailPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

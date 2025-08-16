@@ -1,10 +1,14 @@
 "use client";
+
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function AccordionMenuPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [openAccordions, setOpenAccordions] = useState<Set<string>>(
     new Set(["section-1"]),
   );
+
   const toggleAccordion = (id: string) => {
     const newOpenAccordions = new Set(openAccordions);
     if (newOpenAccordions.has(id)) {
@@ -14,6 +18,7 @@ export default function AccordionMenuPattern() {
     }
     setOpenAccordions(newOpenAccordions);
   };
+
   const accordionSections = [
     {
       id: "section-1",
@@ -109,6 +114,7 @@ export default function AccordionMenuPattern() {
       ],
     },
   ];
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -120,7 +126,8 @@ export default function AccordionMenuPattern() {
           independently, perfect for FAQs, documentation, and navigation.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -131,6 +138,7 @@ export default function AccordionMenuPattern() {
               Click on section headers to expand or collapse content. Multiple
               sections can be open simultaneously.
             </p>
+
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
               {accordionSections.map((section, sectionIndex) => (
                 <div
@@ -175,6 +183,7 @@ export default function AccordionMenuPattern() {
                       </svg>
                     </div>
                   </button>
+
                   {/* Accordion Content */}
                   <div
                     className={`overflow-hidden transition-all duration-200 ${
@@ -190,6 +199,7 @@ export default function AccordionMenuPattern() {
                             key={item.id}
                             className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                           >
+                            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                             <div>
                               <h4 className="font-medium text-gray-900 dark:text-gray-100">
                                 {item.title}
@@ -206,6 +216,7 @@ export default function AccordionMenuPattern() {
                 </div>
               ))}
             </div>
+
             {/* Controls */}
             <div className="flex gap-2 justify-center mt-4">
               <button
@@ -225,9 +236,22 @@ export default function AccordionMenuPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-        <DynamicCodeExample componentName="accordion-menu" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              <DynamicCodeExample componentName="accordion-menu" />
+            </div>
+          </div>
+        </div>
       </div>
+
       {/* Key Features */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
@@ -273,6 +297,7 @@ export default function AccordionMenuPattern() {
           </ul>
         </div>
       </div>
+
       {/* Common Use Cases */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
@@ -312,6 +337,5 @@ export default function AccordionMenuPattern() {
         </div>
       </div>
     </div>
-  </div>
   );
 }

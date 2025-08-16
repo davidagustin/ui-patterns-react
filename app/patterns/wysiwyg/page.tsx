@@ -1,19 +1,24 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function WysiwygPattern() {
   const [content, setContent] = useState(
     "Welcome to the WYSIWYG editor! This is a rich text editor where you can format your content using the toolbar above.\n\nTry italicizing text, creating underlined text, or even making lists. Click the buttons in the toolbar to format your text!",
   );
+
   const editorRef = useRef<HTMLDivElement>(null);
   const [showSource, setShowSource] = useState(false);
   const [renderKey, setRenderKey] = useState(0);
+
   // Enhanced formatting functions that work in combination
   const formatText = (command: string, value?: string) => {
     // Ensure the editor has focus
     if (editorRef.current) {
       editorRef.current.focus();
     }
+
     // Handle special cases for better combination support
     switch (command) {
       case "insertUnorderedList":
@@ -22,17 +27,20 @@ export default function WysiwygPattern() {
         const selection = window.getSelection();
         if (selection && selection.rangeCount > 0) {
           const range = selection.getRangeAt(0);
+
           // Check if we're already in a list item
           let listItem =
             range.commonAncestorContainer.nodeType === Node.ELEMENT_NODE
               ? (range.commonAncestorContainer as Element).closest("li")
               : range.commonAncestorContainer.parentElement?.closest("li");
+
           if (listItem) {
             // We're already in a list, check if we need to change list type
             const currentList = listItem.parentElement;
             if (currentList) {
               const isOrdered = command === "insertOrderedList";
               const shouldBeOrdered = currentList.tagName === "OL";
+
               if (isOrdered !== shouldBeOrdered) {
                 // Change list type
                 const newList = document.createElement(isOrdered ? "ol" : "ul");
@@ -51,9 +59,11 @@ export default function WysiwygPattern() {
                 command === "insertOrderedList" ? "ol" : "ul",
               );
               list.appendChild(listItem);
+
               // Insert the list at cursor position
               range.deleteContents();
               range.insertNode(list);
+
               // Place cursor inside the list item
               const newRange = document.createRange();
               newRange.setStart(listItem.firstChild || listItem, 0);
@@ -73,8 +83,10 @@ export default function WysiwygPattern() {
             command === "insertOrderedList" ? "ol" : "ul",
           );
           list.appendChild(listItem);
+
           // Insert at the end of the editor
           editorRef.current?.appendChild(list);
+
           // Place cursor inside the list item
           const newRange = document.createRange();
           newRange.setStart(listItem.firstChild || listItem, 0);
@@ -83,12 +95,14 @@ export default function WysiwygPattern() {
           selection?.addRange(newRange);
         }
         break;
+
       case "bold":
       case "italic":
       case "underline":
         // These work well with lists and other formatting
         document.execCommand(command, false, value);
         break;
+
       case "createLink":
         // Handle link creation and reset visited state
         document.execCommand(command, false, value);
@@ -97,6 +111,7 @@ export default function WysiwygPattern() {
           resetVisitedState();
         }, 100);
         break;
+
       case "justifyLeft":
       case "justifyCenter":
       case "justifyRight":
@@ -104,32 +119,40 @@ export default function WysiwygPattern() {
         // Alignment works on block elements
         document.execCommand(command, false, value);
         break;
+
       default:
         document.execCommand(command, false, value);
     }
+
     // Ensure proper HTML structure after formatting
     ensureValidStructure();
+
     updateContent();
     // Force re-render of the rendered preview
     setRenderKey((prev) => prev + 1);
   };
+
   const updateContent = () => {
     if (editorRef.current) {
       setContent(editorRef.current.innerText || "");
     }
   };
+
   const handleEditorInput = () => {
     // Ensure proper HTML structure on input
     ensureValidStructure();
     updateContent();
   };
+
   const getCleanHtmlContent = () => {
     if (editorRef.current) {
       // Get the HTML content
       let html = editorRef.current.innerHTML;
+
       // Create a temporary div to parse and clean the HTML
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = html;
+
       // Function to clean up styles while preserving text alignment
       const cleanElement = (element: Element) => {
         if (element.hasAttribute("style")) {
@@ -142,13 +165,17 @@ export default function WysiwygPattern() {
             element.removeAttribute("style");
           }
         }
+
         // Remove class attributes
         element.removeAttribute("class");
+
         // Recursively clean child elements
         Array.from(element.children).forEach(cleanElement);
       };
+
       // Clean all elements
       cleanElement(tempDiv);
+
       // Fix invalid HTML structure - remove lists from inside paragraphs
       const paragraphsWithLists = tempDiv.querySelectorAll("p");
       paragraphsWithLists.forEach((p) => {
@@ -159,11 +186,13 @@ export default function WysiwygPattern() {
           // Remove the list from the paragraph
           list.remove();
         });
+
         // If paragraph is now empty, remove it
         if (p.innerHTML.trim() === "") {
           p.remove();
         }
       });
+
       // Convert remaining divs to paragraphs for cleaner output
       const divs = tempDiv.querySelectorAll("div");
       divs.forEach((div) => {
@@ -171,6 +200,7 @@ export default function WysiwygPattern() {
         if (div.querySelector("ul, ol")) {
           return;
         }
+
         const p = document.createElement("p");
         p.innerHTML = div.innerHTML;
         if (div.hasAttribute("style")) {
@@ -178,6 +208,7 @@ export default function WysiwygPattern() {
         }
         div.parentNode?.replaceChild(p, div);
       });
+
       // Process links to ensure they have proper attributes
       const links = tempDiv.querySelectorAll("a");
       links.forEach((link) => {
@@ -195,13 +226,16 @@ export default function WysiwygPattern() {
           }
         }
       });
+
       return tempDiv.innerHTML;
     }
     return content.replace(/\n/g, "<br>");
   };
+
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
+
   const insertLink = () => {
     const url = prompt("Enter URL:");
     if (url) {
@@ -215,6 +249,7 @@ export default function WysiwygPattern() {
       ) {
         formattedUrl = "https://" + formattedUrl;
       }
+
       // Ensure we have a selection
       const selection = window.getSelection();
       if (selection && selection.toString().trim()) {
@@ -226,12 +261,14 @@ export default function WysiwygPattern() {
           `<a href="${formattedUrl}" target="_blank" rel="noopener noreferrer">${url}</a>`,
         );
       }
+
       // Reset visited state for newly created links
       setTimeout(() => {
         resetVisitedState();
       }, 100);
     }
   };
+
   const insertImage = () => {
     const url = prompt("Enter image URL:");
     if (url) {
@@ -243,21 +280,26 @@ export default function WysiwygPattern() {
       );
     }
   };
+
   const clearFormatting = () => {
     formatText("removeFormat");
   };
+
   const resetContent = () => {
     const defaultContent =
       "Welcome to the WYSIWYG editor! This is a rich text editor where you can format your content using the toolbar above.\n\nTry italicizing text, creating underlined text, or even making lists. Click the buttons in the toolbar to format your text!";
     setContent(defaultContent);
+
     if (editorRef.current) {
       editorRef.current.innerHTML = defaultContent.replace(/\n/g, "<br>");
     }
+
     // Reset visited state for any existing links
     setTimeout(() => {
       resetVisitedState();
     }, 100);
   };
+
   // Helper function to reset visited state for links
   const resetVisitedState = () => {
     if (editorRef.current) {
@@ -271,6 +313,7 @@ export default function WysiwygPattern() {
           const timestamp = Date.now();
           const newHref = `${href}${separator}_t=${timestamp}`;
           link.setAttribute("href", newHref);
+
           // Remove the timestamp after a brief delay to keep the URL clean
           setTimeout(() => {
             link.setAttribute("href", href);
@@ -279,6 +322,7 @@ export default function WysiwygPattern() {
       });
     }
   };
+
   // Helper function to ensure proper HTML structure
   const ensureValidStructure = () => {
     if (editorRef.current) {
@@ -293,6 +337,7 @@ export default function WysiwygPattern() {
             parent.remove();
           }
         }
+
         // Ensure list items are properly structured
         const listItems = list.querySelectorAll("li");
         listItems.forEach((item) => {
@@ -307,6 +352,7 @@ export default function WysiwygPattern() {
           });
         });
       });
+
       // Fix orphaned list items (list items not in a list)
       const orphanedItems = editorRef.current.querySelectorAll(
         "li:not(ul li):not(ol li)",
@@ -319,6 +365,7 @@ export default function WysiwygPattern() {
       });
     }
   };
+
   // Handle link clicks in rendered preview
   const handlePreviewClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -338,12 +385,14 @@ export default function WysiwygPattern() {
       }
     }
   };
+
   // Set initial content
   useEffect(() => {
     if (editorRef.current && !showSource) {
       editorRef.current.innerHTML = content.replace(/\n/g, "<br>");
     }
   }, [showSource]);
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -355,7 +404,8 @@ export default function WysiwygPattern() {
           capabilities, toolbar controls, and real-time preview.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -366,6 +416,7 @@ export default function WysiwygPattern() {
               Use the toolbar to format your text. The editor shows exactly how
               your content will appear when published.
             </p>
+
             {/* Editor Mode Toggle */}
             <div className="mb-4">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 block">
@@ -394,6 +445,7 @@ export default function WysiwygPattern() {
                 </button>
               </div>
             </div>
+
             {/* Toolbar */}
             {!showSource && (
               <div className="bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 mb-4">
@@ -422,6 +474,7 @@ export default function WysiwygPattern() {
                       U
                     </button>
                   </div>
+
                   {/* History */}
                   <div className="flex items-center space-x-1">
                     <button
@@ -439,6 +492,7 @@ export default function WysiwygPattern() {
                       →
                     </button>
                   </div>
+
                   {/* Alignment */}
                   <div className="flex items-center space-x-1">
                     <button
@@ -463,6 +517,7 @@ export default function WysiwygPattern() {
                       ➡️
                     </button>
                   </div>
+
                   {/* Lists */}
                   <div className="flex items-center space-x-1">
                     <button
@@ -480,6 +535,7 @@ export default function WysiwygPattern() {
                       1.
                     </button>
                   </div>
+
                   {/* Links and Media */}
                   <div className="flex items-center space-x-1">
                     <button
@@ -497,6 +553,7 @@ export default function WysiwygPattern() {
                       🖼️
                     </button>
                   </div>
+
                   {/* Clear Formatting */}
                   <div className="flex items-center space-x-1">
                     <button
@@ -517,6 +574,7 @@ export default function WysiwygPattern() {
                 </div>
               </div>
             )}
+
             {/* Editor */}
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg min-h-[300px]">
               {showSource ? (
@@ -544,6 +602,7 @@ export default function WysiwygPattern() {
                 />
               )}
             </div>
+
             {/* Editor Info */}
             <div className="flex items-center justify-between text-sm">
               <div className="text-gray-500 dark:text-gray-400">
@@ -551,6 +610,7 @@ export default function WysiwygPattern() {
                 {content.length} characters
               </div>
             </div>
+
             {/* Preview of HTML Output */}
             <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
               <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -560,6 +620,7 @@ export default function WysiwygPattern() {
                 {getCleanHtmlContent()}
               </pre>
             </div>
+
             {/* Rendered HTML Preview */}
             <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
               <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -578,11 +639,22 @@ export default function WysiwygPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-<DynamicCodeExample componentName="wysiwyg" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              <DynamicCodeExample componentName="wysiwyg" />
+            </div>
           </div>
         </div>
       </div>
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -643,6 +715,7 @@ export default function WysiwygPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

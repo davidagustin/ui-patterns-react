@@ -1,10 +1,14 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
+
 export default function KeyboardShortcutsPattern() {
+  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [activeShortcuts, setActiveShortcuts] = useState<string[]>([]);
   const [showHelp, setShowHelp] = useState(false);
   const [lastAction, setLastAction] = useState("");
+
   const shortcuts = [
     {
       key: "Ctrl + S",
@@ -51,13 +55,16 @@ export default function KeyboardShortcutsPattern() {
     { key: "Ctrl + X", action: "Cut", description: "Cut selected content" },
     { key: "F1", action: "Help", description: "Show keyboard shortcuts help" },
   ];
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const pressedKeys: string[] = [];
+
       if (e.ctrlKey) pressedKeys.push("Ctrl");
       if (e.shiftKey) pressedKeys.push("Shift");
       if (e.altKey) pressedKeys.push("Alt");
       if (e.metaKey) pressedKeys.push("Cmd");
+
       if (
         e.key !== "Control" &&
         e.key !== "Shift" &&
@@ -66,8 +73,10 @@ export default function KeyboardShortcutsPattern() {
       ) {
         pressedKeys.push(e.key.toUpperCase());
       }
+
       const shortcutKey = pressedKeys.join(" + ");
       setActiveShortcuts(pressedKeys);
+
       // Handle specific shortcuts
       if (e.ctrlKey && e.key === "s") {
         e.preventDefault();
@@ -90,16 +99,20 @@ export default function KeyboardShortcutsPattern() {
         setShowHelp(!showHelp);
       }
     };
+
     const handleKeyUp = () => {
       setActiveShortcuts([]);
     };
+
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
+
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
   }, [showHelp]);
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -111,7 +124,8 @@ export default function KeyboardShortcutsPattern() {
           access to common actions and improve workflow efficiency.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -122,6 +136,7 @@ export default function KeyboardShortcutsPattern() {
               Try pressing keyboard shortcuts to see them in action. Press F1 to
               toggle the help panel.
             </p>
+
             <div className="space-y-4">
               {/* Active Keys Display */}
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border">
@@ -145,6 +160,7 @@ export default function KeyboardShortcutsPattern() {
                   )}
                 </div>
               </div>
+
               {/* Last Action Display */}
               {lastAction && (
                 <div className="bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800 p-3 rounded-lg">
@@ -153,6 +169,7 @@ export default function KeyboardShortcutsPattern() {
                   </p>
                 </div>
               )}
+
               {/* Demo Actions */}
               <div className="space-y-3">
                 <h3 className="font-medium text-gray-800 dark:text-gray-200">
@@ -196,9 +213,24 @@ export default function KeyboardShortcutsPattern() {
             </div>
           </div>
         </div>
+
         {/* Code Example */}
-        <DynamicCodeExample componentName="keyboard-shortcuts" />
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
+              💻 Code Example
+            </h2>
+
+            {/* Tab Content */}
+            <div className="code-block">
+              {
+                <DynamicCodeExample componentName="keyboard-shortcuts" />
+              }
+            </div>
+          </div>
+        </div>
       </div>
+
       {/* Keyboard Shortcuts Help Panel */}
       {showHelp && (
         <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-yellow-200 dark:border-yellow-800">
@@ -235,6 +267,7 @@ export default function KeyboardShortcutsPattern() {
           </div>
         </div>
       )}
+
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -295,6 +328,7 @@ export default function KeyboardShortcutsPattern() {
           </div>
         </div>
       </div>
+
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">
@@ -330,6 +364,7 @@ export default function KeyboardShortcutsPattern() {
           </div>
         </div>
       </div>
+
       {/* Best Practices */}
       <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-yellow-200 dark:border-yellow-800">
         <h3 className="text-lg font-semibold mb-4 text-yellow-800 dark:text-yellow-200">

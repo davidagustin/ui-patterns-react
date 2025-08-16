@@ -192,7 +192,7 @@ export const DynamicCodeExample = ({
 };
 
 // Alternative approach: Use Function.toString() to get function source
-export const getFunctionSource = (fn: (...args: any[]) => any): string => {
+export const getFunctionSource = (fn: (...args: unknown[]) => unknown): string => {
   try {
     return fn.toString();
   } catch (error) {
