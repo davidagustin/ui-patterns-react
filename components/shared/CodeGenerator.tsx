@@ -1,12 +1,14 @@
 "use client";
-import { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 
 // StackBlitz integration
 export const sendToStackBlitz = async (
   componentName: string,
-  sourceCode: string,
 ) => {
   try {
+    // Get the actual component source code
+    const actualComponentCode = await extractComponentSource(componentName);
+    
     // Create the form data for StackBlitz POST API
     const formData = new FormData();
     
@@ -15,11 +17,11 @@ export const sendToStackBlitz = async (
     formData.append("project[description]", `Interactive demo of ${componentName} UI pattern`);
     formData.append("project[template]", "create-react-app");
     
-    // Main component file
-    formData.append("project[files][src/App.tsx]", `"use client";
+         // Main component file with the actual pattern code
+     formData.append("project[files][src/App.tsx]", `import React from 'react';
+import './index.css';
 
-import React from 'react';
-import { DynamicCodeExample } from './components/shared/CodeGenerator';
+${actualComponentCode}
 
 function App() {
   return (
@@ -29,7 +31,7 @@ function App() {
         <p>This is a demo of the ${componentName} UI pattern.</p>
       </header>
       <main>
-        <DynamicCodeExample componentName="${componentName}" />
+        <${componentName} />
       </main>
     </div>
   );
@@ -38,9 +40,7 @@ function App() {
 export default App;`);
     
     // Include the CodeGenerator component
-    formData.append("project[files][src/components/shared/CodeGenerator.tsx]", `"use client";
-
-import { useMemo, useEffect, useState } from "react";
+    formData.append("project[files][src/components/shared/CodeGenerator.tsx]", `import React, { useMemo, useEffect, useState } from "react";
 
 // Runtime source code extractor
 export const extractComponentSource = async (
@@ -88,10 +88,8 @@ export const useDynamicCode = (
 };
 
 // Component that displays dynamic code
-export const DynamicCodeExample = ({
+export const DynamicCodeExample: React.FC<{ componentName: string }> = ({
   componentName,
-}: {
-  componentName: string;
 }) => {
   const { sourceCode, loading } = useDynamicCode(componentName);
 
@@ -321,14 +319,9 @@ export const DynamicCodeExample = ({
   const [copySuccess, setCopySuccess] = useState(false);
 
   const handleSendToStackBlitz = async () => {
-    if (!sourceCode) {
-      console.warn("No source code available to send to StackBlitz");
-      return;
-    }
-
     setIsSendingToStackBlitz(true);
     try {
-      const success = await sendToStackBlitz(componentName, sourceCode);
+      const success = await sendToStackBlitz(componentName);
       if (success) {
         console.log("Successfully sent to StackBlitz");
       } else {
@@ -357,18 +350,18 @@ export const DynamicCodeExample = ({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+    <div className={`bg-white dark:bg-gray-900 rounded-lg shadow-sm ${isExpanded ? '' : 'border border-gray-200 dark:border-gray-700'}`}>
       {/* Header with JSX tab and action icons */}
       <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
         {/* JSX Tab */}
         <div className="flex">
-          <div className="px-4 py-3 text-sm font-medium text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400">
+          <div className="px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400">
             JSX
           </div>
         </div>
 
         {/* Action icons */}
-        <div className="flex items-center gap-2 pr-4">
+        <div className="flex items-center gap-2 pr-3">
           <button
             onClick={handleShareLink}
             className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -397,7 +390,7 @@ export const DynamicCodeExample = ({
           </button>
           <button
             onClick={handleSendToStackBlitz}
-            disabled={loading || isSendingToStackBlitz || !sourceCode}
+            disabled={loading || isSendingToStackBlitz}
             className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             title="Open in StackBlitz"
             style={{ transitionDelay: '0ms' }}
@@ -459,10 +452,10 @@ export const DynamicCodeExample = ({
       </div>
       
       {!isExpanded && (
-        <div className="text-center py-2 border-t border-gray-200 dark:border-gray-700">
+        <div className="text-center border-t border-gray-200 dark:border-gray-700">
           <button
             onClick={() => setIsExpanded(true)}
-            className="text-blue-600 dark:text-blue-400 text-sm font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200"
+            className="text-blue-600 dark:text-blue-400 text-xs font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200 py-0.5"
             title="Click to expand full code"
             style={{ transitionDelay: '0ms' }}
           >
@@ -471,18 +464,7 @@ export const DynamicCodeExample = ({
         </div>
       )}
       
-      {isExpanded && (
-        <div className="text-center py-2 border-t border-gray-200 dark:border-gray-700">
-          <button
-            onClick={() => setIsExpanded(false)}
-            className="text-blue-600 dark:text-blue-400 text-sm font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200"
-            title="Click to collapse code view"
-            style={{ transitionDelay: '0ms' }}
-          >
-            Click to collapse code view
-          </button>
-        </div>
-      )}
+
     </div>
   );
 };
