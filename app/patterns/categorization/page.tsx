@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
 
 export default function CategorizationPattern() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -70,8 +71,6 @@ export default function CategorizationPattern() {
     ? items 
     : items.filter(item => item.category === selectedCategory);
 
-
-
   const getCategoryColor = (color: string) => {
     const colors = {
       gray: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200',
@@ -87,10 +86,10 @@ export default function CategorizationPattern() {
     <div className="space-y-8">
       <div className="text-center">
         <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          📁 Categorization Pattern
+          🏷️ Categorization Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Organize content into distinct categories with visual indicators and filtering capabilities.
+          Organize and filter content by categories with visual indicators and dynamic filtering capabilities.
         </p>
       </div>
 
@@ -196,430 +195,51 @@ export default function CategorizationPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {activeTab === 'jsx' ? (
-                <pre className="text-sm leading-relaxed">
-{`import { useState } from 'react';
-
-export default function CategorizationPattern() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-
-  const categories = [
-    { id: 'all', name: 'All Items', count: 42, color: 'gray' },
-    { id: 'electronics', name: 'Electronics', count: 12, color: 'blue' },
-    { id: 'clothing', name: 'Clothing', count: 8, color: 'green' },
-    { id: 'books', name: 'Books', count: 15, color: 'purple' },
-    { id: 'home', name: 'Home & Garden', count: 7, color: 'orange' }
-  ];
-
-  const items = [
-    { id: 1, name: 'Wireless Headphones', category: 'electronics', price: '$199.99' },
-    { id: 2, name: 'Cotton T-Shirt', category: 'clothing', price: '$29.99' },
-    { id: 3, name: 'JavaScript Guide', category: 'books', price: '$39.99' },
-    { id: 4, name: 'Bluetooth Speaker', category: 'electronics', price: '$89.99' }
-    // ... more items
-  ];
-
-  const filteredItems = selectedCategory === 'all' 
-    ? items 
-    : items.filter(item => item.category === selectedCategory);
-
-  const getCategoryColor = (color: string) => {
-    const colors = {
-      gray: 'bg-gray-100 text-gray-800',
-      blue: 'bg-blue-100 text-blue-800',
-      green: 'bg-green-100 text-green-800',
-      purple: 'bg-purple-100 text-purple-800',
-      orange: 'bg-orange-100 text-orange-800'
-    };
-    return colors[color] || colors.gray;
-  };
-
-  return (
-    <div className="categorization-container">
-      {/* Category Navigation */}
-      <div className="category-nav">
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            onClick={() => setSelectedCategory(category.id)}
-            className={\`category-button \${
-              selectedCategory === category.id ? 'active' : ''
-            } \${getCategoryColor(category.color)}\`}
-          >
-            {category.name}
-            <span className="category-count">{category.count}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Items Grid */}
-      <div className="items-grid">
-        {filteredItems.map((item) => {
-          const category = categories.find(cat => cat.id === item.category);
-          return (
-            <div key={item.id} className="item-card">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="item-image"
+              <DynamicCodeExample 
+                componentName="categorization" 
+                activeTab={activeTab} 
               />
-              <div className="item-content">
-                <div className="item-header">
-                  <h3 className="item-title">{item.name}</h3>
-                  {category && (
-                    <span className={\`item-category \${getCategoryColor(category.color)}\`}>
-                      {category.name}
-                    </span>
-                  )}
-                </div>
-                <p className="item-price">{item.price}</p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      
-      {filteredItems.length === 0 && (
-        <div className="empty-state">
-          No items found in this category
-        </div>
-      )}
-    </div>
-  );
-}`}
-                </pre>
-              ) : (
-                <pre className="text-sm leading-relaxed">
-{`/* Categorization Container */
-.categorization-container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-/* Category Navigation */
-.category-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-}
-
-.category-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  background: white;
-  color: #374151;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.category-button:hover {
-  background: #f9fafb;
-  border-color: #9ca3af;
-}
-
-.category-button.active {
-  ring: 2px;
-  ring-color: #3b82f6;
-  ring-offset: 2px;
-}
-
-.category-count {
-  padding: 0.125rem 0.5rem;
-  font-size: 0.75rem;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Category Colors */
-.category-button.bg-gray-100 {
-  background: #f3f4f6;
-  color: #1f2937;
-}
-
-.category-button.bg-blue-100 {
-  background: #dbeafe;
-  color: #1e40af;
-}
-
-.category-button.bg-green-100 {
-  background: #dcfce7;
-  color: #166534;
-}
-
-.category-button.bg-purple-100 {
-  background: #e9d5ff;
-  color: #7c2d12;
-}
-
-.category-button.bg-orange-100 {
-  background: #fed7aa;
-  color: #9a3412;
-}
-
-/* Items Grid */
-.items-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-  max-height: 24rem;
-  overflow-y: auto;
-}
-
-/* Item Card */
-.item-card {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  transition: all 0.2s ease;
-}
-
-.item-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.item-image {
-  width: 100%;
-  height: 6rem;
-  object-fit: cover;
-  border-radius: 0.375rem;
-  margin-bottom: 0.75rem;
-}
-
-.item-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
-}
-
-.item-title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #111827;
-  line-height: 1.25;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.item-category {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  border-radius: 9999px;
-  white-space: nowrap;
-  flex-shrink: 0;
-  margin-left: 0.5rem;
-}
-
-.item-price {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #059669;
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: 2rem;
-  color: #6b7280;
-  font-style: italic;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .categorization-container {
-    padding: 1rem;
-  }
-  
-  .category-nav {
-    flex-direction: column;
-  }
-  
-  .category-button {
-    justify-content: space-between;
-  }
-  
-  .items-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .item-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .item-category {
-    margin-left: 0;
-  }
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  .category-button {
-    background: #374151;
-    border-color: #4b5563;
-    color: #f9fafb;
-  }
-  
-  .category-button:hover {
-    background: #4b5563;
-  }
-  
-  .item-card {
-    background: #1f2937;
-    border-color: #374151;
-  }
-  
-  .item-title {
-    color: #f9fafb;
-  }
-  
-  .empty-state {
-    color: #9ca3af;
-  }
-}
-
-/* Animation */
-.item-card {
-  animation: fadeInUp 0.3s ease;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Focus Management */
-.category-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.category-button:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Accessibility */
-.category-button[aria-pressed="true"] {
-  background: #3b82f6;
-  color: white;
-}
-
-/* Loading State */
-.items-grid.loading {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.item-card.loading {
-  position: relative;
-  overflow: hidden;
-}
-
-.item-card.loading::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}`}
-                </pre>
-              )}
             </div>
           </div>
         </div>
       </div>
 
       {/* Key Features */}
-      <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
-        <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
-          ✨ Key Features
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Visual Categories</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Color-coded categories for easy identification</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Item Counts</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Display number of items in each category</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Instant Filtering</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Real-time content filtering by category</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Responsive Layout</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Adapts to different screen sizes</p>
-            </div>
-          </div>
+      <div className="space-y-6">
+        <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+          <h2 className="text-xl font-semibold mb-4 text-green-800 dark:text-green-200">
+            ✨ Key Features
+          </h2>
+          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+            <li>• <strong>Dynamic Filtering:</strong> Real-time filtering based on selected category</li>
+            <li>• <strong>Visual Indicators:</strong> Color-coded categories for easy identification</li>
+            <li>• <strong>Item Counts:</strong> Shows number of items in each category</li>
+            <li>• <strong>Responsive Grid:</strong> Adapts to different screen sizes</li>
+            <li>• <strong>Smooth Transitions:</strong> Animated category switching</li>
+            <li>• <strong>Accessible Design:</strong> Proper ARIA labels and keyboard navigation</li>
+            <li>• <strong>Empty States:</strong> Clear messaging when no items match</li>
+            <li>• <strong>Performance Optimized:</strong> Efficient filtering and rendering</li>
+            <li>• <strong>Dynamic Code Generation:</strong> Code example extracted from actual source files</li>
+          </ul>
         </div>
       </div>
 
-      {/* Use Cases */}
-      <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
-        <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">
-          🎯 Common Use Cases
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">🛍️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">E-commerce</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Product categories and department filtering</p>
-          </div>
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">📁</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Content Management</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Document and file organization</p>
-          </div>
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">📊</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Analysis</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Dataset categorization and filtering</p>
-          </div>
+      {/* Common Use Cases */}
+      <div className="space-y-6">
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
+          <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-200">
+            🎯 Common Use Cases
+          </h2>
+          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+            <li>• <strong>E-commerce Stores:</strong> Filter products by category</li>
+            <li>• <strong>Blog Platforms:</strong> Organize articles by topic</li>
+            <li>• <strong>Portfolio Websites:</strong> Showcase work by project type</li>
+            <li>• <strong>Recipe Apps:</strong> Filter recipes by cuisine or meal type</li>
+            <li>• <strong>Job Boards:</strong> Filter job listings by industry</li>
+            <li>• <strong>Music Libraries:</strong> Organize songs by genre</li>
+            <li>• <strong>Document Management:</strong> Categorize files by type</li>
+            <li>• <strong>Social Media:</strong> Filter posts by content type</li>
+          </ul>
         </div>
       </div>
     </div>

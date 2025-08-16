@@ -4,12 +4,12 @@ import { useState, useRef, useEffect } from 'react';
 import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
 
 export default function ImageZoomPattern() {
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  
+
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -179,28 +179,6 @@ export default function ImageZoomPattern() {
             </h2>
             
             {/* Tab Navigation */}
-            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-              <button
-                onClick={() => setActiveTab('jsx')}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'jsx'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                JSX
-              </button>
-              <button
-                onClick={() => setActiveTab('css')}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'css'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                CSS
-              </button>
-            </div>
 
             {/* Tab Content */}
             <div className="code-block">

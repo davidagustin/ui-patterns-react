@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
 
 export default function SettingsPattern() {
   const [settings, setSettings] = useState({
@@ -352,130 +353,10 @@ export default function SettingsPattern() {
             </h2>
             
             <div className="code-block">
-              <pre className="text-sm leading-relaxed">
-{`'use client';
-
-import { useState } from 'react';
-
-export default function SettingsExample() {
-  const [settings, setSettings] = useState({
-    theme: 'system',
-    notifications: {
-      email: true,
-      push: false
-    },
-    privacy: {
-      profileVisibility: 'public',
-      showEmail: false
-    }
-  });
-
-  const [activeTab, setActiveTab] = useState('general');
-
-  const handleSettingChange = (category, key, value) => {
-    setSettings(prev => ({
-      ...prev,
-      [category]: {
-        ...prev[category],
-        [key]: value
-      }
-    }));
-  };
-
-  const tabs = [
-    { id: 'general', label: 'General', icon: '⚙️' },
-    { id: 'notifications', label: 'Notifications', icon: '🔔' },
-    { id: 'privacy', label: 'Privacy', icon: '🔒' }
-  ];
-
-  return (
-    <div className="space-y-6">
-      {/* Tab Navigation */}
-      <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={\`flex-1 flex items-center justify-center space-x-2 px-3 py-2 rounded-md text-sm font-medium \${
-              activeTab === tab.id
-                ? 'bg-white text-blue-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-800'
-            }\`}
-          >
-            <span>{tab.icon}</span>
-            <span>{tab.label}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Settings Content */}
-      {activeTab === 'general' && (
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">Theme</label>
-            <select
-              value={settings.theme}
-              onChange={(e) => setSettings(prev => ({ ...prev, theme: e.target.value }))}
-              className="input-field"
-            >
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-              <option value="system">System</option>
-            </select>
-          </div>
-        </div>
-      )}
-
-      {activeTab === 'notifications' && (
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 border rounded-lg">
-            <div>
-              <h4 className="font-medium">Email Notifications</h4>
-              <p className="text-sm text-gray-600">Receive updates via email</p>
-            </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                checked={settings.notifications.email}
-                onChange={(e) => handleSettingChange('notifications', 'email', e.target.checked)}
-                className="sr-only peer"
+              <DynamicCodeExample 
+                componentName="settings" 
+                activeTab={activeTab} 
               />
-              <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-blue-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
-            </label>
-          </div>
-        </div>
-      )}
-
-      {activeTab === 'privacy' && (
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2">Profile Visibility</label>
-            <select
-              value={settings.privacy.profileVisibility}
-              onChange={(e) => handleSettingChange('privacy', 'profileVisibility', e.target.value)}
-              className="input-field"
-            >
-              <option value="public">Public</option>
-              <option value="friends">Friends Only</option>
-              <option value="private">Private</option>
-            </select>
-          </div>
-        </div>
-      )}
-
-      {/* Save Button */}
-      <div className="flex justify-end space-x-3 pt-4 border-t">
-        <button className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-          Reset
-        </button>
-        <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
-          Save Changes
-        </button>
-      </div>
-    </div>
-  );
-}`}
-              </pre>
             </div>
           </div>
         </div>

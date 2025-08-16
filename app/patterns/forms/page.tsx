@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
 
 export default function FormsPattern() {
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,7 +12,6 @@ export default function FormsPattern() {
   });
 
   const [errors, setErrors] = useState<{[key: string]: string}>({});
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,280 +138,15 @@ export default function FormsPattern() {
             </h2>
             
             {/* Tab Navigation */}
-            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-              <button
-                onClick={() => setActiveTab('jsx')}
-                className={`px-4 py-3 font-medium transition-colors min-h-[44px] flex items-center ${
-                  activeTab === 'jsx'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                JSX
-              </button>
-              <button
-                onClick={() => setActiveTab('css')}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'css'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                CSS
-              </button>
-            </div>
 
             {/* Tab Content */}
             <div className="code-block">
-              {activeTab === 'jsx' ? (
-                <pre className="text-sm leading-relaxed">
-{`import { useState } from 'react';
-
-export default function FormsPattern() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Simple validation
-    const newErrors: {[key: string]: string} = {};
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
-    }
-    
-    setErrors(newErrors);
-    
-    if (Object.keys(newErrors).length === 0) {
-      alert('Form submitted successfully! Data: ' + JSON.stringify(formData));
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-    
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors({
-        ...errors,
-        [name]: ''
-      });
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="name" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-          Name *
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className={\`input-field \${errors.name ? 'border-red-500 focus:ring-red-500' : ''}\`}
-          placeholder="Enter your name"
-        />
-        {errors.name && (
-          <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.name}</p>
-        )}
-      </div>
-      
-      <div>
-        <label htmlFor="email" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-          Email *
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className={\`input-field \${errors.email ? 'border-red-500 focus:ring-red-500' : ''}\`}
-          placeholder="Enter your email"
-        />
-        {errors.email && (
-          <p className="text-red-600 dark:text-red-400 text-sm mt-1">{errors.email}</p>
-        )}
-      </div>
-      
-      <div>
-        <label htmlFor="message" className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-          Message
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          rows={4}
-          className="input-field"
-          placeholder="Enter your message..."
-        />
-      </div>
-      
-      <button type="submit" className="btn-primary w-full">
-        Submit Form
-      </button>
-    </form>
-  );
-}`}
-                </pre>
-              ) : (
-                <pre className="text-sm leading-relaxed">
-{`/* Form Container */
-.form-container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 2rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Form Groups */
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-/* Labels */
-.form-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #374151;
-  font-size: 0.875rem;
-}
-
-/* Input Fields */
-.form-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-/* Error States */
-.form-input.error {
-  border-color: #ef4444;
-}
-
-.form-input.error:focus {
-  border-color: #ef4444;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-}
-
-/* Error Messages */
-.error-message {
-  color: #ef4444;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-/* Submit Button */
-.submit-button {
-  width: 100%;
-  padding: 0.75rem 1.5rem;
-  background-color: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.submit-button:hover {
-  background-color: #2563eb;
-}
-
-.submit-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-/* Textarea */
-.form-textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-family: inherit;
-  resize: vertical;
-  min-height: 100px;
-  transition: all 0.2s ease;
-}
-
-.form-textarea:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-/* Responsive Design */
-@media (max-width: 640px) {
-  .form-container {
-    padding: 1rem;
-    margin: 1rem;
-  }
-  
-  .form-input,
-  .form-textarea {
-    font-size: 16px; /* Prevents zoom on iOS */
-  }
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  .form-container {
-    background: #1f2937;
-    color: #f9fafb;
-  }
-  
-  .form-label {
-    color: #d1d5db;
-  }
-  
-  .form-input,
-  .form-textarea {
-    background: #374151;
-    border-color: #4b5563;
-    color: #f9fafb;
-  }
-  
-  .form-input:focus,
-  .form-textarea:focus {
-    border-color: #60a5fa;
-  }
-}`}
-                </pre>
-              )}
+              {
+                <DynamicCodeExample 
+                componentName="forms" 
+                activeTab={activeTab} 
+              />
+              }
             </div>
           </div>
         </div>

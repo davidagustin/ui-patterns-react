@@ -1,13 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
 
 export default function CaptchaPattern() {
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [captchaType, setCaptchaType] = useState<'image' | 'checkbox' | 'math'>('image');
   const [isVerified, setIsVerified] = useState(false);
   const [userAnswer, setUserAnswer] = useState('');
   const [mathProblem, setMathProblem] = useState({ num1: 7, num2: 3, operator: '+' });
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  
   const [imageCaptcha, setImageCaptcha] = useState('ABCD123');
   const [captchaStyles, setCaptchaStyles] = useState<Array<{transform: string, color: string}>>([]);
 
@@ -259,99 +261,10 @@ export default function CaptchaPattern() {
               💻 Code Example
             </h2>
             <div className="code-block">
-              <pre className="text-sm leading-relaxed">
-{`import { useState } from 'react';
-
-function CaptchaExample() {
-  const [captchaType, setCaptchaType] = useState('image');
-  const [isVerified, setIsVerified] = useState(false);
-  const [userAnswer, setUserAnswer] = useState('');
-
-  const generateMathProblem = () => {
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    return { num1, num2, operator: '+' };
-  };
-
-  const verifyCaptcha = () => {
-    let correct = false;
-    
-    switch (captchaType) {
-      case 'math':
-        const expected = mathProblem.num1 + mathProblem.num2;
-        correct = parseInt(userAnswer) === expected;
-        break;
-      case 'image':
-        correct = userAnswer.toUpperCase() === imageCaptcha;
-        break;
-      case 'checkbox':
-        correct = true;
-        break;
-    }
-    
-    if (correct) {
-      setIsVerified(true);
-    } else {
-      alert('Incorrect answer. Please try again.');
-    }
-  };
-
-  return (
-    <div>
-      <div className="flex space-x-2">
-        <button onClick={() => setCaptchaType('image')}>
-          Image CAPTCHA
-        </button>
-        <button onClick={() => setCaptchaType('checkbox')}>
-          Checkbox CAPTCHA
-        </button>
-        <button onClick={() => setCaptchaType('math')}>
-          Math CAPTCHA
-        </button>
-      </div>
-
-      {!isVerified ? (
-        <div>
-          {captchaType === 'image' && (
-            <div>
-              <div className="bg-gray-100 p-4 rounded">
-                {imageCaptcha}
-              </div>
-              <input
-                value={userAnswer}
-                onChange={(e) => setUserAnswer(e.target.value)}
-                placeholder="Enter the code"
+              <DynamicCodeExample 
+                componentName="captcha" 
+                activeTab={activeTab} 
               />
-            </div>
-          )}
-          
-          {captchaType === 'math' && (
-            <div>
-              <div className="bg-gray-100 p-4 rounded">
-                {mathProblem.num1} + {mathProblem.num2} = ?
-              </div>
-              <input
-                type="number"
-                value={userAnswer}
-                onChange={(e) => setUserAnswer(e.target.value)}
-                placeholder="Enter your answer"
-              />
-            </div>
-          )}
-          
-          <button onClick={verifyCaptcha}>
-            Verify CAPTCHA
-          </button>
-        </div>
-      ) : (
-        <div>
-          <h3>Verification Successful!</h3>
-        </div>
-      )}
-    </div>
-  );
-}`}
-              </pre>
             </div>
           </div>
         </div>

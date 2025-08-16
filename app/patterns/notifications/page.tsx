@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
 import Tooltip from '../../../components/Tooltip';
 
 interface Notification {
@@ -16,12 +17,12 @@ interface Notification {
 }
 
 export default function NotificationsPattern() {
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error' | 'warning' | 'info'>('success');
   const [notificationCount, setNotificationCount] = useState(0);
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
 
   const addNotification = (notification: Omit<Notification, 'id'>) => {
     const id = Date.now().toString();
@@ -278,302 +279,17 @@ export default function NotificationsPattern() {
               💻 Code Example
             </h2>
             
-            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-              <button
-                onClick={() => setActiveTab('jsx')}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'jsx'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                JSX
-              </button>
-              <button
-                onClick={() => setActiveTab('css')}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'css'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                CSS
-              </button>
-            </div>
-
             <div className="code-block">
-              {activeTab === 'jsx' ? (
-                <pre className="text-sm leading-relaxed">
-{`import { useState, useEffect } from 'react';
-
-interface Notification {
-  id: string;
-  type: 'success' | 'error' | 'warning' | 'info';
-  title: string;
-  message: string;
-  duration?: number;
-  action?: {
-    label: string;
-    onClick: () => void;
-  };
-}
-
-export default function NotificationsComponent() {
-  const [notifications, setNotifications] = useState([]);
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastType, setToastType] = useState('success');
-
-  const addNotification = (notification) => {
-    const id = Date.now().toString();
-    const newNotification = { ...notification, id };
-    setNotifications(prev => [newNotification, ...prev]);
-
-    // Auto-remove notification after duration
-    if (notification.duration !== 0) {
-      setTimeout(() => {
-        removeNotification(id);
-      }, notification.duration || 5000);
-    }
-  };
-
-  const removeNotification = (id) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
-  };
-
-  const showToastMessage = (message, type = 'success') => {
-    setToastMessage(message);
-    setToastType(type);
-    setShowToast(true);
-
-    setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
-  };
-
-  const getNotificationIcon = (type) => {
-    switch (type) {
-      case 'success': return '✅';
-      case 'error': return '❌';
-      case 'warning': return '⚠️';
-      case 'info': return 'ℹ️';
-      default: return '📢';
-    }
-  };
-
-  const getNotificationClasses = (type) => {
-    const baseClasses = 'p-4 rounded-lg border-l-4 shadow-lg';
-    switch (type) {
-      case 'success':
-        return \`\${baseClasses} bg-green-50 border-green-500 text-green-800\`;
-      case 'error':
-        return \`\${baseClasses} bg-red-50 border-red-500 text-red-800\`;
-      case 'warning':
-        return \`\${baseClasses} bg-yellow-50 border-yellow-500 text-yellow-800\`;
-      case 'info':
-        return \`\${baseClasses} bg-blue-50 border-blue-500 text-blue-800\`;
-      default:
-        return \`\${baseClasses} bg-gray-50 border-gray-500 text-gray-800\`;
-    }
-  };
-
-  return (
-    <div className="notifications-container">
-      {/* Notifications Display */}
-      <div className="notifications-panel">
-        <h3>📋 Notifications</h3>
-        <div className="notifications-list">
-          {notifications.length === 0 ? (
-            <div className="empty-state">
-              <div>🔔</div>
-              <p>No notifications yet</p>
-            </div>
-          ) : (
-            notifications.map((notification) => (
-              <div
-                key={notification.id}
-                className={getNotificationClasses(notification.type)}
-              >
-                <div className="notification-content">
-                  <span className="notification-icon">
-                    {getNotificationIcon(notification.type)}
-                  </span>
-                  <div className="notification-text">
-                    <h4>{notification.title}</h4>
-                    <p>{notification.message}</p>
-                    {notification.action && (
-                      <button onClick={notification.action.onClick}>
-                        {notification.action.label}
-                      </button>
-                    )}
-                  </div>
-                  <button
-                    onClick={() => removeNotification(notification.id)}
-                    className="close-btn"
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {/* Toast Message */}
-      {showToast && (
-        <div className={\`toast-message \${toastType}\`}>
-          <span>{getNotificationIcon(toastType)}</span>
-          <span>{toastMessage}</span>
-          <button onClick={() => setShowToast(false)}>✕</button>
-        </div>
-      )}
-    </div>
-  );
-}`}
-                </pre>
+              {
+                <DynamicCodeExample 
+                componentName="notifications" 
+                activeTab={activeTab} 
+              />
               ) : (
-                <pre className="text-sm leading-relaxed">
-{`/* Notifications Styles */
-.notifications-container {
-  position: relative;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.notifications-panel {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.notifications-panel h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #374151;
-}
-
-.notifications-list {
-  max-height: 300px;
-  overflow-y: auto;
-  space-y: 0.75rem;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 2rem;
-  color: #6b7280;
-}
-
-.empty-state div {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.notification-content {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-}
-
-.notification-icon {
-  font-size: 1.25rem;
-  flex-shrink: 0;
-}
-
-.notification-text {
-  flex: 1;
-}
-
-.notification-text h4 {
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-  font-size: 0.875rem;
-}
-
-.notification-text p {
-  font-size: 0.75rem;
-  color: #6b7280;
-  margin-bottom: 0.5rem;
-}
-
-.notification-text button {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  background: white;
-  border: 1px solid #d1d5db;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.notification-text button:hover {
-  background-color: #f9fafb;
-}
-
-.close-btn {
-  color: #9ca3af;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 0.875rem;
-  padding: 0.25rem;
-  transition: color 0.2s;
-}
-
-.close-btn:hover {
-  color: #6b7280;
-}
-
-/* Toast Message */
-.toast-message {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 50;
-  padding: 0.75rem 1rem;
-  border-radius: 0.375rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  animation: slideIn 0.3s ease-out;
-}
-
-.toast-message.success {
-  background-color: #10b981;
-  color: white;
-}
-
-.toast-message.error {
-  background-color: #ef4444;
-  color: white;
-}
-
-.toast-message.warning {
-  background-color: #f59e0b;
-  color: white;
-}
-
-.toast-message.info {
-  background-color: #3b82f6;
-  color: white;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}`}
-                </pre>
+                <DynamicCodeExample 
+                componentName="notifications" 
+                activeTab={activeTab} 
+              />
               )}
             </div>
           </div>

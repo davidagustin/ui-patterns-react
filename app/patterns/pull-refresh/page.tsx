@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
 
 export default function PullToRefreshPattern() {
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [pullDistance, setPullDistance] = useState(0);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  
+
   // Set initial time only on client side to prevent hydration mismatch
   useEffect(() => {
     setLastUpdate(new Date());
@@ -200,314 +201,19 @@ export default function PullToRefreshPattern() {
             </h2>
             
             {/* Tab Navigation */}
-            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-              <button
-                onClick={() => setActiveTab('jsx')}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'jsx'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                JSX
-              </button>
-              <button
-                onClick={() => setActiveTab('css')}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === 'css'
-                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-                }`}
-              >
-                CSS
-              </button>
-            </div>
 
             {/* Tab Content */}
             <div className="code-block">
-              {activeTab === 'jsx' ? (
-                <pre className="text-sm leading-relaxed">
-{`import { useState, useRef } from 'react';
-
-export default function PullToRefresh() {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [pullDistance, setPullDistance] = useState(0);
-  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
-  
-  // Set initial time only on client side to prevent hydration mismatch
-  useEffect(() => {
-    setLastUpdate(new Date());
-  }, []);
-  
-  const containerRef = useRef<HTMLDivElement>(null);
-  const startY = useRef<number>(0);
-  const currentY = useRef<number>(0);
-  const isPulling = useRef<boolean>(false);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (containerRef.current?.scrollTop === 0) {
-      startY.current = e.touches[0].clientY;
-      isPulling.current = true;
-    }
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isPulling.current) return;
-    
-    currentY.current = e.touches[0].clientY;
-    const distance = Math.max(0, currentY.current - startY.current);
-    
-    if (distance > 0) {
-      e.preventDefault();
-      setPullDistance(Math.min(distance * 0.5, 100));
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (pullDistance > 60) {
-      setIsRefreshing(true);
-      setPullDistance(0);
-      
-      // Simulate refresh
-      setTimeout(() => {
-        setIsRefreshing(false);
-        setLastUpdate(new Date());
-      }, 2000);
-    } else {
-      setPullDistance(0);
-    }
-    
-    isPulling.current = false;
-  };
-
-  return (
-    <div 
-      ref={containerRef}
-      className="relative bg-white rounded-lg border overflow-hidden"
-      style={{ height: '300px' }}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      {/* Pull Indicator */}
-      <div 
-        className={\`absolute top-0 left-0 right-0 flex items-center justify-center transition-all duration-200 \${
-          pullDistance > 0 ? 'opacity-100' : 'opacity-0'
-        }\`}
-        style={{ 
-          transform: \`translateY(\${pullDistance}px)\`,
-          height: '60px'
-        }}
-      >
-        <div className="flex items-center space-x-2 text-blue-600">
-          {isRefreshing ? (
-            <>
-              <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-600 border-t-transparent"></div>
-              <span className="text-sm font-medium">Refreshing...</span>
-            </>
-          ) : (
-            <>
-              <svg className={\`w-5 h-5 transition-transform \${pullDistance > 30 ? 'rotate-180' : ''}\`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-              <span className="text-sm font-medium">
-                {pullDistance > 30 ? 'Release to refresh' : 'Pull to refresh'}
-              </span>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-4 pt-16">
-        <div className="space-y-4">
-          <div className="bg-gray-50 p-3 rounded-lg">
-            <h3 className="font-medium">Latest Updates</h3>
-            <p className="text-sm text-gray-600">
-              Last updated: {lastUpdate ? lastUpdate.toLocaleTimeString() : 'Loading...'}
-            </p>
-          </div>
-          
-          <div className="space-y-2">
-            <div className="bg-gray-50 p-3 rounded-lg">
-              <h4 className="font-medium">Item 1</h4>
-              <p className="text-sm text-gray-600">This is some sample content</p>
-            </div>
-            <div className="bg-gray-50 p-3 rounded-lg">
-              <h4 className="font-medium">Item 2</h4>
-              <p className="text-sm text-gray-600">More sample content here</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}`}
-                </pre>
+              {
+                <DynamicCodeExample 
+                componentName="pull-refresh" 
+                activeTab={activeTab} 
+              />
               ) : (
-                <pre className="text-sm leading-relaxed">
-{`/* Pull to Refresh Container */
-.pull-refresh-container {
-  position: relative;
-  background-color: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  height: 300px;
-  user-select: none;
-}
-
-/* Pull Indicator */
-.pull-indicator {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  height: 60px;
-  background: linear-gradient(to bottom, rgba(59, 130, 246, 0.1), transparent);
-}
-
-.pull-indicator.hidden {
-  opacity: 0;
-}
-
-.pull-indicator.visible {
-  opacity: 1;
-}
-
-/* Indicator Content */
-.indicator-content {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #2563eb;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-/* Arrow Icon */
-.pull-arrow {
-  width: 1.25rem;
-  height: 1.25rem;
-  transition: transform 0.2s ease;
-}
-
-.pull-arrow.rotated {
-  transform: rotate(180deg);
-}
-
-/* Loading Spinner */
-.loading-spinner {
-  width: 1.25rem;
-  height: 1.25rem;
-  border: 2px solid #2563eb;
-  border-top: 2px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Content Area */
-.content-area {
-  padding: 1rem;
-  padding-top: 4rem;
-}
-
-/* Content Items */
-.content-item {
-  background-color: #f9fafb;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.content-item h3 {
-  font-weight: 500;
-  color: #374151;
-  margin-bottom: 0.25rem;
-}
-
-.content-item p {
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
-/* Touch Feedback */
-.pull-refresh-container:active {
-  cursor: grabbing;
-}
-
-/* Responsive Design */
-@media (max-width: 640px) {
-  .pull-refresh-container {
-    height: 250px;
-  }
-  
-  .content-area {
-    padding: 0.75rem;
-    padding-top: 3.5rem;
-  }
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  .pull-refresh-container {
-    background-color: #1f2937;
-    border-color: #374151;
-  }
-  
-  .pull-indicator {
-    background: linear-gradient(to bottom, rgba(59, 130, 246, 0.2), transparent);
-  }
-  
-  .content-item {
-    background-color: #374151;
-  }
-  
-  .content-item h3 {
-    color: #f9fafb;
-  }
-  
-  .content-item p {
-    color: #9ca3af;
-  }
-}
-
-/* Accessibility */
-.pull-refresh-container:focus-visible {
-  outline: 2px solid #2563eb;
-  outline-offset: 2px;
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .pull-indicator,
-  .pull-arrow,
-  .loading-spinner {
-    transition: none;
-    animation: none;
-  }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .pull-refresh-container {
-    border-width: 2px;
-  }
-  
-  .content-item {
-    border: 1px solid #000;
-  }
-}`}
-                </pre>
+                <DynamicCodeExample 
+                componentName="pull-refresh" 
+                activeTab={activeTab} 
+              />
               )}
             </div>
           </div>
