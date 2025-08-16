@@ -3,55 +3,66 @@
 import { useState, useRef, useEffect } from 'react';
 
 export default function ImageZoomPattern() {
-  const [isZoomed, setIsZoomed] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
-  const imageRef = useRef<HTMLImageElement>(null);
+  
   const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
 
+  // Zoom controls
   const handleZoomIn = () => {
-    setZoomLevel(prev => Math.min(prev + 0.5, 3));
-    setIsZoomed(true);
+    setZoomLevel(prev => Math.min(prev + 0.25, 3));
   };
 
   const handleZoomOut = () => {
-    setZoomLevel(prev => Math.max(prev - 0.5, 0.5));
-    if (zoomLevel <= 1.5) {
-      setIsZoomed(false);
-    }
+    setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
   };
 
   const handleReset = () => {
     setZoomLevel(1);
     setPosition({ x: 0, y: 0 });
-    setIsZoomed(false);
+  };
+
+  // Mouse wheel zoom
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.25 : 0.25;
+    const newZoom = Math.max(0.5, Math.min(3, zoomLevel + delta));
+    setZoomLevel(newZoom);
+  };
+
+  // Mouse drag handling
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (zoomLevel > 1) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y
+      });
+    }
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (zoomLevel > 1 && containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    if (isDragging && zoomLevel > 1) {
+      const newX = e.clientX - dragStart.x;
+      const newY = e.clientY - dragStart.y;
       
-      // Calculate boundary limits based on zoom level - more restrictive
-      const maxOffset = (zoomLevel - 1) * 25; // Reduced from 50 to 25 for tighter bounds
+      // Calculate boundaries based on zoom level
+      const maxX = (zoomLevel - 1) * 100;
+      const maxY = (zoomLevel - 1) * 100;
       
-      // Constrain the position within boundaries
-      const constrainedX = Math.max(-maxOffset, Math.min(maxOffset, x * 15)); // Reduced multiplier from 25 to 15
-      const constrainedY = Math.max(-maxOffset, Math.min(maxOffset, y * 15)); // Reduced multiplier from 25 to 15
-      
-      setPosition({ x: constrainedX, y: constrainedY });
+      setPosition({
+        x: Math.max(-maxX, Math.min(maxX, newX)),
+        y: Math.max(-maxY, Math.min(maxY, newY))
+      });
     }
   };
 
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    if (e.deltaY < 0) {
-      handleZoomIn();
-    } else {
-      handleZoomOut();
-    }
+  const handleMouseUp = () => {
+    setIsDragging(false);
   };
 
   // Reset position when zoom level changes
@@ -60,6 +71,19 @@ export default function ImageZoomPattern() {
       setPosition({ x: 0, y: 0 });
     }
   }, [zoomLevel]);
+
+  // Prevent text selection during drag
+  useEffect(() => {
+    if (isDragging) {
+      document.body.style.userSelect = 'none';
+    } else {
+      document.body.style.userSelect = '';
+    }
+    
+    return () => {
+      document.body.style.userSelect = '';
+    };
+  }, [isDragging]);
 
   return (
     <div className="space-y-8">
@@ -80,7 +104,7 @@ export default function ImageZoomPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Use the zoom controls or mouse wheel to zoom in/out. Move your mouse to pan when zoomed in.
+              Use the zoom controls or mouse wheel to zoom in/out. Click and drag to pan when zoomed in.
             </p>
             
             <div className="space-y-4">
@@ -109,26 +133,38 @@ export default function ImageZoomPattern() {
               </div>
               
               <div className="text-center text-sm text-gray-600 dark:text-gray-400">
-                Zoom Level: {zoomLevel.toFixed(1)}x
+                Zoom Level: {zoomLevel.toFixed(2)}x
               </div>
 
               {/* Image Container */}
               <div
                 ref={containerRef}
-                className="image-zoom-container"
-                onMouseMove={handleMouseMove}
+                className="relative w-full h-80 overflow-hidden border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-800"
                 onWheel={handleWheel}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
               >
                 <img
                   ref={imageRef}
                   src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center"
                   alt="Zoomable Image"
-                  className="image-zoom-image"
+                  className="w-full h-full object-cover transition-transform duration-200 ease-out"
                   style={{
-                    transform: `scale(${zoomLevel}) translate(${position.x}%, ${position.y}%)`,
-                    cursor: zoomLevel > 1 ? 'move' : 'default',
+                    transform: `scale(${zoomLevel}) translate(${position.x / zoomLevel}px, ${position.y / zoomLevel}px)`,
+                    cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
+                    transformOrigin: 'center center',
                   }}
+                  draggable={false}
                 />
+                
+                {/* Zoom indicator */}
+                {zoomLevel > 1 && (
+                  <div className="absolute top-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
+                    {zoomLevel.toFixed(1)}x
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -165,61 +201,72 @@ export default function ImageZoomPattern() {
               </button>
             </div>
 
-            {/* Code Content */}
+            {/* Tab Content */}
             <div className="code-block">
               {activeTab === 'jsx' ? (
                 <pre className="text-sm leading-relaxed">
 {`import { useState, useRef, useEffect } from 'react';
 
-export default function ImageZoomPattern() {
+export default function ImageZoom() {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isZoomed, setIsZoomed] = useState(false);
-  const imageRef = useRef<HTMLImageElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  
+  const containerRef = useRef(null);
+  const imageRef = useRef(null);
 
+  // Zoom controls
   const handleZoomIn = () => {
-    setZoomLevel(prev => Math.min(prev + 0.5, 3));
-    setIsZoomed(true);
+    setZoomLevel(prev => Math.min(prev + 0.25, 3));
   };
 
   const handleZoomOut = () => {
-    setZoomLevel(prev => Math.max(prev - 0.5, 0.5));
-    if (zoomLevel <= 1.5) {
-      setIsZoomed(false);
-    }
+    setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
   };
 
   const handleReset = () => {
     setZoomLevel(1);
     setPosition({ x: 0, y: 0 });
-    setIsZoomed(false);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (zoomLevel > 1 && containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-      
-      // Calculate boundary limits based on zoom level - more restrictive
-      const maxOffset = (zoomLevel - 1) * 25; // Reduced from 50 to 25 for tighter bounds
-      
-      // Constrain the position within boundaries
-      const constrainedX = Math.max(-maxOffset, Math.min(maxOffset, x * 15)); // Reduced multiplier from 25 to 15
-      const constrainedY = Math.max(-maxOffset, Math.min(maxOffset, y * 15)); // Reduced multiplier from 25 to 15
-      
-      setPosition({ x: constrainedX, y: constrainedY });
-    }
-  };
-
-  const handleWheel = (e: React.WheelEvent) => {
+  // Mouse wheel zoom
+  const handleWheel = (e) => {
     e.preventDefault();
-    if (e.deltaY < 0) {
-      handleZoomIn();
-    } else {
-      handleZoomOut();
+    const delta = e.deltaY > 0 ? -0.25 : 0.25;
+    const newZoom = Math.max(0.5, Math.min(3, zoomLevel + delta));
+    setZoomLevel(newZoom);
+  };
+
+  // Mouse drag handling
+  const handleMouseDown = (e) => {
+    if (zoomLevel > 1) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y
+      });
     }
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging && zoomLevel > 1) {
+      const newX = e.clientX - dragStart.x;
+      const newY = e.clientY - dragStart.y;
+      
+      // Calculate boundaries based on zoom level
+      const maxX = (zoomLevel - 1) * 100;
+      const maxY = (zoomLevel - 1) * 100;
+      
+      setPosition({
+        x: Math.max(-maxX, Math.min(maxX, newX)),
+        y: Math.max(-maxY, Math.min(maxY, newY))
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
   };
 
   // Reset position when zoom level changes
@@ -233,21 +280,11 @@ export default function ImageZoomPattern() {
     <div className="space-y-4">
       {/* Zoom Controls */}
       <div className="flex gap-2 justify-center">
-        <button 
-          onClick={handleZoomOut}
-          disabled={zoomLevel <= 0.5}
-          className="zoom-button"
-        >
+        <button onClick={handleZoomOut} disabled={zoomLevel <= 0.5}>
           Zoom Out
         </button>
-        <button onClick={handleReset} className="zoom-button">
-          Reset
-        </button>
-        <button 
-          onClick={handleZoomIn}
-          disabled={zoomLevel >= 3}
-          className="zoom-button"
-        >
+        <button onClick={handleReset}>Reset</button>
+        <button onClick={handleZoomIn} disabled={zoomLevel >= 3}>
           Zoom In
         </button>
       </div>
@@ -256,18 +293,22 @@ export default function ImageZoomPattern() {
       <div
         ref={containerRef}
         className="image-zoom-container"
-        onMouseMove={handleMouseMove}
         onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
       >
         <img
           ref={imageRef}
-          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center"
+          src="your-image-url.jpg"
           alt="Zoomable Image"
           className="image-zoom-image"
           style={{
-            transform: \`scale(\${zoomLevel}) translate(\${position.x}%, \${position.y}%)\`,
-            cursor: zoomLevel > 1 ? 'move' : 'default',
+            transform: \`scale(\${zoomLevel}) translate(\${position.x / zoomLevel}px, \${position.y / zoomLevel}px)\`,
+            cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
           }}
+          draggable={false}
         />
       </div>
     </div>
@@ -278,12 +319,12 @@ export default function ImageZoomPattern() {
                 <pre className="text-sm leading-relaxed">
 {`/* Image Zoom Container */
 .image-zoom-container {
+  position: relative;
   width: 100%;
-  height: 300px;
+  height: 320px;
   overflow: hidden;
   border: 2px solid #e5e7eb;
   border-radius: 0.5rem;
-  position: relative;
   background: #f9fafb;
   user-select: none;
 }
@@ -292,8 +333,8 @@ export default function ImageZoomPattern() {
 .image-zoom-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  transition: transform 0.1s ease-out;
+  object-fit: cover;
+  transition: transform 0.2s ease-out;
   transform-origin: center center;
   pointer-events: none;
 }
@@ -319,48 +360,18 @@ export default function ImageZoomPattern() {
   cursor: not-allowed;
 }
 
-/* Zoom Level Display */
-.zoom-level {
-  text-align: center;
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-bottom: 0.5rem;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .image-zoom-container {
-    height: 200px;
-  }
-  
-  .zoom-controls {
-    flex-wrap: wrap;
-  }
-}
-
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   .image-zoom-container {
     border-color: #374151;
     background: #1f2937;
   }
-  
-  .zoom-level {
-    color: #9ca3af;
-  }
 }
 
-/* Animation */
-.image-zoom-image {
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .image-zoom-container {
+    height: 240px;
   }
 }
 
@@ -388,17 +399,17 @@ export default function ImageZoomPattern() {
           <h2 className="text-xl font-semibold mb-4 text-green-800 dark:text-green-200">
             ✨ Key Features
           </h2>
-                      <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-              <li>• <strong>Mouse Wheel Zoom:</strong> Intuitive zoom in/out with mouse wheel</li>
-              <li>• <strong>Pan Navigation:</strong> Move mouse to pan when zoomed in</li>
-              <li>• <strong>Boundary Constraints:</strong> Image stays within container bounds</li>
-              <li>• <strong>Zoom Controls:</strong> Button controls for precise zoom levels</li>
-              <li>• <strong>Reset Functionality:</strong> Quick reset to original view</li>
-              <li>• <strong>Smooth Transitions:</strong> CSS transitions for fluid animations</li>
-              <li>• <strong>Responsive Design:</strong> Works on all screen sizes</li>
-              <li>• <strong>Touch Support:</strong> Compatible with touch devices</li>
-              <li>• <strong>Performance Optimized:</strong> Efficient rendering with useRef</li>
-            </ul>
+          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+            <li>• <strong>Mouse Wheel Zoom:</strong> Intuitive zoom in/out with mouse wheel</li>
+            <li>• <strong>Click & Drag Pan:</strong> Click and drag to pan when zoomed in</li>
+            <li>• <strong>Boundary Constraints:</strong> Image stays within container bounds</li>
+            <li>• <strong>Zoom Controls:</strong> Button controls for precise zoom levels</li>
+            <li>• <strong>Reset Functionality:</strong> Quick reset to original view</li>
+            <li>• <strong>Smooth Transitions:</strong> CSS transitions for fluid animations</li>
+            <li>• <strong>Responsive Design:</strong> Works on all screen sizes</li>
+            <li>• <strong>Performance Optimized:</strong> Efficient rendering with useRef</li>
+            <li>• <strong>Proper Cursor Feedback:</strong> Grab/grabbing cursors for better UX</li>
+          </ul>
         </div>
       </div>
 
