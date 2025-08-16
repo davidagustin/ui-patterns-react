@@ -779,50 +779,43 @@ export const extractComponentSource = async (
         ''
       );
       
-      // Remove DynamicCodeExample usage and related code
       sourceCode = sourceCode.replace(
         /<DynamicCodeExample[^>]*\/>/g,
-        '// DynamicCodeExample removed for StackBlitz compatibility'
+        ''
       );
       sourceCode = sourceCode.replace(
         /<DynamicCodeExample[^>]*>[\s\S]*?<\/DynamicCodeExample>/g,
-        '// DynamicCodeExample removed for StackBlitz compatibility'
+        ''
       );
       
-      // Remove any remaining references to DynamicCodeExample
       sourceCode = sourceCode.replace(
         /DynamicCodeExample/g,
-        '// DynamicCodeExample removed'
+        ''
       );
       
-      // Remove Code Example comments
       sourceCode = sourceCode.replace(
         /{\/\* Code Example \*\/}/g,
-        '// Code Example section removed for StackBlitz compatibility'
+        ''
       );
       
-      // Remove CodeTabs components
       sourceCode = sourceCode.replace(
         /<CodeTabs[^>]*>[\s\S]*?<\/CodeTabs>/g,
-        '// CodeTabs removed for StackBlitz compatibility'
+        ''
       );
       
-      // Remove PatternHeader components
       sourceCode = sourceCode.replace(
         /<PatternHeader[^>]*>[\s\S]*?<\/PatternHeader>/g,
-        '// PatternHeader removed for StackBlitz compatibility'
+        ''
       );
       
-      // Remove Key Features comments
       sourceCode = sourceCode.replace(
         /{\/\* Key Features \*\/}/g,
-        '// Key Features section removed for StackBlitz compatibility'
+        ''
       );
       
-      // Remove Common Use Cases comments
       sourceCode = sourceCode.replace(
         /{\/\* Common Use Cases \*\/}/g,
-        '// Common Use Cases section removed for StackBlitz compatibility'
+        ''
       );
       
       // Clean up any extra whitespace
