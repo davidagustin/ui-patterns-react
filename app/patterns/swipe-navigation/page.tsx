@@ -49,6 +49,7 @@ export default function SwipeNavigationPattern() {
   ];
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault();
     setIsDragging(true);
     setStartX(e.touches[0].clientX);
     setCurrentX(e.touches[0].clientX);
@@ -56,14 +57,16 @@ export default function SwipeNavigationPattern() {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
+    e.preventDefault();
     setCurrentX(e.touches[0].clientX);
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e: React.TouchEvent) => {
     if (!isDragging) return;
+    e.preventDefault();
     
     const diff = startX - currentX;
-    const threshold = 50;
+    const threshold = 80; // Increased threshold for more precise control
     
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage < pages.length - 1) {
@@ -79,6 +82,7 @@ export default function SwipeNavigationPattern() {
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
     setIsDragging(true);
     setStartX(e.clientX);
     setCurrentX(e.clientX);
@@ -86,19 +90,22 @@ export default function SwipeNavigationPattern() {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
+    e.preventDefault();
     setCurrentX(e.clientX);
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e?: React.MouseEvent) => {
     if (!isDragging) return;
     
     const diff = startX - currentX;
-    const threshold = 50;
+    const threshold = 80; // Increased threshold for more precise control
     
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage < pages.length - 1) {
+        // Swipe left - next page
         setCurrentPage(prev => prev + 1);
       } else if (diff < 0 && currentPage > 0) {
+        // Swipe right - previous page
         setCurrentPage(prev => prev - 1);
       }
     }
@@ -107,7 +114,10 @@ export default function SwipeNavigationPattern() {
   };
 
   const goToPage = (pageIndex: number) => {
-    setCurrentPage(pageIndex);
+    // Ensure pageIndex is within valid bounds
+    if (pageIndex >= 0 && pageIndex < pages.length) {
+      setCurrentPage(pageIndex);
+    }
   };
 
   const nextPage = () => {
@@ -159,7 +169,14 @@ export default function SwipeNavigationPattern() {
             
             <div 
               ref={containerRef}
-              className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700"
+              className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 select-none"
+              style={{ 
+                cursor: isDragging ? 'grabbing' : 'grab',
+                userSelect: 'none',
+                WebkitUserSelect: 'none',
+                MozUserSelect: 'none',
+                msUserSelect: 'none'
+              }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -257,6 +274,13 @@ export default function SwipeNavigationPattern() {
               {isDragging && (
                 <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
                   {currentX < startX ? '← Swipe left' : 'Swipe right →'}
+                </div>
+              )}
+
+              {/* Swipe Progress Indicator */}
+              {isDragging && (
+                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-black/30 text-white px-2 py-1 rounded text-xs">
+                  {Math.abs(startX - currentX)}px / 80px threshold
                 </div>
               )}
             </div>
@@ -357,6 +381,7 @@ export default function SwipeNavigation() {
   ];
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault();
     setIsDragging(true);
     setStartX(e.touches[0].clientX);
     setCurrentX(e.touches[0].clientX);
@@ -364,14 +389,16 @@ export default function SwipeNavigation() {
 
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
+    e.preventDefault();
     setCurrentX(e.touches[0].clientX);
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e: React.TouchEvent) => {
     if (!isDragging) return;
+    e.preventDefault();
     
     const diff = startX - currentX;
-    const threshold = 50;
+    const threshold = 80; // Increased threshold for more precise control
     
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage < pages.length - 1) {
@@ -385,7 +412,10 @@ export default function SwipeNavigation() {
   };
 
   const goToPage = (pageIndex: number) => {
-    setCurrentPage(pageIndex);
+    // Ensure pageIndex is within valid bounds
+    if (pageIndex >= 0 && pageIndex < pages.length) {
+      setCurrentPage(pageIndex);
+    }
   };
 
   const nextPage = () => {
@@ -416,7 +446,11 @@ export default function SwipeNavigation() {
   return (
     <div 
       ref={containerRef}
-      className="relative w-full h-64 bg-white rounded-lg overflow-hidden border"
+      className="relative w-full h-64 bg-white rounded-lg overflow-hidden border select-none"
+      style={{ 
+        cursor: isDragging ? 'grabbing' : 'grab',
+        userSelect: 'none'
+      }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

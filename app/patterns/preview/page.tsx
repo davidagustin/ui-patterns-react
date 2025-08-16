@@ -110,78 +110,76 @@ export default function PreviewPattern() {
                   </div>
                 </div>
               </div>
+
+              {/* Live Preview */}
+              <div className="mt-6 pt-6 border-t border-blue-200 dark:border-blue-800">
+                <h3 className="text-lg font-semibold mb-3 text-blue-800 dark:text-blue-200">
+                  🖼️ Live Preview
+                </h3>
+                <div className="bg-white dark:bg-gray-900 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 min-h-[150px] flex items-center justify-center">
+                  <div
+                    style={{
+                      fontSize: `${fontSize}px`,
+                      color: color,
+                      fontFamily: fontFamily,
+                      textAlign: textAlign as any,
+                      lineHeight: '1.4',
+                      maxWidth: '100%',
+                      wordWrap: 'break-word'
+                    }}
+                  >
+                    {text || 'Enter text to see preview...'}
+                  </div>
+                </div>
+                <div className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                  <p><strong>Current Settings:</strong></p>
+                  <ul className="mt-1 space-y-1">
+                    <li>• Font: {fontFamily}</li>
+                    <li>• Size: {fontSize}px</li>
+                    <li>• Color: {color}</li>
+                    <li>• Alignment: {textAlign}</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Live Preview */}
+        {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
-              🖼️ Live Preview
+              💻 Code Example
             </h2>
-            <div className="bg-white dark:bg-gray-900 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 min-h-[200px] flex items-center justify-center">
-              <div
-                style={{
-                  fontSize: `${fontSize}px`,
-                  color: color,
-                  fontFamily: fontFamily,
-                  textAlign: textAlign as any,
-                  lineHeight: '1.4',
-                  maxWidth: '100%',
-                  wordWrap: 'break-word'
-                }}
+            
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
               >
-                {text || 'Enter text to see preview...'}
-              </div>
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
             </div>
-            <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-              <p><strong>Current Settings:</strong></p>
-              <ul className="mt-1 space-y-1">
-                <li>• Font: {fontFamily}</li>
-                <li>• Size: {fontSize}px</li>
-                <li>• Color: {color}</li>
-                <li>• Alignment: {textAlign}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Code Example */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
-          💻 Code Example
-        </h2>
-        
-        {/* Tab Navigation */}
-        <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-          <button
-            onClick={() => setActiveTab('jsx')}
-            className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === 'jsx'
-                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-            }`}
-          >
-            JSX
-          </button>
-          <button
-            onClick={() => setActiveTab('css')}
-            className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === 'css'
-                ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
-            }`}
-          >
-            CSS
-          </button>
-        </div>
-
-        {/* Tab Content */}
-        <div className="code-block">
-          {activeTab === 'jsx' ? (
-            <pre className="text-sm leading-relaxed">
+            {/* Tab Content */}
+            <div className="code-block">
+              {activeTab === 'jsx' ? (
+                <pre className="text-sm leading-relaxed">
 {`import { useState } from 'react';
 
 export default function PreviewPattern() {
@@ -294,9 +292,9 @@ export default function PreviewPattern() {
     </div>
   );
 }`}
-            </pre>
-          ) : (
-            <pre className="text-sm leading-relaxed">
+                </pre>
+              ) : (
+                <pre className="text-sm leading-relaxed">
 {`/* Preview Pattern CSS */
 
 /* Preview Container */
@@ -664,8 +662,10 @@ export default function PreviewPattern() {
 .preview-text {
   transition: font-size 0.2s ease, color 0.2s ease, font-family 0.2s ease, text-align 0.2s ease;
 }`}
-            </pre>
-          )}
+                </pre>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 

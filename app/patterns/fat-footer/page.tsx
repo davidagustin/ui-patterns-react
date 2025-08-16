@@ -400,7 +400,7 @@ export default function FatFooterPattern() {
   background-color: #2563eb;
   color: white;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0 0.375rem 0.375rem 0;
   font-size: 0.875rem;
   cursor: pointer;
   transition: background-color 0.2s;

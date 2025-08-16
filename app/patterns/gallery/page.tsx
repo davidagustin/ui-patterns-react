@@ -6,6 +6,11 @@ export default function GalleryPattern() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  const [brokenImages, setBrokenImages] = useState<Set<number>>(new Set());
+
+  const handleImageError = (imageId: number) => {
+    setBrokenImages(prev => new Set(prev).add(imageId));
+  };
 
   const images = [
     {
@@ -17,7 +22,7 @@ export default function GalleryPattern() {
     },
     {
       id: 2,
-      src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNDA5MEZGIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5PY2VhbiBXYXZlczwvdGV4dD4KPHN2Zz4K',
+      src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNDA5MEZGIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5PY2VhbiBXYXZlczwvdGV4dD4KPC9zdmc+',
       title: 'Ocean Waves',
       category: 'nature',
       alt: 'Ocean waves crashing on shore'
@@ -38,7 +43,7 @@ export default function GalleryPattern() {
     },
     {
       id: 5,
-      src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNDc4QTQyIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5Gb3Jlc3QgUGF0aDwvdGV4dD4KPHN2Zz4K',
+      src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNDc4QTQyIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5Gb3Jlc3QgUGF0aDwvdGV4dD4KPC9zdmc+',
       title: 'Forest Path',
       category: 'nature',
       alt: 'Peaceful forest path'
@@ -105,12 +110,23 @@ export default function GalleryPattern() {
                   onClick={() => setSelectedImage(image.id)}
                   className="relative group cursor-pointer overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 aspect-square hover:shadow-lg transition-all duration-300"
                 >
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                    loading="lazy"
-                  />
+                  {brokenImages.has(image.id) ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-gray-200 dark:bg-gray-700 p-4">
+                      <div className="text-gray-400 dark:text-gray-500 text-2xl mb-2">🖼️</div>
+                      <div className="text-gray-500 dark:text-gray-400 text-xs text-center">
+                        <div className="font-medium mb-1">Image Unavailable</div>
+                        <div className="text-gray-400 dark:text-gray-500">{image.title}</div>
+                      </div>
+                    </div>
+                  ) : (
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      loading="lazy"
+                      onError={() => handleImageError(image.id)}
+                    />
+                  )}
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
                     <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm font-medium">
                       🔍 View
