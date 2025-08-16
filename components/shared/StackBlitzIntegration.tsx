@@ -299,6 +299,22 @@ export const extractComponentSource = async (
         ''
       );
       
+      // Remove DynamicCodeExample usage and related code
+      sourceCode = sourceCode.replace(
+        /<DynamicCodeExample[^>]*\/>/g,
+        '// DynamicCodeExample removed for StackBlitz compatibility'
+      );
+      sourceCode = sourceCode.replace(
+        /<DynamicCodeExample[^>]*>[\s\S]*?<\/DynamicCodeExample>/g,
+        '// DynamicCodeExample removed for StackBlitz compatibility'
+      );
+      
+      // Remove any remaining references to DynamicCodeExample
+      sourceCode = sourceCode.replace(
+        /DynamicCodeExample/g,
+        '// DynamicCodeExample removed'
+      );
+      
       // Clean up any extra whitespace
       sourceCode = sourceCode.trim();
       
