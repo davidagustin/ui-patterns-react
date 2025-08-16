@@ -794,6 +794,16 @@ export const extractComponentSource = async (
       );
       
       sourceCode = sourceCode.replace(
+        /{\/\* Code Example \*\/}[\s\S]*?<div[^>]*>[\s\S]*?💻 Code Example[\s\S]*?<\/div>[\s\S]*?<\/div>/g,
+        ''
+      );
+      
+      sourceCode = sourceCode.replace(
+        /{\/\* Code Example \*\/}[\s\S]*?<\/div>/g,
+        ''
+      );
+      
+      sourceCode = sourceCode.replace(
         /{\/\* Code Example \*\/}/g,
         ''
       );
@@ -809,7 +819,27 @@ export const extractComponentSource = async (
       );
       
       sourceCode = sourceCode.replace(
+        /{\/\* Key Features \*\/}[\s\S]*?<div[^>]*>[\s\S]*?✨ Key Features[\s\S]*?<\/div>[\s\S]*?<\/div>/g,
+        ''
+      );
+      
+      sourceCode = sourceCode.replace(
+        /{\/\* Key Features \*\/}[\s\S]*?<\/div>/g,
+        ''
+      );
+      
+      sourceCode = sourceCode.replace(
         /{\/\* Key Features \*\/}/g,
+        ''
+      );
+      
+      sourceCode = sourceCode.replace(
+        /{\/\* Common Use Cases \*\/}[\s\S]*?<div[^>]*>[\s\S]*?🎯 Common Use Cases[\s\S]*?<\/div>[\s\S]*?<\/div>/g,
+        ''
+      );
+      
+      sourceCode = sourceCode.replace(
+        /{\/\* Common Use Cases \*\/}[\s\S]*?<\/div>/g,
         ''
       );
       
