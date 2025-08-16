@@ -795,6 +795,24 @@ export const extractComponentSource = async (
         '// DynamicCodeExample removed'
       );
       
+      // Remove Code Example sections
+      sourceCode = sourceCode.replace(
+        /{\/\* Code Example \*\/}[\s\S]*?<div[^>]*>[\s\S]*?Code Example[\s\S]*?<\/div>[\s\S]*?<\/div>/g,
+        '// Code Example section removed for StackBlitz compatibility'
+      );
+      
+      // Remove CodeTabs components
+      sourceCode = sourceCode.replace(
+        /<CodeTabs[^>]*>[\s\S]*?<\/CodeTabs>/g,
+        '// CodeTabs removed for StackBlitz compatibility'
+      );
+      
+      // Remove any remaining code example related content
+      sourceCode = sourceCode.replace(
+        /{\/\* Code Example \*\/}[\s\S]*?<\/div>/g,
+        '// Code Example section removed'
+      );
+      
       // Clean up any extra whitespace
       sourceCode = sourceCode.trim();
       
