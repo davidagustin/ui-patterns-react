@@ -11,10 +11,41 @@ export default function SwipeNavigationPattern() {
   
   const containerRef = useRef<HTMLDivElement>(null);
   const pages = [
-    { id: 1, title: 'Home', content: 'Welcome to the home page', color: 'bg-blue-500' },
-    { id: 2, title: 'Profile', content: 'Your profile information', color: 'bg-green-500' },
-    { id: 3, title: 'Settings', content: 'App settings and preferences', color: 'bg-purple-500' },
-    { id: 4, title: 'Messages', content: 'Your conversations', color: 'bg-orange-500' },
+    { 
+      id: 1, 
+      title: 'Home', 
+      content: 'Welcome to the home page', 
+      color: 'bg-blue-500',
+      image: '/next.svg'
+    },
+    { 
+      id: 2, 
+      title: 'Profile', 
+      content: 'Your profile information', 
+      color: 'bg-green-500',
+      image: '/vercel.svg'
+    },
+    { 
+      id: 3, 
+      title: 'Settings', 
+      content: 'App settings and preferences', 
+      color: 'bg-purple-500',
+      image: '/globe.svg'
+    },
+    { 
+      id: 4, 
+      title: 'Messages', 
+      content: 'Your conversations', 
+      color: 'bg-orange-500',
+      image: '/window.svg'
+    },
+    { 
+      id: 5, 
+      title: 'Files', 
+      content: 'Your documents and files', 
+      color: 'bg-red-500',
+      image: '/file.svg'
+    },
   ];
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -148,10 +179,29 @@ export default function SwipeNavigationPattern() {
                 {pages.map((page, index) => (
                   <div
                     key={page.id}
-                    className={`flex-shrink-0 w-full h-full flex flex-col items-center justify-center ${page.color} text-white`}
+                    className={`flex-shrink-0 w-full h-full flex flex-col items-center justify-center ${page.color} text-white relative overflow-hidden`}
                     style={{ width: `${100 / pages.length}%` }}
                   >
-                    <div className="text-center">
+                    {/* Background Image */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-20">
+                      <img 
+                        src={page.image} 
+                        alt={`${page.title} background`}
+                        className="w-32 h-32 object-contain transition-opacity duration-300"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                        }}
+                        onLoad={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.opacity = '1';
+                        }}
+                        style={{ opacity: 0 }}
+                      />
+                    </div>
+                    
+                    {/* Content Overlay */}
+                    <div className="text-center relative z-10">
                       <h3 className="text-2xl font-bold mb-2">{page.title}</h3>
                       <p className="text-lg opacity-90">{page.content}</p>
                       <p className="text-sm opacity-75 mt-2">Page {index + 1} of {pages.length}</p>
@@ -269,10 +319,41 @@ export default function SwipeNavigation() {
   
   const containerRef = useRef<HTMLDivElement>(null);
   const pages = [
-    { id: 1, title: 'Home', content: 'Welcome to the home page', color: 'bg-blue-500' },
-    { id: 2, title: 'Profile', content: 'Your profile information', color: 'bg-green-500' },
-    { id: 3, title: 'Settings', content: 'App settings and preferences', color: 'bg-purple-500' },
-    { id: 4, title: 'Messages', content: 'Your conversations', color: 'bg-orange-500' },
+    { 
+      id: 1, 
+      title: 'Home', 
+      content: 'Welcome to the home page', 
+      color: 'bg-blue-500',
+      image: '/next.svg'
+    },
+    { 
+      id: 2, 
+      title: 'Profile', 
+      content: 'Your profile information', 
+      color: 'bg-green-500',
+      image: '/vercel.svg'
+    },
+    { 
+      id: 3, 
+      title: 'Settings', 
+      content: 'App settings and preferences', 
+      color: 'bg-purple-500',
+      image: '/globe.svg'
+    },
+    { 
+      id: 4, 
+      title: 'Messages', 
+      content: 'Your conversations', 
+      color: 'bg-orange-500',
+      image: '/window.svg'
+    },
+    { 
+      id: 5, 
+      title: 'Files', 
+      content: 'Your documents and files', 
+      color: 'bg-red-500',
+      image: '/file.svg'
+    },
   ];
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -351,10 +432,29 @@ export default function SwipeNavigation() {
         {pages.map((page, index) => (
           <div
             key={page.id}
-            className={\`flex-shrink-0 w-full h-full flex flex-col items-center justify-center \${page.color} text-white\`}
+            className={\`flex-shrink-0 w-full h-full flex flex-col items-center justify-center \${page.color} text-white relative overflow-hidden\`}
             style={{ width: \`\${100 / pages.length}%\` }}
           >
-            <div className="text-center">
+            {/* Background Image */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-20">
+              <img 
+                src={page.image} 
+                alt={\`\${page.title} background\`}
+                className="w-32 h-32 object-contain transition-opacity duration-300"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                }}
+                onLoad={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.opacity = '1';
+                }}
+                style={{ opacity: 0 }}
+              />
+            </div>
+            
+            {/* Content Overlay */}
+            <div className="text-center relative z-10">
               <h3 className="text-2xl font-bold mb-2">{page.title}</h3>
               <p className="text-lg opacity-90">{page.content}</p>
               <p className="text-sm opacity-75 mt-2">Page {index + 1} of {pages.length}</p>
@@ -436,10 +536,30 @@ export default function SwipeNavigation() {
   align-items: center;
   justify-content: center;
   color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-background-image {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.2;
+}
+
+.page-background-image img {
+  width: 8rem;
+  height: 8rem;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
 }
 
 .page-content {
   text-align: center;
+  position: relative;
+  z-index: 10;
 }
 
 .page-title {

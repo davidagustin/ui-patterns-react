@@ -574,15 +574,6 @@ export default function WysiwygPattern() {
               <div className="text-gray-500 dark:text-gray-400">
                 {showSource ? '📝 Text Editor' : '🎨 Visual Editor'} - {content.length} characters
               </div>
-              <button
-                onClick={() => setShowSource(!showSource)}
-                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 dark:from-blue-600 dark:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 text-white text-sm font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
-              >
-                <span className="mr-2">
-                  {showSource ? '🎨' : '📝'}
-                </span>
-                Switch to {showSource ? 'Visual' : 'Text'} Mode
-              </button>
             </div>
 
                          {/* Preview of HTML Output */}
@@ -824,9 +815,6 @@ export default function WysiwygEditor() {
       {/* Editor Info */}
       <div className="editor-info">
         <span>{showSource ? 'Text Editor' : 'Visual Editor'} - {content.length} characters</span>
-        <button onClick={() => setShowSource(!showSource)}>
-          Switch to {showSource ? 'Visual' : 'Text'} Mode
-        </button>
       </div>
 
       {/* HTML Preview */}
