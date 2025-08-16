@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 import Tooltip from "../../../components/Tooltip";
 
 export default function CalendarPickerPattern() {
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState<Date | null>(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedTime, setSelectedTime] = useState("12:00");
+
+  // Set current month on client side to prevent hydration mismatch
+  useEffect(() => {
+    setCurrentMonth(new Date());
+  }, []);
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -26,6 +31,7 @@ export default function CalendarPickerPattern() {
   };
 
   const isToday = (day: number) => {
+    if (!currentMonth) return false;
     const today = new Date();
     return (
       today.getDate() === day &&
@@ -35,7 +41,7 @@ export default function CalendarPickerPattern() {
   };
 
   const isSelected = (day: number) => {
-    if (!selectedDate) return false;
+    if (!selectedDate || !currentMonth) return false;
     return (
       selectedDate.getDate() === day &&
       selectedDate.getMonth() === currentMonth.getMonth() &&
@@ -44,6 +50,7 @@ export default function CalendarPickerPattern() {
   };
 
   const handleDateSelect = (day: number) => {
+    if (!currentMonth) return;
     const newDate = new Date(
       currentMonth.getFullYear(),
       currentMonth.getMonth(),
@@ -54,12 +61,14 @@ export default function CalendarPickerPattern() {
   };
 
   const goToPreviousMonth = () => {
+    if (!currentMonth) return;
     setCurrentMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1),
     );
   };
 
   const goToNextMonth = () => {
+    if (!currentMonth) return;
     setCurrentMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1),
     );
@@ -81,7 +90,24 @@ export default function CalendarPickerPattern() {
     });
   };
 
-  const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentMonth);
+  const { daysInMonth, startingDayOfWeek } = currentMonth ? getDaysInMonth(currentMonth) : { daysInMonth: 0, startingDayOfWeek: 0 };
+
+  // Show loading state while currentMonth is being set
+  if (!currentMonth) {
+    return (
+      <div className="space-y-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            📅 Calendar Picker Pattern
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Interactive date and time selection with calendar interface
+          </p>
+        </div>
+        <div className="text-center">Loading calendar...</div>
+      </div>
+    );
+  }
 
   const renderCalendar = () => {
     const days = [];

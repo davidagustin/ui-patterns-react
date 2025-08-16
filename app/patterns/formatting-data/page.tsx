@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function FormattingDataPattern() {
     const [locale, setLocale] = useState("en-US");
   const [currency, setCurrency] = useState("USD");
-  const [currentTime] = useState<Date>(new Date());
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
+
+  // Set current time on client side to prevent hydration mismatch
+  useEffect(() => {
+    setCurrentTime(new Date());
+  }, []);
 
   // Sample data to format
   const sampleData = {
@@ -20,7 +25,7 @@ export default function FormattingDataPattern() {
     dates: {
       timestamp: new Date("2024-03-15T14:30:00Z"),
       dateOnly: new Date("2024-03-15"),
-      relative: new Date(currentTime.getTime() - 2 * 60 * 60 * 1000), // 2 hours ago
+      relative: currentTime ? new Date(currentTime.getTime() - 2 * 60 * 60 * 1000) : new Date(), // 2 hours ago
     },
     text: {
       title: "the quick brown fox jumps over the lazy dog",
@@ -75,6 +80,7 @@ export default function FormattingDataPattern() {
   };
 
   const formatRelativeTime = (date: Date) => {
+    if (!currentTime) return "Loading...";
     const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
     const diff = Math.floor((date.getTime() - currentTime.getTime()) / 1000);
 

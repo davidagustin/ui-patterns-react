@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 interface Event {
@@ -14,8 +14,8 @@ interface Event {
 }
 
 export default function EventCalendarPattern() {
-    const [selectedDate, setSelectedDate] = useState(new Date());
-  const [currentDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [currentDate, setCurrentDate] = useState<Date | null>(null);
   const [viewMode, setViewMode] = useState<"month" | "week" | "day">("month");
 
   const [showEventModal, setShowEventModal] = useState(false);
@@ -93,6 +93,13 @@ export default function EventCalendarPattern() {
     color: "blue",
     description: "",
   });
+
+  // Set dates on client side to prevent hydration mismatch
+  useEffect(() => {
+    const now = new Date();
+    setSelectedDate(now);
+    setCurrentDate(now);
+  }, []);
 
   const getEventsForDate = (date: Date) => {
     const dateStr = date.toISOString().split("T")[0];
@@ -237,6 +244,24 @@ export default function EventCalendarPattern() {
     };
     return colors[color as keyof typeof colors] || "bg-gray-500";
   };
+
+  // Show loading state while dates are being set
+  if (!selectedDate || !currentDate) {
+    return (
+      <div className="space-y-8">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            📅 Event Calendar Pattern
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Interactive calendar for managing events, appointments, and schedules
+            with different view modes and event management.
+          </p>
+        </div>
+        <div className="text-center">Loading calendar...</div>
+      </div>
+    );
+  }
 
   const days = getDaysInMonth(selectedDate);
   const currentMonth = selectedDate.toLocaleDateString("en-US", {
