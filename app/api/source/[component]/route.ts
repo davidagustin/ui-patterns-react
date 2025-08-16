@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
 export async function GET(
@@ -111,20 +111,52 @@ export async function GET(
       );
     }
 
-    // Read the actual source file
-    const fullPath = join(process.cwd(), filePath);
-    const sourceCode = readFileSync(fullPath, 'utf-8');
+    // Check if we're in production (Vercel) and handle accordingly
+    const isProduction = process.env.NODE_ENV === 'production';
+    
+    if (isProduction) {
+      // In production, return a fallback message since filesystem access is restricted
+      return NextResponse.json(
+        { 
+          error: 'Source code not available in production',
+          message: 'Please view the source code in development mode or check the GitHub repository',
+          component: componentName
+        },
+        { status: 503 }
+      );
+    }
 
-    return new NextResponse(sourceCode, {
-      headers: {
-        'Content-Type': 'text/plain',
-        'Cache-Control': 'no-cache',
-      },
-    });
+    // In development, try to read the file
+    try {
+      const fullPath = join(process.cwd(), filePath);
+      
+      // Check if file exists before reading
+      if (!existsSync(fullPath)) {
+        return NextResponse.json(
+          { error: 'File not found', path: filePath },
+          { status: 404 }
+        );
+      }
+      
+      const sourceCode = readFileSync(fullPath, 'utf-8');
+
+      return new NextResponse(sourceCode, {
+        headers: {
+          'Content-Type': 'text/plain',
+          'Cache-Control': 'no-cache',
+        },
+      });
+    } catch (fileError) {
+      console.error('Error reading file:', fileError);
+      return NextResponse.json(
+        { error: 'Failed to read file', details: fileError instanceof Error ? fileError.message : 'Unknown error' },
+        { status: 500 }
+      );
+    }
   } catch (error) {
-    console.error('Error reading source code:', error);
+    console.error('Error in source API:', error);
     return NextResponse.json(
-      { error: 'Failed to load source code' },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

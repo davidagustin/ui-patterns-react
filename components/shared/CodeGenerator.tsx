@@ -9,8 +9,25 @@ export const extractComponentSource = async (
   try {
     // Try to fetch the actual source file
     const response = await fetch(`/api/source/${componentName}`);
+    
     if (response.ok) {
       return await response.text();
+    } else if (response.status === 503) {
+      // Production environment - source code not available
+      const errorData = await response.json();
+      return `// Source code not available in production environment
+// ${errorData.message || 'Please view the source code in development mode or check the GitHub repository'}
+// Component: ${componentName}
+
+// To view the actual source code:
+// 1. Run the app locally in development mode
+// 2. Check the GitHub repository: https://github.com/davidagustin/ui-patterns-react
+// 3. Navigate to: app/patterns/${componentName}/page.tsx`;
+    } else {
+      // Other error
+      return `// Source code for ${componentName} could not be loaded
+// HTTP Status: ${response.status}
+// Please check the GitHub repository for the source code`;
     }
   } catch (error) {
     console.warn("Could not fetch source code:", error);
@@ -18,7 +35,8 @@ export const extractComponentSource = async (
 
   // Fallback: return a placeholder
   return `// Source code for ${componentName} could not be loaded dynamically
-// This would contain the actual runtime-extracted source code`;
+// This would contain the actual runtime-extracted source code
+// Please check the GitHub repository: https://github.com/davidagustin/ui-patterns-react`;
 };
 
 // Dynamic code generator that fetches real source code
