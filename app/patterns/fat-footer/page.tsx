@@ -90,9 +90,9 @@ export default function FatFooterPattern() {
                       <input
                         type="email"
                         placeholder="Enter your email"
-                        className="flex-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+                        className="flex-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 h-10"
                       />
-                      <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                      <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors h-10 flex items-center">
                         Subscribe
                       </button>
                     </div>

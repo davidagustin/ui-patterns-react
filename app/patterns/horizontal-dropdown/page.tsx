@@ -80,22 +80,9 @@ export default function HorizontalDropdownPattern() {
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-visible horizontal-dropdown-container" ref={dropdownRef}>
               {/* Main Navigation Bar */}
               <div className="horizontal-dropdown-nav">
-                {/* Header Row */}
-                <div className="flex items-center justify-between w-full lg:w-auto">
-                  {/* Logo */}
-                  <div className="flex items-center px-4 lg:px-6 py-4">
-                    <span className="text-xl font-bold text-blue-600 dark:text-blue-400">🚀 TechCorp</span>
-                  </div>
-
-                  {/* Actions - Mobile */}
-                  <div className="nav-actions-mobile">
-                    <button className="nav-login-btn">
-                      Login
-                    </button>
-                    <button className="nav-cta-btn">
-                      Get Started
-                    </button>
-                  </div>
+                {/* Logo */}
+                <div className="flex items-center px-4 lg:px-6 py-4">
+                  <span className="text-xl font-bold text-blue-600 dark:text-blue-400">🚀 TechCorp</span>
                 </div>
 
                 {/* Navigation Items */}
@@ -173,6 +160,16 @@ export default function HorizontalDropdownPattern() {
 
                 {/* Actions - Desktop */}
                 <div className="nav-actions-desktop">
+                  <button className="nav-login-btn">
+                    Login
+                  </button>
+                  <button className="nav-cta-btn">
+                    Get Started
+                  </button>
+                </div>
+
+                {/* Actions - Mobile */}
+                <div className="nav-actions-mobile">
                   <button className="nav-login-btn">
                     Login
                   </button>

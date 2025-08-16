@@ -12,23 +12,28 @@ export default function ImageZoomPattern() {
 
   const handleZoomIn = () => {
     setZoomLevel(prev => Math.min(prev + 0.5, 3));
+    setIsZoomed(true);
   };
 
   const handleZoomOut = () => {
     setZoomLevel(prev => Math.max(prev - 0.5, 0.5));
+    if (zoomLevel <= 1.5) {
+      setIsZoomed(false);
+    }
   };
 
   const handleReset = () => {
     setZoomLevel(1);
     setPosition({ x: 0, y: 0 });
+    setIsZoomed(false);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (zoomLevel > 1 && containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      setPosition({ x: x * 50, y: y * 50 });
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      setPosition({ x: x * 25, y: y * 25 });
     }
   };
 
@@ -40,6 +45,13 @@ export default function ImageZoomPattern() {
       handleZoomOut();
     }
   };
+
+  // Reset position when zoom level changes
+  useEffect(() => {
+    if (zoomLevel <= 1) {
+      setPosition({ x: 0, y: 0 });
+    }
+  }, [zoomLevel]);
 
   return (
     <div className="space-y-8">
@@ -68,7 +80,8 @@ export default function ImageZoomPattern() {
               <div className="flex gap-2 justify-center">
                 <button
                   onClick={handleZoomOut}
-                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                  disabled={zoomLevel <= 0.5}
+                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   Zoom Out
                 </button>
@@ -80,7 +93,8 @@ export default function ImageZoomPattern() {
                 </button>
                 <button
                   onClick={handleZoomIn}
-                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                  disabled={zoomLevel >= 3}
+                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   Zoom In
                 </button>
@@ -104,6 +118,7 @@ export default function ImageZoomPattern() {
                   className="image-zoom-image"
                   style={{
                     transform: `scale(${zoomLevel}) translate(${position.x}%, ${position.y}%)`,
+                    cursor: isZoomed ? 'grab' : 'default',
                   }}
                 />
               </div>
@@ -146,33 +161,39 @@ export default function ImageZoomPattern() {
             <div className="code-block">
               {activeTab === 'jsx' ? (
                 <pre className="text-sm leading-relaxed">
-{`import { useState, useRef } from 'react';
+{`import { useState, useRef, useEffect } from 'react';
 
 export default function ImageZoomPattern() {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isZoomed, setIsZoomed] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleZoomIn = () => {
     setZoomLevel(prev => Math.min(prev + 0.5, 3));
+    setIsZoomed(true);
   };
 
   const handleZoomOut = () => {
     setZoomLevel(prev => Math.max(prev - 0.5, 0.5));
+    if (zoomLevel <= 1.5) {
+      setIsZoomed(false);
+    }
   };
 
   const handleReset = () => {
     setZoomLevel(1);
     setPosition({ x: 0, y: 0 });
+    setIsZoomed(false);
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (zoomLevel > 1 && containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      setPosition({ x: x * 50, y: y * 50 });
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      setPosition({ x: x * 25, y: y * 25 });
     }
   };
 
@@ -185,13 +206,34 @@ export default function ImageZoomPattern() {
     }
   };
 
+  // Reset position when zoom level changes
+  useEffect(() => {
+    if (zoomLevel <= 1) {
+      setPosition({ x: 0, y: 0 });
+    }
+  }, [zoomLevel]);
+
   return (
     <div className="space-y-4">
       {/* Zoom Controls */}
       <div className="flex gap-2 justify-center">
-        <button onClick={handleZoomOut}>Zoom Out</button>
-        <button onClick={handleReset}>Reset</button>
-        <button onClick={handleZoomIn}>Zoom In</button>
+        <button 
+          onClick={handleZoomOut}
+          disabled={zoomLevel <= 0.5}
+          className="zoom-button"
+        >
+          Zoom Out
+        </button>
+        <button onClick={handleReset} className="zoom-button">
+          Reset
+        </button>
+        <button 
+          onClick={handleZoomIn}
+          disabled={zoomLevel >= 3}
+          className="zoom-button"
+        >
+          Zoom In
+        </button>
       </div>
       
       {/* Image Container */}
@@ -203,11 +245,12 @@ export default function ImageZoomPattern() {
       >
         <img
           ref={imageRef}
-                          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center"
+          src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center"
           alt="Zoomable Image"
           className="image-zoom-image"
           style={{
             transform: \`scale(\${zoomLevel}) translate(\${position.x}%, \${position.y}%)\`,
+            cursor: isZoomed ? 'grab' : 'default',
           }}
         />
       </div>
@@ -225,12 +268,8 @@ export default function ImageZoomPattern() {
   border: 2px solid #e5e7eb;
   border-radius: 0.5rem;
   position: relative;
-  cursor: grab;
   background: #f9fafb;
-}
-
-.image-zoom-container:active {
-  cursor: grabbing;
+  user-select: none;
 }
 
 /* Image Zoom Image */
@@ -240,16 +279,10 @@ export default function ImageZoomPattern() {
   object-fit: contain;
   transition: transform 0.1s ease-out;
   transform-origin: center center;
+  pointer-events: none;
 }
 
 /* Zoom Controls */
-.zoom-controls {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
 .zoom-button {
   padding: 0.5rem 1rem;
   background: #3b82f6;
@@ -258,9 +291,10 @@ export default function ImageZoomPattern() {
   border-radius: 0.25rem;
   cursor: pointer;
   transition: background-color 0.2s;
+  font-size: 0.875rem;
 }
 
-.zoom-button:hover {
+.zoom-button:hover:not(:disabled) {
   background: #2563eb;
 }
 
@@ -298,6 +332,32 @@ export default function ImageZoomPattern() {
   .zoom-level {
     color: #9ca3af;
   }
+}
+
+/* Animation */
+.image-zoom-image {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Focus Management */
+.zoom-button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Accessibility */
+.image-zoom-container:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
 }`}
                 </pre>
               )}

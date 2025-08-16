@@ -13,7 +13,7 @@ export default function ArticleListPattern() {
       title: 'Building Scalable React Applications with Modern Architecture',
       summary: 'Learn how to structure large React applications using modern patterns like component composition, custom hooks, and state management solutions.',
       author: 'Sarah Chen',
-      date: '2024-01-15',
+      date: '2024-01-14',
       readTime: '8 min read',
       category: 'React',
       image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjM0I4MkY2Ii8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+CjxzdmcvPgo=',
@@ -26,7 +26,7 @@ export default function ArticleListPattern() {
       title: 'The Future of Web Development: Trends to Watch in 2024',
       summary: 'Explore the emerging technologies and frameworks that are shaping the future of web development, from AI-powered tools to edge computing.',
       author: 'Michael Rodriguez',
-      date: '2024-01-12',
+      date: '2024-01-11',
       readTime: '12 min read',
       category: 'Trends',
       image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDQwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMTA5OTgxIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkFydGljbGUgSW1hZ2U8L3RleHQ+CjxzdmcvPgo=',
@@ -175,11 +175,13 @@ export default function ArticleListPattern() {
               {getSortedArticles().map((article) => (
                 <article key={article.id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow">
                   <div className="flex">
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      className="w-24 h-24 object-cover flex-shrink-0"
-                    />
+                    <div className="w-24 h-24 bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className="w-full h-full object-contain p-2"
+                      />
+                    </div>
                     <div className="p-4 flex-1">
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-sm line-clamp-2 pr-2">
@@ -355,11 +357,13 @@ export default function ArticleListPattern() {
         {getSortedArticles().map((article) => (
           <article key={article.id} className="article-item">
             <div className="article-content">
-              <img
-                src={article.image}
-                alt={article.title}
-                className="article-image"
-              />
+              <div className="article-image-container">
+                <img
+                  src={article.image}
+                  alt={article.title}
+                  className="article-image"
+                />
+              </div>
               <div className="article-body">
                 <div className="article-header">
                   <h3 className="article-title">{article.title}</h3>
@@ -466,12 +470,23 @@ export default function ArticleListPattern() {
   display: flex;
 }
 
-/* Article Image */
-.article-image {
+/* Article Image Container */
+.article-image-container {
   width: 6rem;
   height: 6rem;
-  object-fit: cover;
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+}
+
+/* Article Image */
+.article-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.5rem;
 }
 
 /* Article Body */
@@ -591,7 +606,7 @@ export default function ArticleListPattern() {
     flex-direction: column;
   }
   
-  .article-image {
+  .article-image-container {
     width: 100%;
     height: 8rem;
   }
@@ -660,6 +675,10 @@ export default function ArticleListPattern() {
   .article-category {
     background: #1e3a8a;
     color: #93c5fd;
+  }
+  
+  .article-image-container {
+    background-color: #374151;
   }
 }
 

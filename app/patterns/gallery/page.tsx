@@ -98,25 +98,26 @@ export default function GalleryPattern() {
             </div>
 
             {/* Image Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
               {filteredImages.map((image) => (
                 <div
                   key={image.id}
                   onClick={() => setSelectedImage(image.id)}
-                  className="relative group cursor-pointer overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 aspect-square"
+                  className="relative group cursor-pointer overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 aspect-square hover:shadow-lg transition-all duration-300"
                 >
                   <img
                     src={image.src}
                     alt={image.alt}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm font-medium">
                       🔍 View
                     </span>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
-                    <h3 className="text-white text-sm font-medium">{image.title}</h3>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 sm:p-3">
+                    <h3 className="text-white text-xs sm:text-sm font-medium truncate">{image.title}</h3>
                   </div>
                 </div>
               ))}
@@ -466,7 +467,7 @@ export default function Gallery() {
       {/* Lightbox Modal */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 cursor-pointer"
+          className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[9999] cursor-pointer"
           onClick={() => setSelectedImage(null)}
         >
           <img 
@@ -477,7 +478,7 @@ export default function Gallery() {
           />
           <button 
             onClick={() => setSelectedImage(null)}
-            className="absolute top-4 right-4 text-white text-2xl w-12 h-12 flex items-center justify-center rounded-full bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors"
+            className="absolute top-4 right-4 text-white text-2xl w-12 h-12 flex items-center justify-center rounded-full bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors z-10"
           >
             ×
           </button>
