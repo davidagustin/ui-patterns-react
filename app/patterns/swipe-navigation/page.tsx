@@ -10,41 +10,42 @@ export default function SwipeNavigationPattern() {
   const [currentX, setCurrentX] = useState(0);
   
   const containerRef = useRef<HTMLDivElement>(null);
+  
   const pages = [
     { 
       id: 1, 
       title: 'Home', 
       content: 'Welcome to the home page', 
       color: 'bg-blue-500',
-      image: 'https://picsum.photos/200/200?random=1'
+      image: 'https://picsum.photos/400/300?random=1'
     },
     { 
       id: 2, 
       title: 'Profile', 
       content: 'Your profile information', 
       color: 'bg-green-500',
-      image: 'https://picsum.photos/200/200?random=2'
+      image: 'https://picsum.photos/400/300?random=2'
     },
     { 
       id: 3, 
       title: 'Settings', 
       content: 'App settings and preferences', 
       color: 'bg-purple-500',
-      image: 'https://picsum.photos/200/200?random=3'
+      image: 'https://picsum.photos/400/300?random=3'
     },
     { 
       id: 4, 
       title: 'Messages', 
       content: 'Your conversations', 
       color: 'bg-orange-500',
-      image: 'https://picsum.photos/200/200?random=4'
+      image: 'https://picsum.photos/400/300?random=4'
     },
     { 
       id: 5, 
       title: 'Files', 
       content: 'Your documents and files', 
       color: 'bg-red-500',
-      image: 'https://picsum.photos/200/200?random=5'
+      image: 'https://picsum.photos/400/300?random=5'
     },
   ];
 
@@ -58,30 +59,19 @@ export default function SwipeNavigationPattern() {
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
     e.preventDefault();
-    
-    const newX = e.touches[0].clientX;
-    const diff = startX - newX;
-    const maxSwipeDistance = 200; // Maximum swipe distance
-    
-    // Limit the swipe distance
-    if (Math.abs(diff) <= maxSwipeDistance) {
-      setCurrentX(newX);
-    }
+    setCurrentX(e.touches[0].clientX);
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  const handleTouchEnd = () => {
     if (!isDragging) return;
-    e.preventDefault();
     
     const diff = startX - currentX;
-    const threshold = 120; // Much higher threshold to prevent accidental swipes
+    const threshold = 100;
     
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage < pages.length - 1) {
-        // Swipe left - next page
         setCurrentPage(prev => prev + 1);
       } else if (diff < 0 && currentPage > 0) {
-        // Swipe right - previous page
         setCurrentPage(prev => prev - 1);
       }
     }
@@ -102,18 +92,16 @@ export default function SwipeNavigationPattern() {
     setCurrentX(e.clientX);
   };
 
-  const handleMouseUp = (e?: React.MouseEvent) => {
+  const handleMouseUp = () => {
     if (!isDragging) return;
     
     const diff = startX - currentX;
-    const threshold = 120; // Much higher threshold to prevent accidental swipes
+    const threshold = 100;
     
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage < pages.length - 1) {
-        // Swipe left - next page
         setCurrentPage(prev => prev + 1);
       } else if (diff < 0 && currentPage > 0) {
-        // Swipe right - previous page
         setCurrentPage(prev => prev - 1);
       }
     }
@@ -122,7 +110,6 @@ export default function SwipeNavigationPattern() {
   };
 
   const goToPage = (pageIndex: number) => {
-    // Ensure pageIndex is within valid bounds
     if (pageIndex >= 0 && pageIndex < pages.length) {
       setCurrentPage(pageIndex);
     }
@@ -180,11 +167,7 @@ export default function SwipeNavigationPattern() {
               className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 select-none"
               style={{ 
                 cursor: isDragging ? 'grabbing' : 'grab',
-                userSelect: 'none',
-                WebkitUserSelect: 'none',
-                MozUserSelect: 'none',
-                msUserSelect: 'none',
-                minHeight: '256px'
+                userSelect: 'none'
               }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
@@ -209,38 +192,19 @@ export default function SwipeNavigationPattern() {
                     style={{ width: `${100 / pages.length}%` }}
                   >
                     {/* Background Image */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none">
+                    <div className="absolute inset-0 flex items-center justify-center opacity-30">
                       <img 
                         src={page.image} 
                         alt={`${page.title} background`}
-                        className="w-32 h-32 object-contain"
-                        style={{ 
-                          opacity: 1,
-                          maxWidth: '100%',
-                          maxHeight: '100%'
-                        }}
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          // Show a fallback icon
-                          const parent = target.parentElement;
-                          if (parent) {
-                            parent.innerHTML = `
-                              <div class="w-32 h-32 bg-white/20 rounded-lg flex items-center justify-center">
-                                <span class="text-white/60 text-4xl">${page.title.charAt(0)}</span>
-                              </div>
-                            `;
-                          }
-                        }}
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     
                     {/* Content Overlay */}
-                    <div className="text-center relative z-10">
+                    <div className="text-center relative z-10 px-4">
                       <h3 className="text-2xl font-bold mb-2">{page.title}</h3>
                       <p className="text-lg opacity-90">{page.content}</p>
                       <p className="text-sm opacity-75 mt-2">Page {index + 1} of {pages.length}</p>
-
                     </div>
                   </div>
                 ))}
@@ -299,7 +263,7 @@ export default function SwipeNavigationPattern() {
               {/* Swipe Progress Indicator */}
               {isDragging && (
                 <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-black/30 text-white px-2 py-1 rounded text-xs">
-                  {Math.abs(startX - currentX)}px / 80px threshold
+                  {Math.abs(startX - currentX)}px / 100px threshold
                 </div>
               )}
             </div>
@@ -361,41 +325,42 @@ export default function SwipeNavigation() {
   const [currentX, setCurrentX] = useState(0);
   
   const containerRef = useRef<HTMLDivElement>(null);
+  
   const pages = [
     { 
       id: 1, 
       title: 'Home', 
       content: 'Welcome to the home page', 
       color: 'bg-blue-500',
-      image: 'https://picsum.photos/200/200?random=1'
+      image: 'https://picsum.photos/400/300?random=1'
     },
     { 
       id: 2, 
       title: 'Profile', 
       content: 'Your profile information', 
       color: 'bg-green-500',
-      image: 'https://picsum.photos/200/200?random=2'
+      image: 'https://picsum.photos/400/300?random=2'
     },
     { 
       id: 3, 
       title: 'Settings', 
       content: 'App settings and preferences', 
       color: 'bg-purple-500',
-      image: 'https://picsum.photos/200/200?random=3'
+      image: 'https://picsum.photos/400/300?random=3'
     },
     { 
       id: 4, 
       title: 'Messages', 
       content: 'Your conversations', 
       color: 'bg-orange-500',
-      image: 'https://picsum.photos/200/200?random=4'
+      image: 'https://picsum.photos/400/300?random=4'
     },
     { 
       id: 5, 
       title: 'Files', 
       content: 'Your documents and files', 
       color: 'bg-red-500',
-      image: 'https://picsum.photos/200/200?random=5'
+      image: 'https://picsum.photos/400/300?random=5'
     },
   ];
 
@@ -412,12 +377,11 @@ export default function SwipeNavigation() {
     setCurrentX(e.touches[0].clientX);
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  const handleTouchEnd = () => {
     if (!isDragging) return;
-    e.preventDefault();
     
     const diff = startX - currentX;
-    const threshold = 80; // Increased threshold for more precise control
+    const threshold = 100;
     
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage < pages.length - 1) {
@@ -431,7 +395,6 @@ export default function SwipeNavigation() {
   };
 
   const goToPage = (pageIndex: number) => {
-    // Ensure pageIndex is within valid bounds
     if (pageIndex >= 0 && pageIndex < pages.length) {
       setCurrentPage(pageIndex);
     }
@@ -466,10 +429,7 @@ export default function SwipeNavigation() {
     <div 
       ref={containerRef}
       className="relative w-full h-64 bg-white rounded-lg overflow-hidden border select-none"
-      style={{ 
-        cursor: isDragging ? 'grabbing' : 'grab',
-        userSelect: 'none'
-      }}
+      style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -489,21 +449,16 @@ export default function SwipeNavigation() {
             style={{ width: \`\${100 / pages.length}%\` }}
           >
             {/* Background Image */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none">
+            <div className="absolute inset-0 flex items-center justify-center opacity-30">
               <img 
                 src={page.image} 
-                alt={\`\${page.title} background\`}
-                className="w-32 h-32 object-contain"
-                style={{ 
-                  opacity: 1,
-                  maxWidth: '100%',
-                  maxHeight: '100%'
-                }}
+                alt={`${page.title} background`}
+                className="w-full h-full object-cover"
               />
             </div>
             
             {/* Content Overlay */}
-            <div className="text-center relative z-10">
+            <div className="text-center relative z-10 px-4">
               <h3 className="text-2xl font-bold mb-2">{page.title}</h3>
               <p className="text-lg opacity-90">{page.content}</p>
               <p className="text-sm opacity-75 mt-2">Page {index + 1} of {pages.length}</p>
@@ -518,11 +473,11 @@ export default function SwipeNavigation() {
           <button
             key={index}
             onClick={() => goToPage(index)}
-            className={\`w-3 h-3 rounded-full transition-all duration-200 \${
+            className={`w-3 h-3 rounded-full transition-all duration-200 ${
               index === currentPage 
                 ? 'bg-white scale-125' 
                 : 'bg-white/50 hover:bg-white/75'
-            }\`}
+            }`}
           />
         ))}
       </div>
@@ -531,9 +486,9 @@ export default function SwipeNavigation() {
       <button
         onClick={prevPage}
         disabled={currentPage === 0}
-        className={\`absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center \${
+        className={`absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center ${
           currentPage === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'
-        }\`}
+        }`}
       >
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -543,9 +498,9 @@ export default function SwipeNavigation() {
       <button
         onClick={nextPage}
         disabled={currentPage === pages.length - 1}
-        className={\`absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center \${
+        className={`absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center ${
           currentPage === pages.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110'
-        }\`}
+        }`}
       >
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -567,6 +522,11 @@ export default function SwipeNavigation() {
   border-radius: 0.5rem;
   overflow: hidden;
   user-select: none;
+  cursor: grab;
+}
+
+.swipe-navigation-container:active {
+  cursor: grabbing;
 }
 
 /* Page Container */
@@ -578,7 +538,6 @@ export default function SwipeNavigation() {
 
 .page {
   flex-shrink: 0;
-  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -595,20 +554,20 @@ export default function SwipeNavigation() {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.2;
+  opacity: 0.3;
 }
 
 .page-background-image img {
-  width: 8rem;
-  height: 8rem;
-  object-fit: contain;
-  transition: opacity 0.3s ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .page-content {
   text-align: center;
   position: relative;
   z-index: 10;
+  padding: 0 1rem;
 }
 
 .page-title {
@@ -710,11 +669,6 @@ export default function SwipeNavigation() {
   font-size: 0.875rem;
 }
 
-/* Touch Feedback */
-.swipe-navigation-container:active {
-  cursor: grabbing;
-}
-
 /* Responsive Design */
 @media (max-width: 640px) {
   .swipe-navigation-container {
@@ -744,61 +698,6 @@ export default function SwipeNavigation() {
   
   .nav-arrow:hover {
     background-color: #1f2937;
-  }
-}
-
-/* Animation Keyframes */
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideOut {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-/* Accessibility */
-.swipe-navigation-container:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-.dot:focus-visible,
-.nav-arrow:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Reduced Motion */
-@media (prefers-reduced-motion: reduce) {
-  .page-container,
-  .dot,
-  .nav-arrow {
-    transition: none;
-  }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .swipe-navigation-container {
-    border-width: 2px;
-  }
-  
-  .nav-arrow {
-    border: 1px solid #000;
-  }
-  
-  .dot {
-    border: 1px solid #000;
   }
 }`}
                 </pre>
