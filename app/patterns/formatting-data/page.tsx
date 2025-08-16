@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function FormattingDataPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [locale, setLocale] = useState("en-US");
+    const [locale, setLocale] = useState("en-US");
   const [currency, setCurrency] = useState("USD");
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
 

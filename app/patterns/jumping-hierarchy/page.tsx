@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function JumpingHierarchyPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [selectedLevel, setSelectedLevel] = useState(3);
+    const [selectedLevel, setSelectedLevel] = useState(3);
 
   const hierarchyLevels = [
     {

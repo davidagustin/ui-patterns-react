@@ -4,8 +4,7 @@ import { useState, useMemo } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function DataFilteringPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);

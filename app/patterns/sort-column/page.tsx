@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SortColumnPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [sortField, setSortField] = useState<string>("name");
+    const [sortField, setSortField] = useState<string>("name");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const sampleData = [

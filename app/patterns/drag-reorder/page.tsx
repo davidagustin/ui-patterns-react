@@ -4,8 +4,7 @@ import { useState, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function DragReorderPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [items, setItems] = useState([
+    const [items, setItems] = useState([
     {
       id: 1,
       title: "Design System",

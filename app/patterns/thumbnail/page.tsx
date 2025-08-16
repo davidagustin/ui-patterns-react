@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ThumbnailPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [selectedImage, setSelectedImage] = useState(0);
+    const [selectedImage, setSelectedImage] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
   const [thumbnailSize, setThumbnailSize] = useState<
     "small" | "medium" | "large"

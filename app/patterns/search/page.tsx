@@ -4,8 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SearchPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [query, setQuery] = useState("");
+    const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);

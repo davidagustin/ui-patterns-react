@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ModuleTabsPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [activeMainTab, setActiveMainTab] = useState("overview");
+    const [activeMainTab, setActiveMainTab] = useState("overview");
   const [activeSubTab, setActiveSubTab] = useState("metrics");
 
   const mainTabs = [

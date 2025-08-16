@@ -5,8 +5,7 @@ import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 import Link from "next/link";
 
 export default function NavbarPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+    const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);

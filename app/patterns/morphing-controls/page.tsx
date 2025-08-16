@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function MorphingControlsPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [searchMode, setSearchMode] = useState<"basic" | "advanced">("basic");
+    const [searchMode, setSearchMode] = useState<"basic" | "advanced">("basic");
   const [buttonMode, setButtonMode] = useState<
     "default" | "loading" | "success"
   >("default");

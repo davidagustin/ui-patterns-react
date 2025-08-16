@@ -12,8 +12,7 @@ interface DisclosureItem {
 }
 
 export default function ProgressiveDisclosurePattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+    const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [filterLevel, setFilterLevel] = useState<
     "all" | "basic" | "intermediate" | "advanced"
   >("all");

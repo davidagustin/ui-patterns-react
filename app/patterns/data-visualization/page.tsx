@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function DataVisualizationPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [selectedChart, setSelectedChart] = useState<
+    const [selectedChart, setSelectedChart] = useState<
     "bar" | "line" | "pie" | "area"
   >("bar");
 

@@ -4,8 +4,7 @@ import { useState, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ImageUploadPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [uploadedImages, setUploadedImages] = useState<any[]>([]);
+    const [uploadedImages, setUploadedImages] = useState<any[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);

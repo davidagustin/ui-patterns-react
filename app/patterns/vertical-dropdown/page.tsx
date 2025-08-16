@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function VerticalDropdownPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
+    const [openDropdowns, setOpenDropdowns] = useState<Set<string>>(new Set());
 
   const toggleDropdown = (id: string) => {
     const newOpenDropdowns = new Set(openDropdowns);

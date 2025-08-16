@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function CompletenessMeterPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [profileData, setProfileData] = useState({
+    const [profileData, setProfileData] = useState({
     name: "",
     email: "",
     bio: "",

@@ -4,8 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function LongPressPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [longPressedItem, setLongPressedItem] = useState<number | null>(null);
+    const [longPressedItem, setLongPressedItem] = useState<number | null>(null);
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     x: 0,

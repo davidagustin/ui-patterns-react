@@ -4,8 +4,7 @@ import { useState, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SwipeActionsPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [swipedItem, setSwipedItem] = useState<number | null>(null);
+    const [swipedItem, setSwipedItem] = useState<number | null>(null);
 
   const items = [
     {

@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function AdaptableViewPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [viewMode, setViewMode] = useState<"grid" | "list" | "card">("grid");
+    const [viewMode, setViewMode] = useState<"grid" | "list" | "card">("grid");
 
   const content = [
     {

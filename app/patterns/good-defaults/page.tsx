@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function GoodDefaultsPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [userProfile, setUserProfile] = useState({
+    const [userProfile, setUserProfile] = useState({
     name: "",
     email: "",
     country: "United States",

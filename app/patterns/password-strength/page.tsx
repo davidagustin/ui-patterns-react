@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function PasswordStrengthPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("");
   const [strength, setStrength] = useState<
     "weak" | "medium" | "strong" | "very-strong"
   >("weak");

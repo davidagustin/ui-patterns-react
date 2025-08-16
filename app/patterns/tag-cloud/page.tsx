@@ -11,8 +11,7 @@ interface Tag {
 }
 
 export default function TagCloudPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [selectedCategory, setSelectedCategory] = useState<
+    const [selectedCategory, setSelectedCategory] = useState<
     "all" | "technology" | "design" | "business" | "lifestyle"
   >("all");
   const [sortBy, setSortBy] = useState<"frequency" | "alphabetical">(

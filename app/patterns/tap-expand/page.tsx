@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function TapExpandPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
+    const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
 
   const items = [
     {

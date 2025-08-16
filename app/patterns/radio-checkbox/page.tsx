@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function RadioCheckboxPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [selectedOption, setSelectedOption] = useState("");
+    const [selectedOption, setSelectedOption] = useState("");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [selectedTheme, setSelectedTheme] = useState("light");
   const [notifications, setNotifications] = useState({

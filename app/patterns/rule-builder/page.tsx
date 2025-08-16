@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function RuleBuilderPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [rules, setRules] = useState([
+    const [rules, setRules] = useState([
     {
       id: 1,
       field: "age",

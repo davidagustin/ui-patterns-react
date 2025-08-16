@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function CaptchaPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [captchaType, setCaptchaType] = useState<"image" | "checkbox" | "math">(
+    const [captchaType, setCaptchaType] = useState<"image" | "checkbox" | "math">(
     "image",
   );
   const [isVerified, setIsVerified] = useState(false);

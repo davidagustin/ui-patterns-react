@@ -4,8 +4,7 @@ import { useState, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function DoubleTapPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [doubleTappedItem, setDoubleTappedItem] = useState<number | null>(null);
+    const [doubleTappedItem, setDoubleTappedItem] = useState<number | null>(null);
   const [likedItems, setLikedItems] = useState<Set<number>>(new Set());
 
   const tapTimers = useRef<Map<number, NodeJS.Timeout>>(new Map());

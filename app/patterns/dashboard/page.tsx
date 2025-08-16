@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function DashboardPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [timeFrame, setTimeFrame] = useState<"today" | "week" | "month">(
+    const [timeFrame, setTimeFrame] = useState<"today" | "week" | "month">(
     "today",
   );
 

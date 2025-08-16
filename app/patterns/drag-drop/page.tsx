@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function DragDropPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [items, setItems] = useState([
+    const [items, setItems] = useState([
     { id: 1, text: "Task 1: Design Review", status: "todo" },
     { id: 2, text: "Task 2: Code Implementation", status: "todo" },
     { id: 3, text: "Task 3: Testing Phase", status: "in-progress" },

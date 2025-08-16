@@ -5,8 +5,7 @@ import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 import Tooltip from "../../../components/Tooltip";
 
 export default function ColorPickerPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [selectedColor, setSelectedColor] = useState("#3b82f6");
+    const [selectedColor, setSelectedColor] = useState("#3b82f6");
   const [hsl, setHsl] = useState({ h: 217, s: 91, l: 60 });
   const [presetColors] = useState([
     "#ef4444",

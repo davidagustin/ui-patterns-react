@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ImageGalleryPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+    const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [currentFilter, setCurrentFilter] = useState("all");
 
   const images = [

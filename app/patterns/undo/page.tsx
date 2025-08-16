@@ -11,8 +11,7 @@ interface Command {
 }
 
 export default function UndoPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [items, setItems] = useState([
+    const [items, setItems] = useState([
     { id: 1, text: "Design System Components", completed: false },
     { id: 2, text: "User Research Plan", completed: true },
     { id: 3, text: "Prototype Testing", completed: false },

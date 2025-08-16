@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function CardsPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [selectedCard, setSelectedCard] = useState<number | null>(null);
+    const [selectedCard, setSelectedCard] = useState<number | null>(null);
 
   const cards = [
     {

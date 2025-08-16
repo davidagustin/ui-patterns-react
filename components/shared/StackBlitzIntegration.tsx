@@ -6,8 +6,8 @@ export const sendToStackBlitz = async (
   componentName: string,
 ) => {
   try {
-    // Get the actual component source code
-    const actualComponentCode = await extractComponentSource(componentName);
+    // Get the actual component source code and component name
+    const { sourceCode: actualComponentCode, componentName: extractedComponentName } = await extractComponentSource(componentName);
     
     // Create the form data for StackBlitz POST API
     const formData = new FormData();
@@ -31,7 +31,7 @@ function App() {
         <p className="text-gray-600">This is a demo of the ${componentName} UI pattern.</p>
       </header>
       <main className="p-6">
-        <InteractiveExample />
+        <${extractedComponentName} />
       </main>
     </div>
   );
@@ -245,12 +245,19 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 // Runtime source code extractor
 export const extractComponentSource = async (
   componentName: string,
-): Promise<string> => {
+): Promise<{ sourceCode: string; componentName: string }> => {
   try {
     // Try to fetch the actual source file
     const response = await fetch(`/api/source/${componentName}`);
     if (response.ok) {
       let sourceCode = await response.text();
+      
+      // Extract the component name from the source code
+      let extractedComponentName = 'InteractiveExample'; // fallback
+      const componentNameMatch = sourceCode.match(/export\s+default\s+(?:function|const)\s+(\w+)/);
+      if (componentNameMatch) {
+        extractedComponentName = componentNameMatch[1];
+      }
       
       // Remove export default from the component code
       sourceCode = sourceCode.replace(/export\s+default\s+function\s+(\w+)/, 'function $1');
@@ -260,18 +267,53 @@ export const extractComponentSource = async (
       // Also remove any trailing export statements
       sourceCode = sourceCode.replace(/\n\s*export\s+default\s+\w+;?\s*$/g, '');
       
+      // Fix import paths to work in StackBlitz environment
+      sourceCode = sourceCode.replace(
+        /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/\.\.\/\.\.\/\.\.\/components\/shared\/CodeGenerator['"];?/g,
+        '// Import removed for StackBlitz compatibility'
+      );
+      sourceCode = sourceCode.replace(
+        /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/\.\.\/\.\.\/components\/shared\/CodeGenerator['"];?/g,
+        '// Import removed for StackBlitz compatibility'
+      );
+      sourceCode = sourceCode.replace(
+        /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/\.\.\/components\/Tooltip['"];?/g,
+        '// Import removed for StackBlitz compatibility'
+      );
+      sourceCode = sourceCode.replace(
+        /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/\.\.\/\.\.\/components\/Tooltip['"];?/g,
+        '// Import removed for StackBlitz compatibility'
+      );
+      sourceCode = sourceCode.replace(
+        /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/\.\.\/\.\.\/\.\.\/components\/Tooltip['"];?/g,
+        '// Import removed for StackBlitz compatibility'
+      );
+      
+      // Remove any remaining import statements that reference non-existent files
+      sourceCode = sourceCode.replace(
+        /import\s+.*from\s+['"]\.\.\/\.\.\/\.\.\/\.\.\/.*['"];?\n?/g,
+        ''
+      );
+      sourceCode = sourceCode.replace(
+        /import\s+.*from\s+['"]\.\.\/\.\.\/\.\.\/.*['"];?\n?/g,
+        ''
+      );
+      
       // Clean up any extra whitespace
       sourceCode = sourceCode.trim();
       
-      return sourceCode;
+      return { sourceCode, componentName: extractedComponentName };
     }
   } catch (error) {
     console.warn("Could not fetch source code:", error);
   }
 
   // Fallback: return a placeholder
-  return `// Source code for ${componentName} could not be loaded dynamically
-// This would contain the actual runtime-extracted source code`;
+  return {
+    sourceCode: `// Source code for ${componentName} could not be loaded dynamically
+// This would contain the actual runtime-extracted source code`,
+    componentName: 'InteractiveExample'
+  };
 };
 
 // Hook for StackBlitz integration

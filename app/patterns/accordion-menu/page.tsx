@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function AccordionMenuPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [openAccordions, setOpenAccordions] = useState<Set<string>>(
+    const [openAccordions, setOpenAccordions] = useState<Set<string>>(
     new Set(["section-1"]),
   );
 

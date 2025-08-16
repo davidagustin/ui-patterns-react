@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function KeyboardShortcutsPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [activeShortcuts, setActiveShortcuts] = useState<string[]>([]);
+    const [activeShortcuts, setActiveShortcuts] = useState<string[]>([]);
   const [showHelp, setShowHelp] = useState(false);
   const [lastAction, setLastAction] = useState("");
 

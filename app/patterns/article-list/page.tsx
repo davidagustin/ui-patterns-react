@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function ArticleListPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [sortBy, setSortBy] = useState<"newest" | "oldest" | "popular">(
+    const [sortBy, setSortBy] = useState<"newest" | "oldest" | "popular">(
     "newest",
   );
   const [selectedCategory, setSelectedCategory] = useState<string>("all");

@@ -5,8 +5,7 @@ import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 import Tooltip from "../../../components/Tooltip";
 
 export default function TaggingPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [tags, setTags] = useState<string[]>([
+    const [tags, setTags] = useState<string[]>([
     "React",
     "JavaScript",
     "Web Development",

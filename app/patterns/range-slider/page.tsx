@@ -4,8 +4,7 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function RangeSliderPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [singleValue, setSingleValue] = useState(50);
+    const [singleValue, setSingleValue] = useState(50);
   const [rangeValue, setRangeValue] = useState<[number, number]>([20, 80]);
   const [priceRange, setPriceRange] = useState<[number, number]>([100, 500]);
   const [volume, setVolume] = useState(75);

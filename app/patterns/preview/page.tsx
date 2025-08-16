@@ -4,8 +4,7 @@ import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function PreviewPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-  const [text, setText] = useState("Hello World");
+    const [text, setText] = useState("Hello World");
   const [fontSize, setFontSize] = useState(16);
   const [color, setColor] = useState("#000000");
   const [fontFamily, setFontFamily] = useState("Arial");

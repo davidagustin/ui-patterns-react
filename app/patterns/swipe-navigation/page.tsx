@@ -9,9 +9,7 @@ export default function SwipeNavigationPattern() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-
-  const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
   const pagesRef = useRef<HTMLDivElement>(null);
 
   const pages = [
@@ -361,31 +359,7 @@ export default function SwipeNavigationPattern() {
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
-            </h2>
-            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-              <button
-                onClick={() => setActiveTab("jsx")}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === "jsx"
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-              >
-                JSX
-              </button>
-              <button
-                onClick={() => setActiveTab("css")}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === "css"
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-              >
-                CSS
-              </button>
-            </div>
-
-            {/* Tab Content */}
+            </h2>{/* Tab Content */}
             <div className="code-block">
               <DynamicCodeExample componentName="swipe-navigation" />
             </div>
