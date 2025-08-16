@@ -139,7 +139,7 @@ export default function FormsPattern() {
           accessibility features for optimal user experience.
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Interactive Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -485,88 +485,71 @@ export default function FormsPattern() {
         <DynamicCodeExample componentName="forms" />
       </div>
       {/* Key Features */}
-      <div className="space-y-6">
-        <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
-          <h2 className="text-xl font-semibold mb-4 text-green-800 dark:text-green-200">
+      <div className="mt-8 max-w-3xl">
+        <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg p-5 border border-green-200 dark:border-green-800">
+          <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
             ✨ Key Features
-          </h2>
-          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>
-              • <strong>Real-time Validation:</strong> Instant feedback as users
-              type
-            </li>
-            <li>
-              • <strong>Password Strength Indicator:</strong> Visual feedback
-              for password security
-            </li>
-            <li>
-              • <strong>Form State Management:</strong> Efficient handling of
-              form data and errors
-            </li>
-            <li>
-              • <strong>Accessibility:</strong> Proper labels, ARIA attributes,
-              and keyboard navigation
-            </li>
-            <li>
-              • <strong>Loading States:</strong> Visual feedback during form
-              submission
-            </li>
-            <li>
-              • <strong>Error Handling:</strong> Clear error messages and
-              validation
-            </li>
-            <li>
-              • <strong>Responsive Design:</strong> Works on all screen sizes
-            </li>
-            <li>
-              • <strong>Success Feedback:</strong> Confirmation messages after
-              submission
-            </li>
-            <li>
-              • <strong>Dynamic Code Generation:</strong> Code example extracted
-              from actual source files
-            </li>
-          </ul>
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-700 dark:text-gray-300">
+            <div className="flex items-center space-x-2">
+              <span className="text-green-600">•</span>
+              <span>Real-time validation</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-green-600">•</span>
+              <span>Password strength indicator</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-green-600">•</span>
+              <span>Form state management</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-green-600">•</span>
+              <span>Accessibility support</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-green-600">•</span>
+              <span>Loading states</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-green-600">•</span>
+              <span>Error handling</span>
+            </div>
+          </div>
         </div>
       </div>
       {/* Common Use Cases */}
-      <div className="space-y-6">
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
-          <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-200">
+      <div className="mt-6 max-w-3xl">
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-5 border border-purple-200 dark:border-purple-800">
+          <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">
             🎯 Common Use Cases
-          </h2>
-          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>
-              • <strong>User Registration:</strong> Account creation and signup
-              forms
-            </li>
-            <li>
-              • <strong>Contact Forms:</strong> Customer support and inquiry
-              forms
-            </li>
-            <li>
-              • <strong>Profile Settings:</strong> User profile and preference
-              forms
-            </li>
-            <li>
-              • <strong>Checkout Forms:</strong> E-commerce payment and shipping
-              forms
-            </li>
-            <li>
-              • <strong>Survey Forms:</strong> Data collection and feedback
-              forms
-            </li>
-            <li>
-              • <strong>Application Forms:</strong> Job applications and
-              submissions
-            </li>
-            <li>
-              • <strong>Settings Forms:</strong> Application configuration forms
-            </li>
-            <li>
-              • <strong>Search Forms:</strong> Advanced search and filter forms
-            </li>
-          </ul>
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-700 dark:text-gray-300">
+            <div className="flex items-center space-x-2">
+              <span className="text-purple-600">•</span>
+              <span>User registration</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-purple-600">•</span>
+              <span>Contact forms</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-purple-600">•</span>
+              <span>Profile settings</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-purple-600">•</span>
+              <span>Checkout forms</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-purple-600">•</span>
+              <span>Survey forms</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-purple-600">•</span>
+              <span>Application forms</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

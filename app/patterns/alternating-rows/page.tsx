@@ -239,9 +239,7 @@ export default function AlternatingRowsPattern() {
           </div>
         </div>
         {/* Code Example */}
-<DynamicCodeExample componentName="alternating-rows" />
-          </div>
-        </div>
+        <DynamicCodeExample componentName="alternating-rows" />
       </div>
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">

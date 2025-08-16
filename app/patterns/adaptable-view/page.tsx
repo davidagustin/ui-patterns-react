@@ -230,9 +230,7 @@ export default function AdaptableViewPattern() {
           </div>
         </div>
         {/* Code Example */}
-<DynamicCodeExample componentName="adaptable-view" />
-          </div>
-        </div>
+        <DynamicCodeExample componentName="adaptable-view" />
       </div>
       {/* Key Features */}
       <div className="space-y-6">

@@ -226,9 +226,7 @@ export default function AccordionMenuPattern() {
           </div>
         </div>
         {/* Code Example */}
-<DynamicCodeExample componentName="accordion-menu" />
-          </div>
-        </div>
+        <DynamicCodeExample componentName="accordion-menu" />
       </div>
       {/* Key Features */}
       <div className="space-y-6">
@@ -314,5 +312,6 @@ export default function AccordionMenuPattern() {
         </div>
       </div>
     </div>
+  </div>
   );
 }

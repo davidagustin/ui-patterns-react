@@ -402,8 +402,7 @@ export default function DataVisualizationPattern() {
           </div>
         </div>
         {/* Code Example */}
-{<DynamicCodeExample componentName="data-visualization" />}
-                      <div className="text-xs font-medium">{chart.label}</div>
+        <DynamicCodeExample componentName="data-visualization" />
                     </button>
                   ))}
                 </div>

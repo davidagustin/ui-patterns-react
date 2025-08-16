@@ -197,9 +197,7 @@ export default function KeyboardShortcutsPattern() {
           </div>
         </div>
         {/* Code Example */}
-<DynamicCodeExample componentName="keyboard-shortcuts" />
-          </div>
-        </div>
+        <DynamicCodeExample componentName="keyboard-shortcuts" />
       </div>
       {/* Keyboard Shortcuts Help Panel */}
       {showHelp && (
