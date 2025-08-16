@@ -85,6 +85,204 @@ export default function ImageZoomPattern() {
     };
   }, [isDragging]);
 
+  // Dynamic code generation
+  const generateJSXCode = () => {
+    return `import { useState, useRef, useEffect } from 'react';
+
+export default function ImageZoom() {
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  
+  const containerRef = useRef(null);
+  const imageRef = useRef(null);
+
+  // Zoom controls
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 0.25, 3));
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
+  };
+
+  const handleReset = () => {
+    setZoomLevel(1);
+    setPosition({ x: 0, y: 0 });
+  };
+
+  // Mouse wheel zoom
+  const handleWheel = (e) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.25 : 0.25;
+    const newZoom = Math.max(0.5, Math.min(3, zoomLevel + delta));
+    setZoomLevel(newZoom);
+  };
+
+  // Mouse drag handling
+  const handleMouseDown = (e) => {
+    if (zoomLevel > 1) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.clientX - position.x,
+        y: e.clientY - position.y
+      });
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging && zoomLevel > 1) {
+      const newX = e.clientX - dragStart.x;
+      const newY = e.clientY - dragStart.y;
+      
+      // Calculate boundaries based on zoom level
+      const maxX = (zoomLevel - 1) * 100;
+      const maxY = (zoomLevel - 1) * 100;
+      
+      setPosition({
+        x: Math.max(-maxX, Math.min(maxX, newX)),
+        y: Math.max(-maxY, Math.min(maxY, newY))
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Reset position when zoom level changes
+  useEffect(() => {
+    if (zoomLevel <= 1) {
+      setPosition({ x: 0, y: 0 });
+    }
+  }, [zoomLevel]);
+
+  // Prevent text selection during drag
+  useEffect(() => {
+    if (isDragging) {
+      document.body.style.userSelect = 'none';
+    } else {
+      document.body.style.userSelect = '';
+    }
+    
+    return () => {
+      document.body.style.userSelect = '';
+    };
+  }, [isDragging]);
+
+  return (
+    <div className="space-y-4">
+      {/* Zoom Controls */}
+      <div className="flex gap-2 justify-center">
+        <button onClick={handleZoomOut} disabled={zoomLevel <= 0.5}>
+          Zoom Out
+        </button>
+        <button onClick={handleReset}>Reset</button>
+        <button onClick={handleZoomIn} disabled={zoomLevel >= 3}>
+          Zoom In
+        </button>
+      </div>
+      
+      {/* Image Container */}
+      <div
+        ref={containerRef}
+        className="image-zoom-container"
+        onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      >
+        <img
+          ref={imageRef}
+          src="your-image-url.jpg"
+          alt="Zoomable Image"
+          className="image-zoom-image"
+          style={{
+            transform: \`scale(\${zoomLevel}) translate(\${position.x / zoomLevel}px, \${position.y / zoomLevel}px)\`,
+            cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
+          }}
+          draggable={false}
+        />
+      </div>
+    </div>
+  );
+}`;
+  };
+
+  const generateCSSCode = () => {
+    return `/* Image Zoom Container */
+.image-zoom-container {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: #f9fafb;
+  user-select: none;
+}
+
+/* Image Zoom Image */
+.image-zoom-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease-out;
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+/* Zoom Controls */
+.zoom-button {
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.875rem;
+}
+
+.zoom-button:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.zoom-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .image-zoom-container {
+    border-color: #374151;
+    background: #1f2937;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .image-zoom-container {
+    height: 240px;
+  }
+}
+
+/* Focus Management */
+.zoom-button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Accessibility */
+.image-zoom-container:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}`;
+  };
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -203,191 +401,9 @@ export default function ImageZoomPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {activeTab === 'jsx' ? (
-                <pre className="text-sm leading-relaxed">
-{`import { useState, useRef, useEffect } from 'react';
-
-export default function ImageZoom() {
-  const [zoomLevel, setZoomLevel] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  
-  const containerRef = useRef(null);
-  const imageRef = useRef(null);
-
-  // Zoom controls
-  const handleZoomIn = () => {
-    setZoomLevel(prev => Math.min(prev + 0.25, 3));
-  };
-
-  const handleZoomOut = () => {
-    setZoomLevel(prev => Math.max(prev - 0.25, 0.5));
-  };
-
-  const handleReset = () => {
-    setZoomLevel(1);
-    setPosition({ x: 0, y: 0 });
-  };
-
-  // Mouse wheel zoom
-  const handleWheel = (e) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? -0.25 : 0.25;
-    const newZoom = Math.max(0.5, Math.min(3, zoomLevel + delta));
-    setZoomLevel(newZoom);
-  };
-
-  // Mouse drag handling
-  const handleMouseDown = (e) => {
-    if (zoomLevel > 1) {
-      setIsDragging(true);
-      setDragStart({
-        x: e.clientX - position.x,
-        y: e.clientY - position.y
-      });
-    }
-  };
-
-  const handleMouseMove = (e) => {
-    if (isDragging && zoomLevel > 1) {
-      const newX = e.clientX - dragStart.x;
-      const newY = e.clientY - dragStart.y;
-      
-      // Calculate boundaries based on zoom level
-      const maxX = (zoomLevel - 1) * 100;
-      const maxY = (zoomLevel - 1) * 100;
-      
-      setPosition({
-        x: Math.max(-maxX, Math.min(maxX, newX)),
-        y: Math.max(-maxY, Math.min(maxY, newY))
-      });
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  // Reset position when zoom level changes
-  useEffect(() => {
-    if (zoomLevel <= 1) {
-      setPosition({ x: 0, y: 0 });
-    }
-  }, [zoomLevel]);
-
-  return (
-    <div className="space-y-4">
-      {/* Zoom Controls */}
-      <div className="flex gap-2 justify-center">
-        <button onClick={handleZoomOut} disabled={zoomLevel <= 0.5}>
-          Zoom Out
-        </button>
-        <button onClick={handleReset}>Reset</button>
-        <button onClick={handleZoomIn} disabled={zoomLevel >= 3}>
-          Zoom In
-        </button>
-      </div>
-      
-      {/* Image Container */}
-      <div
-        ref={containerRef}
-        className="image-zoom-container"
-        onWheel={handleWheel}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-      >
-        <img
-          ref={imageRef}
-          src="your-image-url.jpg"
-          alt="Zoomable Image"
-          className="image-zoom-image"
-          style={{
-            transform: \`scale(\${zoomLevel}) translate(\${position.x / zoomLevel}px, \${position.y / zoomLevel}px)\`,
-            cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
-          }}
-          draggable={false}
-        />
-      </div>
-    </div>
-  );
-}`}
-                </pre>
-              ) : (
-                <pre className="text-sm leading-relaxed">
-{`/* Image Zoom Container */
-.image-zoom-container {
-  position: relative;
-  width: 100%;
-  height: 320px;
-  overflow: hidden;
-  border: 2px solid #e5e7eb;
-  border-radius: 0.5rem;
-  background: #f9fafb;
-  user-select: none;
-}
-
-/* Image Zoom Image */
-.image-zoom-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.2s ease-out;
-  transform-origin: center center;
-  pointer-events: none;
-}
-
-/* Zoom Controls */
-.zoom-button {
-  padding: 0.5rem 1rem;
-  background: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  font-size: 0.875rem;
-}
-
-.zoom-button:hover:not(:disabled) {
-  background: #2563eb;
-}
-
-.zoom-button:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  .image-zoom-container {
-    border-color: #374151;
-    background: #1f2937;
-  }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .image-zoom-container {
-    height: 240px;
-  }
-}
-
-/* Focus Management */
-.zoom-button:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Accessibility */
-.image-zoom-container:focus-within {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}`}
-                </pre>
-              )}
+              <pre className="text-sm leading-relaxed">
+                {activeTab === 'jsx' ? generateJSXCode() : generateCSSCode()}
+              </pre>
             </div>
           </div>
         </div>
@@ -409,6 +425,7 @@ export default function ImageZoom() {
             <li>• <strong>Responsive Design:</strong> Works on all screen sizes</li>
             <li>• <strong>Performance Optimized:</strong> Efficient rendering with useRef</li>
             <li>• <strong>Proper Cursor Feedback:</strong> Grab/grabbing cursors for better UX</li>
+            <li>• <strong>Dynamic Code Generation:</strong> Code example always matches implementation</li>
           </ul>
         </div>
       </div>
