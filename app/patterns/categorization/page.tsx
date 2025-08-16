@@ -36,7 +36,7 @@ export default function CategorizationPattern() {
     { id: 16, name: 'Hoodie', category: 'clothing', price: '$49.99', image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=300&h=200&fit=crop' },
     { id: 17, name: 'Dress', category: 'clothing', price: '$79.99', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300&h=200&fit=crop' },
     { id: 18, name: 'Jacket', category: 'clothing', price: '$119.99', image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=300&h=200&fit=crop' },
-    { id: 19, name: 'Socks', category: 'clothing', price: '$9.99', image: 'https://images.unsplash.com/photo-1586350977771-b3b0abd50c8a?w=300&h=200&fit=crop' },
+    { id: 19, name: 'Socks', category: 'clothing', price: '$9.99', image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=200&fit=crop' },
     { id: 20, name: 'Hat', category: 'clothing', price: '$19.99', image: 'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=300&h=200&fit=crop' },
     
     // Books (15 items)
