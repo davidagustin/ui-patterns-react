@@ -272,6 +272,7 @@ export default function SwipeNavigation() {
     { id: 1, title: 'Home', content: 'Welcome to the home page', color: 'bg-blue-500' },
     { id: 2, title: 'Profile', content: 'Your profile information', color: 'bg-green-500' },
     { id: 3, title: 'Settings', content: 'App settings and preferences', color: 'bg-purple-500' },
+    { id: 4, title: 'Messages', content: 'Your conversations', color: 'bg-orange-500' },
   ];
 
   const handleTouchStart = (e: React.TouchEvent) => {
