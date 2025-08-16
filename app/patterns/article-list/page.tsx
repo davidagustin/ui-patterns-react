@@ -96,6 +96,10 @@ export default function ArticleListPattern() {
 
   const categories = ['all', 'React', 'CSS', 'TypeScript', 'Trends', 'Accessibility', 'Performance'];
 
+  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>, fallbackUrl: string) => {
+    event.currentTarget.src = fallbackUrl;
+  };
+
   const getSortedArticles = () => {
     const filtered = selectedCategory === 'all' 
       ? articles 
