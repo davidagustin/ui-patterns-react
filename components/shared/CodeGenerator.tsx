@@ -65,9 +65,90 @@ export const DynamicCodeExample = ({
   };
 
   const openPlayground = () => {
-    // Create a CodeSandbox URL with the code
-    const codeSandboxUrl = `https://codesandbox.io/s/new?file=/App.js&content=${encodeURIComponent(currentCode)}`;
-    window.open(codeSandboxUrl, '_blank');
+    // Create a form to submit to StackBlitz POST API
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = 'https://stackblitz.com/run';
+    form.target = '_blank';
+    form.style.display = 'none';
+
+    // Add form fields for StackBlitz project
+    const addField = (name: string, value: string) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    };
+
+    // Project metadata
+    addField('project[title]', `${componentName} - UI Pattern Example`);
+    addField('project[description]', `Interactive example of the ${componentName} UI pattern`);
+    addField('project[template]', 'create-react-app');
+
+    // Add the main component file
+    addField('project[files][src/App.js]', currentCode);
+
+    // Add package.json dependencies for React and Tailwind
+    const dependencies = {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "tailwindcss": "^3.3.0",
+      "@tailwindcss/forms": "^0.5.0"
+    };
+    addField('project[dependencies]', JSON.stringify(dependencies));
+
+    // Add Tailwind CSS configuration
+    addField('project[files][tailwind.config.js]', `module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
+}`);
+
+    // Add CSS file with Tailwind imports
+    addField('project[files][src/index.css]', `@tailwind base;
+@tailwind components;
+@tailwind utilities;`);
+
+    // Add index.js to import CSS and render the app
+    addField('project[files][src/index.js]', `import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);`);
+
+    // Add HTML file
+    addField('project[files][public/index.html]', `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="UI Pattern Example" />
+    <title>${componentName} - UI Pattern</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>`);
+
+    // Submit the form
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
   };
 
   return (
