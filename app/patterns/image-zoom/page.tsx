@@ -33,7 +33,15 @@ export default function ImageZoomPattern() {
       const rect = containerRef.current.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
       const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-      setPosition({ x: x * 25, y: y * 25 });
+      
+      // Calculate boundary limits based on zoom level
+      const maxOffset = (zoomLevel - 1) * 50; // 50% of the zoom excess
+      
+      // Constrain the position within boundaries
+      const constrainedX = Math.max(-maxOffset, Math.min(maxOffset, x * 25));
+      const constrainedY = Math.max(-maxOffset, Math.min(maxOffset, y * 25));
+      
+      setPosition({ x: constrainedX, y: constrainedY });
     }
   };
 
@@ -193,7 +201,15 @@ export default function ImageZoomPattern() {
       const rect = containerRef.current.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
       const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-      setPosition({ x: x * 25, y: y * 25 });
+      
+      // Calculate boundary limits based on zoom level
+      const maxOffset = (zoomLevel - 1) * 50; // 50% of the zoom excess
+      
+      // Constrain the position within boundaries
+      const constrainedX = Math.max(-maxOffset, Math.min(maxOffset, x * 25));
+      const constrainedY = Math.max(-maxOffset, Math.min(maxOffset, y * 25));
+      
+      setPosition({ x: constrainedX, y: constrainedY });
     }
   };
 
@@ -372,16 +388,17 @@ export default function ImageZoomPattern() {
           <h2 className="text-xl font-semibold mb-4 text-green-800 dark:text-green-200">
             ✨ Key Features
           </h2>
-          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-            <li>• <strong>Mouse Wheel Zoom:</strong> Intuitive zoom in/out with mouse wheel</li>
-            <li>• <strong>Pan Navigation:</strong> Move mouse to pan when zoomed in</li>
-            <li>• <strong>Zoom Controls:</strong> Button controls for precise zoom levels</li>
-            <li>• <strong>Reset Functionality:</strong> Quick reset to original view</li>
-            <li>• <strong>Smooth Transitions:</strong> CSS transitions for fluid animations</li>
-            <li>• <strong>Responsive Design:</strong> Works on all screen sizes</li>
-            <li>• <strong>Touch Support:</strong> Compatible with touch devices</li>
-            <li>• <strong>Performance Optimized:</strong> Efficient rendering with useRef</li>
-          </ul>
+                      <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+              <li>• <strong>Mouse Wheel Zoom:</strong> Intuitive zoom in/out with mouse wheel</li>
+              <li>• <strong>Pan Navigation:</strong> Move mouse to pan when zoomed in</li>
+              <li>• <strong>Boundary Constraints:</strong> Image stays within container bounds</li>
+              <li>• <strong>Zoom Controls:</strong> Button controls for precise zoom levels</li>
+              <li>• <strong>Reset Functionality:</strong> Quick reset to original view</li>
+              <li>• <strong>Smooth Transitions:</strong> CSS transitions for fluid animations</li>
+              <li>• <strong>Responsive Design:</strong> Works on all screen sizes</li>
+              <li>• <strong>Touch Support:</strong> Compatible with touch devices</li>
+              <li>• <strong>Performance Optimized:</strong> Efficient rendering with useRef</li>
+            </ul>
         </div>
       </div>
 
