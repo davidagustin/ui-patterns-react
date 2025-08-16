@@ -177,116 +177,7 @@ export default function ThumbnailPattern() {
           </div>
         </div>
 
-        {/* Code Example */}
-        <div className="space-y-6">
-          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
-              💻 Code Example
-            </h2>
-            <div className="code-block">
-              <pre className="text-sm leading-relaxed">
-{`import { useState } from 'react';
 
-export default function ThumbnailGallery() {
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [isZoomed, setIsZoomed] = useState(false);
-
-  const images = [
-    { id: 1, title: 'Mountain Landscape', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNjZCQjZBIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5Nb3VudGFpbiBMYW5kc2NhcGU8L3RleHQ+Cjwvc3ZnPgo=' },
-    { id: 2, title: 'Ocean View', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNDA5MEZGIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5PY2VhbiBWaWV3PC90ZXh0Pgo8L3N2Zz4K' },
-    { id: 3, title: 'Forest Path', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNDc4QTQyIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5Gb3Jlc3QgUGF0aDwvdGV4dD4KPHN2Zz4K' },
-  ];
-
-  return (
-    <div className="space-y-6">
-      {/* Main Image Display */}
-      <div className="relative">
-        <div 
-          className="relative overflow-hidden rounded-lg cursor-zoom-in"
-          onClick={() => setIsZoomed(!isZoomed)}
-        >
-          <img
-            src={images[selectedImage].src}
-            alt={images[selectedImage].title}
-            className={\`w-full h-80 object-cover transition-transform \${
-              isZoomed ? 'transform scale-110' : ''
-            }\`}
-          />
-          
-          {/* Image Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100">
-            <div className="absolute bottom-4 left-4 text-white">
-              <h3 className="text-lg font-semibold">
-                {images[selectedImage].title}
-              </h3>
-            </div>
-          </div>
-        </div>
-        
-        {/* Navigation Arrows */}
-        <button
-          onClick={() => setSelectedImage(prev => 
-            prev > 0 ? prev - 1 : images.length - 1
-          )}
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
-        >
-          ←
-        </button>
-        <button
-          onClick={() => setSelectedImage(prev => 
-            prev < images.length - 1 ? prev + 1 : 0
-          )}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
-        >
-          →
-        </button>
-      </div>
-
-      {/* Thumbnail Grid */}
-      <div className="flex flex-wrap gap-2 justify-center">
-        {images.map((image, index) => (
-          <button
-            key={image.id}
-            onClick={() => setSelectedImage(index)}
-            className={\`w-20 h-20 rounded-lg overflow-hidden border-2 transition-all hover:shadow-lg \${
-              selectedImage === index
-                ? 'border-blue-500 ring-2 ring-blue-200'
-                : 'border-gray-300 hover:border-blue-300'
-            }\`}
-          >
-            <img
-              src={image.src}
-              alt={image.title}
-              className="w-full h-full object-cover"
-            />
-            {selectedImage === index && (
-              <div className="absolute inset-0 bg-blue-500/20 flex items-center justify-center">
-                <div className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
-                  ✓
-                </div>
-              </div>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* Image Info */}
-      <div className="p-4 bg-gray-50 rounded-lg">
-        <h4 className="font-medium mb-2">
-          {images[selectedImage].title}
-        </h4>
-        <div className="flex justify-between text-xs text-gray-500">
-          <span>Image {selectedImage + 1} of {images.length}</span>
-          <span>Click thumbnail or use arrows to navigate</span>
-        </div>
-      </div>
-    </div>
-  );
-}`}
-              </pre>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Code Example */}
@@ -331,9 +222,12 @@ export default function ThumbnailGallery() {
   const [isZoomed, setIsZoomed] = useState(false);
 
   const images = [
-    { id: 1, title: 'Mountain Landscape', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNjZCQjZBIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5Nb3VudGFpbiBMYW5kc2NhcGU8L3RleHQ+Cjwvc3ZnPgo=' },
-    { id: 2, title: 'Ocean View', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNDA5MEZGIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5PY2VhbiBWaWV3PC90ZXh0Pgo8L3N2Zz4K' },
-    { id: 3, title: 'Forest Path', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjNDc4QTQyIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE4Ij5Gb3Jlc3QgUGF0aDwvdGV4dD4KPHN2Zz4K' }
+    { id: 1, title: 'Mountain Landscape', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjMTA5OTgxIi8+Cjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPk1vdW50YWluIExhbmRzY2FwZTwvdGV4dD4KPHN2Zz4K', description: 'Beautiful mountain landscape with snow-capped peaks' },
+    { id: 2, title: 'Ocean View', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjMUY4MDNBIi8+Cjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPk9jZWFuIFZpZXc8L3RleHQ+CjxzdmcvPgo=', description: 'Serene ocean view with crystal clear waters' },
+    { id: 3, title: 'Forest Path', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjMTY3QTZGRC8+Cjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkZvcmVzdCBQYXRoPC90ZXh0Pgo8c3ZnLz4K', description: 'Peaceful forest path surrounded by tall trees' },
+    { id: 4, title: 'City Skyline', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjM0I4MkY2Ii8+Cjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkNpdHkgU2t5bGluZTwvdGV4dD4KPHN2Zz4K', description: 'Modern city skyline at sunset' },
+    { id: 5, title: 'Desert Dunes', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjU5RTBCIi8+Cjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkRlc2VydCBEdW5lczwvdGV4dD4KPHN2Zz4K', description: 'Golden sand dunes stretching to the horizon' },
+    { id: 6, title: 'Garden Flowers', src: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjOEI1Q0Y2Ii8+Cjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkdhcmRlbiBGbG93ZXJzPC90ZXh0Pgo8c3ZnLz4K', description: 'Colorful flowers blooming in a garden' }
   ];
 
   return (
