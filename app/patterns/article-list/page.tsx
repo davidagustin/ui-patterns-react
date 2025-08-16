@@ -189,6 +189,7 @@ export default function ArticleListPattern() {
                       <img
                         src={article.image}
                         alt={article.title}
+                        onError={(e) => handleImageError(e, article.fallback)}
                         className="w-full h-full object-contain p-2"
                       />
                     </div>
