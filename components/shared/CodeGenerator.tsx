@@ -13,9 +13,23 @@ export const extractComponentSource = async (
     if (response.ok) {
       return await response.text();
     } else if (response.status === 503) {
-      // Production environment - source code not available
-      const errorData = await response.json();
-      return `// Source code not available in production environment
+      // Production environment - try to get GitHub URL from error response
+      try {
+        const errorData = await response.json();
+        if (errorData.githubUrl) {
+          return `// Source code not available in production environment
+// ${errorData.message || 'Please view the source code on GitHub'}
+// Component: ${componentName}
+
+// View source code on GitHub:
+// ${errorData.githubUrl}
+
+// To view the actual source code:
+// 1. Click the GitHub link above
+// 2. Run the app locally in development mode
+// 3. Check the GitHub repository: https://github.com/davidagustin/ui-patterns-react`;
+        } else {
+          return `// Source code not available in production environment
 // ${errorData.message || 'Please view the source code in development mode or check the GitHub repository'}
 // Component: ${componentName}
 
@@ -23,6 +37,15 @@ export const extractComponentSource = async (
 // 1. Run the app locally in development mode
 // 2. Check the GitHub repository: https://github.com/davidagustin/ui-patterns-react
 // 3. Navigate to: app/patterns/${componentName}/page.tsx`;
+        }
+             } catch {
+        return `// Source code not available in production environment
+// Please view the source code on GitHub
+// Component: ${componentName}
+
+// GitHub repository: https://github.com/davidagustin/ui-patterns-react
+// Navigate to: app/patterns/${componentName}/page.tsx`;
+      }
     } else {
       // Other error
       return `// Source code for ${componentName} could not be loaded

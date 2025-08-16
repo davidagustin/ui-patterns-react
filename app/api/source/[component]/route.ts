@@ -115,15 +115,43 @@ export async function GET(
     const isProduction = process.env.NODE_ENV === 'production';
     
     if (isProduction) {
-      // In production, return a fallback message since filesystem access is restricted
-      return NextResponse.json(
-        { 
-          error: 'Source code not available in production',
-          message: 'Please view the source code in development mode or check the GitHub repository',
-          component: componentName
-        },
-        { status: 503 }
-      );
+      // In production, fetch source code from GitHub
+      try {
+        const githubUrl = `https://raw.githubusercontent.com/davidagustin/ui-patterns-react/main/app/patterns/${componentName}/page.tsx`;
+        const response = await fetch(githubUrl);
+        
+        if (response.ok) {
+          const sourceCode = await response.text();
+          return new NextResponse(sourceCode, {
+            headers: {
+              'Content-Type': 'text/plain',
+              'Cache-Control': 'public, max-age=3600', // Cache for 1 hour
+            },
+          });
+        } else {
+          // If GitHub fetch fails, return fallback with GitHub link
+          return NextResponse.json(
+            { 
+              error: 'Source code not available',
+              message: 'Please view the source code on GitHub',
+              githubUrl: `https://github.com/davidagustin/ui-patterns-react/blob/main/app/patterns/${componentName}/page.tsx`,
+              component: componentName
+            },
+            { status: 503 }
+          );
+        }
+      } catch (githubError) {
+        console.error('Error fetching from GitHub:', githubError);
+        return NextResponse.json(
+          { 
+            error: 'Source code not available',
+            message: 'Please view the source code on GitHub',
+            githubUrl: `https://github.com/davidagustin/ui-patterns-react/blob/main/app/patterns/${componentName}/page.tsx`,
+            component: componentName
+          },
+          { status: 503 }
+        );
+      }
     }
 
     // In development, try to read the file
