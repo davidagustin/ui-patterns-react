@@ -795,19 +795,7 @@ export const extractComponentSource = async (
         '// DynamicCodeExample removed'
       );
       
-      // Remove Code Example sections - comprehensive approach
-      sourceCode = sourceCode.replace(
-        /{\/\* Code Example \*\/}[\s\S]*?<div[^>]*>[\s\S]*?Code Example[\s\S]*?<\/div>[\s\S]*?<\/div>/g,
-        '// Code Example section removed for StackBlitz compatibility'
-      );
-      
-      // Remove any remaining code example content that might not match the above pattern
-      sourceCode = sourceCode.replace(
-        /{\/\* Code Example \*\/}[\s\S]*?<\/div>/g,
-        '// Code Example section removed for StackBlitz compatibility'
-      );
-      
-      // Remove the comment if it's still there
+      // Remove Code Example comments
       sourceCode = sourceCode.replace(
         /{\/\* Code Example \*\/}/g,
         '// Code Example section removed for StackBlitz compatibility'
@@ -825,46 +813,16 @@ export const extractComponentSource = async (
         '// PatternHeader removed for StackBlitz compatibility'
       );
       
-      // Remove Key Features sections
-      sourceCode = sourceCode.replace(
-        /{\/\* Key Features \*\/}[\s\S]*?<div[^>]*>[\s\S]*?✨ Key Features[\s\S]*?<\/div>[\s\S]*?<\/div>/g,
-        '// Key Features section removed for StackBlitz compatibility'
-      );
-      
-      // Remove any remaining key features content
-      sourceCode = sourceCode.replace(
-        /{\/\* Key Features \*\/}[\s\S]*?<\/div>/g,
-        '// Key Features section removed for StackBlitz compatibility'
-      );
-      
-      // Remove the key features comment if it's still there
+      // Remove Key Features comments
       sourceCode = sourceCode.replace(
         /{\/\* Key Features \*\/}/g,
         '// Key Features section removed for StackBlitz compatibility'
       );
       
-      // Remove Common Use Cases sections
-      sourceCode = sourceCode.replace(
-        /{\/\* Common Use Cases \*\/}[\s\S]*?<div[^>]*>[\s\S]*?🎯 Common Use Cases[\s\S]*?<\/div>[\s\S]*?<\/div>/g,
-        '// Common Use Cases section removed for StackBlitz compatibility'
-      );
-      
-      // Remove any remaining common use cases content
-      sourceCode = sourceCode.replace(
-        /{\/\* Common Use Cases \*\/}[\s\S]*?<\/div>/g,
-        '// Common Use Cases section removed for StackBlitz compatibility'
-      );
-      
-      // Remove the common use cases comment if it's still there
+      // Remove Common Use Cases comments
       sourceCode = sourceCode.replace(
         /{\/\* Common Use Cases \*\/}/g,
         '// Common Use Cases section removed for StackBlitz compatibility'
-      );
-      
-      // Remove any remaining section comments that might be missed
-      sourceCode = sourceCode.replace(
-        /{\/\* [^*]* \*\/}/g,
-        '// Section removed for StackBlitz compatibility'
       );
       
       // Clean up any extra whitespace
