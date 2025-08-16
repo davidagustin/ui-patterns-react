@@ -5,7 +5,6 @@ import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
 
 export default function TabsPattern() {
   const [activeTab, setActiveTab] = useState(0);
-  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
 
   const tabs = [
     { 
@@ -135,17 +134,10 @@ export default function TabsPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {codeTab === 'jsx' ? (
-                <DynamicCodeExample 
+              {<DynamicCodeExample 
                 componentName="tabs" 
                 activeTab={activeTab} 
-              />
-              ) : (
-                <DynamicCodeExample 
-                componentName="tabs" 
-                activeTab={activeTab} 
-              />
-              )}
+              />}
             </div>
           </div>
         </div>

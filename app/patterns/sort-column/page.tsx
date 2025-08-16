@@ -7,7 +7,6 @@ export default function SortColumnPattern() {
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [sortField, setSortField] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
 
   const sampleData = [
     { id: 1, name: 'John Smith', email: 'john@email.com', role: 'Developer', salary: 75000, joinDate: '2023-01-15' },
@@ -189,17 +188,10 @@ export default function SortColumnPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {codeTab === 'jsx' ? (
-              <DynamicCodeExample 
+              {<DynamicCodeExample 
                 componentName="sort-column" 
                 activeTab={activeTab} 
-              />
-              ) : (
-                <DynamicCodeExample 
-                componentName="sort-column" 
-                activeTab={activeTab} 
-              />
-              )}
+              />}
             </div>
           </div>
         </div>

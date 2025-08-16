@@ -8,7 +8,6 @@ export default function ModalPattern() {
   const [isOpen, setIsOpen] = useState(false);
   const [modalType, setModalType] = useState<'simple' | 'form' | 'confirmation'>('simple');
   const [formData, setFormData] = useState({ name: '', email: '' });
-  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -261,17 +260,10 @@ export default function ModalPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {codeTab === 'jsx' ? (
-                <DynamicCodeExample 
+              {<DynamicCodeExample 
                 componentName="modal" 
                 activeTab={activeTab} 
-              />
-              ) : (
-                <DynamicCodeExample 
-                componentName="modal" 
-                activeTab={activeTab} 
-              />
-              )}
+              />}
             </div>
           </div>
         </div>

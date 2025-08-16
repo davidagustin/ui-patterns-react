@@ -7,7 +7,6 @@ export default function ModuleTabsPattern() {
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [activeMainTab, setActiveMainTab] = useState('overview');
   const [activeSubTab, setActiveSubTab] = useState('metrics');
-  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
 
   const mainTabs = [
     { id: 'overview', label: 'Overview', icon: '📊' },
@@ -341,17 +340,10 @@ export default function ModuleTabsPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {codeTab === 'jsx' ? (
-                <DynamicCodeExample 
+              {<DynamicCodeExample 
                 componentName="module-tabs" 
                 activeTab={activeTab} 
-              />
-              ) : (
-                <DynamicCodeExample 
-                componentName="module-tabs" 
-                activeTab={activeTab} 
-              />
-              )}
+              />}
             </div>
           </div>
         </div>

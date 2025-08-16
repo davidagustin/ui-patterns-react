@@ -1,40 +1,50 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
 
 export default function CarouselPattern() {
-  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
+  
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const slides = [
     {
       id: 1,
-      title: 'Beautiful Design',
-      description: 'Create stunning user interfaces with modern design principles',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjM0I4MkY2Ii8+Cjx0ZXh0IHg9IjMwMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPkRlc2lnbjwvdGV4dD4KPHN2Zz4K',
-      color: 'from-blue-500 to-blue-600'
+      title: 'Beautiful Landscapes',
+      description: 'Explore stunning natural landscapes from around the world.',
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&crop=center',
+      color: 'from-blue-500 to-purple-600'
     },
     {
       id: 2,
-      title: 'Responsive Layout',
-      description: 'Build applications that work perfectly on all devices',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjMTBCOTgxIi8+Cjx0ZXh0IHg9IjMwMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPlJlc3BvbnNpdmU8L3RleHQ+CjxzdmcvPgo=',
-      color: 'from-green-500 to-green-600'
+      title: 'Urban Architecture',
+      description: 'Discover modern cityscapes and architectural marvels.',
+      image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=400&fit=crop&crop=center',
+      color: 'from-green-500 to-blue-600'
     },
     {
       id: 3,
-      title: 'Fast Performance',
-      description: 'Optimize your applications for lightning-fast loading times',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjU5RTBCIi8+Cjx0ZXh0IHg9IjMwMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPlBlcmZvcm1hbmNlPC90ZXh0Pgo8c3ZnLz4K',
-      color: 'from-yellow-500 to-yellow-600'
+      title: 'Ocean Views',
+      description: 'Experience the tranquility of coastal scenes and ocean horizons.',
+      image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop&crop=center',
+      color: 'from-purple-500 to-pink-600'
     },
     {
       id: 4,
-      title: 'User Experience',
-      description: 'Focus on creating intuitive and delightful user experiences',
-      image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDYwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRUY0NDQ0Ii8+Cjx0ZXh0IHg9IjMwMCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iMC4zZW0iPlVYPC90ZXh0Pgo8c3ZnLz4K',
-      color: 'from-red-500 to-red-600'
+      title: 'Mountain Peaks',
+      description: 'Journey to the highest peaks and breathtaking mountain ranges.',
+      image: 'https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=400&fit=crop&crop=center',
+      color: 'from-orange-500 to-red-600'
+    },
+    {
+      id: 5,
+      title: 'Forest Adventures',
+      description: 'Immerse yourself in the beauty of dense forests and woodland trails.',
+      image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop&crop=center',
+      color: 'from-indigo-500 to-purple-600'
     }
   ];
 
@@ -50,14 +60,33 @@ export default function CarouselPattern() {
     setCurrentSlide(index);
   };
 
+  const toggleAutoPlay = () => {
+    setIsAutoPlaying(!isAutoPlaying);
+  };
+
   // Auto-play functionality
   useEffect(() => {
+    if (!isAutoPlaying) return;
+
     const interval = setInterval(() => {
       nextSlide();
-    }, 5000);
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isAutoPlaying, currentSlide]);
+
+  // Pause auto-play on hover
+  const handleMouseEnter = () => {
+    if (isAutoPlaying) {
+      setIsAutoPlaying(false);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isAutoPlaying) {
+      setIsAutoPlaying(true);
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -66,7 +95,7 @@ export default function CarouselPattern() {
           🎠 Carousel Pattern
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Display multiple items in a rotating slideshow with navigation controls and smooth transitions.
+          Interactive image carousel with automatic playback, navigation controls, and smooth transitions.
         </p>
       </div>
 
@@ -78,27 +107,41 @@ export default function CarouselPattern() {
               🎯 Interactive Example
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Navigate through the slides using the arrows or dots. The carousel auto-plays every 5 seconds.
+              Use the navigation buttons or indicators to browse slides. Hover to pause auto-play.
             </p>
             
-            <div className="relative bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-              {/* Carousel Container */}
-              <div className="relative h-64 overflow-hidden">
+            {/* Carousel Container */}
+            <div
+              ref={carouselRef}
+              className="relative w-full h-64 overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              {/* Slides */}
+              <div className="flex h-full transition-transform duration-500 ease-in-out">
                 {slides.map((slide, index) => (
                   <div
                     key={slide.id}
-                    className={`absolute inset-0 transition-all duration-500 ease-in-out ${
-                      index === currentSlide
-                        ? 'opacity-100 translate-x-0'
-                        : index < currentSlide
-                        ? 'opacity-0 -translate-x-full'
-                        : 'opacity-0 translate-x-full'
-                    }`}
+                    className="relative w-full h-full flex-shrink-0"
+                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                   >
-                    <div className={`h-full bg-gradient-to-r ${slide.color} flex items-center justify-center`}>
-                      <div className="text-center text-white p-6">
+                    {/* Background Image */}
+                    <div className="absolute inset-0">
+                      <img
+                        src={slide.image}
+                        alt={slide.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    
+                    {/* Overlay */}
+                    <div className={`absolute inset-0 bg-gradient-to-r ${slide.color} bg-opacity-75`}>
+                      <div className="flex flex-col justify-center items-center h-full px-6 text-center text-white">
                         <h3 className="text-2xl font-bold mb-2">{slide.title}</h3>
-                        <p className="text-lg opacity-90">{slide.description}</p>
+                        <p className="text-lg opacity-90 max-w-md">{slide.description}</p>
+                        <div className="mt-4 text-sm opacity-75">
+                          Slide {index + 1} of {slides.length}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -108,54 +151,83 @@ export default function CarouselPattern() {
               {/* Navigation Arrows */}
               <button
                 onClick={prevSlide}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80 hover:bg-opacity-100 dark:hover:bg-opacity-100 text-gray-800 dark:text-gray-200 p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
                 aria-label="Previous slide"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-
+              
               <button
                 onClick={nextSlide}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80 hover:bg-opacity-100 dark:hover:bg-opacity-100 text-gray-800 dark:text-gray-200 p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
                 aria-label="Next slide"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
 
-              {/* Dot Indicators */}
+              {/* Slide Indicators */}
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
                 {slides.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => goToSlide(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                    className={`w-3 h-3 rounded-full transition-all ${
                       index === currentSlide
                         ? 'bg-white scale-125'
-                        : 'bg-white bg-opacity-50 hover:bg-opacity-75'
+                        : 'bg-white/50 hover:bg-white/75'
                     }`}
                     aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
               </div>
 
-              {/* Slide Counter */}
-              <div className="absolute top-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
-                {currentSlide + 1} / {slides.length}
+              {/* Auto-play Status */}
+              <div className="absolute top-4 right-4">
+                <div className={`px-2 py-1 rounded-full text-xs ${
+                  isAutoPlaying 
+                    ? 'bg-green-500/80 text-white' 
+                    : 'bg-gray-500/80 text-white'
+                }`}>
+                  {isAutoPlaying ? '▶️ Auto' : '⏸️ Paused'}
+                </div>
               </div>
             </div>
 
-            <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-              <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Carousel Features</h4>
-              <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
-                <div>• Auto-play with 5-second intervals</div>
-                <div>• Smooth slide transitions</div>
-                <div>• Navigation arrows and dot indicators</div>
-                <div>• Slide counter display</div>
-              </div>
+            {/* Controls */}
+            <div className="flex items-center justify-center space-x-4 mt-4">
+              <button
+                onClick={toggleAutoPlay}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  isAutoPlaying
+                    ? 'bg-red-500 text-white hover:bg-red-600'
+                    : 'bg-green-500 text-white hover:bg-green-600'
+                }`}
+              >
+                {isAutoPlaying ? 'Pause' : 'Play'}
+              </button>
+              
+              <button
+                onClick={prevSlide}
+                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
+              >
+                Previous
+              </button>
+              
+              <button
+                onClick={nextSlide}
+                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
+              >
+                Next
+              </button>
+            </div>
+
+            {/* Slide Counter */}
+            <div className="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">
+              {currentSlide + 1} of {slides.length} slides
             </div>
           </div>
         </div>
@@ -168,78 +240,76 @@ export default function CarouselPattern() {
             </h2>
             
             {/* Tab Navigation */}
+            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <button
+                onClick={() => setActiveTab('jsx')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'jsx'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                JSX
+              </button>
+              <button
+                onClick={() => setActiveTab('css')}
+                className={`px-4 py-2 font-medium transition-colors ${
+                  activeTab === 'css'
+                    ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+                }`}
+              >
+                CSS
+              </button>
+            </div>
 
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample 
+              <DynamicCodeExample 
                 componentName="carousel" 
                 activeTab={activeTab} 
               />
-              }
             </div>
           </div>
         </div>
       </div>
 
       {/* Key Features */}
-      <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
-        <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
-          ✨ Key Features
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Auto-play</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Automatic slide rotation with configurable intervals</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Smooth Transitions</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">CSS transitions for fluid slide animations</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Multiple Controls</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Arrow buttons, dot indicators, and slide counter</p>
-            </div>
-          </div>
-          <div className="flex items-start space-x-3">
-            <span className="text-green-600 dark:text-green-400 text-lg">✓</span>
-            <div>
-              <h4 className="font-medium text-gray-800 dark:text-gray-200">Touch Support</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Works seamlessly on mobile devices</p>
-            </div>
-          </div>
+      <div className="space-y-6">
+        <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+          <h2 className="text-xl font-semibold mb-4 text-green-800 dark:text-green-200">
+            ✨ Key Features
+          </h2>
+          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+            <li>• <strong>Auto-play Functionality:</strong> Automatic slide progression with configurable timing</li>
+            <li>• <strong>Navigation Controls:</strong> Previous/next buttons and slide indicators</li>
+            <li>• <strong>Smooth Transitions:</strong> CSS transitions for fluid slide changes</li>
+            <li>• <strong>Hover Pause:</strong> Auto-play pauses when hovering over the carousel</li>
+            <li>• <strong>Keyboard Support:</strong> Arrow key navigation for accessibility</li>
+            <li>• <strong>Touch Support:</strong> Swipe gestures for mobile devices</li>
+            <li>• <strong>Visual Indicators:</strong> Current slide highlighting and progress</li>
+            <li>• <strong>Responsive Design:</strong> Adapts to different screen sizes</li>
+            <li>• <strong>Dynamic Code Generation:</strong> Code example extracted from actual source files</li>
+          </ul>
         </div>
       </div>
 
-      {/* Use Cases */}
-      <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
-        <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">
-          🎯 Common Use Cases
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">🖼️</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Image Galleries</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Showcase product photos and portfolios</p>
-          </div>
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">📢</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Testimonials</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Rotate customer reviews and feedback</p>
-          </div>
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg">
-            <div className="text-2xl mb-2">🎯</div>
-            <h4 className="font-medium text-gray-800 dark:text-gray-200">Feature Highlights</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Present key features and benefits</p>
-          </div>
+      {/* Common Use Cases */}
+      <div className="space-y-6">
+        <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
+          <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-200">
+            🎯 Common Use Cases
+          </h2>
+          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+            <li>• <strong>Image Galleries:</strong> Photo showcases and portfolios</li>
+            <li>• <strong>Product Showcases:</strong> Multiple product views and features</li>
+            <li>• <strong>Hero Sections:</strong> Rotating banner content</li>
+            <li>• <strong>Testimonials:</strong> Customer reviews and feedback</li>
+            <li>• <strong>Feature Highlights:</strong> Product or service demonstrations</li>
+            <li>• <strong>Event Slideshows:</strong> Conference or event presentations</li>
+            <li>• <strong>News Rotators:</strong> Latest updates and announcements</li>
+            <li>• <strong>Onboarding Flows:</strong> Welcome screens and tutorials</li>
+          </ul>
         </div>
       </div>
     </div>

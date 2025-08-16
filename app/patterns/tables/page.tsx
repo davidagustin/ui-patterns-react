@@ -6,7 +6,7 @@ import { DynamicCodeExample } from '../../../components/shared/CodeGenerator';
 export default function TablesPattern() {
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
-  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
+  
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
 
   const sampleData = [
@@ -217,17 +217,10 @@ export default function TablesPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {codeTab === 'jsx' ? (
-              <DynamicCodeExample 
+              {<DynamicCodeExample 
                 componentName="tables" 
                 activeTab={activeTab} 
-              />
-              ) : (
-                <DynamicCodeExample 
-                componentName="tables" 
-                activeTab={activeTab} 
-              />
-              )}
+              />}
             </div>
           </div>
         </div>

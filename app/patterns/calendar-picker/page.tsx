@@ -10,7 +10,6 @@ export default function CalendarPickerPattern() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedTime, setSelectedTime] = useState('12:00');
-  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -271,17 +270,10 @@ export default function CalendarPickerPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {codeTab === 'jsx' ? (
-                <DynamicCodeExample 
+              {<DynamicCodeExample 
                 componentName="calendar-picker" 
                 activeTab={activeTab} 
-              />
-              ) : (
-                <DynamicCodeExample 
-                componentName="calendar-picker" 
-                activeTab={activeTab} 
-              />
-              )}
+              />}
             </div>
           </div>
         </div>

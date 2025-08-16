@@ -18,7 +18,7 @@ export default function DataGridPattern() {
   const [sortField, setSortField] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [searchTerm, setSearchTerm] = useState('');
-  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
+  
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
   const [columnWidths, setColumnWidths] = useState({
     name: 150,
@@ -435,17 +435,10 @@ export default function DataGridPattern() {
 
         {/* Tab Content */}
         <div className="code-block">
-          {codeTab === 'jsx' ? (
-            <DynamicCodeExample 
-                componentName="data-grid" 
-                activeTab={activeTab} 
-              />
-          ) : (
-            <DynamicCodeExample 
-                componentName="data-grid" 
-                activeTab={activeTab} 
-              />
-          )}
+          <DynamicCodeExample 
+            componentName="data-grid" 
+            activeTab={activeTab} 
+          />
         </div>
       </div>
 

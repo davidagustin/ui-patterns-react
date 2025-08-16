@@ -7,8 +7,7 @@ export default function PaginationPattern() {
   const [activeTab, setActiveTab] = useState<'jsx' | 'css'>('jsx');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
-  
+
   const allItems = [
     { id: 1, name: 'Product A', category: 'Electronics', price: '$299' },
     { id: 2, name: 'Product B', category: 'Clothing', price: '$89' },
@@ -219,17 +218,10 @@ export default function PaginationPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {codeTab === 'jsx' ? (
-                <DynamicCodeExample 
+              {<DynamicCodeExample 
                 componentName="pagination" 
                 activeTab={activeTab} 
-              />
-              ) : (
-                <DynamicCodeExample 
-                componentName="pagination" 
-                activeTab={activeTab} 
-              />
-              )}
+              />}
             </div>
           </div>
         </div>

@@ -6,7 +6,6 @@ import Link from 'next/link';
 
 export default function NavigationTabsPattern() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [codeTab, setCodeTab] = useState<'jsx' | 'css'>('jsx');
 
   const navigationTabs = [
     { id: 'dashboard', label: 'Dashboard', icon: '📊', href: '/dashboard', badge: null },
@@ -130,17 +129,10 @@ export default function NavigationTabsPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {codeTab === 'jsx' ? (
-                <DynamicCodeExample 
+              {<DynamicCodeExample 
                 componentName="navigation-tabs" 
                 activeTab={activeTab} 
-              />
-              ) : (
-                <DynamicCodeExample 
-                componentName="navigation-tabs" 
-                activeTab={activeTab} 
-              />
-              )}
+              />}
             </div>
           </div>
         </div>
