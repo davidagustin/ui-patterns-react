@@ -17,19 +17,25 @@ export const sendToStackBlitz = async (
     formData.append("project[description]", `Interactive demo of ${componentName} UI pattern`);
     formData.append("project[template]", "create-react-app");
     
-    // Main component file with the actual pattern code
+    // Create the component file with the actual pattern code
+    
+    formData.append("project[files][src/Component.tsx]", `
+      import React from 'react';
+
+      ${actualComponentCode}
+      </div>
+    </div>
+  </div>)}
+      `);
+
+    // Main App file that imports the component
     formData.append("project[files][src/App.tsx]", `import React from 'react';
 import './index.css';
-
-${actualComponentCode}
+import ${extractedComponentName} from './Component';
 
 function App() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b border-gray-200 p-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">${componentName} - UI Pattern Demo</h1>
-        <p className="text-gray-600">This is a demo of the ${componentName} UI pattern.</p>
-      </header>
       <main className="p-6">
         <${extractedComponentName} />
       </main>
@@ -731,92 +737,209 @@ export const extractComponentSource = async (
     const response = await fetch(`/api/source/${componentName}`);
     if (response.ok) {
       let sourceCode = await response.text();
-      
-      // Extract the component name from the source code
-      let extractedComponentName = 'InteractiveExample'; // fallback
-      const componentNameMatch = sourceCode.match(/export\s+default\s+(?:function|const)\s+(\w+)/);
+      let extractedComponentName = componentName;
+
+      // Extract component name from the source code
+      const componentNameMatch = sourceCode.match(/export\s+default\s+function\s+(\w+)/);
       if (componentNameMatch) {
         extractedComponentName = componentNameMatch[1];
       }
+
+      // Remove specific sections that should not be in StackBlitz
+      console.log('🔍 Before removing sections, sourceCode length:', sourceCode.length);
       
-      // Remove export default from the component code
-      sourceCode = sourceCode.replace(/export\s+default\s+function\s+(\w+)/, 'function $1');
-      sourceCode = sourceCode.replace(/export\s+default\s+const\s+(\w+)/, 'const $1');
-      sourceCode = sourceCode.replace(/export\s+default\s+(\w+)/, '$1');
+      // Remove the entire Code Example section and everything after it
+      const codeExampleIndex = sourceCode.indexOf('💻 Code Example');
+      if (codeExampleIndex !== -1) {
+        // Find the start of the Code Example div
+        const codeExampleDivStart = sourceCode.lastIndexOf('<div', codeExampleIndex);
+        if (codeExampleDivStart !== -1) {
+          // Remove everything from the Code Example div onwards
+          sourceCode = sourceCode.substring(0, codeExampleDivStart);
+        }
+      }
       
-      // Also remove any trailing export statements
-      sourceCode = sourceCode.replace(/\n\s*export\s+default\s+\w+;?\s*$/g, '');
-      
-      // Fix import paths to work in StackBlitz environment
+      // Also remove any remaining sections with regex as backup
       sourceCode = sourceCode.replace(
-        /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/\.\.\/\.\.\/\.\.\/components\/shared\/CodeGenerator['"];?/g,
-        '// Import removed for StackBlitz compatibility'
-      );
-      sourceCode = sourceCode.replace(
-        /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/\.\.\/\.\.\/components\/shared\/CodeGenerator['"];?/g,
-        '// Import removed for StackBlitz compatibility'
-      );
-      sourceCode = sourceCode.replace(
-        /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/\.\.\/components\/Tooltip['"];?/g,
-        '// Import removed for StackBlitz compatibility'
-      );
-      sourceCode = sourceCode.replace(
-        /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/\.\.\/\.\.\/components\/Tooltip['"];?/g,
-        '// Import removed for StackBlitz compatibility'
-      );
-      sourceCode = sourceCode.replace(
-        /import\s+\{[^}]*\}\s+from\s+['"]\.\.\/\.\.\/\.\.\/\.\.\/components\/Tooltip['"];?/g,
-        '// Import removed for StackBlitz compatibility'
-      );
-      
-      // Remove any remaining import statements that reference non-existent files
-      sourceCode = sourceCode.replace(
-        /import\s+.*from\s+['"]\.\.\/\.\.\/\.\.\/\.\.\/.*['"];?\n?/g,
-        ''
-      );
-      sourceCode = sourceCode.replace(
-        /import\s+.*from\s+['"]\.\.\/\.\.\/\.\.\/.*['"];?\n?/g,
+        /<div[^>]*>\s*<h2[^>]*>💻\s*Code\s*Example<\/h2>[\s\S]*?<\/div>/g,
         ''
       );
       
       sourceCode = sourceCode.replace(
-        /<DynamicCodeExample[^>]*\/>/g,
-        ''
-      );
-      sourceCode = sourceCode.replace(
-        /<DynamicCodeExample[^>]*>[\s\S]*?<\/DynamicCodeExample>/g,
+        /<div[^>]*>\s*<h2[^>]*>✨\s*Key\s*Features<\/h2>[\s\S]*?<\/div>/g,
         ''
       );
       
       sourceCode = sourceCode.replace(
-        /DynamicCodeExample/g,
+        /<div[^>]*>\s*<h2[^>]*>🎯\s*Common\s*Use\s*Cases<\/h2>[\s\S]*?<\/div>/g,
         ''
       );
       
-      sourceCode = sourceCode.replace(
-        /{\/\* Code Example \*\/}/g,
-        ''
-      );
+      console.log('✅ After removing sections, sourceCode length:', sourceCode.length);
       
-      sourceCode = sourceCode.replace(
-        /<CodeTabs[^>]*>[\s\S]*?<\/CodeTabs>/g,
-        ''
-      );
-      
-      sourceCode = sourceCode.replace(
-        /<PatternHeader[^>]*>[\s\S]*?<\/PatternHeader>/g,
-        ''
-      );
-      
-      sourceCode = sourceCode.replace(
-        /{\/\* Key Features \*\/}/g,
-        ''
-      );
-      
-      sourceCode = sourceCode.replace(
-        /{\/\* Common Use Cases \*\/}/g,
-        ''
-      );
+      // Extract the complete component function for StackBlitz
+      // First, try to find the export default function declaration
+      const exportDefaultIndex = sourceCode.indexOf('export default function');
+      if (exportDefaultIndex !== -1) {
+        // Find the start of the function body
+        const functionStart = sourceCode.indexOf('{', exportDefaultIndex);
+        if (functionStart !== -1) {
+          // Count braces to find the end of the function
+          let braceCount = 1;
+          let functionEnd = functionStart + 1;
+          
+          while (braceCount > 0 && functionEnd < sourceCode.length) {
+            if (sourceCode[functionEnd] === '{') {
+              braceCount++;
+            } else if (sourceCode[functionEnd] === '}') {
+              braceCount--;
+            }
+            functionEnd++;
+          }
+          
+          if (braceCount === 0) {
+            // Extract the complete function including the export default
+            sourceCode = sourceCode.substring(exportDefaultIndex, functionEnd);
+            
+            // Clean up any remaining DynamicCodeExample usage
+            sourceCode = sourceCode.replace(/<DynamicCodeExample[^>]*\/>/g, '');
+            sourceCode = sourceCode.replace(/<DynamicCodeExample[^>]*>[\s\S]*?<\/DynamicCodeExample>/g, '');
+            // Remove DynamicCodeExample import
+            sourceCode = sourceCode.replace(/import\s+\{[^}]*DynamicCodeExample[^}]*\}\s+from\s+['"][^'"]*['"];?\n?/g, '');
+            
+            // Remove Code Example comment and div
+            sourceCode = sourceCode.replace(/\s*{\/\*\s*Code\s*Example\s*\*\/}\s*\n\s*<div[^>]*className="[^"]*space-y-6[^"]*"[^>]*>/g, '');
+            sourceCode = sourceCode.replace(/\s*{\/\*\s*Code\s*Example\s*\*\/}\s*\n\s*<div[^>]*className="space-y-6"[^>]*>/g, '');
+            sourceCode = sourceCode.replace(/\s*{\/\*\s*Code\s*Example\s*\*\/}\s*\n\s*<div[^>]*>/g, '');
+            // Remove just the Code Example comment if it appears alone
+            sourceCode = sourceCode.replace(/\s*{\/\*\s*Code\s*Example\s*\*\/}\s*\n?/g, '');
+            // Remove the specific pattern: "        {/* Code Example */}\n        <div className="space-y-6">"
+            console.log('🔍 Before removing Code Example pattern:', sourceCode.includes('{/* Code Example */}'));
+            sourceCode = sourceCode.replace(/\s*{\/\*\s*Code\s*Example\s*\*\/}\s*\n\s*<div[^>]*className="space-y-6"[^>]*>/g, '');
+            console.log('✅ After removing Code Example pattern:', sourceCode.includes('{/* Code Example */}'));
+            
+            // Remove the entire Code Example section from comment to closing div
+            const codeExampleStart = sourceCode.indexOf('{/* Code Example */}');
+            if (codeExampleStart !== -1) {
+              console.log('🔍 Found Code Example section, removing entire section...');
+              // Find the closing div for the Code Example section
+              const afterComment = sourceCode.substring(codeExampleStart);
+              const closingDivIndex = afterComment.indexOf('</div>');
+              if (closingDivIndex !== -1) {
+                // Find the next closing div to get the complete section
+                const nextClosingDiv = afterComment.indexOf('</div>', closingDivIndex + 6);
+                const endIndex = nextClosingDiv !== -1 ? nextClosingDiv + 6 : closingDivIndex + 6;
+                sourceCode = sourceCode.substring(0, codeExampleStart) + sourceCode.substring(codeExampleStart + endIndex);
+                console.log('✅ Removed entire Code Example section');
+              }
+            }
+            
+            console.log('🔍 Sample of remaining code:', sourceCode.substring(0, 500));
+            
+            console.log('✅ Component function extracted with brace counting:', {
+              componentName: extractedComponentName,
+              sourceCodeLength: sourceCode.length,
+              hasFunction: sourceCode.includes('function '),
+              hasReturn: sourceCode.includes('return (')
+            });
+          }
+        }
+      } else {
+        // Fallback: try regex pattern
+        const componentFunctionMatch = sourceCode.match(/export\s+default\s+function\s+(\w+)\s*\([^)]*\)\s*\{[\s\S]*\}/);
+        if (componentFunctionMatch) {
+          // Extract the complete component function
+          sourceCode = componentFunctionMatch[0];
+          
+          // Clean up any remaining DynamicCodeExample usage
+          sourceCode = sourceCode.replace(/<DynamicCodeExample[^>]*\/>/g, '');
+          sourceCode = sourceCode.replace(/<DynamicCodeExample[^>]*>[\s\S]*?<\/DynamicCodeExample>/g, '');
+          // Remove DynamicCodeExample import
+          sourceCode = sourceCode.replace(/import\s+\{[^}]*DynamicCodeExample[^}]*\}\s+from\s+['"][^'"]*['"];?\n?/g, '');
+          
+          // Remove Code Example comment and div
+          sourceCode = sourceCode.replace(/\s*{\/\*\s*Code\s*Example\s*\*\/}\s*\n\s*<div[^>]*className="[^"]*space-y-6[^"]*"[^>]*>/g, '');
+          sourceCode = sourceCode.replace(/\s*{\/\*\s*Code\s*Example\s*\*\/}\s*\n\s*<div[^>]*className="space-y-6"[^>]*>/g, '');
+          sourceCode = sourceCode.replace(/\s*{\/\*\s*Code\s*Example\s*\*\/}\s*\n\s*<div[^>]*>/g, '');
+          // Remove just the Code Example comment if it appears alone
+          sourceCode = sourceCode.replace(/\s*{\/\*\s*Code\s*Example\s*\*\/}\s*\n?/g, '');
+          // Remove the specific pattern: "        {/* Code Example */}\n        <div className="space-y-6">"
+          console.log('🔍 Before removing Code Example pattern (regex):', sourceCode.includes('{/* Code Example */}'));
+          sourceCode = sourceCode.replace(/\s*{\/\*\s*Code\s*Example\s*\*\/}\s*\n\s*<div[^>]*className="space-y-6"[^>]*>/g, '');
+          console.log('✅ After removing Code Example pattern (regex):', sourceCode.includes('{/* Code Example */}'));
+          
+          // Remove the entire Code Example section from comment to closing div
+          const codeExampleStart = sourceCode.indexOf('{/* Code Example */}');
+          if (codeExampleStart !== -1) {
+            console.log('🔍 Found Code Example section (regex), removing entire section...');
+            // Find the closing div for the Code Example section
+            const afterComment = sourceCode.substring(codeExampleStart);
+            const closingDivIndex = afterComment.indexOf('</div>');
+            if (closingDivIndex !== -1) {
+              // Find the next closing div to get the complete section
+              const nextClosingDiv = afterComment.indexOf('</div>', closingDivIndex + 6);
+              const endIndex = nextClosingDiv !== -1 ? nextClosingDiv + 6 : closingDivIndex + 6;
+              sourceCode = sourceCode.substring(0, codeExampleStart) + sourceCode.substring(codeExampleStart + endIndex);
+              console.log('✅ Removed entire Code Example section (regex)');
+            }
+          }
+          
+          console.log('🔍 Sample of remaining code (regex):', sourceCode.substring(0, 500));
+          
+          console.log('✅ Component function extracted with regex:', {
+            componentName: extractedComponentName,
+            sourceCodeLength: sourceCode.length,
+            hasFunction: sourceCode.includes('function '),
+            hasReturn: sourceCode.includes('return (')
+          });
+        } else {
+          console.log('⚠️ Component function not found, trying fallback extraction...');
+          
+          // Final fallback: try to extract just the Interactive Example section
+          const interactiveExampleIndex = sourceCode.indexOf('🎯 Interactive Example');
+          if (interactiveExampleIndex !== -1) {
+            // Find the start of the Interactive Example content (after the header)
+            const contentStartIndex = sourceCode.indexOf('<div', interactiveExampleIndex);
+            if (contentStartIndex !== -1) {
+              // Find the end of the Interactive Example section by looking for the next major section
+              const nextSectionIndex = sourceCode.indexOf('\n🎯', interactiveExampleIndex + 1);
+              const codeExampleIndex = sourceCode.indexOf('\n💻', interactiveExampleIndex + 1);
+              const keyFeaturesIndex = sourceCode.indexOf('\n✨', interactiveExampleIndex + 1);
+              const fileStructureIndex = sourceCode.indexOf('\n📁', interactiveExampleIndex + 1);
+              
+              // Find the earliest next section
+              const nextSections = [nextSectionIndex, codeExampleIndex, keyFeaturesIndex, fileStructureIndex]
+                .filter(index => index !== -1);
+              
+              let endIndex = sourceCode.length;
+              if (nextSections.length > 0) {
+                endIndex = Math.min(...nextSections);
+              }
+              
+              // Extract only the Interactive Example content
+              sourceCode = sourceCode.substring(contentStartIndex, endIndex);
+              
+              // Clean up the extracted content to make it a standalone component
+              sourceCode = sourceCode.trim();
+              
+              // Remove any trailing incomplete divs
+              const lastCompleteDivIndex = sourceCode.lastIndexOf('</div>');
+              if (lastCompleteDivIndex !== -1) {
+                sourceCode = sourceCode.substring(0, lastCompleteDivIndex + 6);
+              }
+              
+              console.log('✅ Interactive Example extracted successfully:', {
+                sourceCodeLength: sourceCode.length,
+                hasContent: sourceCode.length > 0
+              });
+            } else {
+              console.log('❌ Could not find Interactive Example content div');
+            }
+          } else {
+            console.log('❌ Could not find Interactive Example section');
+          }
+        }
+      }
       
       // Clean up any extra whitespace
       sourceCode = sourceCode.trim();
