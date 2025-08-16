@@ -8,6 +8,7 @@ export default function SwipeNavigationPattern() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
   
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -59,25 +60,37 @@ export default function SwipeNavigationPattern() {
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
     e.preventDefault();
-    setCurrentX(e.touches[0].clientX);
+    
+    const newX = e.touches[0].clientX;
+    setCurrentX(newX);
+    
+    const diff = newX - startX;
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const maxTranslate = containerWidth * (pages.length - 1);
+    
+    const newTranslateX = Math.max(-maxTranslate, Math.min(0, -currentPage * containerWidth + diff));
+    setTranslateX(newTranslateX);
   };
 
   const handleTouchEnd = () => {
     if (!isDragging) return;
     
-    const diff = startX - currentX;
-    const threshold = 150; // Increased threshold to prevent accidental swipes
+    const diff = currentX - startX;
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const threshold = containerWidth * 0.3; // 30% of container width
     
     if (Math.abs(diff) > threshold) {
-      if (diff > 0 && currentPage < pages.length - 1) {
-        // Swipe left - go to next page
-        setCurrentPage(prev => prev + 1);
-      } else if (diff < 0 && currentPage > 0) {
+      if (diff > 0 && currentPage > 0) {
         // Swipe right - go to previous page
         setCurrentPage(prev => prev - 1);
+      } else if (diff < 0 && currentPage < pages.length - 1) {
+        // Swipe left - go to next page
+        setCurrentPage(prev => prev + 1);
       }
     }
     
+    // Reset translate to current page position
+    setTranslateX(-currentPage * (containerRef.current?.offsetWidth || 0));
     setIsDragging(false);
   };
 
@@ -91,45 +104,69 @@ export default function SwipeNavigationPattern() {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
     e.preventDefault();
-    setCurrentX(e.clientX);
+    
+    const newX = e.clientX;
+    setCurrentX(newX);
+    
+    const diff = newX - startX;
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const maxTranslate = containerWidth * (pages.length - 1);
+    
+    const newTranslateX = Math.max(-maxTranslate, Math.min(0, -currentPage * containerWidth + diff));
+    setTranslateX(newTranslateX);
   };
 
   const handleMouseUp = () => {
     if (!isDragging) return;
     
-    const diff = startX - currentX;
-    const threshold = 150; // Increased threshold to prevent accidental swipes
+    const diff = currentX - startX;
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const threshold = containerWidth * 0.3; // 30% of container width
     
     if (Math.abs(diff) > threshold) {
-      if (diff > 0 && currentPage < pages.length - 1) {
-        // Swipe left - go to next page
-        setCurrentPage(prev => prev + 1);
-      } else if (diff < 0 && currentPage > 0) {
+      if (diff > 0 && currentPage > 0) {
         // Swipe right - go to previous page
         setCurrentPage(prev => prev - 1);
+      } else if (diff < 0 && currentPage < pages.length - 1) {
+        // Swipe left - go to next page
+        setCurrentPage(prev => prev + 1);
       }
     }
     
+    // Reset translate to current page position
+    setTranslateX(-currentPage * (containerRef.current?.offsetWidth || 0));
     setIsDragging(false);
   };
 
   const goToPage = (pageIndex: number) => {
     if (pageIndex >= 0 && pageIndex < pages.length) {
       setCurrentPage(pageIndex);
+      setTranslateX(-pageIndex * (containerRef.current?.offsetWidth || 0));
     }
   };
 
   const nextPage = () => {
     if (currentPage < pages.length - 1) {
-      setCurrentPage(prev => prev + 1);
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      setTranslateX(-newPage * (containerRef.current?.offsetWidth || 0));
     }
   };
 
   const prevPage = () => {
     if (currentPage > 0) {
-      setCurrentPage(prev => prev - 1);
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      setTranslateX(-newPage * (containerRef.current?.offsetWidth || 0));
     }
   };
+
+  // Update translateX when currentPage changes
+  useEffect(() => {
+    if (!isDragging) {
+      setTranslateX(-currentPage * (containerRef.current?.offsetWidth || 0));
+    }
+  }, [currentPage, isDragging]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -185,7 +222,7 @@ export default function SwipeNavigationPattern() {
               <div 
                 className="flex h-full transition-transform duration-300 ease-out"
                 style={{
-                  transform: `translateX(-${currentPage * 100}%)`,
+                  transform: `translateX(${translateX}px)`,
                   width: `${pages.length * 100}%`
                 }}
               >
@@ -222,7 +259,6 @@ export default function SwipeNavigationPattern() {
                       <h3 className="text-2xl font-bold mb-2">{page.title}</h3>
                       <p className="text-lg opacity-90">{page.content}</p>
                       <p className="text-sm opacity-75 mt-2">Page {index + 1} of {pages.length}</p>
-                      <p className="text-xs opacity-50 mt-1">Image: {page.image}</p>
                     </div>
                   </div>
                 ))}
@@ -281,7 +317,7 @@ export default function SwipeNavigationPattern() {
               {/* Swipe Progress Indicator */}
               {isDragging && (
                 <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-black/30 text-white px-2 py-1 rounded text-xs">
-                  {Math.abs(startX - currentX)}px / 150px threshold
+                  {Math.abs(currentX - startX)}px / {(containerRef.current?.offsetWidth || 0) * 0.3}px threshold
                 </div>
               )}
             </div>
@@ -341,6 +377,7 @@ export default function SwipeNavigation() {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
   
   const containerRef = useRef(null);
   
@@ -371,43 +408,65 @@ export default function SwipeNavigation() {
   const handleTouchMove = (e) => {
     if (!isDragging) return;
     e.preventDefault();
-    setCurrentX(e.touches[0].clientX);
+    
+    const newX = e.touches[0].clientX;
+    setCurrentX(newX);
+    
+    const diff = newX - startX;
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const maxTranslate = containerWidth * (pages.length - 1);
+    
+    const newTranslateX = Math.max(-maxTranslate, Math.min(0, -currentPage * containerWidth + diff));
+    setTranslateX(newTranslateX);
   };
 
   const handleTouchEnd = () => {
     if (!isDragging) return;
     
-    const diff = startX - currentX;
-    const threshold = 100;
+    const diff = currentX - startX;
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const threshold = containerWidth * 0.3;
     
     if (Math.abs(diff) > threshold) {
-      if (diff > 0 && currentPage < pages.length - 1) {
-        setCurrentPage(prev => prev + 1);
-      } else if (diff < 0 && currentPage > 0) {
+      if (diff > 0 && currentPage > 0) {
         setCurrentPage(prev => prev - 1);
+      } else if (diff < 0 && currentPage < pages.length - 1) {
+        setCurrentPage(prev => prev + 1);
       }
     }
     
+    setTranslateX(-currentPage * (containerRef.current?.offsetWidth || 0));
     setIsDragging(false);
   };
 
   const goToPage = (pageIndex) => {
     if (pageIndex >= 0 && pageIndex < pages.length) {
       setCurrentPage(pageIndex);
+      setTranslateX(-pageIndex * (containerRef.current?.offsetWidth || 0));
     }
   };
 
   const nextPage = () => {
     if (currentPage < pages.length - 1) {
-      setCurrentPage(prev => prev + 1);
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      setTranslateX(-newPage * (containerRef.current?.offsetWidth || 0));
     }
   };
 
   const prevPage = () => {
     if (currentPage > 0) {
-      setCurrentPage(prev => prev - 1);
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      setTranslateX(-newPage * (containerRef.current?.offsetWidth || 0));
     }
   };
+
+  useEffect(() => {
+    if (!isDragging) {
+      setTranslateX(-currentPage * (containerRef.current?.offsetWidth || 0));
+    }
+  }, [currentPage, isDragging]);
 
   return (
     <div 
@@ -421,7 +480,7 @@ export default function SwipeNavigation() {
       <div 
         className="flex h-full transition-transform duration-300 ease-out"
         style={{
-          transform: \`translateX(-\${currentPage * 100}%)\`,
+          transform: \`translateX(\${translateX}px)\`,
           width: \`\${pages.length * 100}%\`
         }}
       >
