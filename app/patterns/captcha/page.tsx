@@ -259,14 +259,7 @@ export default function CaptchaPattern() {
           </div>
         </div>
         {/* Code Example */}
-        <div className="space-y-6">
-          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
-              💻 Code Example
-            </h2>
-            <div className="code-block">
-              <DynamicCodeExample componentName="captcha" />
-            </div>
+<DynamicCodeExample componentName="captcha" />
           </div>
         </div>
       </div>

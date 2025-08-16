@@ -65,17 +65,16 @@ export const DynamicCodeExample = ({
   };
 
   const openPlayground = () => {
-    const playgroundUrl = `/playground?code=${encodeURIComponent(currentCode)}&component=${componentName}`;
-    window.open(playgroundUrl, '_blank');
+    // Create a CodeSandbox URL with the code
+    const codeSandboxUrl = `https://codesandbox.io/s/new?file=/App.js&content=${encodeURIComponent(currentCode)}`;
+    window.open(codeSandboxUrl, '_blank');
   };
 
   return (
     <div className="bg-gray-900 rounded-lg border border-gray-700 overflow-hidden">
       {/* Header */}
       <div className="bg-gray-800 px-4 py-2 border-b border-gray-700">
-        <div className="flex items-center justify-between">
-          <span className="text-gray-300 text-sm font-medium">Code Example</span>
-          
+        <div className="flex items-center justify-end">
           <div className="flex items-center space-x-2">
             {/* Copy Button */}
             <button

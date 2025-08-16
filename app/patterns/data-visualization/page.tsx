@@ -402,34 +402,7 @@ export default function DataVisualizationPattern() {
           </div>
         </div>
         {/* Code Example */}
-        <div className="space-y-6">
-          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
-              💻 Code Example
-            </h2>
-            <div className="space-y-4">
-              {/* Chart Type Selector */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Chart Type
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { key: "bar", label: "Bar Chart", icon: "📊" },
-                    { key: "line", label: "Line Chart", icon: "📈" },
-                    { key: "area", label: "Area Chart", icon: "📉" },
-                    { key: "pie", label: "Pie Chart", icon: "🥧" },
-                  ].map((chart) => (
-                    <button
-                      key={chart.key}
-                      onClick={() => setSelectedChart(chart.key as any)}
-                      className={`p-3 rounded-lg border transition-all duration-200 ${
-                        selectedChart === chart.key
-                          ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300"
-                          : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
-                      }`}
-                    >
-                      <div className="text-lg mb-1">{chart.icon}</div>
+{<DynamicCodeExample componentName="data-visualization" />}
                       <div className="text-xs font-medium">{chart.label}</div>
                     </button>
                   ))}

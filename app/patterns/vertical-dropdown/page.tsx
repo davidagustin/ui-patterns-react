@@ -205,16 +205,7 @@ export default function VerticalDropdownPattern() {
           </div>
         </div>
         {/* Code Example */}
-        <div className="space-y-6">
-          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
-              💻 Code Example
-            </h2>
-            <div className="code-block">
-              <DynamicCodeExample componentName="vertical-dropdown" />
-            </div>
-          </div>
-        </div>
+        <DynamicCodeExample componentName="vertical-dropdown" />
       </div>
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
