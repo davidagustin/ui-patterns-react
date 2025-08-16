@@ -843,6 +843,30 @@ export const extractComponentSource = async (
         '// Key Features section removed for StackBlitz compatibility'
       );
       
+      // Remove Common Use Cases sections
+      sourceCode = sourceCode.replace(
+        /{\/\* Common Use Cases \*\/}[\s\S]*?<div[^>]*>[\s\S]*?🎯 Common Use Cases[\s\S]*?<\/div>[\s\S]*?<\/div>/g,
+        '// Common Use Cases section removed for StackBlitz compatibility'
+      );
+      
+      // Remove any remaining common use cases content
+      sourceCode = sourceCode.replace(
+        /{\/\* Common Use Cases \*\/}[\s\S]*?<\/div>/g,
+        '// Common Use Cases section removed for StackBlitz compatibility'
+      );
+      
+      // Remove the common use cases comment if it's still there
+      sourceCode = sourceCode.replace(
+        /{\/\* Common Use Cases \*\/}/g,
+        '// Common Use Cases section removed for StackBlitz compatibility'
+      );
+      
+      // Remove any remaining section comments that might be missed
+      sourceCode = sourceCode.replace(
+        /{\/\* [^*]* \*\/}/g,
+        '// Section removed for StackBlitz compatibility'
+      );
+      
       // Clean up any extra whitespace
       sourceCode = sourceCode.trim();
       
