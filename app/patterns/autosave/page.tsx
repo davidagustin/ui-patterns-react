@@ -1,41 +1,32 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function AutosavePattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [content, setContent] = useState("");
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<
     "idle" | "saving" | "saved" | "error"
   >("idle");
-
   // Simulate autosave functionality
   useEffect(() => {
     if (content && content.length > 0) {
       setIsSaving(true);
       setSaveStatus("saving");
-
       const timer = setTimeout(() => {
         // Simulate API call
         setLastSaved(new Date());
         setIsSaving(false);
         setSaveStatus("saved");
-
         // Reset status after 3 seconds
         setTimeout(() => setSaveStatus("idle"), 3000);
       }, 1000);
-
       return () => clearTimeout(timer);
     }
   }, [content]);
-
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
-
   const getStatusText = () => {
     switch (saveStatus) {
       case "saving":
@@ -50,7 +41,6 @@ export default function AutosavePattern() {
           : "Start typing to auto-save";
     }
   };
-
   const getStatusColor = () => {
     switch (saveStatus) {
       case "saving":
@@ -63,7 +53,6 @@ export default function AutosavePattern() {
         return "text-gray-500 dark:text-gray-400";
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -75,7 +64,6 @@ export default function AutosavePattern() {
           peace of mind during content creation.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -87,7 +75,6 @@ export default function AutosavePattern() {
               Start typing in the text area below. The content will
               automatically save after you stop typing for 1 second.
             </p>
-
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="font-medium text-gray-800 dark:text-gray-200">
@@ -99,7 +86,6 @@ export default function AutosavePattern() {
                   {getStatusText()}
                 </div>
               </div>
-
               <textarea
                 value={content}
                 onChange={handleContentChange}
@@ -107,7 +93,6 @@ export default function AutosavePattern() {
                 rows={8}
                 className="input-field resize-none"
               />
-
               <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                 <span>{content.length} characters</span>
                 <span>Auto-saves every 1 second after you stop typing</span>
@@ -115,27 +100,19 @@ export default function AutosavePattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="autosave"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="autosave" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -196,7 +173,6 @@ export default function AutosavePattern() {
           </div>
         </div>
       </div>
-
       {/* Best Practices */}
       <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-yellow-200 dark:border-yellow-800">
         <h3 className="text-lg font-semibold mb-4 text-yellow-800 dark:text-yellow-200">

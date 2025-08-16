@@ -1,13 +1,9 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function StepsLeftPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [currentStep, setCurrentStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-
   const checkoutSteps = [
     {
       id: 0,
@@ -50,7 +46,6 @@ export default function StepsLeftPattern() {
       estimated: "1 min",
     },
   ];
-
   const getStepsLeft = () => {
     const requiredSteps = checkoutSteps.filter((step) => step.required);
     const completedRequiredSteps = requiredSteps.filter(
@@ -58,7 +53,6 @@ export default function StepsLeftPattern() {
     );
     return requiredSteps.length - completedRequiredSteps.length;
   };
-
   const getTotalTimeLeft = () => {
     const remainingSteps = checkoutSteps.filter(
       (step) =>
@@ -70,14 +64,12 @@ export default function StepsLeftPattern() {
       return total + time;
     }, 0);
   };
-
   const nextStep = () => {
     if (currentStep < checkoutSteps.length - 1) {
       setCompletedSteps((prev) => [...prev, currentStep]);
       setCurrentStep(currentStep + 1);
     }
   };
-
   const prevStep = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
@@ -86,18 +78,15 @@ export default function StepsLeftPattern() {
       );
     }
   };
-
   const skipOptionalStep = () => {
     if (!checkoutSteps[currentStep].required) {
       nextStep();
     }
   };
-
   const stepsLeft = getStepsLeft();
   const timeLeft = getTotalTimeLeft();
   const progress =
     ((currentStep + completedSteps.length) / checkoutSteps.length) * 100;
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -109,7 +98,6 @@ export default function StepsLeftPattern() {
           indicators and time estimates.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -121,7 +109,6 @@ export default function StepsLeftPattern() {
               Navigate through the checkout process and see how the steps
               remaining counter updates.
             </p>
-
             {/* Steps Left Indicator */}
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 mb-6">
               <div className="flex items-center justify-between mb-4">
@@ -142,7 +129,6 @@ export default function StepsLeftPattern() {
                   </div>
                 </div>
               </div>
-
               {/* Progress Bar */}
               <div className="mb-4">
                 <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
@@ -156,7 +142,6 @@ export default function StepsLeftPattern() {
                   />
                 </div>
               </div>
-
               {/* Time Estimate */}
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600 dark:text-gray-400">
@@ -166,7 +151,6 @@ export default function StepsLeftPattern() {
                   {timeLeft} minute{timeLeft !== 1 ? "s" : ""}
                 </span>
               </div>
-
               {/* Steps Overview */}
               <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="grid grid-cols-5 gap-2">
@@ -194,7 +178,6 @@ export default function StepsLeftPattern() {
                 </div>
               </div>
             </div>
-
             {/* Current Step Content */}
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 mb-6">
               <div className="flex items-center mb-4">
@@ -220,7 +203,6 @@ export default function StepsLeftPattern() {
                   </div>
                 </div>
               </div>
-
               {/* Step-specific content */}
               <div className="space-y-4">
                 {currentStep === 0 && (
@@ -240,7 +222,6 @@ export default function StepsLeftPattern() {
                     </div>
                   </div>
                 )}
-
                 {currentStep === 1 && (
                   <div className="space-y-3">
                     <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -270,7 +251,6 @@ export default function StepsLeftPattern() {
                     </div>
                   </div>
                 )}
-
                 {currentStep === 2 && (
                   <div className="space-y-3">
                     <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -293,7 +273,6 @@ export default function StepsLeftPattern() {
                     </div>
                   </div>
                 )}
-
                 {currentStep === 3 && (
                   <div className="space-y-3">
                     <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -306,7 +285,6 @@ export default function StepsLeftPattern() {
                     />
                   </div>
                 )}
-
                 {currentStep === 4 && (
                   <div className="space-y-3">
                     <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -330,7 +308,6 @@ export default function StepsLeftPattern() {
                 )}
               </div>
             </div>
-
             {/* Navigation */}
             <div className="flex justify-between items-center">
               <button
@@ -340,7 +317,6 @@ export default function StepsLeftPattern() {
               >
                 Back
               </button>
-
               <div className="flex space-x-2">
                 {!checkoutSteps[currentStep].required && (
                   <button
@@ -363,27 +339,19 @@ export default function StepsLeftPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="steps-left"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="steps-left" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -444,7 +412,6 @@ export default function StepsLeftPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

@@ -1,8 +1,6 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function FatFooterPattern() {
   return (
     <div className="space-y-8">
@@ -15,7 +13,6 @@ export default function FatFooterPattern() {
           information organized in a rich, detailed layout.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -27,7 +24,6 @@ export default function FatFooterPattern() {
               A comprehensive footer with company information, navigation links,
               newsletter signup, and legal information.
             </p>
-
             {/* Fat Footer */}
             <div className="bg-gray-900 text-white rounded-lg overflow-hidden">
               <div className="p-6">
@@ -58,7 +54,6 @@ export default function FatFooterPattern() {
                       </button>
                     </div>
                   </div>
-
                   {/* Products */}
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Products</h3>
@@ -97,7 +92,6 @@ export default function FatFooterPattern() {
                       </li>
                     </ul>
                   </div>
-
                   {/* Company */}
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Company</h3>
@@ -136,7 +130,6 @@ export default function FatFooterPattern() {
                       </li>
                     </ul>
                   </div>
-
                   {/* Support */}
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Support</h3>
@@ -176,7 +169,6 @@ export default function FatFooterPattern() {
                     </ul>
                   </div>
                 </div>
-
                 {/* Newsletter Signup */}
                 <div className="pt-4 border-t border-gray-700">
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -200,7 +192,6 @@ export default function FatFooterPattern() {
                     </div>
                   </div>
                 </div>
-
                 {/* Bottom Section */}
                 <div className="mt-6 pt-4 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
                   <div className="mb-4 md:mb-0">
@@ -222,21 +213,14 @@ export default function FatFooterPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="fat-footer"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="fat-footer" />
             </div>
           </div>
         </div>

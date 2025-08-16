@@ -1,10 +1,7 @@
 "use client";
-
 import { useState, useEffect, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function SearchPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -12,9 +9,7 @@ export default function SearchPattern() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
-
   const searchRef = useRef<HTMLDivElement>(null);
-
   // Sample data
   const data = [
     {
@@ -76,14 +71,12 @@ export default function SearchPattern() {
       content: "Comprehensive testing strategies for modern applications.",
     },
   ];
-
   const filters = [
     { key: "all", label: "All", icon: "🔍" },
     { key: "documentation", label: "Documentation", icon: "📚" },
     { key: "tutorial", label: "Tutorials", icon: "🎓" },
     { key: "project", label: "Projects", icon: "💻" },
   ];
-
   // Search suggestions
   const searchSuggestions = [
     "react development",
@@ -95,7 +88,6 @@ export default function SearchPattern() {
     "performance",
     "testing",
   ];
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -105,11 +97,9 @@ export default function SearchPattern() {
         setShowSuggestions(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   useEffect(() => {
     if (query.length === 0) {
       setResults([]);
@@ -117,30 +107,25 @@ export default function SearchPattern() {
       setShowSuggestions(false);
       return;
     }
-
     // Show suggestions
     const filteredSuggestions = searchSuggestions.filter((suggestion) =>
       suggestion.toLowerCase().includes(query.toLowerCase()),
     );
     setSuggestions(filteredSuggestions.slice(0, 5));
     setShowSuggestions(true);
-
     // Simulate search delay
     setIsLoading(true);
     const timeoutId = setTimeout(() => {
       performSearch();
       setIsLoading(false);
     }, 300);
-
     return () => clearTimeout(timeoutId);
   }, [query, selectedFilter]);
-
   const performSearch = () => {
     if (query.trim() === "") {
       setResults([]);
       return;
     }
-
     const filteredResults = data.filter((item) => {
       const matchesQuery =
         item.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -148,37 +133,29 @@ export default function SearchPattern() {
         item.tags.some((tag) =>
           tag.toLowerCase().includes(query.toLowerCase()),
         );
-
       const matchesFilter =
         selectedFilter === "all" || item.category === selectedFilter;
-
       return matchesQuery && matchesFilter;
     });
-
     setResults(filteredResults);
-
     // Add to search history
     if (query.trim() && !searchHistory.includes(query.trim())) {
       setSearchHistory((prev) => [query.trim(), ...prev.slice(0, 4)]);
     }
   };
-
   const handleSuggestionClick = (suggestion: string) => {
     setQuery(suggestion);
     setShowSuggestions(false);
   };
-
   const handleHistoryClick = (historyItem: string) => {
     setQuery(historyItem);
     setShowSuggestions(false);
   };
-
   const clearSearch = () => {
     setQuery("");
     setResults([]);
     setShowSuggestions(false);
   };
-
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case "documentation":
@@ -191,13 +168,10 @@ export default function SearchPattern() {
         return "📄";
     }
   };
-
   const highlightText = (text: string, query: string) => {
     if (!query) return text;
-
     const regex = new RegExp(`(${query})`, "gi");
     const parts = text.split(regex);
-
     return parts.map((part, index) =>
       regex.test(part) ? (
         <mark
@@ -211,7 +185,6 @@ export default function SearchPattern() {
       ),
     );
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -223,7 +196,6 @@ export default function SearchPattern() {
           filters, and search history.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -231,7 +203,6 @@ export default function SearchPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-
             <div className="space-y-4">
               {/* Search Bar */}
               <div className="relative" ref={searchRef}>
@@ -255,7 +226,6 @@ export default function SearchPattern() {
                     </button>
                   )}
                 </div>
-
                 {/* Suggestions Dropdown */}
                 {showSuggestions &&
                   (suggestions.length > 0 || searchHistory.length > 0) && (
@@ -278,7 +248,6 @@ export default function SearchPattern() {
                           ))}
                         </div>
                       )}
-
                       {/* Suggestions */}
                       {suggestions.length > 0 && (
                         <div className="p-2">
@@ -300,7 +269,6 @@ export default function SearchPattern() {
                     </div>
                   )}
               </div>
-
               {/* Filters */}
               <div className="flex flex-wrap gap-2">
                 {filters.map((filter) => (
@@ -318,7 +286,6 @@ export default function SearchPattern() {
                   </button>
                 ))}
               </div>
-
               {/* Loading State */}
               {isLoading && (
                 <div className="flex items-center justify-center py-4">
@@ -328,7 +295,6 @@ export default function SearchPattern() {
                   </span>
                 </div>
               )}
-
               {/* Results */}
               {!isLoading && results.length > 0 && (
                 <div className="space-y-3">
@@ -368,7 +334,6 @@ export default function SearchPattern() {
                   ))}
                 </div>
               )}
-
               {/* No Results */}
               {!isLoading && query && results.length === 0 && (
                 <div className="text-center py-8">
@@ -384,27 +349,19 @@ export default function SearchPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="search"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="search" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -465,7 +422,6 @@ export default function SearchPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

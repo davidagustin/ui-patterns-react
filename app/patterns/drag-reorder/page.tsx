@@ -1,10 +1,7 @@
 "use client";
-
 import { useState, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function DragReorderPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [items, setItems] = useState([
     {
       id: 1,
@@ -39,13 +36,11 @@ export default function DragReorderPattern() {
   ]);
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
   const [dragOverItem, setDragOverItem] = useState<number | null>(null);
-
   const handleDragStart = (e: React.DragEvent, itemId: number) => {
     setDraggedItem(itemId);
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("text/plain", itemId.toString());
   };
-
   const handleDragOver = (e: React.DragEvent, itemId: number) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
@@ -53,34 +48,26 @@ export default function DragReorderPattern() {
       setDragOverItem(itemId);
     }
   };
-
   const handleDragLeave = () => {
     setDragOverItem(null);
   };
-
   const handleDrop = (e: React.DragEvent, targetItemId: number) => {
     e.preventDefault();
-
     if (draggedItem && draggedItem !== targetItemId) {
       const draggedIndex = items.findIndex((item) => item.id === draggedItem);
       const targetIndex = items.findIndex((item) => item.id === targetItemId);
-
       const newItems = [...items];
       const [draggedItemData] = newItems.splice(draggedIndex, 1);
       newItems.splice(targetIndex, 0, draggedItemData);
-
       setItems(newItems);
     }
-
     setDraggedItem(null);
     setDragOverItem(null);
   };
-
   const handleDragEnd = () => {
     setDraggedItem(null);
     setDragOverItem(null);
   };
-
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "High":
@@ -93,7 +80,6 @@ export default function DragReorderPattern() {
         return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -105,7 +91,6 @@ export default function DragReorderPattern() {
           providing intuitive list management.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -117,7 +102,6 @@ export default function DragReorderPattern() {
               Drag any item to reorder the list. Watch for visual feedback
               during dragging.
             </p>
-
             <div className="space-y-2">
               {items.map((item, index) => (
                 <div
@@ -152,7 +136,6 @@ export default function DragReorderPattern() {
                       />
                     </svg>
                   </div>
-
                   {/* Content */}
                   <div className="ml-8">
                     <div className="flex items-start justify-between">
@@ -176,7 +159,6 @@ export default function DragReorderPattern() {
                       </span>
                     </div>
                   </div>
-
                   {/* Drop Indicator */}
                   {dragOverItem === item.id && draggedItem !== item.id && (
                     <div className="absolute inset-0 border-2 border-blue-500 border-dashed rounded-lg bg-blue-50 dark:bg-blue-900/20 pointer-events-none" />
@@ -184,7 +166,6 @@ export default function DragReorderPattern() {
                 </div>
               ))}
             </div>
-
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
                 How to Use
@@ -198,27 +179,19 @@ export default function DragReorderPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="drag-reorder"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="drag-reorder" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -305,7 +278,6 @@ export default function DragReorderPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

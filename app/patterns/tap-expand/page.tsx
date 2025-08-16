@@ -1,12 +1,8 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function TapExpandPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
-
   const items = [
     {
       id: 1,
@@ -41,7 +37,6 @@ export default function TapExpandPattern() {
       icon: "⚡",
     },
   ];
-
   const toggleExpanded = (itemId: number) => {
     setExpandedItems((prev) => {
       const newSet = new Set(prev);
@@ -53,9 +48,7 @@ export default function TapExpandPattern() {
       return newSet;
     });
   };
-
   const isExpanded = (itemId: number) => expandedItems.has(itemId);
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -67,7 +60,6 @@ export default function TapExpandPattern() {
           information while maintaining a clean interface.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -79,7 +71,6 @@ export default function TapExpandPattern() {
               Tap any item to expand and see more details. Tap again to
               collapse.
             </p>
-
             <div className="space-y-3">
               {items.map((item) => (
                 <div
@@ -120,7 +111,6 @@ export default function TapExpandPattern() {
                       />
                     </svg>
                   </button>
-
                   {/* Content */}
                   <div
                     className={`overflow-hidden transition-all duration-300 ease-in-out ${
@@ -145,7 +135,6 @@ export default function TapExpandPattern() {
                 </div>
               ))}
             </div>
-
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
                 How to Use
@@ -159,27 +148,19 @@ export default function TapExpandPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="tap-expand"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="tap-expand" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -266,7 +247,6 @@ export default function TapExpandPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

@@ -1,23 +1,16 @@
 "use client";
-
 import { useState, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function ImageUploadPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [uploadedImages, setUploadedImages] = useState<any[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
-
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   const handleFileSelect = (files: FileList | null) => {
     if (!files) return;
-
     Array.from(files).forEach((file) => {
       if (file.type.startsWith("image/")) {
         const id = Math.random().toString(36).substr(2, 9);
         const preview = URL.createObjectURL(file);
-
         const newImage = {
           id,
           file,
@@ -25,15 +18,12 @@ export default function ImageUploadPattern() {
           progress: 0,
           status: "uploading" as const,
         };
-
         setUploadedImages((prev) => [...prev, newImage]);
-
         // Simulate upload progress
         simulateUpload(id);
       }
     });
   };
-
   const simulateUpload = (id: string) => {
     let progress = 0;
     const interval = setInterval(() => {
@@ -41,7 +31,6 @@ export default function ImageUploadPattern() {
       if (progress >= 100) {
         progress = 100;
         clearInterval(interval);
-
         setUploadedImages((prev) =>
           prev.map((img) =>
             img.id === id
@@ -56,30 +45,25 @@ export default function ImageUploadPattern() {
       }
     }, 200);
   };
-
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(true);
   };
-
   const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
   };
-
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
     handleFileSelect(e.dataTransfer.files);
   };
-
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleFileSelect(e.target.files);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
   };
-
   const removeImage = (id: string) => {
     setUploadedImages((prev) => {
       const image = prev.find((img) => img.id === id);
@@ -89,7 +73,6 @@ export default function ImageUploadPattern() {
       return prev.filter((img) => img.id !== id);
     });
   };
-
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "uploading":
@@ -102,7 +85,6 @@ export default function ImageUploadPattern() {
         return "📷";
     }
   };
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case "uploading":
@@ -115,7 +97,6 @@ export default function ImageUploadPattern() {
         return "text-gray-600 dark:text-gray-400";
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -127,7 +108,6 @@ export default function ImageUploadPattern() {
           validation.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -135,7 +115,6 @@ export default function ImageUploadPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-
             <div className="space-y-6">
               {/* Upload Area */}
               <div
@@ -170,7 +149,6 @@ export default function ImageUploadPattern() {
                   className="hidden"
                 />
               </div>
-
               {/* Uploaded Images */}
               {uploadedImages.length > 0 && (
                 <div className="space-y-4">
@@ -190,7 +168,6 @@ export default function ImageUploadPattern() {
                             alt={image.file.name}
                             className="w-full h-full object-cover"
                           />
-
                           {/* Status Overlay */}
                           <div className="absolute top-2 right-2">
                             <span
@@ -199,7 +176,6 @@ export default function ImageUploadPattern() {
                               {getStatusIcon(image.status)}
                             </span>
                           </div>
-
                           {/* Remove Button */}
                           <button
                             onClick={() => removeImage(image.id)}
@@ -208,7 +184,6 @@ export default function ImageUploadPattern() {
                             ×
                           </button>
                         </div>
-
                         {/* File Info */}
                         <div className="p-3">
                           <p className="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">
@@ -217,7 +192,6 @@ export default function ImageUploadPattern() {
                           <p className="text-xs text-gray-500 dark:text-gray-400">
                             {(image.file.size / 1024 / 1024).toFixed(2)} MB
                           </p>
-
                           {/* Progress Bar */}
                           {image.status === "uploading" && (
                             <div className="mt-2">
@@ -241,27 +215,19 @@ export default function ImageUploadPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="image-upload"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="image-upload" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -322,7 +288,6 @@ export default function ImageUploadPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

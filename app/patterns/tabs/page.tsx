@@ -152,12 +152,7 @@ export default function TabsPattern() {
 
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="tabs"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="tabs" />
             </div>
           </div>
         </div>

@@ -1,17 +1,13 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 import Link from "next/link";
-
 export default function NavbarPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const navigationItems = [
     { name: "Home", href: "#", current: true },
     { name: "Products", href: "#", current: false },
@@ -19,13 +15,11 @@ export default function NavbarPattern() {
     { name: "About", href: "#", current: false },
     { name: "Contact", href: "#", current: false },
   ];
-
   const notifications = [
     { id: 1, title: "New order received", time: "2 minutes ago", unread: true },
     { id: 2, title: "Payment processed", time: "1 hour ago", unread: true },
     { id: 3, title: "Shipment delivered", time: "3 hours ago", unread: false },
   ];
-
   const searchSuggestions = [
     { id: 1, title: "Dashboard Analytics", type: "page", icon: "📊" },
     { id: 2, title: "User Management", type: "page", icon: "👥" },
@@ -33,11 +27,9 @@ export default function NavbarPattern() {
     { id: 4, title: "Order Reports", type: "report", icon: "📋" },
     { id: 5, title: "Email Templates", type: "template", icon: "✉️" },
   ];
-
   const filteredSuggestions = searchSuggestions.filter((suggestion) =>
     suggestion.title.toLowerCase().includes(searchValue.toLowerCase()),
   );
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -49,7 +41,6 @@ export default function NavbarPattern() {
           user actions for consistent site-wide navigation.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -61,7 +52,6 @@ export default function NavbarPattern() {
               A complete navigation bar with logo, menu items, search,
               notifications, and user profile dropdown.
             </p>
-
             {/* Navigation Bar */}
             <nav className="bg-white dark:bg-gray-800 shadow-lg rounded-lg">
               <div className="max-w-7xl mx-auto px-4">
@@ -77,7 +67,6 @@ export default function NavbarPattern() {
                       </span>
                     </div>
                   </div>
-
                   {/* Navigation Links - Desktop */}
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
@@ -95,7 +84,6 @@ export default function NavbarPattern() {
                       ))}
                     </div>
                   </div>
-
                   {/* Right Side Items */}
                   <div className="flex items-center space-x-4">
                     {/* Enhanced Search with Dropdown */}
@@ -128,7 +116,6 @@ export default function NavbarPattern() {
                             />
                           </svg>
                         </div>
-
                         {/* Search Dropdown */}
                         {isSearchFocused && (searchValue || true) && (
                           <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
@@ -222,7 +209,6 @@ export default function NavbarPattern() {
                         )}
                       </div>
                     </div>
-
                     {/* Notifications */}
                     <div className="relative">
                       <button
@@ -246,7 +232,6 @@ export default function NavbarPattern() {
                         </svg>
                         <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-400 ring-2 ring-white dark:ring-gray-800"></span>
                       </button>
-
                       {/* Notifications Dropdown */}
                       {isNotificationsOpen && (
                         <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
@@ -285,7 +270,6 @@ export default function NavbarPattern() {
                         </div>
                       )}
                     </div>
-
                     {/* Profile Menu */}
                     <div className="relative">
                       <button
@@ -311,7 +295,6 @@ export default function NavbarPattern() {
                           />
                         </svg>
                       </button>
-
                       {/* Profile Dropdown */}
                       {isProfileMenuOpen && (
                         <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
@@ -341,7 +324,6 @@ export default function NavbarPattern() {
                         </div>
                       )}
                     </div>
-
                     {/* Mobile menu button */}
                     <button
                       onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -368,7 +350,6 @@ export default function NavbarPattern() {
                   </div>
                 </div>
               </div>
-
               {/* Mobile Menu */}
               {isMobileMenuOpen && (
                 <div className="md:hidden border-t border-gray-200 dark:border-gray-700">
@@ -387,7 +368,6 @@ export default function NavbarPattern() {
                       </button>
                     ))}
                   </div>
-
                   {/* Mobile Search */}
                   <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700">
                     <input
@@ -397,7 +377,6 @@ export default function NavbarPattern() {
                       style={{ fontSize: "16px" }}
                     />
                   </div>
-
                   {/* Mobile Profile Section */}
                   <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700">
                     <div className="flex items-center space-x-3 mb-3">
@@ -430,7 +409,6 @@ export default function NavbarPattern() {
                 </div>
               )}
             </nav>
-
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
                 Interactive Features
@@ -445,27 +423,19 @@ export default function NavbarPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="navbar"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="navbar" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -552,7 +522,6 @@ export default function NavbarPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

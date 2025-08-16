@@ -1,15 +1,10 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function FAQPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [openItems, setOpenItems] = useState<Set<number>>(new Set([1]));
-
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-
   const faqData = [
     {
       id: 1,
@@ -68,14 +63,12 @@ export default function FAQPattern() {
         "We integrate with over 50+ popular tools including Slack, Microsoft Teams, Google Workspace, GitHub, Jira, Trello, Zapier, and many more. We also provide a REST API and webhooks for custom integrations. New integrations are added regularly based on user feedback.",
     },
   ];
-
   const categories = [
     { id: "all", name: "All Questions", icon: "📚" },
     { id: "general", name: "General", icon: "❓" },
     { id: "billing", name: "Billing", icon: "💳" },
     { id: "technical", name: "Technical", icon: "⚙️" },
   ];
-
   const filteredFAQs = faqData.filter((item) => {
     const matchesCategory =
       selectedCategory === "all" || item.category === selectedCategory;
@@ -85,7 +78,6 @@ export default function FAQPattern() {
       item.answer.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
-
   const toggleItem = (id: number) => {
     const newOpenItems = new Set(openItems);
     if (newOpenItems.has(id)) {
@@ -95,15 +87,12 @@ export default function FAQPattern() {
     }
     setOpenItems(newOpenItems);
   };
-
   const expandAll = () => {
     setOpenItems(new Set(filteredFAQs.map((item) => item.id)));
   };
-
   const collapseAll = () => {
     setOpenItems(new Set());
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -115,7 +104,6 @@ export default function FAQPattern() {
           functionality, and category filtering for easy information discovery.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -127,7 +115,6 @@ export default function FAQPattern() {
               Search questions, filter by category, and click to expand/collapse
               answers. Try the expand/collapse all buttons.
             </p>
-
             {/* Search and Controls */}
             <div className="space-y-4 mb-6">
               {/* Search Bar */}
@@ -143,7 +130,6 @@ export default function FAQPattern() {
                   🔍
                 </span>
               </div>
-
               {/* Category Filter */}
               <div className="flex flex-wrap gap-2">
                 {categories.map((category) => (
@@ -161,7 +147,6 @@ export default function FAQPattern() {
                   </button>
                 ))}
               </div>
-
               {/* Expand/Collapse Controls */}
               <div className="flex gap-2">
                 <button
@@ -178,7 +163,6 @@ export default function FAQPattern() {
                 </button>
               </div>
             </div>
-
             {/* FAQ Items */}
             <div className="space-y-3">
               {filteredFAQs.length > 0 ? (
@@ -234,7 +218,6 @@ export default function FAQPattern() {
                 </div>
               )}
             </div>
-
             {/* Results Info */}
             {filteredFAQs.length > 0 && (
               <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 text-center">
@@ -243,22 +226,19 @@ export default function FAQPattern() {
             )}
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {<DynamicCodeExample componentName="faq" activeTab={activeTab} />}
+              <DynamicCodeExample componentName="faq" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -319,7 +299,6 @@ export default function FAQPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

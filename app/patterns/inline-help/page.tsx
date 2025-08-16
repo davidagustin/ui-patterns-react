@@ -1,10 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function InlineHelpPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -15,9 +12,7 @@ export default function InlineHelpPattern() {
     address: "",
     postalCode: "",
   });
-
   const [activeHelp, setActiveHelp] = useState<string | null>(null);
-
   const helpContent = {
     username: {
       title: "Username Requirements",
@@ -76,7 +71,6 @@ export default function InlineHelpPattern() {
       type: "info",
     },
   };
-
   const getHelpTypeColor = (type: string) => {
     switch (type) {
       case "security":
@@ -87,7 +81,6 @@ export default function InlineHelpPattern() {
         return "border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20";
     }
   };
-
   const getHelpTypeTextColor = (type: string) => {
     switch (type) {
       case "security":
@@ -98,18 +91,15 @@ export default function InlineHelpPattern() {
         return "text-blue-800 dark:text-blue-200";
     }
   };
-
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
-
   const toggleHelp = (field: string) => {
     setActiveHelp(activeHelp === field ? null : field);
   };
-
   const validateField = (field: string, value: string) => {
     switch (field) {
       case "username":
@@ -132,7 +122,6 @@ export default function InlineHelpPattern() {
         return value.trim() !== "";
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -144,7 +133,6 @@ export default function InlineHelpPattern() {
           interfaces to reduce user confusion and errors.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -156,12 +144,10 @@ export default function InlineHelpPattern() {
               Click on the help icons (?) next to each field to see contextual
               help. Watch how validation states update in real-time.
             </p>
-
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700 space-y-6">
               <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
                 Create Account
               </h3>
-
               {/* Username Field */}
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
@@ -215,7 +201,6 @@ export default function InlineHelpPattern() {
                   </div>
                 )}
               </div>
-
               {/* Email Field */}
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
@@ -263,7 +248,6 @@ export default function InlineHelpPattern() {
                   </div>
                 )}
               </div>
-
               {/* Password Field */}
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
@@ -317,7 +301,6 @@ export default function InlineHelpPattern() {
                   </div>
                 )}
               </div>
-
               {/* Phone Number Field */}
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
@@ -363,7 +346,6 @@ export default function InlineHelpPattern() {
                   </div>
                 )}
               </div>
-
               {/* Date of Birth Field */}
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
@@ -408,7 +390,6 @@ export default function InlineHelpPattern() {
                   </div>
                 )}
               </div>
-
               {/* Address Field */}
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
@@ -452,7 +433,6 @@ export default function InlineHelpPattern() {
                   </div>
                 )}
               </div>
-
               <button
                 type="submit"
                 className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors"
@@ -462,27 +442,19 @@ export default function InlineHelpPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="inline-help"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="inline-help" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -543,7 +515,6 @@ export default function InlineHelpPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

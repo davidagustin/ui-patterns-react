@@ -1,8 +1,6 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function SettingsPattern() {
   const [settings, setSettings] = useState({
     theme: "system",
@@ -23,9 +21,7 @@ export default function SettingsPattern() {
       soundEnabled: true,
     },
   });
-
   const [activeTab, setActiveTab] = useState("general");
-
   const handleSettingChange = (category: string, key: string, value: any) => {
     setSettings((prev) => ({
       ...prev,
@@ -35,28 +31,24 @@ export default function SettingsPattern() {
       },
     }));
   };
-
   const handleDirectChange = (key: string, value: any) => {
     setSettings((prev) => ({
       ...prev,
       [key]: value,
     }));
   };
-
   const tabs = [
     { id: "general", label: "General", icon: "⚙️" },
     { id: "notifications", label: "Notifications", icon: "🔔" },
     { id: "privacy", label: "Privacy", icon: "🔒" },
     { id: "preferences", label: "Preferences", icon: "🎨" },
   ];
-
   const renderGeneralSettings = () => (
     <div className="space-y-6">
       <div className="space-y-4">
         <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
           Appearance
         </h3>
-
         <div className="space-y-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -75,7 +67,6 @@ export default function SettingsPattern() {
               Choose your preferred color theme
             </p>
           </div>
-
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Language
@@ -99,14 +90,12 @@ export default function SettingsPattern() {
       </div>
     </div>
   );
-
   const renderNotificationSettings = () => (
     <div className="space-y-6">
       <div className="space-y-4">
         <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
           Notification Preferences
         </h3>
-
         <div className="space-y-4">
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
@@ -133,7 +122,6 @@ export default function SettingsPattern() {
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
           </div>
-
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
               <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -155,7 +143,6 @@ export default function SettingsPattern() {
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
           </div>
-
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
               <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -181,14 +168,12 @@ export default function SettingsPattern() {
       </div>
     </div>
   );
-
   const renderPrivacySettings = () => (
     <div className="space-y-6">
       <div className="space-y-4">
         <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
           Privacy & Security
         </h3>
-
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -213,7 +198,6 @@ export default function SettingsPattern() {
               Control who can see your profile
             </p>
           </div>
-
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
               <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -235,7 +219,6 @@ export default function SettingsPattern() {
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
           </div>
-
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
               <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -265,14 +248,12 @@ export default function SettingsPattern() {
       </div>
     </div>
   );
-
   const renderPreferenceSettings = () => (
     <div className="space-y-6">
       <div className="space-y-4">
         <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
           User Preferences
         </h3>
-
         <div className="space-y-4">
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
@@ -299,7 +280,6 @@ export default function SettingsPattern() {
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
           </div>
-
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
               <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -325,7 +305,6 @@ export default function SettingsPattern() {
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
             </label>
           </div>
-
           <div className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div>
               <h4 className="font-medium text-gray-800 dark:text-gray-200">
@@ -355,7 +334,6 @@ export default function SettingsPattern() {
       </div>
     </div>
   );
-
   const renderContent = () => {
     switch (activeTab) {
       case "general":
@@ -370,7 +348,6 @@ export default function SettingsPattern() {
         return renderGeneralSettings();
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -382,7 +359,6 @@ export default function SettingsPattern() {
           settings interface.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -390,7 +366,6 @@ export default function SettingsPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-
             <div className="space-y-6">
               <div className="flex space-x-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
                 {tabs.map((tab) => (
@@ -408,10 +383,8 @@ export default function SettingsPattern() {
                   </button>
                 ))}
               </div>
-
               {/* Settings Content */}
               <div className="min-h-[400px]">{renderContent()}</div>
-
               {/* Save Button */}
               <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <button className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
@@ -424,24 +397,18 @@ export default function SettingsPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             <div className="code-block">
-              <DynamicCodeExample
-                componentName="settings"
-                activeTab={activeTab}
-              />
+              <DynamicCodeExample componentName="settings" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -502,7 +469,6 @@ export default function SettingsPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

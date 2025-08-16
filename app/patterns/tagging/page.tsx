@@ -1,18 +1,14 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 import Tooltip from "../../../components/Tooltip";
-
 export default function TaggingPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [tags, setTags] = useState<string[]>([
     "React",
     "JavaScript",
     "Web Development",
   ]);
   const [inputValue, setInputValue] = useState("");
-
   const predefinedTags = [
     "React",
     "Vue",
@@ -34,7 +30,6 @@ export default function TaggingPattern() {
     "Performance",
     "Accessibility",
   ];
-
   const addTag = (tag: string) => {
     const trimmedTag = tag.trim();
     if (trimmedTag && !tags.includes(trimmedTag)) {
@@ -42,19 +37,15 @@ export default function TaggingPattern() {
     }
     setInputValue("");
   };
-
   const removeTag = (tagToRemove: string) => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
   };
-
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && inputValue.trim()) {
       addTag(inputValue);
     }
   };
-
   const availableTags = predefinedTags.filter((tag) => !tags.includes(tag));
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -66,7 +57,6 @@ export default function TaggingPattern() {
           organization and discovery.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -78,7 +68,6 @@ export default function TaggingPattern() {
               Add, remove, and manage tags. Type custom tags or select from
               predefined options.
             </p>
-
             {/* Tag Input */}
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2 min-h-[40px] p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800">
@@ -108,7 +97,6 @@ export default function TaggingPattern() {
                   className="flex-1 min-w-[120px] outline-none bg-transparent text-sm"
                 />
               </div>
-
               {/* Suggested Tags */}
               {availableTags.length > 0 && (
                 <div>
@@ -128,7 +116,6 @@ export default function TaggingPattern() {
                   </div>
                 </div>
               )}
-
               {/* Tag Statistics */}
               <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                 <span>{tags.length} tags selected</span>
@@ -144,27 +131,19 @@ export default function TaggingPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="tagging"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="tagging" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -225,7 +204,6 @@ export default function TaggingPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

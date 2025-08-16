@@ -1,14 +1,10 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function MobileMenuPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOverlayMenuOpen, setIsOverlayMenuOpen] = useState(false);
   const [isSlideMenuOpen, setIsSlideMenuOpen] = useState(false);
-
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOverlayMenuOpen || isSlideMenuOpen) {
@@ -16,12 +12,10 @@ export default function MobileMenuPattern() {
     } else {
       document.body.style.overflow = "";
     }
-
     return () => {
       document.body.style.overflow = "";
     };
   }, [isOverlayMenuOpen, isSlideMenuOpen]);
-
   const menuItems = [
     { id: 1, name: "Home", icon: "🏠", href: "#" },
     { id: 2, name: "Products", icon: "📦", href: "#" },
@@ -29,13 +23,11 @@ export default function MobileMenuPattern() {
     { id: 4, name: "About", icon: "ℹ️", href: "#" },
     { id: 5, name: "Contact", icon: "📞", href: "#" },
   ];
-
   const socialLinks = [
     { id: 1, name: "Facebook", icon: "📘", href: "#" },
     { id: 2, name: "Twitter", icon: "🐦", href: "#" },
     { id: 3, name: "Instagram", icon: "📷", href: "#" },
   ];
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -47,7 +39,6 @@ export default function MobileMenuPattern() {
           animations, overlay effects, and gesture support.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -59,7 +50,6 @@ export default function MobileMenuPattern() {
               Three different mobile menu styles: collapsible, full-screen
               overlay, and slide-in sidebar.
             </p>
-
             <div className="space-y-6">
               {/* Collapsible Menu */}
               <div className="space-y-2">
@@ -101,7 +91,6 @@ export default function MobileMenuPattern() {
                       </div>
                     </button>
                   </div>
-
                   {/* Collapsible Menu Content */}
                   <div
                     className={`bg-white dark:bg-gray-800 transition-all duration-300 ease-in-out overflow-hidden ${
@@ -122,7 +111,6 @@ export default function MobileMenuPattern() {
                   </div>
                 </div>
               </div>
-
               {/* Overlay Menu */}
               <div className="space-y-2">
                 <h3 className="font-medium text-gray-800 dark:text-gray-200">
@@ -136,7 +124,6 @@ export default function MobileMenuPattern() {
                   <span>Open Overlay Menu</span>
                 </button>
               </div>
-
               {/* Slide Menu */}
               <div className="space-y-2">
                 <h3 className="font-medium text-gray-800 dark:text-gray-200">
@@ -151,7 +138,6 @@ export default function MobileMenuPattern() {
                 </button>
               </div>
             </div>
-
             <div className="mt-6 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
                 Interactive Features
@@ -165,7 +151,6 @@ export default function MobileMenuPattern() {
               </div>
             </div>
           </div>
-
           {/* Overlay Menu */}
           {isOverlayMenuOpen && (
             <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
@@ -199,7 +184,6 @@ export default function MobileMenuPattern() {
                     </svg>
                   </button>
                 </div>
-
                 {/* Menu Content */}
                 <div className="flex-1 flex flex-col justify-center items-center space-y-8 p-6">
                   <nav className="space-y-4 text-center">
@@ -213,7 +197,6 @@ export default function MobileMenuPattern() {
                       </button>
                     ))}
                   </nav>
-
                   <div className="flex space-x-6">
                     {socialLinks.map((social) => (
                       <button
@@ -228,7 +211,6 @@ export default function MobileMenuPattern() {
               </div>
             </div>
           )}
-
           {/* Slide Menu */}
           {isSlideMenuOpen && (
             <div className="fixed inset-0 z-50">
@@ -237,7 +219,6 @@ export default function MobileMenuPattern() {
                 className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
                 onClick={() => setIsSlideMenuOpen(false)}
               ></div>
-
               {/* Slide Panel */}
               <div className="absolute top-0 left-0 h-full w-80 bg-white dark:bg-gray-900 shadow-xl transform transition-transform animate-slideInLeft">
                 {/* Header */}
@@ -269,7 +250,6 @@ export default function MobileMenuPattern() {
                     </svg>
                   </button>
                 </div>
-
                 {/* Menu Items */}
                 <nav className="p-6 space-y-2">
                   {menuItems.map((item) => (
@@ -282,7 +262,6 @@ export default function MobileMenuPattern() {
                     </button>
                   ))}
                 </nav>
-
                 {/* Footer */}
                 <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex items-center space-x-3">
@@ -305,27 +284,19 @@ export default function MobileMenuPattern() {
             </div>
           )}
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="mobile-menu"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="mobile-menu" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -412,7 +383,6 @@ export default function MobileMenuPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">
@@ -448,16 +418,13 @@ export default function MobileMenuPattern() {
           </div>
         </div>
       </div>
-
       <style jsx>{`
         .animate-fadeIn {
           animation: fadeIn 0.3s ease-out;
         }
-
         .animate-slideInLeft {
           animation: slideInLeft 0.3s ease-out;
         }
-
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -466,7 +433,6 @@ export default function MobileMenuPattern() {
             opacity: 1;
           }
         }
-
         @keyframes slideInLeft {
           from {
             transform: translateX(-100%);

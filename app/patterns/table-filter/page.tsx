@@ -1,16 +1,12 @@
 "use client";
-
 import { useState, useMemo } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function TableFilterPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [roleFilter, setRoleFilter] = useState("all");
   const [sortBy, setSortBy] = useState("name");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-
   const sampleData = [
     {
       id: 1,
@@ -77,11 +73,9 @@ export default function TableFilterPattern() {
       status: "Active",
     },
   ];
-
   const roles = [...new Set(sampleData.map((item) => item.role))];
   const departments = [...new Set(sampleData.map((item) => item.department))];
   const statuses = [...new Set(sampleData.map((item) => item.status))];
-
   const filteredData = useMemo(() => {
     return sampleData.filter((item) => {
       const nameMatch =
@@ -91,11 +85,9 @@ export default function TableFilterPattern() {
       const statusMatch =
         statusFilter === "all" || item.status === statusFilter;
       const departmentMatch = true; // Simplified for this example
-
       return nameMatch && roleMatch && statusMatch && departmentMatch;
     });
   }, [searchTerm, statusFilter, roleFilter]);
-
   const handleSort = (field: string) => {
     if (sortBy === field) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -104,22 +96,18 @@ export default function TableFilterPattern() {
       setSortOrder("asc");
     }
   };
-
   const clearFilters = () => {
     setSearchTerm("");
     setStatusFilter("all");
     setRoleFilter("all");
   };
-
   const getStatusColor = (status: string) => {
     return status === "Active"
       ? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
       : "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400";
   };
-
   const hasActiveFilters =
     searchTerm !== "" || statusFilter !== "all" || roleFilter !== "all";
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -131,7 +119,6 @@ export default function TableFilterPattern() {
           quickly and efficiently.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -139,7 +126,6 @@ export default function TableFilterPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-
             <div className="space-y-4">
               {/* Filter Controls */}
               <div className="space-y-3">
@@ -156,7 +142,6 @@ export default function TableFilterPattern() {
                     </button>
                   )}
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -170,7 +155,6 @@ export default function TableFilterPattern() {
                       className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-
                   <div>
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Role
@@ -188,7 +172,6 @@ export default function TableFilterPattern() {
                       ))}
                     </select>
                   </div>
-
                   <div>
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Department
@@ -206,7 +189,6 @@ export default function TableFilterPattern() {
                       ))}
                     </select>
                   </div>
-
                   <div>
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Status
@@ -226,7 +208,6 @@ export default function TableFilterPattern() {
                   </div>
                 </div>
               </div>
-
               {/* Results Summary */}
               <div className="flex items-center justify-between text-sm">
                 <span className="text-gray-600 dark:text-gray-400">
@@ -238,7 +219,6 @@ export default function TableFilterPattern() {
                   </span>
                 )}
               </div>
-
               {/* Data Table */}
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg shadow-sm">
@@ -292,7 +272,6 @@ export default function TableFilterPattern() {
                   </tbody>
                 </table>
               </div>
-
               {filteredData.length === 0 && (
                 <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                   <div className="text-2xl mb-2">🔍</div>
@@ -308,27 +287,19 @@ export default function TableFilterPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="table-filter"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="table-filter" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -389,7 +360,6 @@ export default function TableFilterPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

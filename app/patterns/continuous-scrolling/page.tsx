@@ -1,8 +1,6 @@
 "use client";
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 interface Post {
   id: number;
   title: string;
@@ -12,22 +10,17 @@ interface Post {
   likes: number;
   comments: number;
 }
-
 export default function ContinuousScrollingPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-
   const observer = useRef<IntersectionObserver | null>(null);
   const loadingRef = useRef<HTMLDivElement>(null);
-
   // Generate mock data with unique IDs
   const generatePosts = (pageNum: number): Post[] => {
     const postsPerPage = 10;
     const timestamp = Date.now();
-
     return Array.from({ length: postsPerPage }, (_, index) => {
       // Create truly unique ID by combining page, index, and timestamp
       const postId = pageNum * 1000 + index + 1;
@@ -42,7 +35,6 @@ export default function ContinuousScrollingPattern() {
       };
     });
   };
-
   const getRandomTitle = () => {
     const titles = [
       "The Future of Web Development",
@@ -58,7 +50,6 @@ export default function ContinuousScrollingPattern() {
     ];
     return titles[Math.floor(Math.random() * titles.length)];
   };
-
   const getRandomContent = () => {
     const contents = [
       "This is an interesting article about modern web development practices and how they can improve your workflow.",
@@ -69,7 +60,6 @@ export default function ContinuousScrollingPattern() {
     ];
     return contents[Math.floor(Math.random() * contents.length)];
   };
-
   const getRandomAuthor = () => {
     const authors = [
       "Sarah Johnson",
@@ -83,7 +73,6 @@ export default function ContinuousScrollingPattern() {
     ];
     return authors[Math.floor(Math.random() * authors.length)];
   };
-
   const getRandomDate = () => {
     const dates = [
       "2 hours ago",
@@ -95,56 +84,43 @@ export default function ContinuousScrollingPattern() {
     ];
     return dates[Math.floor(Math.random() * dates.length)];
   };
-
   const loadMorePosts = useCallback(async () => {
     if (loading || !hasMore) return;
-
     setLoading(true);
-
     // Simulate API call delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
-
     const newPosts = generatePosts(page);
-
     if (page >= 5) {
       // Limit to 5 pages for demo
       setHasMore(false);
     }
-
     setPosts((prev) => [...prev, ...newPosts]);
     setPage((prev) => prev + 1);
     setLoading(false);
   }, [loading, hasMore, page]);
-
   // Intersection Observer for infinite scroll
   const lastElementRef = useCallback(
     (node: HTMLDivElement) => {
       if (loading) return;
-
       if (observer.current) observer.current.disconnect();
-
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           loadMorePosts();
         }
       });
-
       if (node) observer.current.observe(node);
     },
     [loading, hasMore, loadMorePosts],
   );
-
   useEffect(() => {
     loadMorePosts();
   }, []);
-
   const formatNumber = (num: number) => {
     if (num >= 1000) {
       return (num / 1000).toFixed(1) + "k";
     }
     return num.toString();
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -156,7 +132,6 @@ export default function ContinuousScrollingPattern() {
           browsing experience without pagination.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -169,7 +144,6 @@ export default function ContinuousScrollingPattern() {
               perfect for social media feeds, news sites, and content-heavy
               applications.
             </p>
-
             <div className="max-h-96 overflow-y-auto space-y-4 scroll-smooth">
               {posts.map((post, index) => (
                 <div
@@ -185,11 +159,9 @@ export default function ContinuousScrollingPattern() {
                       {post.date}
                     </span>
                   </div>
-
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                     {post.content}
                   </p>
-
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-gray-500 dark:text-gray-400">
                       By {post.author}
@@ -205,7 +177,6 @@ export default function ContinuousScrollingPattern() {
                   </div>
                 </div>
               ))}
-
               {loading && (
                 <div ref={loadingRef} className="flex justify-center py-4">
                   <div className="flex items-center space-x-2">
@@ -216,7 +187,6 @@ export default function ContinuousScrollingPattern() {
                   </div>
                 </div>
               )}
-
               {!hasMore && (
                 <div className="text-center py-4">
                   <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -227,27 +197,19 @@ export default function ContinuousScrollingPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="continuous-scrolling"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="continuous-scrolling" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -308,7 +270,6 @@ export default function ContinuousScrollingPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

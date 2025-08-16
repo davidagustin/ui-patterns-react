@@ -1,10 +1,7 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function CaptchaPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [captchaType, setCaptchaType] = useState<"image" | "checkbox" | "math">(
     "image",
   );
@@ -15,12 +12,10 @@ export default function CaptchaPattern() {
     num2: 3,
     operator: "+",
   });
-
   const [imageCaptcha, setImageCaptcha] = useState("ABCD123");
   const [captchaStyles, setCaptchaStyles] = useState<
     Array<{ transform: string; color: string }>
   >([]);
-
   const generateMathProblem = () => {
     const num1 = Math.floor(Math.random() * 10) + 1;
     const num2 = Math.floor(Math.random() * 10) + 1;
@@ -28,7 +23,6 @@ export default function CaptchaPattern() {
     const operator = operators[Math.floor(Math.random() * operators.length)];
     setMathProblem({ num1, num2, operator });
   };
-
   const generateImageCaptcha = () => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let result = "";
@@ -36,7 +30,6 @@ export default function CaptchaPattern() {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     setImageCaptcha(result);
-
     // Generate styles for each character
     const styles = result.split("").map(() => ({
       transform: `rotate(${Math.random() * 20 - 10}deg)`,
@@ -44,10 +37,8 @@ export default function CaptchaPattern() {
     }));
     setCaptchaStyles(styles);
   };
-
   const verifyCaptcha = () => {
     let correct = false;
-
     switch (captchaType) {
       case "math":
         const expected =
@@ -65,7 +56,6 @@ export default function CaptchaPattern() {
         correct = true; // Checkbox is always correct when checked
         break;
     }
-
     if (correct) {
       setIsVerified(true);
       setUserAnswer("");
@@ -76,21 +66,18 @@ export default function CaptchaPattern() {
       if (captchaType === "image") generateImageCaptcha();
     }
   };
-
   const resetCaptcha = () => {
     setIsVerified(false);
     setUserAnswer("");
     if (captchaType === "math") generateMathProblem();
     if (captchaType === "image") generateImageCaptcha();
   };
-
   // Initialize captcha styles on mount and when captcha type changes
   useEffect(() => {
     if (captchaType === "image") {
       generateImageCaptcha();
     }
   }, [captchaType]);
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -102,7 +89,6 @@ export default function CaptchaPattern() {
           that are both secure and user-friendly.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -114,7 +100,6 @@ export default function CaptchaPattern() {
               Try different types of CAPTCHA challenges. Each type serves
               different security needs and user experience preferences.
             </p>
-
             <div className="space-y-6">
               {/* CAPTCHA Type Selector */}
               <div className="flex space-x-2">
@@ -158,7 +143,6 @@ export default function CaptchaPattern() {
                   Math CAPTCHA
                 </button>
               </div>
-
               {/* CAPTCHA Challenge */}
               <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border">
                 {isVerified ? (
@@ -179,7 +163,6 @@ export default function CaptchaPattern() {
                     <h3 className="font-medium text-gray-800 dark:text-gray-200">
                       Complete the CAPTCHA Challenge
                     </h3>
-
                     {captchaType === "image" && (
                       <div className="space-y-3">
                         <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded text-center">
@@ -214,7 +197,6 @@ export default function CaptchaPattern() {
                         </button>
                       </div>
                     )}
-
                     {captchaType === "checkbox" && (
                       <div className="space-y-3">
                         <div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
@@ -235,7 +217,6 @@ export default function CaptchaPattern() {
                         </p>
                       </div>
                     )}
-
                     {captchaType === "math" && (
                       <div className="space-y-3">
                         <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded text-center">
@@ -262,7 +243,6 @@ export default function CaptchaPattern() {
                         </button>
                       </div>
                     )}
-
                     <button
                       onClick={verifyCaptcha}
                       className="btn-primary w-full"
@@ -278,7 +258,6 @@ export default function CaptchaPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
@@ -286,15 +265,11 @@ export default function CaptchaPattern() {
               💻 Code Example
             </h2>
             <div className="code-block">
-              <DynamicCodeExample
-                componentName="captcha"
-                activeTab={activeTab}
-              />
+              <DynamicCodeExample componentName="captcha" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -355,7 +330,6 @@ export default function CaptchaPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

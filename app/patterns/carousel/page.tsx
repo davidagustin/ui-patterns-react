@@ -1,15 +1,10 @@
 "use client";
-
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function CarouselPattern() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-
   const carouselRef = useRef<HTMLDivElement>(null);
-
   const slides = [
     {
       id: 1,
@@ -55,47 +50,37 @@ export default function CarouselPattern() {
       color: "from-indigo-500 to-purple-600",
     },
   ];
-
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
-
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
-
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
   };
-
   const toggleAutoPlay = () => {
     setIsAutoPlaying(!isAutoPlaying);
   };
-
   // Auto-play functionality
   useEffect(() => {
     if (!isAutoPlaying) return;
-
     const interval = setInterval(() => {
       nextSlide();
     }, 4000);
-
     return () => clearInterval(interval);
   }, [isAutoPlaying, currentSlide]);
-
   // Pause auto-play on hover
   const handleMouseEnter = () => {
     if (isAutoPlaying) {
       setIsAutoPlaying(false);
     }
   };
-
   const handleMouseLeave = () => {
     if (!isAutoPlaying) {
       setIsAutoPlaying(true);
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -107,7 +92,6 @@ export default function CarouselPattern() {
           controls, and smooth transitions.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -119,7 +103,6 @@ export default function CarouselPattern() {
               Use the navigation buttons or indicators to browse slides. Hover
               to pause auto-play.
             </p>
-
             {/* Carousel Container */}
             <div
               ref={carouselRef}
@@ -143,7 +126,6 @@ export default function CarouselPattern() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-
                     {/* Overlay */}
                     <div
                       className={`absolute inset-0 bg-gradient-to-r ${slide.color} bg-opacity-75`}
@@ -163,7 +145,6 @@ export default function CarouselPattern() {
                   </div>
                 ))}
               </div>
-
               {/* Navigation Arrows */}
               <button
                 onClick={prevSlide}
@@ -184,7 +165,6 @@ export default function CarouselPattern() {
                   />
                 </svg>
               </button>
-
               <button
                 onClick={nextSlide}
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
@@ -204,7 +184,6 @@ export default function CarouselPattern() {
                   />
                 </svg>
               </button>
-
               {/* Slide Indicators */}
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
                 {slides.map((_, index) => (
@@ -220,7 +199,6 @@ export default function CarouselPattern() {
                   />
                 ))}
               </div>
-
               {/* Auto-play Status */}
               <div className="absolute top-4 right-4">
                 <div
@@ -234,7 +212,6 @@ export default function CarouselPattern() {
                 </div>
               </div>
             </div>
-
             {/* Controls */}
             <div className="flex items-center justify-center space-x-4 mt-4">
               <button
@@ -247,14 +224,12 @@ export default function CarouselPattern() {
               >
                 {isAutoPlaying ? "Pause" : "Play"}
               </button>
-
               <button
                 onClick={prevSlide}
                 className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
               >
                 Previous
               </button>
-
               <button
                 onClick={nextSlide}
                 className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
@@ -262,54 +237,25 @@ export default function CarouselPattern() {
                 Next
               </button>
             </div>
-
             {/* Slide Counter */}
             <div className="text-center mt-2 text-sm text-gray-600 dark:text-gray-400">
               {currentSlide + 1} of {slides.length} slides
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-              <button
-                onClick={() => setActiveTab("jsx")}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === "jsx"
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-              >
-                JSX
-              </button>
-              <button
-                onClick={() => setActiveTab("css")}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === "css"
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-              >
-                CSS
-              </button>
-            </div>
-
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample
-                componentName="carousel"
-                activeTab={activeTab}
-              />
+              <DynamicCodeExample componentName="carousel" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
@@ -356,7 +302,6 @@ export default function CarouselPattern() {
           </ul>
         </div>
       </div>
-
       {/* Common Use Cases */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">

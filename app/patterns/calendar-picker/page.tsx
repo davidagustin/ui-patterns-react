@@ -1,16 +1,12 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 import Tooltip from "../../../components/Tooltip";
-
 export default function CalendarPickerPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedTime, setSelectedTime] = useState("12:00");
-
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
@@ -18,14 +14,11 @@ export default function CalendarPickerPattern() {
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
     const startingDayOfWeek = firstDay.getDay();
-
     return { daysInMonth, startingDayOfWeek };
   };
-
   const getMonthName = (date: Date) => {
     return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
   };
-
   const isToday = (day: number) => {
     const today = new Date();
     return (
@@ -34,7 +27,6 @@ export default function CalendarPickerPattern() {
       today.getFullYear() === currentMonth.getFullYear()
     );
   };
-
   const isSelected = (day: number) => {
     if (!selectedDate) return false;
     return (
@@ -43,7 +35,6 @@ export default function CalendarPickerPattern() {
       selectedDate.getFullYear() === currentMonth.getFullYear()
     );
   };
-
   const handleDateSelect = (day: number) => {
     const newDate = new Date(
       currentMonth.getFullYear(),
@@ -53,25 +44,21 @@ export default function CalendarPickerPattern() {
     setSelectedDate(newDate);
     setShowCalendar(false);
   };
-
   const goToPreviousMonth = () => {
     setCurrentMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1),
     );
   };
-
   const goToNextMonth = () => {
     setCurrentMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1),
     );
   };
-
   const goToToday = () => {
     const today = new Date();
     setCurrentMonth(today);
     setSelectedDate(today);
   };
-
   const formatSelectedDate = () => {
     if (!selectedDate) return "Select a date";
     return selectedDate.toLocaleDateString("en-US", {
@@ -81,13 +68,10 @@ export default function CalendarPickerPattern() {
       day: "numeric",
     });
   };
-
   const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentMonth);
-
   const renderCalendar = () => {
     const days = [];
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
     // Add day headers
     dayNames.forEach((day) => {
       days.push(
@@ -99,12 +83,10 @@ export default function CalendarPickerPattern() {
         </div>,
       );
     });
-
     // Add empty cells for days before the first day of the month
     for (let i = 0; i < startingDayOfWeek; i++) {
       days.push(<div key={`empty-${i}`} className="h-10" />);
     }
-
     // Add days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(
@@ -123,10 +105,8 @@ export default function CalendarPickerPattern() {
         </button>,
       );
     }
-
     return days;
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -138,7 +118,6 @@ export default function CalendarPickerPattern() {
           interface and time picker.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -150,7 +129,6 @@ export default function CalendarPickerPattern() {
               Click the date input to open the calendar picker. Select a date
               and time to see the pattern in action.
             </p>
-
             <div className="space-y-4">
               {/* Date Input */}
               <div>
@@ -177,7 +155,6 @@ export default function CalendarPickerPattern() {
                   </Tooltip>
                 </div>
               </div>
-
               {/* Calendar Popup */}
               {showCalendar && (
                 <div className="absolute z-10 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 min-w-[320px]">
@@ -205,7 +182,6 @@ export default function CalendarPickerPattern() {
                       </button>
                     </Tooltip>
                   </div>
-
                   {/* Today Button */}
                   <div className="mb-4">
                     <button
@@ -215,12 +191,10 @@ export default function CalendarPickerPattern() {
                       Go to Today
                     </button>
                   </div>
-
                   {/* Calendar Grid */}
                   <div className="grid grid-cols-7 gap-1 mb-4">
                     {renderCalendar()}
                   </div>
-
                   {/* Time Picker */}
                   <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -233,7 +207,6 @@ export default function CalendarPickerPattern() {
                       className="input-field"
                     />
                   </div>
-
                   {/* Action Buttons */}
                   <div className="flex space-x-2 mt-4">
                     <button
@@ -251,7 +224,6 @@ export default function CalendarPickerPattern() {
                   </div>
                 </div>
               )}
-
               {/* Selected Date Display */}
               {selectedDate && (
                 <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
@@ -275,27 +247,19 @@ export default function CalendarPickerPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="calendar-picker"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="calendar-picker" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -356,7 +320,6 @@ export default function CalendarPickerPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

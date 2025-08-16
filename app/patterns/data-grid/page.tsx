@@ -1,10 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function DataGridPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [data, setData] = useState([
     {
       id: 1,
@@ -52,7 +49,6 @@ export default function DataGridPattern() {
       status: "Active",
     },
   ]);
-
   const [editingCell, setEditingCell] = useState<{
     rowId: number;
     field: string;
@@ -61,7 +57,6 @@ export default function DataGridPattern() {
   const [sortField, setSortField] = useState<string>("name");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [searchTerm, setSearchTerm] = useState("");
-
   const [viewMode, setViewMode] = useState<"table" | "cards">("table");
   const [columnWidths, setColumnWidths] = useState({
     name: 150,
@@ -71,7 +66,6 @@ export default function DataGridPattern() {
     salary: 100,
     status: 100,
   });
-
   const columns = [
     { key: "name", label: "Name", editable: true, type: "text" },
     { key: "email", label: "Email", editable: true, type: "email" },
@@ -98,7 +92,6 @@ export default function DataGridPattern() {
       options: ["Active", "Inactive"],
     },
   ];
-
   const handleSort = (field: string) => {
     if (sortField === field) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
@@ -107,11 +100,9 @@ export default function DataGridPattern() {
       setSortDirection("asc");
     }
   };
-
   const handleEdit = (rowId: number, field: string) => {
     setEditingCell({ rowId, field });
   };
-
   const handleSave = (rowId: number, field: string, value: string) => {
     setData((prevData) =>
       prevData.map((row) =>
@@ -120,11 +111,9 @@ export default function DataGridPattern() {
     );
     setEditingCell(null);
   };
-
   const handleCancel = () => {
     setEditingCell(null);
   };
-
   const handleSelectRow = (rowId: number) => {
     setSelectedRows((prev) =>
       prev.includes(rowId)
@@ -132,7 +121,6 @@ export default function DataGridPattern() {
         : [...prev, rowId],
     );
   };
-
   const handleSelectAll = () => {
     if (selectedRows.length === filteredData.length) {
       setSelectedRows([]);
@@ -140,14 +128,12 @@ export default function DataGridPattern() {
       setSelectedRows(filteredData.map((row) => row.id));
     }
   };
-
   const handleDeleteSelected = () => {
     setData((prevData) =>
       prevData.filter((row) => !selectedRows.includes(row.id)),
     );
     setSelectedRows([]);
   };
-
   const handleExport = () => {
     const csvContent = [
       columns.map((col) => col.label).join(","),
@@ -155,7 +141,6 @@ export default function DataGridPattern() {
         columns.map((col) => row[col.key as keyof typeof row]).join(","),
       ),
     ].join("\n");
-
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -164,29 +149,24 @@ export default function DataGridPattern() {
     a.click();
     window.URL.revokeObjectURL(url);
   };
-
   const filteredData = data.filter((row) =>
     Object.values(row).some((value) =>
       value.toString().toLowerCase().includes(searchTerm.toLowerCase()),
     ),
   );
-
   const sortedData = [...filteredData].sort((a, b) => {
     const aValue = a[sortField as keyof typeof a];
     const bValue = b[sortField as keyof typeof b];
-
     if (sortDirection === "asc") {
       return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
     } else {
       return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
     }
   });
-
   const renderCell = (row: any, column: any) => {
     const isEditing =
       editingCell?.rowId === row.id && editingCell?.field === column.key;
     const value = row[column.key];
-
     if (isEditing) {
       if (column.type === "select") {
         return (
@@ -215,7 +195,6 @@ export default function DataGridPattern() {
           </select>
         );
       }
-
       return (
         <input
           type={column.type}
@@ -237,11 +216,9 @@ export default function DataGridPattern() {
         />
       );
     }
-
     if (column.key === "salary") {
       return `$${value.toLocaleString()}`;
     }
-
     if (column.key === "status") {
       return (
         <span
@@ -255,7 +232,6 @@ export default function DataGridPattern() {
         </span>
       );
     }
-
     return (
       <div
         className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 px-2 py-1 rounded"
@@ -265,7 +241,6 @@ export default function DataGridPattern() {
       </div>
     );
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -277,7 +252,6 @@ export default function DataGridPattern() {
           bulk operations for managing complex datasets.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -285,7 +259,6 @@ export default function DataGridPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-
             <div className="space-y-6">
               {/* Controls */}
               <div className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
@@ -303,7 +276,6 @@ export default function DataGridPattern() {
                       {filteredData.length} of {data.length} records
                     </span>
                   </div>
-
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                     <div className="flex items-center space-x-2">
                       <button
@@ -334,7 +306,6 @@ export default function DataGridPattern() {
                   </div>
                 </div>
               </div>
-
               {/* Data Grid */}
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                 {viewMode === "table" ? (
@@ -435,7 +406,6 @@ export default function DataGridPattern() {
                         {sortDirection === "asc" ? "↑" : "↓"}
                       </button>
                     </div>
-
                     {/* Card Layout */}
                     <div className="divide-y divide-gray-200 dark:divide-gray-700">
                       {sortedData.map((row) => (
@@ -477,7 +447,6 @@ export default function DataGridPattern() {
                               )}
                             </div>
                           </div>
-
                           <div className="grid grid-cols-2 gap-4 pt-2 border-t border-gray-100 dark:border-gray-600">
                             <div>
                               <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
@@ -519,7 +488,6 @@ export default function DataGridPattern() {
                   </div>
                 )}
               </div>
-
               {/* Instructions */}
               <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl p-6 border border-yellow-200 dark:border-yellow-800">
                 <h3 className="text-lg font-semibold mb-4 text-yellow-800 dark:text-yellow-200">
@@ -547,22 +515,16 @@ export default function DataGridPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
             💻 Code Example
           </h2>
-
           {/* Tab Content */}
           <div className="code-block">
-            <DynamicCodeExample
-              componentName="data-grid"
-              activeTab={activeTab}
-            />
+            <DynamicCodeExample componentName="data-grid" />
           </div>
         </div>
-
         {/* Key Features */}
         <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
           <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -623,7 +585,6 @@ export default function DataGridPattern() {
             </div>
           </div>
         </div>
-
         {/* Use Cases */}
         <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
           <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

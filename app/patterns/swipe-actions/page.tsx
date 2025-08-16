@@ -1,12 +1,8 @@
 "use client";
-
 import { useState, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function SwipeActionsPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [swipedItem, setSwipedItem] = useState<number | null>(null);
-
   const items = [
     {
       id: 1,
@@ -33,10 +29,8 @@ export default function SwipeActionsPattern() {
       time: "5 hours ago",
     },
   ];
-
   const handleSwipe = (itemId: number, direction: "left" | "right") => {
     setSwipedItem(itemId);
-
     // Simulate action
     setTimeout(() => {
       setSwipedItem(null);
@@ -47,7 +41,6 @@ export default function SwipeActionsPattern() {
       }
     }, 300);
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -59,7 +52,6 @@ export default function SwipeActionsPattern() {
           access to common operations.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -71,7 +63,6 @@ export default function SwipeActionsPattern() {
               Swipe left or right on any item to reveal actions. Swipe left for
               delete, swipe right for archive.
             </p>
-
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {items.map((item) => (
                 <SwipeableItem
@@ -82,7 +73,6 @@ export default function SwipeActionsPattern() {
                 />
               ))}
             </div>
-
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
                 How to Use
@@ -96,27 +86,19 @@ export default function SwipeActionsPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="swipe-actions"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="swipe-actions" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -203,7 +185,6 @@ export default function SwipeActionsPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">
@@ -242,7 +223,6 @@ export default function SwipeActionsPattern() {
     </div>
   );
 }
-
 // SwipeableItem Component
 function SwipeableItem({
   item,
@@ -257,63 +237,49 @@ function SwipeableItem({
   const [isDragging, setIsDragging] = useState(false);
   const startX = useRef<number>(0);
   const currentX = useRef<number>(0);
-
   const handleTouchStart = (e: React.TouchEvent) => {
     startX.current = e.touches[0].clientX;
     setIsDragging(true);
   };
-
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
-
     currentX.current = e.touches[0].clientX;
     const diff = currentX.current - startX.current;
     const newTranslateX = Math.max(-120, Math.min(120, diff));
     setTranslateX(newTranslateX);
   };
-
   const handleTouchEnd = () => {
     setIsDragging(false);
-
     if (translateX < -60) {
       onSwipe(item.id, "left");
     } else if (translateX > 60) {
       onSwipe(item.id, "right");
     }
-
     setTranslateX(0);
   };
-
   const handleMouseDown = (e: React.MouseEvent) => {
     startX.current = e.clientX;
     setIsDragging(true);
   };
-
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
-
     currentX.current = e.clientX;
     const diff = currentX.current - startX.current;
     const newTranslateX = Math.max(-120, Math.min(120, diff));
     setTranslateX(newTranslateX);
   };
-
   const handleMouseUp = () => {
     setIsDragging(false);
-
     if (translateX < -60) {
       onSwipe(item.id, "left");
     } else if (translateX > 60) {
       onSwipe(item.id, "right");
     }
-
     setTranslateX(0);
   };
-
   const handleAction = (action: "delete" | "archive") => {
     onSwipe(item.id, action === "delete" ? "left" : "right");
   };
-
   return (
     <div className="relative overflow-hidden bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
       {/* Background Actions */}
@@ -335,7 +301,6 @@ function SwipeableItem({
           </button>
         </div>
       </div>
-
       {/* Content */}
       <div
         className={`relative bg-white dark:bg-gray-800 p-4 transition-transform duration-200 ${

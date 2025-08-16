@@ -1,16 +1,12 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function CopyBoxPattern() {
   const [copiedItems, setCopiedItems] = useState<Set<string>>(new Set());
-
   const copyToClipboard = async (text: string, id: string) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedItems((prev) => new Set(prev).add(id));
-
       // Reset copied state after 2 seconds
       setTimeout(() => {
         setCopiedItems((prev) => {
@@ -23,17 +19,15 @@ export default function CopyBoxPattern() {
       console.error("Failed to copy text: ", err);
     }
   };
-
   const codeSnippets = [
     {
       id: "react-component",
       title: "React Component",
       language: "jsx",
       code: `import React from 'react';
-
 export default function Button({ children, onClick }) {
   return (
-    <button 
+    <button
       onClick={onClick}
       className="px-4 py-2 bg-blue-500 text-white rounded"
     >
@@ -56,7 +50,6 @@ export default function Button({ children, onClick }) {
     transform: translateY(0);
   }
 }
-
 .fade-in {
   animation: fadeIn 0.3s ease-out;
 }`,
@@ -72,7 +65,6 @@ export default function Button({ children, onClick }) {
 };`,
     },
   ];
-
   const commands = [
     {
       id: "npm-install",
@@ -90,7 +82,6 @@ export default function Button({ children, onClick }) {
       command: "docker run -p 3000:3000 -d my-app:latest",
     },
   ];
-
   const snippets = [
     {
       id: "email",
@@ -108,7 +99,6 @@ export default function Button({ children, onClick }) {
       content: "123 Main St, Suite 100, City, ST 12345",
     },
   ];
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -120,7 +110,6 @@ export default function Button({ children, onClick }) {
           feedback and multiple content types.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -132,7 +121,6 @@ export default function Button({ children, onClick }) {
               Click any copy button to copy content to your clipboard. Notice
               the visual feedback when copying.
             </p>
-
             {/* Code Snippets */}
             <div className="space-y-6">
               <div>
@@ -181,7 +169,6 @@ export default function Button({ children, onClick }) {
                   ))}
                 </div>
               </div>
-
               {/* Terminal Commands */}
               <div>
                 <h3 className="text-md font-medium mb-3 text-gray-800 dark:text-gray-200">
@@ -215,7 +202,6 @@ export default function Button({ children, onClick }) {
                   ))}
                 </div>
               </div>
-
               {/* Text Snippets */}
               <div>
                 <h3 className="text-md font-medium mb-3 text-gray-800 dark:text-gray-200">
@@ -254,14 +240,12 @@ export default function Button({ children, onClick }) {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
               <DynamicCodeExample componentName="copy-box" activeTab="jsx" />
@@ -269,7 +253,6 @@ export default function Button({ children, onClick }) {
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -330,7 +313,6 @@ export default function Button({ children, onClick }) {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

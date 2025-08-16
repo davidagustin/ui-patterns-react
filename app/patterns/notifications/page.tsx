@@ -1,9 +1,7 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 import Tooltip from "../../../components/Tooltip";
-
 interface Notification {
   id: string;
   type: "success" | "error" | "warning" | "info";
@@ -15,7 +13,6 @@ interface Notification {
     onClick: () => void;
   };
 }
-
 export default function NotificationsPattern() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showToast, setShowToast] = useState(false);
@@ -24,13 +21,11 @@ export default function NotificationsPattern() {
     "success" | "error" | "warning" | "info"
   >("success");
   const [notificationCount, setNotificationCount] = useState(0);
-
   const addNotification = (notification: Omit<Notification, "id">) => {
     const id = Date.now().toString();
     const newNotification = { ...notification, id };
     setNotifications((prev) => [newNotification, ...prev]);
     setNotificationCount((prev) => prev + 1);
-
     // Auto-remove notification after duration
     if (notification.duration !== 0) {
       setTimeout(() => {
@@ -38,12 +33,10 @@ export default function NotificationsPattern() {
       }, notification.duration || 5000);
     }
   };
-
   const removeNotification = (id: string) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
     setNotificationCount((prev) => Math.max(0, prev - 1));
   };
-
   const showToastMessage = (
     message: string,
     type: "success" | "error" | "warning" | "info" = "success",
@@ -51,17 +44,14 @@ export default function NotificationsPattern() {
     setToastMessage(message);
     setToastType(type);
     setShowToast(true);
-
     setTimeout(() => {
       setShowToast(false);
     }, 3000);
   };
-
   const clearAllNotifications = () => {
     setNotifications([]);
     setNotificationCount(0);
   };
-
   const getNotificationIcon = (type: string) => {
     switch (type) {
       case "success":
@@ -76,7 +66,6 @@ export default function NotificationsPattern() {
         return "📢";
     }
   };
-
   const getNotificationClasses = (type: string) => {
     const baseClasses = "p-4 rounded-lg border-l-4 shadow-lg";
     switch (type) {
@@ -92,7 +81,6 @@ export default function NotificationsPattern() {
         return `${baseClasses} bg-gray-50 dark:bg-gray-900/20 border-gray-500 text-gray-800 dark:text-gray-200`;
     }
   };
-
   const getToastClasses = (type: string) => {
     const baseClasses =
       "fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transform transition-all duration-300";
@@ -109,7 +97,6 @@ export default function NotificationsPattern() {
         return `${baseClasses} bg-gray-500 text-white`;
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -121,7 +108,6 @@ export default function NotificationsPattern() {
           messages, and notification management.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -133,13 +119,11 @@ export default function NotificationsPattern() {
               Click the buttons below to see different types of notifications.
               The notifications will appear in the panel above.
             </p>
-
             {/* Notifications Display */}
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4">
               <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">
                 📋 Notifications Panel
               </h3>
-
               <div className="space-y-3 max-h-64 overflow-y-auto">
                 {notifications.length === 0 ? (
                   <div className="text-center py-6 text-gray-500 dark:text-gray-400">
@@ -190,7 +174,6 @@ export default function NotificationsPattern() {
                 )}
               </div>
             </div>
-
             {/* Notification Controls */}
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-2">
@@ -207,7 +190,6 @@ export default function NotificationsPattern() {
                 >
                   Success
                 </button>
-
                 <button
                   onClick={() =>
                     addNotification({
@@ -221,7 +203,6 @@ export default function NotificationsPattern() {
                 >
                   Error
                 </button>
-
                 <button
                   onClick={() =>
                     addNotification({
@@ -235,7 +216,6 @@ export default function NotificationsPattern() {
                 >
                   Warning
                 </button>
-
                 <button
                   onClick={() =>
                     addNotification({
@@ -250,7 +230,6 @@ export default function NotificationsPattern() {
                   Info
                 </button>
               </div>
-
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() =>
@@ -263,7 +242,6 @@ export default function NotificationsPattern() {
                 >
                   Success Toast
                 </button>
-
                 <button
                   onClick={() =>
                     showToastMessage("An error occurred!", "error")
@@ -273,7 +251,6 @@ export default function NotificationsPattern() {
                   Error Toast
                 </button>
               </div>
-
               <button
                 onClick={() =>
                   addNotification({
@@ -294,7 +271,6 @@ export default function NotificationsPattern() {
               >
                 With Action
               </button>
-
               {notifications.length > 0 && (
                 <button
                   onClick={clearAllNotifications}
@@ -306,24 +282,18 @@ export default function NotificationsPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             <div className="code-block">
-              <DynamicCodeExample
-                componentName="notifications"
-                activeTab={activeTab}
-              />
+              <DynamicCodeExample componentName="notifications" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Toast Message */}
       {showToast && (
         <div className={getToastClasses(toastType)}>

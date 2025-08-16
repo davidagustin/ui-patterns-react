@@ -1,32 +1,24 @@
 "use client";
-
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function ImageZoomPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [zoomLevel, setZoomLevel] = useState(1);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-
   // Zoom controls
   const handleZoomIn = () => {
     setZoomLevel((prev) => Math.min(prev + 0.25, 3));
   };
-
   const handleZoomOut = () => {
     setZoomLevel((prev) => Math.max(prev - 0.25, 0.5));
   };
-
   const handleReset = () => {
     setZoomLevel(1);
     setPosition({ x: 0, y: 0 });
   };
-
   // Mouse wheel zoom
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
@@ -34,7 +26,6 @@ export default function ImageZoomPattern() {
     const newZoom = Math.max(0.5, Math.min(3, zoomLevel + delta));
     setZoomLevel(newZoom);
   };
-
   // Mouse drag handling
   const handleMouseDown = (e: React.MouseEvent) => {
     if (zoomLevel > 1) {
@@ -45,34 +36,28 @@ export default function ImageZoomPattern() {
       });
     }
   };
-
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isDragging && zoomLevel > 1) {
       const newX = e.clientX - dragStart.x;
       const newY = e.clientY - dragStart.y;
-
       // Calculate boundaries based on zoom level
       const maxX = (zoomLevel - 1) * 100;
       const maxY = (zoomLevel - 1) * 100;
-
       setPosition({
         x: Math.max(-maxX, Math.min(maxX, newX)),
         y: Math.max(-maxY, Math.min(maxY, newY)),
       });
     }
   };
-
   const handleMouseUp = () => {
     setIsDragging(false);
   };
-
   // Reset position when zoom level changes
   useEffect(() => {
     if (zoomLevel <= 1) {
       setPosition({ x: 0, y: 0 });
     }
   }, [zoomLevel]);
-
   // Prevent text selection during drag
   useEffect(() => {
     if (isDragging) {
@@ -80,12 +65,10 @@ export default function ImageZoomPattern() {
     } else {
       document.body.style.userSelect = "";
     }
-
     return () => {
       document.body.style.userSelect = "";
     };
   }, [isDragging]);
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -97,7 +80,6 @@ export default function ImageZoomPattern() {
           and smooth transitions.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -109,7 +91,6 @@ export default function ImageZoomPattern() {
               Use the zoom controls or mouse wheel to zoom in/out. Click and
               drag to pan when zoomed in.
             </p>
-
             <div className="space-y-4">
               {/* Zoom Controls */}
               <div className="flex gap-2 justify-center">
@@ -134,11 +115,9 @@ export default function ImageZoomPattern() {
                   Zoom In
                 </button>
               </div>
-
               <div className="text-center text-sm text-gray-600 dark:text-gray-400">
                 Zoom Level: {zoomLevel.toFixed(2)}x
               </div>
-
               {/* Image Container */}
               <div
                 ref={containerRef}
@@ -166,7 +145,6 @@ export default function ImageZoomPattern() {
                   }}
                   draggable={false}
                 />
-
                 {/* Zoom indicator */}
                 {zoomLevel > 1 && (
                   <div className="absolute top-2 right-2 bg-black/50 text-white px-2 py-1 rounded text-xs">
@@ -177,25 +155,19 @@ export default function ImageZoomPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample
-                componentName="image-zoom"
-                activeTab={activeTab}
-              />
+              <DynamicCodeExample componentName="image-zoom" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
@@ -245,7 +217,6 @@ export default function ImageZoomPattern() {
           </ul>
         </div>
       </div>
-
       {/* Common Use Cases */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">

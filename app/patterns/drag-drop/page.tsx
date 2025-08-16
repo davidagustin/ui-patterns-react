@@ -1,10 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function DragDropPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [items, setItems] = useState([
     { id: 1, text: "Task 1: Design Review", status: "todo" },
     { id: 2, text: "Task 2: Code Implementation", status: "todo" },
@@ -13,7 +10,6 @@ export default function DragDropPattern() {
     { id: 5, text: "Task 5: Deployment", status: "done" },
   ]);
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
-
   const columns = [
     { id: "todo", title: "To Do", color: "bg-gray-100 dark:bg-gray-800" },
     {
@@ -23,17 +19,14 @@ export default function DragDropPattern() {
     },
     { id: "done", title: "Done", color: "bg-green-100 dark:bg-green-900/20" },
   ];
-
   const handleDragStart = (e: React.DragEvent, itemId: number) => {
     setDraggedItem(itemId);
     e.dataTransfer.effectAllowed = "move";
   };
-
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
   };
-
   const handleDrop = (e: React.DragEvent, targetStatus: string) => {
     e.preventDefault();
     if (draggedItem) {
@@ -45,15 +38,12 @@ export default function DragDropPattern() {
       setDraggedItem(null);
     }
   };
-
   const handleDragEnd = () => {
     setDraggedItem(null);
   };
-
   const getItemsForColumn = (status: string) => {
     return items.filter((item) => item.status === status);
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -65,7 +55,6 @@ export default function DragDropPattern() {
           through intuitive drag and drop interactions.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -77,7 +66,6 @@ export default function DragDropPattern() {
               Drag tasks between columns to change their status. This simulates
               a Kanban board for task management.
             </p>
-
             <div className="grid grid-cols-3 gap-4">
               {columns.map((column) => (
                 <div
@@ -111,7 +99,6 @@ export default function DragDropPattern() {
                 </div>
               ))}
             </div>
-
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
                 How to Use
@@ -128,27 +115,19 @@ export default function DragDropPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="drag-drop"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="drag-drop" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -209,7 +188,6 @@ export default function DragDropPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

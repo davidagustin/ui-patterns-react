@@ -1,13 +1,9 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function ImageGalleryPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [currentFilter, setCurrentFilter] = useState("all");
-
   const images = [
     {
       id: 1,
@@ -66,7 +62,6 @@ export default function ImageGalleryPattern() {
       title: "Modern Architecture",
     },
   ];
-
   const filters = [
     { key: "all", label: "All", count: images.length },
     {
@@ -85,26 +80,21 @@ export default function ImageGalleryPattern() {
       count: images.filter((img) => img.category === "art").length,
     },
   ];
-
   const filteredImages =
     currentFilter === "all"
       ? images
       : images.filter((img) => img.category === currentFilter);
-
   const openLightbox = (index: number) => {
     setSelectedImage(index);
   };
-
   const closeLightbox = () => {
     setSelectedImage(null);
   };
-
   const nextImage = () => {
     if (selectedImage !== null) {
       setSelectedImage((selectedImage + 1) % filteredImages.length);
     }
   };
-
   const previousImage = () => {
     if (selectedImage !== null) {
       setSelectedImage(
@@ -112,7 +102,6 @@ export default function ImageGalleryPattern() {
       );
     }
   };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (selectedImage !== null) {
       if (e.key === "Escape") {
@@ -124,7 +113,6 @@ export default function ImageGalleryPattern() {
       }
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -136,7 +124,6 @@ export default function ImageGalleryPattern() {
           navigation.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -144,7 +131,6 @@ export default function ImageGalleryPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-
             <div className="space-y-6">
               {/* Filter Buttons */}
               <div className="flex flex-wrap gap-2">
@@ -162,7 +148,6 @@ export default function ImageGalleryPattern() {
                   </button>
                 ))}
               </div>
-
               {/* Image Grid */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {filteredImages.map((image, index) => (
@@ -176,7 +161,6 @@ export default function ImageGalleryPattern() {
                       alt={image.alt}
                       className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
                     />
-
                     {/* Overlay */}
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 flex items-end">
                       <div className="w-full p-3 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-200">
@@ -186,7 +170,6 @@ export default function ImageGalleryPattern() {
                         </p>
                       </div>
                     </div>
-
                     {/* Zoom Icon */}
                     <div className="absolute top-2 right-2 w-8 h-8 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                       <span className="text-gray-600 dark:text-gray-400 text-sm">
@@ -196,7 +179,6 @@ export default function ImageGalleryPattern() {
                   </div>
                 ))}
               </div>
-
               {/* Empty State */}
               {filteredImages.length === 0 && (
                 <div className="text-center py-12">
@@ -212,27 +194,19 @@ export default function ImageGalleryPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="image-gallery"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="image-gallery" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Lightbox Modal */}
       {selectedImage !== null && (
         <div
@@ -250,7 +224,6 @@ export default function ImageGalleryPattern() {
               alt={filteredImages[selectedImage].alt}
               className="max-w-full max-h-full object-contain rounded-lg"
             />
-
             {/* Close Button */}
             <button
               onClick={closeLightbox}
@@ -258,7 +231,6 @@ export default function ImageGalleryPattern() {
             >
               ×
             </button>
-
             {/* Navigation Buttons */}
             <button
               onClick={previousImage}
@@ -266,14 +238,12 @@ export default function ImageGalleryPattern() {
             >
               ←
             </button>
-
             <button
               onClick={nextImage}
               className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             >
               →
             </button>
-
             {/* Image Info */}
             <div className="absolute bottom-4 left-4 right-4 bg-black bg-opacity-50 text-white p-4 rounded-lg">
               <h3 className="font-medium">
@@ -289,7 +259,6 @@ export default function ImageGalleryPattern() {
           </div>
         </div>
       )}
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -350,7 +319,6 @@ export default function ImageGalleryPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

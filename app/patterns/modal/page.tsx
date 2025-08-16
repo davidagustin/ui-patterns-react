@@ -1,14 +1,11 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function ModalPattern() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<
     "basic" | "form" | "confirmation" | "image"
   >("basic");
-
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isModalOpen) {
@@ -16,12 +13,10 @@ export default function ModalPattern() {
     } else {
       document.body.style.overflow = "unset";
     }
-
     return () => {
       document.body.style.overflow = "unset";
     };
   }, [isModalOpen]);
-
   // Handle escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -29,26 +24,21 @@ export default function ModalPattern() {
         setIsModalOpen(false);
       }
     };
-
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isModalOpen]);
-
   const openModal = (type: typeof modalType) => {
     setModalType(type);
     setIsModalOpen(true);
   };
-
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
   };
-
   const renderModalContent = () => {
     switch (modalType) {
       case "basic":
@@ -101,7 +91,6 @@ export default function ModalPattern() {
             </div>
           </div>
         );
-
       case "form":
         return (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-lg w-full mx-4">
@@ -181,7 +170,6 @@ export default function ModalPattern() {
             </div>
           </div>
         );
-
       case "confirmation":
         return (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4">
@@ -257,7 +245,6 @@ export default function ModalPattern() {
             </div>
           </div>
         );
-
       case "image":
         return (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full mx-4">
@@ -326,12 +313,10 @@ export default function ModalPattern() {
             </div>
           </div>
         );
-
       default:
         return null;
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -343,7 +328,6 @@ export default function ModalPattern() {
           maintaining context with the background.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -355,7 +339,6 @@ export default function ModalPattern() {
               Click the buttons below to open different types of modals. Use
               Escape key or click outside to close.
             </p>
-
             {/* Modal Triggers */}
             <div className="grid grid-cols-2 gap-4">
               <button
@@ -383,7 +366,6 @@ export default function ModalPattern() {
                 Image Modal
               </button>
             </div>
-
             {/* Instructions */}
             <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
@@ -411,46 +393,19 @@ export default function ModalPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
-            {/* Tab Navigation */}
-            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-              <button
-                onClick={() => setActiveTab("jsx")}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === "jsx"
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-              >
-                JSX
-              </button>
-              <button
-                onClick={() => setActiveTab("css")}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === "css"
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-              >
-                CSS
-              </button>
-            </div>
-
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample componentName="modal" activeTab={activeTab} />
+              <DynamicCodeExample componentName="modal" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Modal Overlay */}
       {isModalOpen && (
         <div
@@ -460,7 +415,6 @@ export default function ModalPattern() {
           {renderModalContent()}
         </div>
       )}
-
       {/* Key Features */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
@@ -504,7 +458,6 @@ export default function ModalPattern() {
           </ul>
         </div>
       </div>
-
       {/* Common Use Cases */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">

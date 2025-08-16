@@ -1,17 +1,13 @@
 "use client";
-
 import { useState, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 interface Command {
   id: string;
   description: string;
   execute: () => void;
   undo: () => void;
 }
-
 export default function UndoPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [items, setItems] = useState([
     { id: 1, text: "Design System Components", completed: false },
     { id: 2, text: "User Research Plan", completed: true },
@@ -20,31 +16,24 @@ export default function UndoPattern() {
   ]);
   const [history, setHistory] = useState<Command[]>([]);
   const [canUndo, setCanUndo] = useState(false);
-
   const nextId = useRef(5);
-
   const addToHistory = (command: Command) => {
     setHistory((prev) => [...prev, command]);
     setCanUndo(true);
   };
-
   const undo = () => {
     if (history.length === 0) return;
-
     const lastCommand = history[history.length - 1];
     lastCommand.undo();
-
     setHistory((prev) => prev.slice(0, -1));
     setCanUndo(history.length > 1);
   };
-
   const addItem = () => {
     const newItem = {
       id: nextId.current,
       text: `New Task ${nextId.current}`,
       completed: false,
     };
-
     const command: Command = {
       id: `add-${nextId.current}`,
       description: `Added "${newItem.text}"`,
@@ -57,15 +46,12 @@ export default function UndoPattern() {
         nextId.current--;
       },
     };
-
     command.execute();
     addToHistory(command);
   };
-
   const toggleItem = (itemId: number) => {
     const item = items.find((i) => i.id === itemId);
     if (!item) return;
-
     const command: Command = {
       id: `toggle-${itemId}`,
       description: `${item.completed ? "Uncompleted" : "Completed"} "${item.text}"`,
@@ -84,15 +70,12 @@ export default function UndoPattern() {
         );
       },
     };
-
     command.execute();
     addToHistory(command);
   };
-
   const deleteItem = (itemId: number) => {
     const item = items.find((i) => i.id === itemId);
     if (!item) return;
-
     const command: Command = {
       id: `delete-${itemId}`,
       description: `Deleted "${item.text}"`,
@@ -103,17 +86,13 @@ export default function UndoPattern() {
         setItems((prev) => [...prev, item]);
       },
     };
-
     command.execute();
     addToHistory(command);
   };
-
   const editItem = (itemId: number, newText: string) => {
     const item = items.find((i) => i.id === itemId);
     if (!item) return;
-
     const oldText = item.text;
-
     const command: Command = {
       id: `edit-${itemId}`,
       description: `Edited "${oldText}" to "${newText}"`,
@@ -128,11 +107,9 @@ export default function UndoPattern() {
         );
       },
     };
-
     command.execute();
     addToHistory(command);
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -144,7 +121,6 @@ export default function UndoPattern() {
           to reverse their actions.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -156,7 +132,6 @@ export default function UndoPattern() {
               Try adding, editing, toggling, or deleting items, then use the
               undo button to reverse your actions.
             </p>
-
             {/* Undo Button */}
             <div className="mb-4">
               <button
@@ -177,7 +152,6 @@ export default function UndoPattern() {
                 )}
               </button>
             </div>
-
             {/* Action Buttons */}
             <div className="mb-4 flex space-x-2">
               <button
@@ -187,7 +161,6 @@ export default function UndoPattern() {
                 ➕ Add Item
               </button>
             </div>
-
             {/* Items List */}
             <div className="space-y-2">
               {items.map((item) => (
@@ -207,7 +180,6 @@ export default function UndoPattern() {
                   >
                     {item.completed && "✓"}
                   </button>
-
                   <input
                     type="text"
                     value={item.text}
@@ -218,7 +190,6 @@ export default function UndoPattern() {
                         : "text-gray-800 dark:text-gray-200"
                     }`}
                   />
-
                   <button
                     onClick={() => deleteItem(item.id)}
                     className="text-red-500 hover:text-red-700 transition-colors"
@@ -228,7 +199,6 @@ export default function UndoPattern() {
                 </div>
               ))}
             </div>
-
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
                 How to Use
@@ -243,27 +213,19 @@ export default function UndoPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="undo"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="undo" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -350,7 +312,6 @@ export default function UndoPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

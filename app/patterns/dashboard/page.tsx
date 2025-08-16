@@ -1,14 +1,10 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function DashboardPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [timeFrame, setTimeFrame] = useState<"today" | "week" | "month">(
     "today",
   );
-
   // Sample dashboard data
   const metrics = {
     today: {
@@ -30,9 +26,7 @@ export default function DashboardPattern() {
       conversion: { value: 4.12, change: 9.4, trend: "up" },
     },
   };
-
   const currentMetrics = metrics[timeFrame];
-
   const recentActivity = [
     {
       id: 1,
@@ -70,7 +64,6 @@ export default function DashboardPattern() {
       status: "info",
     },
   ];
-
   const topProducts = [
     { name: "Wireless Headphones", sales: 89, revenue: 12450, trend: "up" },
     { name: "Smart Watch", sales: 67, revenue: 18920, trend: "up" },
@@ -78,7 +71,6 @@ export default function DashboardPattern() {
     { name: "USB-C Cable", sales: 43, revenue: 860, trend: "up" },
     { name: "Phone Case", sales: 38, revenue: 1140, trend: "down" },
   ];
-
   const formatNumber = (num: number) => {
     if (num >= 1000000) {
       return (num / 1000000).toFixed(1) + "M";
@@ -87,7 +79,6 @@ export default function DashboardPattern() {
     }
     return num.toLocaleString();
   };
-
   const formatCurrency = (num: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -95,7 +86,6 @@ export default function DashboardPattern() {
       minimumFractionDigits: 0,
     }).format(num);
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -107,7 +97,6 @@ export default function DashboardPattern() {
           scannable layout for business intelligence.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -119,7 +108,6 @@ export default function DashboardPattern() {
               Switch between different time frames to see how metrics change.
               Notice the visual hierarchy and data organization.
             </p>
-
             {/* Time Frame Selector */}
             <div className="flex space-x-2 mb-6">
               {["today", "week", "month"].map((period) => (
@@ -136,7 +124,6 @@ export default function DashboardPattern() {
                 </button>
               ))}
             </div>
-
             {/* Key Metrics Cards */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
@@ -162,7 +149,6 @@ export default function DashboardPattern() {
                   {Math.abs(currentMetrics.users.change)}%
                 </div>
               </div>
-
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -186,7 +172,6 @@ export default function DashboardPattern() {
                   {Math.abs(currentMetrics.revenue.change)}%
                 </div>
               </div>
-
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -210,7 +195,6 @@ export default function DashboardPattern() {
                   {Math.abs(currentMetrics.orders.change)}%
                 </div>
               </div>
-
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -235,7 +219,6 @@ export default function DashboardPattern() {
                 </div>
               </div>
             </div>
-
             {/* Recent Activity */}
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
@@ -265,7 +248,6 @@ export default function DashboardPattern() {
                 ))}
               </div>
             </div>
-
             {/* Top Products */}
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">
@@ -301,27 +283,19 @@ export default function DashboardPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="dashboard"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="dashboard" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -382,7 +356,6 @@ export default function DashboardPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

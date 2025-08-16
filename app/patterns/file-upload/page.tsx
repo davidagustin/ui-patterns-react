@@ -1,9 +1,7 @@
 "use client";
-
 import { useState, useRef, useCallback } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 import Tooltip from "../../../components/Tooltip";
-
 interface FileWithProgress {
   id: string;
   file: File;
@@ -11,14 +9,11 @@ interface FileWithProgress {
   status: "uploading" | "completed" | "error";
   error?: string;
 }
-
 export default function FileUploadPattern() {
   const [files, setFiles] = useState<FileWithProgress[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
-
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   const allowedTypes = [
     "image/jpeg",
     "image/png",
@@ -28,7 +23,6 @@ export default function FileUploadPattern() {
   ];
   const maxFileSize = 5 * 1024 * 1024; // 5MB
   const maxFiles = 5;
-
   const validateFile = (file: File): string | null => {
     if (!allowedTypes.includes(file.type)) {
       return "File type not allowed. Please upload JPEG, PNG, GIF, PDF, or TXT files.";
@@ -38,24 +32,20 @@ export default function FileUploadPattern() {
     }
     return null;
   };
-
   const addFiles = useCallback(
     (newFiles: FileList | File[]) => {
       const fileArray = Array.from(newFiles);
       const validFiles: FileWithProgress[] = [];
-
       fileArray.forEach((file) => {
         const error = validateFile(file);
         if (error) {
           alert(error);
           return;
         }
-
         if (files.length >= maxFiles) {
           alert(`Maximum ${maxFiles} files allowed.`);
           return;
         }
-
         validFiles.push({
           id: Date.now().toString() + Math.random(),
           file,
@@ -63,58 +53,46 @@ export default function FileUploadPattern() {
           status: "uploading",
         });
       });
-
       setFiles((prev) => [...prev, ...validFiles]);
     },
     [files.length],
   );
-
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       addFiles(event.target.files);
     }
   };
-
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault();
     setIsDragOver(true);
   };
-
   const handleDragLeave = (event: React.DragEvent) => {
     event.preventDefault();
     setIsDragOver(false);
   };
-
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
     setIsDragOver(false);
-
     if (event.dataTransfer.files) {
       addFiles(event.dataTransfer.files);
     }
   };
-
   const removeFile = (id: string) => {
     setFiles((prev) => prev.filter((f) => f.id !== id));
   };
-
   const simulateUpload = async (fileWithProgress: FileWithProgress) => {
     const totalSteps = 100;
     const stepDelay = 50;
-
     for (let i = 0; i <= totalSteps; i++) {
       await new Promise((resolve) => setTimeout(resolve, stepDelay));
-
       setFiles((prev) =>
         prev.map((f) =>
           f.id === fileWithProgress.id ? { ...f, progress: i } : f,
         ),
       );
     }
-
     // Simulate completion or error
     const success = Math.random() > 0.1; // 90% success rate
-
     setFiles((prev) =>
       prev.map((f) =>
         f.id === fileWithProgress.id
@@ -127,23 +105,17 @@ export default function FileUploadPattern() {
       ),
     );
   };
-
   const startUpload = async () => {
     setUploading(true);
-
     const uploadingFiles = files.filter((f) => f.status === "uploading");
-
     // Simulate concurrent uploads
     await Promise.all(uploadingFiles.map(simulateUpload));
-
     setUploading(false);
   };
-
   const clearAll = () => {
     setFiles([]);
     setUploading(false);
   };
-
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -151,14 +123,12 @@ export default function FileUploadPattern() {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
-
   const getFileIcon = (type: string): string => {
     if (type.startsWith("image/")) return "🖼️";
     if (type === "application/pdf") return "📄";
     if (type === "text/plain") return "📝";
     return "📁";
   };
-
   const getStatusIcon = (status: string): string => {
     switch (status) {
       case "uploading":
@@ -171,7 +141,6 @@ export default function FileUploadPattern() {
         return "📁";
     }
   };
-
   const getStatusColor = (status: string): string => {
     switch (status) {
       case "uploading":
@@ -184,7 +153,6 @@ export default function FileUploadPattern() {
         return "text-gray-600 dark:text-gray-400";
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -196,7 +164,6 @@ export default function FileUploadPattern() {
           file validation.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Upload Area */}
         <div className="space-y-6">
@@ -204,7 +171,6 @@ export default function FileUploadPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-
             <div className="space-y-4">
               {/* Upload Zone */}
               <div
@@ -241,7 +207,6 @@ export default function FileUploadPattern() {
                   className="hidden"
                 />
               </div>
-
               {/* Upload Controls */}
               {files.length > 0 && (
                 <div className="flex space-x-3">
@@ -262,7 +227,6 @@ export default function FileUploadPattern() {
                   </button>
                 </div>
               )}
-
               {/* File Info */}
               <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
                 <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">
@@ -278,14 +242,12 @@ export default function FileUploadPattern() {
             </div>
           </div>
         </div>
-
         {/* File List */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               📋 File List
             </h2>
-
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {files.length === 0 ? (
                 <div className="text-center py-8 text-gray-500 dark:text-gray-400">
@@ -335,11 +297,9 @@ export default function FileUploadPattern() {
                             </Tooltip>
                           </div>
                         </div>
-
                         <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                           {formatFileSize(fileWithProgress.file.size)}
                         </div>
-
                         {/* Progress Bar */}
                         {fileWithProgress.status === "uploading" && (
                           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
@@ -349,14 +309,12 @@ export default function FileUploadPattern() {
                             />
                           </div>
                         )}
-
                         {/* Progress Text */}
                         {fileWithProgress.status === "uploading" && (
                           <div className="text-xs text-gray-500 dark:text-gray-400">
                             {fileWithProgress.progress}% uploaded
                           </div>
                         )}
-
                         {/* Error Message */}
                         {fileWithProgress.status === "error" &&
                           fileWithProgress.error && (
@@ -364,7 +322,6 @@ export default function FileUploadPattern() {
                               {fileWithProgress.error}
                             </div>
                           )}
-
                         {/* Success Message */}
                         {fileWithProgress.status === "completed" && (
                           <div className="text-xs text-green-600 dark:text-green-400">
@@ -380,20 +337,15 @@ export default function FileUploadPattern() {
           </div>
         </div>
       </div>
-
       {/* Code Example */}
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
         <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
           💻 Code Example
         </h2>
         <div className="code-block">
-          <DynamicCodeExample
-            componentName="file-upload"
-            activeTab={activeTab}
-          />
+          <DynamicCodeExample componentName="file-upload" />
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -454,7 +406,6 @@ export default function FileUploadPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

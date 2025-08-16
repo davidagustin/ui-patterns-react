@@ -1,13 +1,9 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function SlideshowPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-
   const slides = [
     {
       id: 1,
@@ -44,30 +40,23 @@ export default function SlideshowPattern() {
         "Peaceful woodland paths inviting quiet contemplation and wonder.",
     },
   ];
-
   // Auto-play functionality
   useEffect(() => {
     if (!isPlaying) return;
-
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 4000);
-
     return () => clearInterval(interval);
   }, [isPlaying, slides.length]);
-
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
-
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
-
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -79,7 +68,6 @@ export default function SlideshowPattern() {
           controls for engaging visual storytelling.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -91,7 +79,6 @@ export default function SlideshowPattern() {
               Navigate through slides using arrows, dots, or auto-play. Click
               play/pause to control automatic advancement.
             </p>
-
             {/* Slideshow Container */}
             <div className="relative bg-gray-900 rounded-lg overflow-hidden aspect-video">
               {/* Main Slide Display */}
@@ -101,7 +88,6 @@ export default function SlideshowPattern() {
                   alt={slides[currentSlide].title}
                   className="w-full h-full object-cover"
                 />
-
                 {/* Slide Content Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
                   <h3 className="text-white text-xl font-bold mb-2">
@@ -111,7 +97,6 @@ export default function SlideshowPattern() {
                     {slides[currentSlide].description}
                   </p>
                 </div>
-
                 {/* Navigation Arrows */}
                 <button
                   onClick={prevSlide}
@@ -125,13 +110,11 @@ export default function SlideshowPattern() {
                 >
                   →
                 </button>
-
                 {/* Slide Counter */}
                 <div className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
                   {currentSlide + 1} / {slides.length}
                 </div>
               </div>
-
               {/* Progress Bar */}
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
                 <div
@@ -145,7 +128,6 @@ export default function SlideshowPattern() {
                 />
               </div>
             </div>
-
             {/* Controls */}
             <div className="flex items-center justify-between mt-4">
               {/* Dot Indicators */}
@@ -162,7 +144,6 @@ export default function SlideshowPattern() {
                   />
                 ))}
               </div>
-
               {/* Play/Pause Button */}
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
@@ -177,27 +158,19 @@ export default function SlideshowPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="slideshow"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="slideshow" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -258,7 +231,6 @@ export default function SlideshowPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

@@ -1,12 +1,9 @@
 "use client";
-
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function ArchivePattern() {
   const [archivedItems, setArchivedItems] = useState<number[]>([]);
   const [showArchived, setShowArchived] = useState(false);
-
   const items = [
     {
       id: 1,
@@ -65,7 +62,6 @@ export default function ArchivePattern() {
       category: "Design",
     },
   ];
-
   const toggleArchive = (id: number) => {
     setArchivedItems((prev) =>
       prev.includes(id)
@@ -73,16 +69,12 @@ export default function ArchivePattern() {
         : [...prev, id],
     );
   };
-
   const isArchived = (id: number) => archivedItems.includes(id);
-
   const filteredItems = items.filter((item) =>
     showArchived ? isArchived(item.id) : !isArchived(item.id),
   );
-
   const activeItems = items.filter((item) => !isArchived(item.id));
   const archivedCount = archivedItems.length;
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -94,7 +86,6 @@ export default function ArchivePattern() {
           while storing completed or old items in an archive.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -102,7 +93,6 @@ export default function ArchivePattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Example
             </h2>
-
             {/* Archive Controls */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex space-x-2">
@@ -127,7 +117,6 @@ export default function ArchivePattern() {
                   Archived ({archivedCount})
                 </button>
               </div>
-
               {!showArchived && archivedCount > 0 && (
                 <button
                   onClick={() => setShowArchived(true)}
@@ -137,7 +126,6 @@ export default function ArchivePattern() {
                 </button>
               )}
             </div>
-
             {/* Items List */}
             <div className="space-y-3">
               {filteredItems.length > 0 ? (
@@ -181,7 +169,6 @@ export default function ArchivePattern() {
                         </div>
                       </div>
                     </div>
-
                     <button
                       onClick={() => toggleArchive(item.id)}
                       className={`p-2 rounded-lg transition-all duration-200 ${
@@ -239,7 +226,6 @@ export default function ArchivePattern() {
                 </div>
               )}
             </div>
-
             {/* Archive Actions */}
             {!showArchived && activeItems.length > 0 && (
               <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
@@ -258,25 +244,19 @@ export default function ArchivePattern() {
             )}
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample
-                componentName="archive"
-                activeTab={activeTab}
-              />
+              <DynamicCodeExample componentName="archive" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -337,7 +317,6 @@ export default function ArchivePattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

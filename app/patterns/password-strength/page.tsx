@@ -1,55 +1,43 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function PasswordStrengthPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [password, setPassword] = useState("");
   const [strength, setStrength] = useState<
     "weak" | "medium" | "strong" | "very-strong"
   >("weak");
   const [showPassword, setShowPassword] = useState(false);
-
   const calculateStrength = (password: string) => {
     let score = 0;
     const feedback: string[] = [];
-
     if (password.length >= 8) {
       score += 1;
     } else {
       feedback.push("At least 8 characters");
     }
-
     if (/[a-z]/.test(password)) {
       score += 1;
     } else {
       feedback.push("Include lowercase letters");
     }
-
     if (/[A-Z]/.test(password)) {
       score += 1;
     } else {
       feedback.push("Include uppercase letters");
     }
-
     if (/[0-9]/.test(password)) {
       score += 1;
     } else {
       feedback.push("Include numbers");
     }
-
     if (/[^A-Za-z0-9]/.test(password)) {
       score += 1;
     } else {
       feedback.push("Include special characters");
     }
-
     return { score, feedback };
   };
-
   const { score, feedback } = calculateStrength(password);
-
   const getStrengthColor = () => {
     if (score <= 1) return "bg-red-500";
     if (score <= 2) return "bg-orange-500";
@@ -57,7 +45,6 @@ export default function PasswordStrengthPattern() {
     if (score <= 4) return "bg-blue-500";
     return "bg-green-500";
   };
-
   const getStrengthText = () => {
     if (score <= 1) return "Very Weak";
     if (score <= 2) return "Weak";
@@ -65,11 +52,9 @@ export default function PasswordStrengthPattern() {
     if (score <= 4) return "Good";
     return "Strong";
   };
-
   const getStrengthWidth = () => {
     return `${(score / 5) * 100}%`;
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -81,7 +66,6 @@ export default function PasswordStrengthPattern() {
           create secure passwords.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -93,7 +77,6 @@ export default function PasswordStrengthPattern() {
               Type a password to see the strength meter in action. The meter
               evaluates length, character types, and provides helpful feedback.
             </p>
-
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -116,7 +99,6 @@ export default function PasswordStrengthPattern() {
                   </button>
                 </div>
               </div>
-
               {/* Strength Meter */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
@@ -139,19 +121,16 @@ export default function PasswordStrengthPattern() {
                     {getStrengthText()}
                   </span>
                 </div>
-
                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                   <div
                     className={`h-2 rounded-full transition-all duration-300 ${getStrengthColor()}`}
                     style={{ width: getStrengthWidth() }}
                   />
                 </div>
-
                 <div className="text-xs text-gray-500 dark:text-gray-400">
                   Score: {score}/5
                 </div>
               </div>
-
               {/* Feedback */}
               {feedback.length > 0 && (
                 <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3">
@@ -168,7 +147,6 @@ export default function PasswordStrengthPattern() {
                   </ul>
                 </div>
               )}
-
               {/* Success Message */}
               {score === 5 && (
                 <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3">
@@ -183,27 +161,19 @@ export default function PasswordStrengthPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="password-strength"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="password-strength" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -264,7 +234,6 @@ export default function PasswordStrengthPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

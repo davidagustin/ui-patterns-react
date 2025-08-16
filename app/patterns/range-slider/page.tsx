@@ -1,15 +1,11 @@
 "use client";
-
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function RangeSliderPattern() {
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
   const [singleValue, setSingleValue] = useState(50);
   const [rangeValue, setRangeValue] = useState<[number, number]>([20, 80]);
   const [priceRange, setPriceRange] = useState<[number, number]>([100, 500]);
   const [volume, setVolume] = useState(75);
-
   const handleRangeChange = useCallback(
     (
       values: [number, number],
@@ -19,7 +15,6 @@ export default function RangeSliderPattern() {
     },
     [],
   );
-
   const RangeSlider = ({
     min = 0,
     max = 100,
@@ -39,28 +34,22 @@ export default function RangeSliderPattern() {
   }) => {
     const sliderRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState<"min" | "max" | null>(null);
-
     const getPercentage = (value: number) =>
       ((value - min) / (max - min)) * 100;
-
     const handleMouseDown = (type: "min" | "max") => (e: React.MouseEvent) => {
       e.preventDefault();
       setIsDragging(type);
     };
-
     const handleMouseMove = useCallback(
       (e: MouseEvent) => {
         if (!isDragging || !sliderRef.current) return;
-
         const rect = sliderRef.current.getBoundingClientRect();
         const percentage = Math.max(
           0,
           Math.min(100, ((e.clientX - rect.left) / rect.width) * 100),
         );
         const newValue = Math.round((percentage / 100) * (max - min) + min);
-
         const [minVal, maxVal] = values;
-
         if (isDragging === "min") {
           onChange([Math.min(newValue, maxVal - step), maxVal]);
         } else {
@@ -69,11 +58,9 @@ export default function RangeSliderPattern() {
       },
       [isDragging, values, min, max, step, onChange],
     );
-
     const handleMouseUp = useCallback(() => {
       setIsDragging(null);
     }, []);
-
     // Add global mouse event listeners when dragging
     React.useEffect(() => {
       if (isDragging) {
@@ -85,7 +72,6 @@ export default function RangeSliderPattern() {
         };
       }
     }, [isDragging, handleMouseMove, handleMouseUp]);
-
     return (
       <div className={`relative ${className}`}>
         {/* Track */}
@@ -101,14 +87,12 @@ export default function RangeSliderPattern() {
               width: `${getPercentage(values[1]) - getPercentage(values[0])}%`,
             }}
           />
-
           {/* Min thumb */}
           <div
             className="absolute w-4 h-4 bg-white border-2 border-blue-500 rounded-full cursor-grab active:cursor-grabbing transform -translate-y-1 shadow-sm"
             style={{ left: `calc(${getPercentage(values[0])}% - 8px)` }}
             onMouseDown={handleMouseDown("min")}
           />
-
           {/* Max thumb */}
           <div
             className="absolute w-4 h-4 bg-white border-2 border-blue-500 rounded-full cursor-grab active:cursor-grabbing transform -translate-y-1 shadow-sm"
@@ -116,7 +100,6 @@ export default function RangeSliderPattern() {
             onMouseDown={handleMouseDown("max")}
           />
         </div>
-
         {/* Value labels */}
         <div className="flex justify-between items-center mt-2 text-sm text-gray-600 dark:text-gray-400">
           <span>{formatValue(values[0])}</span>
@@ -125,7 +108,6 @@ export default function RangeSliderPattern() {
       </div>
     );
   };
-
   const SingleSlider = ({
     min = 0,
     max = 100,
@@ -152,7 +134,6 @@ export default function RangeSliderPattern() {
             className="absolute h-full bg-blue-500 rounded-full"
             style={{ width: `${((value - min) / (max - min)) * 100}%` }}
           />
-
           {/* Native input for accessibility */}
           <input
             type="range"
@@ -163,7 +144,6 @@ export default function RangeSliderPattern() {
             onChange={(e) => onChange(Number(e.target.value))}
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           />
-
           {/* Custom thumb */}
           <div
             className="absolute w-4 h-4 bg-white border-2 border-blue-500 rounded-full transform -translate-y-1 shadow-sm pointer-events-none"
@@ -172,7 +152,6 @@ export default function RangeSliderPattern() {
             }}
           />
         </div>
-
         {/* Value display */}
         <div className="flex justify-center mt-2">
           <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -182,10 +161,8 @@ export default function RangeSliderPattern() {
       </div>
     );
   };
-
   const formatPrice = (value: number) => `$${value}`;
   const formatPercentage = (value: number) => `${value}%`;
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -197,7 +174,6 @@ export default function RangeSliderPattern() {
           custom styling and accessibility support.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -205,7 +181,6 @@ export default function RangeSliderPattern() {
             <h2 className="text-xl font-semibold mb-4 text-blue-800 dark:text-blue-200">
               🎯 Interactive Examples
             </h2>
-
             <div className="space-y-8">
               {/* Single Value Slider */}
               <div className="space-y-4">
@@ -228,7 +203,6 @@ export default function RangeSliderPattern() {
                   </p>
                 </div>
               </div>
-
               {/* Range Slider */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
@@ -255,7 +229,6 @@ export default function RangeSliderPattern() {
                   </p>
                 </div>
               </div>
-
               {/* Price Range Slider */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
@@ -282,7 +255,6 @@ export default function RangeSliderPattern() {
                   </p>
                 </div>
               </div>
-
               {/* Volume Slider with Steps */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
@@ -306,13 +278,11 @@ export default function RangeSliderPattern() {
                           style={{ left: `${step}%` }}
                         />
                       ))}
-
                       {/* Active track */}
                       <div
                         className="absolute h-full bg-green-500 rounded-full"
                         style={{ width: `${volume}%` }}
                       />
-
                       {/* Native input */}
                       <input
                         type="range"
@@ -323,7 +293,6 @@ export default function RangeSliderPattern() {
                         onChange={(e) => setVolume(Number(e.target.value))}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                       />
-
                       {/* Custom thumb */}
                       <div
                         className="absolute w-4 h-4 bg-white border-2 border-green-500 rounded-full transform -translate-y-1 shadow-sm pointer-events-none"
@@ -331,7 +300,6 @@ export default function RangeSliderPattern() {
                       />
                     </div>
                   </div>
-
                   <div className="flex items-center justify-center space-x-2">
                     <span className="text-2xl">
                       {volume === 0 ? "🔇" : volume < 50 ? "🔉" : "🔊"}
@@ -342,7 +310,6 @@ export default function RangeSliderPattern() {
                   </div>
                 </div>
               </div>
-
               {/* Native Range Input for Comparison */}
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-gray-800 dark:text-gray-200">
@@ -367,27 +334,19 @@ export default function RangeSliderPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-
             {/* Tab Content */}
             <div className="code-block">
-              {
-                <DynamicCodeExample
-                  componentName="range-slider"
-                  activeTab={activeTab}
-                />
-              }
+              <DynamicCodeExample componentName="range-slider" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
         <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-200">
@@ -448,7 +407,6 @@ export default function RangeSliderPattern() {
           </div>
         </div>
       </div>
-
       {/* Use Cases */}
       <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
         <h3 className="text-lg font-semibold mb-4 text-purple-800 dark:text-purple-200">

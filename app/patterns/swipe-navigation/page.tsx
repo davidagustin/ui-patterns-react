@@ -1,19 +1,14 @@
 "use client";
-
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function SwipeNavigationPattern() {
   const [currentPage, setCurrentPage] = useState(0);
   const [translateX, setTranslateX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [currentX, setCurrentX] = useState(0);
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-
   const containerRef = useRef<HTMLDivElement>(null);
   const pagesRef = useRef<HTMLDivElement>(null);
-
   const pages = [
     {
       id: 1,
@@ -60,41 +55,31 @@ export default function SwipeNavigationPattern() {
       color: "from-indigo-500 to-purple-600",
     },
   ];
-
   const containerWidth = containerRef.current?.offsetWidth || 0;
-
   // Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
     setIsDragging(true);
     setStartX(e.touches[0].clientX);
     setCurrentX(e.touches[0].clientX);
   };
-
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!isDragging) return;
     e.preventDefault();
-
     const newCurrentX = e.touches[0].clientX;
     setCurrentX(newCurrentX);
-
     const diff = newCurrentX - startX;
     const newTranslateX = currentPage * -containerWidth + diff;
-
     // Limit the translation
     const maxTranslateX = 0;
     const minTranslateX = -(pages.length - 1) * containerWidth;
-
     setTranslateX(
       Math.max(minTranslateX, Math.min(maxTranslateX, newTranslateX)),
     );
   };
-
   const handleTouchEnd = () => {
     if (!isDragging) return;
-
     const diff = currentX - startX;
     const threshold = containerWidth * 0.3; // 30% threshold
-
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage > 0) {
         // Swipe right - go to previous page
@@ -110,42 +95,32 @@ export default function SwipeNavigationPattern() {
       // Reset to current page
       setTranslateX(currentPage * -containerWidth);
     }
-
     setIsDragging(false);
   };
-
   // Mouse handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setStartX(e.clientX);
     setCurrentX(e.clientX);
   };
-
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
     e.preventDefault();
-
     const newCurrentX = e.clientX;
     setCurrentX(newCurrentX);
-
     const diff = newCurrentX - startX;
     const newTranslateX = currentPage * -containerWidth + diff;
-
     // Limit the translation
     const maxTranslateX = 0;
     const minTranslateX = -(pages.length - 1) * containerWidth;
-
     setTranslateX(
       Math.max(minTranslateX, Math.min(maxTranslateX, newTranslateX)),
     );
   };
-
   const handleMouseUp = () => {
     if (!isDragging) return;
-
     const diff = currentX - startX;
     const threshold = containerWidth * 0.3; // 30% threshold
-
     if (Math.abs(diff) > threshold) {
       if (diff > 0 && currentPage > 0) {
         // Swipe right - go to previous page
@@ -161,34 +136,28 @@ export default function SwipeNavigationPattern() {
       // Reset to current page
       setTranslateX(currentPage * -containerWidth);
     }
-
     setIsDragging(false);
   };
-
   const goToPage = (pageIndex: number) => {
     setCurrentPage(pageIndex);
     setTranslateX(pageIndex * -containerWidth);
   };
-
   const nextPage = () => {
     if (currentPage < pages.length - 1) {
       goToPage(currentPage + 1);
     }
   };
-
   const prevPage = () => {
     if (currentPage > 0) {
       goToPage(currentPage - 1);
     }
   };
-
   // Sync translateX with currentPage when not dragging
   useEffect(() => {
     if (!isDragging) {
       setTranslateX(currentPage * -containerWidth);
     }
   }, [currentPage, isDragging, containerWidth]);
-
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -198,11 +167,9 @@ export default function SwipeNavigationPattern() {
         nextPage();
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentPage]);
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -214,7 +181,6 @@ export default function SwipeNavigationPattern() {
           animations and visual feedback.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -226,7 +192,6 @@ export default function SwipeNavigationPattern() {
               Swipe left or right to navigate between pages. You can also use
               the navigation buttons or keyboard arrows.
             </p>
-
             {/* Swipe Container */}
             <div
               ref={containerRef}
@@ -263,7 +228,6 @@ export default function SwipeNavigationPattern() {
                         className="w-full h-full object-cover"
                       />
                     </div>
-
                     {/* Content Overlay */}
                     <div
                       className={`absolute inset-0 bg-gradient-to-br ${page.color} bg-opacity-90`}
@@ -283,7 +247,6 @@ export default function SwipeNavigationPattern() {
                   </div>
                 ))}
               </div>
-
               {/* Navigation Buttons */}
               <button
                 onClick={prevPage}
@@ -304,7 +267,6 @@ export default function SwipeNavigationPattern() {
                   />
                 </svg>
               </button>
-
               <button
                 onClick={nextPage}
                 disabled={currentPage === pages.length - 1}
@@ -325,7 +287,6 @@ export default function SwipeNavigationPattern() {
                 </svg>
               </button>
             </div>
-
             {/* Progress Indicators */}
             <div className="flex justify-center space-x-2 mt-4">
               {pages.map((_, index) => (
@@ -340,7 +301,6 @@ export default function SwipeNavigationPattern() {
                 />
               ))}
             </div>
-
             {/* Swipe Progress */}
             <div className="mt-4 text-center">
               <div className="text-sm text-gray-600 dark:text-gray-400">
@@ -355,47 +315,19 @@ export default function SwipeNavigationPattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-              <button
-                onClick={() => setActiveTab("jsx")}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === "jsx"
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-              >
-                JSX
-              </button>
-              <button
-                onClick={() => setActiveTab("css")}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === "css"
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-              >
-                CSS
-              </button>
-            </div>
-
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample
-                componentName="swipe-navigation"
-                activeTab={activeTab}
-              />
+              <DynamicCodeExample componentName="swipe-navigation" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
@@ -442,7 +374,6 @@ export default function SwipeNavigationPattern() {
           </ul>
         </div>
       </div>
-
       {/* Common Use Cases */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">

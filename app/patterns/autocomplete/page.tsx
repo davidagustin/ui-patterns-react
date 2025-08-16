@@ -1,18 +1,13 @@
 "use client";
-
 import { useState, useRef, useEffect } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-
 export default function AutocompletePattern() {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [activeTab, setActiveTab] = useState<"jsx" | "css">("jsx");
-
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
   const allOptions = [
     "React",
     "React Native",
@@ -60,11 +55,9 @@ export default function AutocompletePattern() {
     "Vercel",
     "Netlify",
   ];
-
   const filteredOptions = allOptions.filter((option) =>
     option.toLowerCase().includes(query.toLowerCase()),
   );
-
   useEffect(() => {
     if (query.length > 0) {
       setSuggestions(filteredOptions.slice(0, 8));
@@ -75,7 +68,6 @@ export default function AutocompletePattern() {
       setIsOpen(false);
     }
   }, [query, filteredOptions]);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -87,18 +79,14 @@ export default function AutocompletePattern() {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen) return;
-
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
@@ -122,20 +110,17 @@ export default function AutocompletePattern() {
         break;
     }
   };
-
   const handleSelect = (option: string) => {
     setQuery(option);
     setIsOpen(false);
     setSelectedIndex(-1);
     inputRef.current?.focus();
   };
-
   const handleInputFocus = () => {
     if (query.length > 0) {
       setIsOpen(true);
     }
   };
-
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -147,7 +132,6 @@ export default function AutocompletePattern() {
           navigation, and smart filtering capabilities.
         </p>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Interactive Example */}
         <div className="space-y-6">
@@ -159,7 +143,6 @@ export default function AutocompletePattern() {
               Start typing to see suggestions. Use arrow keys to navigate, Enter
               to select, and Escape to close.
             </p>
-
             {/* Autocomplete Input */}
             <div className="relative">
               <div className="relative">
@@ -173,7 +156,6 @@ export default function AutocompletePattern() {
                   placeholder="Search for a technology..."
                   className="w-full px-4 py-3 pl-10 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
-
                 {/* Search Icon */}
                 <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                   <svg
@@ -190,7 +172,6 @@ export default function AutocompletePattern() {
                     />
                   </svg>
                 </div>
-
                 {/* Clear Button */}
                 {query && (
                   <button
@@ -217,7 +198,6 @@ export default function AutocompletePattern() {
                   </button>
                 )}
               </div>
-
               {/* Suggestions Dropdown */}
               {isOpen && suggestions.length > 0 && (
                 <div
@@ -269,7 +249,6 @@ export default function AutocompletePattern() {
                   ))}
                 </div>
               )}
-
               {/* No Results */}
               {isOpen && query && suggestions.length === 0 && (
                 <div className="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4">
@@ -293,7 +272,6 @@ export default function AutocompletePattern() {
                 </div>
               )}
             </div>
-
             {/* Instructions */}
             <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
@@ -332,47 +310,19 @@ export default function AutocompletePattern() {
             </div>
           </div>
         </div>
-
         {/* Code Example */}
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">
               💻 Code Example
             </h2>
-            <div className="flex border-b border-gray-200 dark:border-gray-700 mb-4">
-              <button
-                onClick={() => setActiveTab("jsx")}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === "jsx"
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-              >
-                JSX
-              </button>
-              <button
-                onClick={() => setActiveTab("css")}
-                className={`px-4 py-2 font-medium transition-colors ${
-                  activeTab === "css"
-                    ? "text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400"
-                    : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                }`}
-              >
-                CSS
-              </button>
-            </div>
-
             {/* Tab Content */}
             <div className="code-block">
-              <DynamicCodeExample
-                componentName="autocomplete"
-                activeTab={activeTab}
-              />
+              <DynamicCodeExample componentName="autocomplete" />
             </div>
           </div>
         </div>
       </div>
-
       {/* Key Features */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
@@ -418,7 +368,6 @@ export default function AutocompletePattern() {
           </ul>
         </div>
       </div>
-
       {/* Common Use Cases */}
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
