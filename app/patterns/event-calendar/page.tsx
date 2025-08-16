@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 interface Event {
@@ -15,7 +15,7 @@ interface Event {
 
 export default function EventCalendarPattern() {
     const [selectedDate, setSelectedDate] = useState(new Date());
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<"month" | "week" | "day">("month");
 
   const [showEventModal, setShowEventModal] = useState(false);
@@ -224,12 +224,7 @@ export default function EventCalendarPattern() {
     return days;
   };
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-  };
+
 
   const getEventColor = (color: string) => {
     const colors = {

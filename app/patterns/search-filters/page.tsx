@@ -112,7 +112,7 @@ export default function SearchFiltersPattern() {
 
   // Filter and sort data
   const filteredData = useMemo(() => {
-    let filtered = sampleData.filter((item) => {
+    const filtered = sampleData.filter((item) => {
       // Search query filter
       const matchesQuery =
         searchQuery === "" ||

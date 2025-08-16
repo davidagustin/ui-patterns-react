@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function FatFooterPattern() {

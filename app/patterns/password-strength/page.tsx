@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function PasswordStrengthPattern() {
     const [password, setPassword] = useState("");
-  const [strength, setStrength] = useState<
-    "weak" | "medium" | "strong" | "very-strong"
-  >("weak");
+
   const [showPassword, setShowPassword] = useState(false);
 
   const calculateStrength = (password: string) => {

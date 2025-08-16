@@ -169,7 +169,7 @@ export default function StepsLeftPattern() {
               {/* Steps Overview */}
               <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="grid grid-cols-5 gap-2">
-                  {checkoutSteps.map((step, index) => (
+                  {checkoutSteps.map((step) => (
                     <div
                       key={step.id}
                       className={`text-center p-2 rounded-lg transition-all duration-200 ${

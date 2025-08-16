@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStackBlitz } from "./StackBlitzIntegration";
 
 // Runtime source code extractor
@@ -201,7 +201,7 @@ export const DynamicCodeExample = ({
 export const getFunctionSource = (fn: (...args: unknown[]) => unknown): string => {
   try {
     return fn.toString();
-  } catch (error) {
+  } catch {
     return "// Function source could not be extracted";
   }
 };
@@ -214,7 +214,7 @@ export const extractComponentSourceFromFunction = (
     // This would extract the actual function source code
     const source = component.toString();
     return source;
-  } catch (error) {
+  } catch {
     return "// Component source could not be extracted";
   }
 };

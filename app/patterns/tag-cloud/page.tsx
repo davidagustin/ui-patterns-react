@@ -108,20 +108,7 @@ export default function TagCloudPattern() {
     }
   };
 
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case "technology":
-        return "💻";
-      case "design":
-        return "🎨";
-      case "business":
-        return "💼";
-      case "lifestyle":
-        return "🌟";
-      default:
-        return "🏷️";
-    }
-  };
+
 
   const formatCount = (count: number) => {
     if (count >= 1000) {

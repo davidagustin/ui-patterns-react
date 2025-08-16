@@ -62,14 +62,7 @@ export default function DataGridPattern() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [viewMode, setViewMode] = useState<"table" | "cards">("table");
-  const [columnWidths, setColumnWidths] = useState({
-    name: 150,
-    email: 200,
-    role: 120,
-    department: 120,
-    salary: 100,
-    status: 100,
-  });
+
 
   const columns = [
     { key: "name", label: "Name", editable: true, type: "text" },
@@ -377,7 +370,7 @@ export default function DataGridPattern() {
                         </tr>
                       </thead>
                       <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        {sortedData.map((row, index) => (
+                        {sortedData.map((row) => (
                           <tr
                             key={row.id}
                             className={`hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${

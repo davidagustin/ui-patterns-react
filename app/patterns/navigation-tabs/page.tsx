@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-import Link from "next/link";
+
 
 export default function NavigationTabsPattern() {
   const [activeTab, setActiveTab] = useState("dashboard");

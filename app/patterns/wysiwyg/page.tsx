@@ -29,7 +29,7 @@ export default function WysiwygPattern() {
           const range = selection.getRangeAt(0);
 
           // Check if we're already in a list item
-          let listItem =
+          const listItem =
             range.commonAncestorContainer.nodeType === Node.ELEMENT_NODE
               ? (range.commonAncestorContainer as Element).closest("li")
               : range.commonAncestorContainer.parentElement?.closest("li");
@@ -147,7 +147,7 @@ export default function WysiwygPattern() {
   const getCleanHtmlContent = () => {
     if (editorRef.current) {
       // Get the HTML content
-      let html = editorRef.current.innerHTML;
+      const html = editorRef.current.innerHTML;
 
       // Create a temporary div to parse and clean the HTML
       const tempDiv = document.createElement("div");

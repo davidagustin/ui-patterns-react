@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function SwipeActionsPattern() {
-    const [swipedItem, setSwipedItem] = useState<number | null>(null);
+  
 
   const items = [
     {
@@ -34,11 +34,8 @@ export default function SwipeActionsPattern() {
   ];
 
   const handleSwipe = (itemId: number, direction: "left" | "right") => {
-    setSwipedItem(itemId);
-
     // Simulate action
     setTimeout(() => {
-      setSwipedItem(null);
       if (direction === "left") {
         alert(`Deleted item ${itemId}`);
       } else {
@@ -76,7 +73,6 @@ export default function SwipeActionsPattern() {
                 <SwipeableItem
                   key={item.id}
                   item={item}
-                  isSwiped={swipedItem === item.id}
                   onSwipe={handleSwipe}
                 />
               ))}
@@ -242,11 +238,9 @@ export default function SwipeActionsPattern() {
 // SwipeableItem Component
 function SwipeableItem({
   item,
-  isSwiped,
   onSwipe,
 }: {
   item: { id: number; title: string; subtitle: string; time: string };
-  isSwiped: boolean;
   onSwipe: (itemId: number, direction: "left" | "right") => void;
 }) {
   const [translateX, setTranslateX] = useState(0);

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
-import Tooltip from "../../../components/Tooltip";
+
 
 interface Notification {
   id: string;

@@ -7,8 +7,7 @@ export default function TableFilterPattern() {
     const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [roleFilter, setRoleFilter] = useState("all");
-  const [sortBy, setSortBy] = useState("name");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
 
   const sampleData = [
     {
@@ -95,14 +94,7 @@ export default function TableFilterPattern() {
     });
   }, [searchTerm, statusFilter, roleFilter]);
 
-  const handleSort = (field: string) => {
-    if (sortBy === field) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(field);
-      setSortOrder("asc");
-    }
-  };
+
 
   const clearFilters = () => {
     setSearchTerm("");
@@ -194,7 +186,7 @@ export default function TableFilterPattern() {
                     </label>
                     <select
                       value="all"
-                      onChange={(e) => {}}
+                      onChange={() => {}}
                       className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="all">All Departments</option>

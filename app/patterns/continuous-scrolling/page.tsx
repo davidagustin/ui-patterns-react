@@ -25,7 +25,6 @@ export default function ContinuousScrollingPattern() {
   // Generate mock data with unique IDs
   const generatePosts = (pageNum: number): Post[] => {
     const postsPerPage = 10;
-    const timestamp = Date.now();
 
     return Array.from({ length: postsPerPage }, (_, index) => {
       // Create truly unique ID by combining page, index, and timestamp

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function RangeSliderPattern() {

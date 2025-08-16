@@ -73,7 +73,7 @@ export default function KeyboardShortcutsPattern() {
         pressedKeys.push(e.key.toUpperCase());
       }
 
-      const shortcutKey = pressedKeys.join(" + ");
+
       setActiveShortcuts(pressedKeys);
 
       // Handle specific shortcuts

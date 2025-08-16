@@ -97,7 +97,7 @@ export default function JumpingHierarchyPattern() {
 
       {/* Hierarchy Visualization */}
       <div className="space-y-3 mb-6">
-        {levels.map((level, index) => (
+        {levels.map((level) => (
           <div key={level.level} className="flex items-center space-x-3">
             <button
               onClick={() => handleJumpToLevel(level.level)}

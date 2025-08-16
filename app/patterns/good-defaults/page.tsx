@@ -64,7 +64,7 @@ export default function GoodDefaultsPattern() {
                 ? "French"
                 : "English",
         }));
-      } catch (error) {
+      } catch {
         console.log("Could not detect user location");
       }
     };

@@ -13,7 +13,7 @@ export default function ExpandableInputPattern() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const notesRef = useRef<HTMLTextAreaElement>(null);
-  const tagInputRef = useRef<HTMLInputElement>(null);
+
 
   // Auto-resize textarea
   const adjustHeight = (element: HTMLTextAreaElement | null) => {

@@ -127,18 +127,7 @@ export default function InputFeedbackPattern() {
     }
   };
 
-  const getPasswordStrengthColor = () => {
-    switch (passwordStrength) {
-      case "weak":
-        return "bg-red-500";
-      case "medium":
-        return "bg-yellow-500";
-      case "strong":
-        return "bg-green-500";
-      default:
-        return "bg-gray-300";
-    }
-  };
+
 
   return (
     <div className="space-y-8">

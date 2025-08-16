@@ -224,7 +224,7 @@ export default function BottomNavigationPattern() {
                   {/* Bottom Navigation with FAB */}
                   <div className="relative bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
                     <nav className="flex relative">
-                      {floatingNavItems.map((item, index) => (
+                      {floatingNavItems.map((item) => (
                         <button
                           key={item.id}
                           onClick={() => setActiveFloatingItem(item.id)}
@@ -290,7 +290,7 @@ export default function BottomNavigationPattern() {
                     <div className="flex items-center mt-4 space-x-2">
                       <span className="text-xs text-gray-500">← Swipe</span>
                       <div className="flex space-x-1">
-                        {basicNavItems.map((item, index) => (
+                        {basicNavItems.map((item) => (
                           <div
                             key={item.id}
                             className={`w-2 h-2 rounded-full transition-colors ${
@@ -317,7 +317,7 @@ export default function BottomNavigationPattern() {
                         }}
                       />
 
-                      {basicNavItems.map((item, index) => (
+                      {basicNavItems.map((item) => (
                         <button
                           key={item.id}
                           onClick={() => setActiveGestureItem(item.id)}

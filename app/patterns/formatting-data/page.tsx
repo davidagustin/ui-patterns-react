@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DynamicCodeExample } from "../../../components/shared/CodeGenerator";
 
 export default function FormattingDataPattern() {
     const [locale, setLocale] = useState("en-US");
   const [currency, setCurrency] = useState("USD");
-  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [currentTime] = useState<Date>(new Date());
 
   // Sample data to format
   const sampleData = {
@@ -100,9 +100,7 @@ export default function FormattingDataPattern() {
       .join(" ");
   };
 
-  const formatSentence = (sentence: string) => {
-    return sentence.charAt(0).toUpperCase() + sentence.slice(1);
-  };
+
 
   const formatPhone = (phone: string) => {
     const cleaned = phone.replace(/\D/g, "");
@@ -120,13 +118,7 @@ export default function FormattingDataPattern() {
     return cardNumber;
   };
 
-  const maskSSN = (ssn: string) => {
-    const cleaned = ssn.replace(/\D/g, "");
-    if (cleaned.length === 9) {
-      return `***-**-${cleaned.slice(-4)}`;
-    }
-    return ssn;
-  };
+
 
   const formatBytes = (bytes: number) => {
     const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
@@ -153,9 +145,7 @@ export default function FormattingDataPattern() {
       .join(".");
   };
 
-  const formatMacAddress = (mac: string) => {
-    return mac.toUpperCase();
-  };
+
 
   const locales = [
     { code: "en-US", name: "English (US)" },

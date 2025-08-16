@@ -103,7 +103,11 @@ root.render(
   </React.StrictMode>
 );`);
 
-    formData.append("project[files][src/index.css]", `/* Tailwind CSS - Base styles */
+    formData.append("project[files][src/index.css]", `@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
 * {
   box-sizing: border-box;
 }
@@ -125,78 +129,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-/* Tailwind CSS - Utility classes */
-.min-h-screen { min-height: 100vh; }
-.bg-gray-50 { background-color: #f9fafb; }
-.bg-white { background-color: #ffffff; }
-.bg-gray-900 { background-color: #111827; }
-.bg-indigo-500 { background-color: #6366f1; }
-.bg-gray-800 { background-color: #1f2937; }
-.bg-gray-700 { background-color: #374151; }
-.bg-gray-600 { background-color: #4b5563; }
-
-.text-white { color: #ffffff; }
-.text-gray-600 { color: #4b5563; }
-.text-gray-900 { color: #111827; }
-.text-gray-200 { color: #e5e7eb; }
-.text-gray-400 { color: #9ca3af; }
-.text-gray-300 { color: #d1d5db; }
-.text-indigo-600 { color: #4f46e5; }
-
-.shadow-sm { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
-.shadow-2xl { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
-
-.border-b { border-bottom-width: 1px; }
-.border-gray-200 { border-color: #e5e7eb; }
-.border-blue-200 { border-color: #bfdbfe; }
-.border-blue-800 { border-color: #1e40af; }
-
-.p-6 { padding: 1.5rem; }
-.p-4 { padding: 1rem; }
-.p-2 { padding: 0.5rem; }
-.p-3 { padding: 0.75rem; }
-.px-4 { padding-left: 1rem; padding-right: 1rem; }
-.px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
-.px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
-.py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
-.py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-.py-12 { padding-top: 3rem; padding-bottom: 3rem; }
-
-.m-0 { margin: 0; }
-.mb-2 { margin-bottom: 0.5rem; }
-.mb-4 { margin-bottom: 1rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-4 { margin-top: 1rem; }
-.mt-10 { margin-top: 2.5rem; }
-.ml-4 { margin-left: 1rem; }
-
-.text-2xl { font-size: 1.5rem; line-height: 2rem; }
-.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
-.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
-.text-base { font-size: 1rem; line-height: 1.5rem; }
-.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
-
-.font-bold { font-weight: 700; }
-.font-semibold { font-weight: 600; }
-.font-medium { font-weight: 500; }
-.font-extrabold { font-weight: 800; }
-
-.rounded-md { border-radius: 0.375rem; }
-.rounded-xl { border-radius: 0.75rem; }
-.rounded-lg { border-radius: 0.5rem; }
-
-.flex { display: flex; }
-.flex-col { flex-direction: column; }
-.flex-row { flex-direction: row; }
-.flex-1 { flex: 1 1 0%; }
-.flex-shrink-0 { flex-shrink: 0; }
-
-.items-center { align-items: center; }
-.items-start { align-items: flex-start; }
-.items-stretch { align-items: stretch; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
 .justify-start { justify-content: flex-start; }
 
 .w-96 { width: 24rem; }
@@ -628,6 +560,9 @@ code {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
     "classnames": "^2.3.1",
     "react-hot-toast": "^2.1.1",
     "react-icons": "^4.3.1"
@@ -689,7 +624,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
       "react-dom": "^18.2.0",
       "react-scripts": "5.0.1",
       "tailwindcss": "^3.3.0",
-      "autoprefixer": "^10.4.0"
+      "autoprefixer": "^10.4.14",
+      "postcss": "^8.4.24",
+      "classnames": "^2.3.1",
+      "react-hot-toast": "^2.1.1",
+      "react-icons": "^4.3.1"
     };
     formData.append("project[dependencies]", JSON.stringify(dependencies));
     

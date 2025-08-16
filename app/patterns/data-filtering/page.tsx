@@ -145,7 +145,7 @@ export default function DataFilteringPattern() {
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
-    let filtered = products.filter((product) => {
+    const filtered = products.filter((product) => {
       // Search term filter
       const matchesSearch =
         searchTerm === "" ||
