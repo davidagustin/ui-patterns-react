@@ -461,7 +461,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - **🌐 Live Demo**: [https://ui-patterns-react.vercel.app/](https://ui-patterns-react.vercel.app/)
 - **🐛 Report Issues**: [GitHub Issues](https://github.com/davidagustin/ui-patterns-react/issues)
 - **💬 Discussions**: [GitHub Discussions](https://github.com/davidagustin/ui-patterns-react/discussions)
-- **📧 Contact**: [your.email@example.com](mailto:your.email@example.com)
 
 ---
 
