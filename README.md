@@ -200,7 +200,7 @@ This project demonstrates **senior-level React development skills** and modern f
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ui-patterns-react.git
+git clone https://github.com/davidagustin/ui-patterns-react.git
 cd ui-patterns-react
 
 # Install dependencies
@@ -459,8 +459,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ## 📞 Support & Contact
 
 - **🌐 Live Demo**: [https://ui-patterns-react.vercel.app/](https://ui-patterns-react.vercel.app/)
-- **🐛 Report Issues**: [GitHub Issues](https://github.com/yourusername/ui-patterns-react/issues)
-- **💬 Discussions**: [GitHub Discussions](https://github.com/yourusername/ui-patterns-react/discussions)
+- **🐛 Report Issues**: [GitHub Issues](https://github.com/davidagustin/ui-patterns-react/issues)
+- **💬 Discussions**: [GitHub Discussions](https://github.com/davidagustin/ui-patterns-react/discussions)
 - **📧 Contact**: [your.email@example.com](mailto:your.email@example.com)
 
 ---

@@ -26,7 +26,7 @@ export default function RootLayout({
                 </p>
               </div>
               <a
-                href="https://github.com/yourusername/ui-patterns-react"
+                href="https://github.com/davidagustin/ui-patterns-react"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-blue-200 transition-colors duration-200 p-2 rounded-lg hover:bg-white/10"
